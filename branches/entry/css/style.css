@@ -1,0 +1,122 @@
+/*Global Elements */
+
+html, body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+body {
+	font: 12px Arial, Helvetica, sans-serif;
+	background: url(../images/bg.png) no-repeat center top;
+}
+a {
+	text-decoration:none;
+	color:#000000;
+}
+
+/*Header Elements */
+
+#top_container {
+	height: 150px;
+	width: 800px;
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+	background: url(../images/banner.png) no-repeat left top;
+}
+
+/* Navigation Elements */
+
+#navi_container {
+	height: 40px;
+	width: 800px;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	top: 80px;
+}
+#navi_content {
+	list-style: none;
+	margin: 0px 0px 0px 150px;
+	padding: 0px;
+	width: 650px;
+	text-align: center;
+}
+#navi_content li {
+	float: left;
+	margin: 0px 5px;
+	padding: 5px 5px 0px;
+	height: 25px;
+	position: relative;
+	top: 10px;
+	background: #FFFFFF;
+	font-weight: bold;
+}
+
+/* User Bar Elements */
+
+#user_container {
+	height: 25px;
+	width: 800px;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	top: 85px;
+}
+#user_content {
+	margin: 0px;
+	padding: 5px;
+	width: 640px;
+	font-weight: bold;
+	float: left;
+}
+#user_actions {
+	margin: 0px;
+	padding: 5px;
+	width: 140px;
+	font-weight: bold;
+	float: right;
+	text-align: right;
+}
+
+/*Content Elements */
+
+#content_wrapper {
+	background: url(../images/content.png) repeat-y center;
+}
+#content_container {
+	margin: 0px auto;
+	padding: 5px;
+	width: 790px;
+}
+#content_content {
+}
+
+/* Map Elements */
+
+#map {
+	height: 500px;
+	width: 790px;
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px;
+	border-style: none;
+}
+
+/* Footer Elements */
+
+#footer_container {
+	width: 800px;
+	padding: 0px;
+	margin: 10px auto 0px;
+	background: #c0c0c0;
+}
+#footer_content {
+	margin: 0px auto;
+	padding: 0px;
+	width: 800px;
+	text-align: center;
+	font-weight: bold;
+}
