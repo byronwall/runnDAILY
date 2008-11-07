@@ -1,7 +1,17 @@
 <?php
-require("php/settings.php");
+require("lib/config.php");
 
-$user->login("byron", "password", 1);
+$mysqli = database::getDB();
 
-var_dump($DEBUG);
+$stmt = $mysqli->prepare("SELECT routes.name, id FROM routes") or die("error:".$stmt->error);
+
+$stmt->execute() or die("error:".$stmt->error);
+$stmt->store_result();
+
+while ($row = $stmt->fetch_assoc()) {
+	echo $row["id"];
+	echo $row["name"];
+}
+
+
 ?>

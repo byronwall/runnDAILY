@@ -9,10 +9,6 @@ else{
 	$SETTINGS["address"] = "http://byroni.us/maps";
 }
 
-$DEBUG = array();
-
-
-
 require_once("class/ext_mysqli.php");
 
 $SETTINGS["dbconn"] = $mysqli = new mysqli_Extended("localhost", "byron", "abcd1234", "running");
