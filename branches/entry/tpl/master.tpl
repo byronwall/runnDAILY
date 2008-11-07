@@ -41,7 +41,7 @@
     
 <!--USER BAR-->
 	<div id="user_container">
-    	<div id="user_content">You are currently logged in as Chandler.</div>
+    	<div id="user_content">You are currently logged in as {{$currentUser->username}}.</div>
         <div id="user_actions">Settings | Logout</div>
     </div>
 </div>

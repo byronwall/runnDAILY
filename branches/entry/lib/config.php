@@ -9,15 +9,14 @@ else{
 	$SETTINGS["address"] = "http://byroni.us/maps";
 }
 
-require_once("class/ext_mysqli.php");
 
-$SETTINGS["dbconn"] = $mysqli = new mysqli_Extended("localhost", "php", "EGneNzb3XRaKnjm6", "running");
+$site_root = dirname(dirname(__FILE__));
 
-require_once("class/class_user.php");
-require_once("class/class_route.php");
+require_once($site_root."/lib/class/ext_mysqli.php");
+require_once($site_root."/lib/class/class_user.php");
+require_once($site_root."/lib/class/class_route.php");
 
-//Smarty exists in the include-path in php.ini of the server
-require_once("./_smarty/Smarty.class.php");
+require_once($site_root."/_smarty/Smarty.class.php");
 
 
 /*SET UP TEMPLATING ENGINE*/

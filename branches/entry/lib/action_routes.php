@@ -13,7 +13,7 @@ if(isset($_REQUEST["action"])){
 			$good= $route->createNewRoute($_SESSION["userData"], $distance, $points, $comments, $name);
 				
 			if($good){
-				header("location: ".$SETTINGS['address']);
+				header("location: http://".$_SERVER['SERVER_NAME']."/maps");
 				exit;
 			}
 				

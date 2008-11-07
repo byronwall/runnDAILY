@@ -1,6 +1,8 @@
 <?php
 require("lib/config.php");
 
+var_dump($_SERVER);
+
 $id = 1;
 
 $mysqli = database::getDB();

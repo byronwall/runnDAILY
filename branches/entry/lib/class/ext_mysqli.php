@@ -26,7 +26,7 @@ class database extends mysqli
 	}
 	public function prepare($query)
 	{
-		$stmt = new stmt_Extended($this, $query);
+		$stmt = new stmt_Extended(self::$instance, $query);
 
 		return $stmt;
 	}
@@ -38,26 +38,7 @@ class database extends mysqli
 
 	public function __destruct()
 	{
-		$this->close();
-	}
-}
-
-
-class mysqli_Extended extends mysqli
-{
-	protected $selfReference;
-
-	public function __construct($dbHost, $dbUsername, $dbPassword, $dbDatabase)
-	{
-		parent::__construct($dbHost, $dbUsername, $dbPassword, $dbDatabase);
-
-	}
-
-	public function prepare($query)
-	{
-		$stmt = new stmt_Extended($this, $query);
-
-		return $stmt;
+		@$this->close();
 	}
 }
 
