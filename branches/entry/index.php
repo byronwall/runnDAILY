@@ -1,5 +1,5 @@
 <?php
-require("php/settings.php");
+require("lib/config.php");
 
 $smarty->assign("debugMode", 0);
 $smarty->assign("debugData", $DEBUG);
