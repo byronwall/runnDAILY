@@ -11,7 +11,7 @@ else{
 
 require_once("class/ext_mysqli.php");
 
-$SETTINGS["dbconn"] = $mysqli = new mysqli_Extended("localhost", "byron", "abcd1234", "running");
+$SETTINGS["dbconn"] = $mysqli = new mysqli_Extended("localhost", "php", "EGneNzb3XRaKnjm6", "running");
 
 require_once("class/class_user.php");
 require_once("class/class_route.php");
