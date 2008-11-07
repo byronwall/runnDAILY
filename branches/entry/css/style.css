@@ -7,7 +7,7 @@ html, body {
 }
 body {
 	font: 12px Arial, Helvetica, sans-serif;
-	background: url(../images/bg.png) no-repeat center top;
+	background: url(../img/bg.png) no-repeat center top;
 }
 a {
 	text-decoration:none;
@@ -24,7 +24,7 @@ a {
 	margin-right: auto;
 	margin-bottom: 0px;
 	margin-left: auto;
-	background: url(../images/banner.png) no-repeat left top;
+	background: url(../img/banner.png) no-repeat left top;
 }
 
 /* Navigation Elements */
@@ -84,7 +84,7 @@ a {
 /*Content Elements */
 
 #content_wrapper {
-	background: url(../images/content.png) repeat-y center;
+	background: url(../img/content.png) repeat-y center;
 }
 #content_container {
 	margin: 0px auto;
