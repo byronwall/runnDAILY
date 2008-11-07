@@ -3,13 +3,12 @@
 class database extends mysqli
 {
 	//create a singleton instance
-	private $report;
 	private static $instance = NULL;
 
 	//private constructor to prevent direct access
 	private function __construct()
 	{
-		parent::__construct("localhost", "byron", "abcd1234", "running");
+		parent::__construct("localhost", "php", "j6Hmj544vUETZedU", "running");
 		if(mysqli_connect_errno())
 		{
 			throw new Exception(mysqli_connect_error(), mysqli_connect_errno());
