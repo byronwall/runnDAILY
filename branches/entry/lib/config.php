@@ -2,6 +2,7 @@
 $SETTINGS = array();
 
 //This is simply to make sure that links work regardless of which server is giving access.
+//This needs to be removed. Immediately.
 if(file_exists("settings/settings.ini")){
 	$SETTINGS = parse_ini_file("settings/settings.ini");
 }
