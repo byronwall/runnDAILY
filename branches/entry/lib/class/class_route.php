@@ -10,15 +10,19 @@ class Route{
 	private $mysqli;
 
 	function __construct($name = NULL){
-		global $SETTINGS;
-		$this->mysqli = $SETTINGS["dbconn"];
+		$this->mysqli = database::getDB();
 		$this->name = $name;
 	}
 
 	/**
-	 * This function is used to add a new route to the database.
+	 * Creates a new route with the given information
 	 *
-	 * @param User $user
+	 * @param User $user : user creating the route
+	 * @param double $distance
+	 * @param string $points
+	 * @param string $comments
+	 * @param string $name
+	 * @return bool indicating the success
 	 */
 	function createNewRoute(User $user, $distance, $points, $comments, $name){
 		$stmt = $this->mysqli->stmt_init();
@@ -38,9 +42,15 @@ class Route{
 
 		return true;
 	}
+	
+	/**
+	 * Returns the routes that were created by a specific user
+	 *
+	 * @param User $user : the user in question
+	 * @return array of Route objects
+	 */
 	public static function getRoutesForUser(User $user){
-		global $SETTINGS;
-		$mysqli = $SETTINGS["dbconn"];
+		$mysqli = database::getDB();
 
 		$stmt = $mysqli->prepare("SELECT routes.name, id FROM routes WHERE uid=?") or die("error:".$stmt->error);
 		$stmt->bind_param("i", $user->userID) or die("error:".$stmt->error);
@@ -57,9 +67,15 @@ class Route{
 		$stmt->close();
 		return $output;
 	}
+	
+	/**
+	 * Returns an array of the all the routes in the database.
+	 * This function will soon be deprecated by more specific functions.
+	 *
+	 * @return array of Route objects
+	 */
 	public static function getAllRoutes(){
-		global $SETTINGS;
-		$mysqli = $SETTINGS["dbconn"];
+		$mysqli = database::getDB();
 
 		$stmt = $mysqli->prepare("SELECT name, id, distance FROM routes");
 
@@ -80,9 +96,14 @@ class Route{
 		return $routes;
 	}
 
+	/**
+	 * Returns the route with the given ID.
+	 *
+	 * @param int $id : the ID of the route to be fetched
+	 * @return Route : a populated Route object with the details
+	 */
 	public static function fromRouteIdentifier($id){
-		global $SETTINGS;
-		$mysqli = $SETTINGS["dbconn"];
+		$mysqli = database::getDB();
 
 		$stmt = $mysqli->prepare("SELECT points, name, distance FROM routes WHERE id=?");
 		$stmt->bind_param("i", $id);
@@ -99,7 +120,6 @@ class Route{
 		$stmt->close();
 
 		return $route;
-
 	}
 }
 ?>
