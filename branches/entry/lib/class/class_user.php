@@ -10,7 +10,8 @@ class User{
 	var $username;
 	var $passwordHash;
 	var $userID;
-	var $mysqli;
+	
+	private $mysqli;
 
 	//TODO:add in the other fields for user preferences
 
@@ -18,8 +19,11 @@ class User{
 		$this->mysqli = database::getDB();
 	}
 
+
 	/**
-	 * This function is called.
+	 * Function is called to determine if the user is currently logged in.
+	 * This check is first done using the session variables.  If those are
+	 * not successful then the cookies are checked.
 	 *
 	 */
 	function validateUser(){
@@ -63,6 +67,14 @@ class User{
 		//without any other validation measures, the user would not be validated
 	}
 
+	/**
+	 * Attempts to log in the user with the given credentials
+	 *
+	 * @param string $uname
+	 * @param string $password
+	 * @param boolean $remember
+	 * @return boolean indicating whether or not the user is logged in
+	 */
 	function login($uname, $password, $remember = 0){
 		$loggedin = false;
 
@@ -102,7 +114,12 @@ class User{
 
 		return $loggedin;
 	}
-	function updateUserCookie(){
+	/**
+	 * Internal function that is called when the cookie needs to be updated for the user.
+	 * This will update the database entry and also the user's cookies.
+	 *
+	 */
+	private function updateUserCookie(){
 		//TODO:test this code
 		$cookie = md5(mktime());
 
@@ -118,6 +135,13 @@ class User{
 		}
 		$stmt->close();
 	}
+	/**
+	 * Creates a new user.
+	 *
+	 * @param string $uname
+	 * @param string $password
+	 * @return boolean indicating whether or not the creation and subsequent login were successful.
+	 */
 	function createUser($uname, $password){
 		$stmt = $this->mysqli->prepare("INSERT INTO users(u_username, u_password) VALUES (?, MD5(?))");
 		$stmt->bind_param('ss', $uname, $password);
@@ -134,11 +158,22 @@ class User{
 	function updateUserDetails(){
 		die("not implemented");
 	}
+	/**
+	 * Logs the current user out of the system.  This is done by destroying the session
+	 * and removing the cookie.
+	 *
+	 */
 	function logout(){
 		session_destroy();
 		setcookie("byroni_us_validation", "", mktime()-3600);
 	}
 
+	/**
+	 * This function is used to get an array containing a list of all the site's users.
+	 * This is really going to become deprecated but for now it grabs all of the users.
+	 *
+	 * @return Array of User types
+	 */
 	public static function getListOfUsers(){
 		$mysqli = database::getDB();
 
@@ -153,6 +188,12 @@ class User{
 		}
 		return $output;
 	}
+	/**
+	 * This function is used to populate a User with details given only their username.
+	 *
+	 * @param string $username
+	 * @return User
+	 */
 	public static function fromUsername($username){
 		$mysqli = database::getDB();
 
