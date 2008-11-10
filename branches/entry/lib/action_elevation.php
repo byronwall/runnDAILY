@@ -23,7 +23,7 @@ $end_lng = $_POST["end_lng"];
 $num_points = $_POST["num_points"];
 
 //These values need to come from the POST data.
-$lat = 45.0;
+$lat = 46.0;
 $lng = 45.0;
 
 //Before we check with USGS, check the cache.
