@@ -10,6 +10,8 @@ class User{
 	var $username;
 	var $passwordHash;
 	var $userID;
+	var $location_lat;
+	var $location_lng;
 
 	private $mysqli;
 
@@ -143,7 +145,14 @@ class User{
 	 * This function would be used to update user preferences from some sort of profile page.
 	 * */
 	function updateUserDetails(){
-		die("not implemented");
+		$stmt = $this->mysqli->prepare("UPDATE users SET u_location_lat = ?, u_location_lng = ? WHERE u_uid = ?");
+		$stmt->bind_param("ddi", $this->location_lat, $this->location_lng, $this->userID);
+		$stmt->execute();
+		
+		$isSuccess = $stmt->affected_rows == 1;
+		
+		$stmt->close();
+		return $isSuccess;
 	}
 	/**
 	 * Logs the current user out of the system.  This is done by destroying the session

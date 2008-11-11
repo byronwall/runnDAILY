@@ -1,12 +1,14 @@
 <?php
-require_once("php/settings.php");
+require("lib/config.php");
 
-$content=$smarty->fetch("settings.tpl");
+/*
+ * This is the main index for the site.
+ * It will either load the dashboard or a generic home page.
+ */
 
-$smarty->assign("content", $content);
+$content = $smarty->fetch("settings.tpl");
+$smarty->assign("page_content", $content);
 
-$smarty->assign("title", "users on the site");
-
+$smarty->assign("page_title", "Settings .::. Running Site");
 $smarty->display("master.tpl");
-
 ?>
