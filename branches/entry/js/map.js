@@ -48,7 +48,7 @@ function load() {
 		
 		//This definition does not belong in here and will be moved.
 		var tinyIcon = new GIcon();
-		tinyIcon.image = "images/marker.png";
+		tinyIcon.image = "/img/marker.png";
 		tinyIcon.shadow = "";
 		tinyIcon.iconSize = new GSize(7, 7);
 		tinyIcon.shadowSize = new GSize(0, 0);
@@ -291,7 +291,7 @@ function updateMileMarkers(shouldUpdateAll){
  */
 function addMileMarker(lat, lng){
 	var markerIcon = new GIcon();
-	markerIcon.image = "images/mile-marker.png";
+	markerIcon.image = "/img/mile-marker.png";
 	markerIcon.shadow = "";
 	markerIcon.iconSize = new GSize(28, 35);
 	markerIcon.shadowSize = new GSize(0, 0);

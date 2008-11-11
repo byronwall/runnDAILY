@@ -4,19 +4,18 @@ require("config.php");
 if(isset($_REQUEST["action"])){
 	switch ($_REQUEST["action"]){
 		case "logout":
-			$DEBUG[]="loggin out";
 			$user->logout();
 
-			header("location: ".$SETTINGS["address"]);
+			header("location: http://".$_SERVER['SERVER_NAME']);
 			exit;
 			break;
 		case "login":
 			$username = $_POST["username"];
 			$password = $_POST["password"];
-			$remember = $_POST["remember"];
+			$remember = isset($_POST["remember"])?$_POST["remember"]:false;
 			
 			if($user->login($username, $password, $remember)){
-				header("location: http://".$_SERVER['SERVER_NAME']."/maps");
+				header("location: http://".$_SERVER['SERVER_NAME']);
 				exit;
 			}
 			else{
@@ -28,7 +27,7 @@ if(isset($_REQUEST["action"])){
 			$password = $_POST["password"];
 
 			if($user->createUser($username, $password)){
-				header("location: http://".$_SERVER['SERVER_NAME']."/maps");
+				header("location: http://".$_SERVER['SERVER_NAME']);
 				exit;
 			}
 			else{

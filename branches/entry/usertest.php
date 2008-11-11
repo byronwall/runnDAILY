@@ -1,6 +1,10 @@
 <?php
 require("lib/config.php");
 
+/*
+ * This page is really just a testing grounds for me.
+ */
+
 var_dump($_SERVER);
 
 $id = 1;

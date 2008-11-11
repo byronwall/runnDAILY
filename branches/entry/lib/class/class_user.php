@@ -6,11 +6,11 @@
  */
 class User{
 
-	var $validUser = false;
+	var $isAuthenticated = false;
 	var $username;
 	var $passwordHash;
 	var $userID;
-	
+
 	private $mysqli;
 
 	//TODO:add in the other fields for user preferences
@@ -54,17 +54,10 @@ class User{
 			if($stmt->fetch()){
 				$this->username = $username;
 				$this->userID  = $userid;
-				$this->validUser = true;
+				$this->isAuthenticated = true;
 				$_SESSION["userData"] = $this;
 			}
-			else{
-				die("there was an error where the cookie exists with the client but not the server.");
-			}
 		}
-		else{
-
-		}
-		//without any other validation measures, the user would not be validated
 	}
 
 	/**
@@ -83,14 +76,9 @@ class User{
 		$stmt->execute() or die("error");
 		$stmt->store_result();
 
-
-		echo $stmt->num_rows();
 		//TODO:expand this so that all of the user details are grabbed
-		echo "up here";
-		$userRow = $stmt->fetch_assoc();
-		var_dump($userRow);
-		if(true){
-			echo "in here";
+
+		if($userRow = $stmt->fetch_assoc()){
 			$this->username = $uname;
 			$this->userID = $userRow["u_uid"];
 
@@ -108,7 +96,7 @@ class User{
 
 			$loggedin = false;
 		}
-		$this->validUser = $loggedin;
+		$this->isAuthenticated = $loggedin;
 
 		$stmt->close();
 
@@ -130,8 +118,7 @@ class User{
 		$stmt->execute() or die($stmt->error);
 
 		if($stmt->affected_rows == 1){
-
-			setcookie("byroni_us_validation",$cookie.$this->userID, mktime()+3600*24*30);
+			setcookie("byroni_us_validation",$cookie.$this->userID, mktime()+3600*24*30,"/");
 		}
 		$stmt->close();
 	}
@@ -165,7 +152,7 @@ class User{
 	 */
 	function logout(){
 		session_destroy();
-		setcookie("byroni_us_validation", "", mktime()-3600);
+		setcookie("byroni_us_validation", "", mktime()-3600, "/");
 	}
 
 	/**
