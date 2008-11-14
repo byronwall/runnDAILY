@@ -1,12 +1,11 @@
 {{*
 This is the template for the page where new routes are created.
 *}}
-<div class="map_wrapper">
-	<div id="map" class="map"></div>
-</div>
+
+<div id="map_placeholder"></div>
 
 <div id="other_content">
-	<div id="distance_holder">distance wil go here</div>
+	<div id="map_distance_holder">Distance: 0.0 miles</div>
     <div id="map_control_panel">
     	<a href="#" onclick="clearAllPoints();return false;">clear all</a>
     	<a href="#" onclick="undoLastPoint();return false;">undo</a>
@@ -16,12 +15,14 @@ This is the template for the page where new routes are created.
     {{if $currentUser->isAuthenticated}}
     <a href="#TB_inline?height=300&amp;width=300&amp;inlineId=active_user_controls" title="save" class="thickbox">save</a> 
     <div id="active_user_controls" class="rh_login">
-    	<form action="php/routes.php?action=save" method="post" onsubmit="saveSubmit(this)">
+    	<form action="/lib/action_routes.php?action=save" method="post" onsubmit="saveSubmit(this)">
     		<input type="text" value="routeName" name="routeName">
     		<input type="submit" value="save">
     		<input type="hidden" name="distance">
     		<input type="hidden" name="points">
     		<input type="hidden" name="comments">
+    		<input type="hidden" name="start_lat">
+    		<input type="hidden" name="start_lng">
    		</form>
 	</div>
     {{/if}}
@@ -36,7 +37,7 @@ This is the template for the page where new routes are created.
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load();
+	load("map_placeholder");
 });
 
 document.body.onunload = GUnload();

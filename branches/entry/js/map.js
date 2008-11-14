@@ -37,9 +37,9 @@ routePoint.prototype = {
   * map types displayed, the central location, and also the event
   * handlers.
   */
-function load() {
+function load(map_holder_id) {
 	if (GBrowserIsCompatible()) {
-		map = new GMap2(document.getElementById("map"), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
+		map = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
 		map.setCenter(new GLatLng(40.4242126,-86.930522), 13);
 		GEvent.addListener(map,"click", map_click);
 		map.addControl(new GLargeMapControl());
@@ -89,7 +89,7 @@ function map_click(overlay, latlng){
  * by a more universal refresh function.
  */
 function update_distance(){
-	var display = document.getElementById("distance_holder");
+	var display = document.getElementById("map_distance_holder");
 	display.innerHTML = total_distance.toFixed(2);	
 }
 
@@ -175,8 +175,9 @@ function _getLatLngArray(routePointArray){
  */
 function saveSubmit(submitForm){
 	submitForm.distance.value = total_distance;
-	submitForm.comments.value = "some comments";
 	submitForm.points.value = convertToPolyline();
+	submitForm.start_lat.value = route_points[0].latlng.lat();
+	submitForm.start_lng.value = route_points[0].latlng.lng();
 
 	return true;
 }

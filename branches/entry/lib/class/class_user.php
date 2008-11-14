@@ -29,17 +29,9 @@ class User{
 	 *
 	 */
 	function validateUser(){
-		//the first thing to check is a session variable for the current user
-		//if the session exists then simply return a valid user
-
-		//TODO:implement the session part of the validate user code
-		session_start();
 		if(isset($_SESSION["userData"])){
 			//the user data already exists, so the user is valid.
 		}
-		//the next thing to check is the cookies
-		//if the cookies exist for a user then grab the user details and return a valid user
-		//TODO:test the cookie part of the validate user function
 		elseif(isset($_COOKIE["byroni_us_validation"])){
 
 			$cookie_val = $_COOKIE["byroni_us_validation"];
@@ -57,6 +49,9 @@ class User{
 				$this->username = $username;
 				$this->userID  = $userid;
 				$this->isAuthenticated = true;
+				
+				$this->updateAccessTime();
+				
 				$_SESSION["userData"] = $this;
 			}
 		}
@@ -154,6 +149,18 @@ class User{
 		$stmt->close();
 		return $isSuccess;
 	}
+	
+	/**
+	 * Updates the database to reflect user activity.
+	 *
+	 */
+	function updateAccessTime(){
+		$stmt = $this->mysqli->prepare("UPDATE users SET u_date_access = NOW() WHERE u_uid = ?");
+		$stmt->bind_param("i", $this->userID);
+		$stmt->execute();
+		$stmt->close();
+	}
+	
 	/**
 	 * Logs the current user out of the system.  This is done by destroying the session
 	 * and removing the cookie.

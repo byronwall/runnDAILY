@@ -1,5 +1,5 @@
 <?php
-require("settings.php");
+require("config.php");
 
 if(isset($_REQUEST["action"])){
 	switch ($_REQUEST["action"]){
@@ -8,19 +8,21 @@ if(isset($_REQUEST["action"])){
 			$points= $_POST["points"];
 			$comments = $_POST["comments"];
 			$name = $_POST["routeName"];
+			$start_lat = $_POST["start_lat"];
+			$start_lng = $_POST["start_lng"];
 
 			$route = new Route();
-			$good= $route->createNewRoute($_SESSION["userData"], $distance, $points, $comments, $name);
-				
+			$good= $route->createNewRoute($_SESSION["userData"], $distance, $points, $comments, $name, $start_lat, $start_lng);
+
 			if($good){
-				header("location: http://".$_SERVER['SERVER_NAME']."/maps");
+				header("location: http://".$_SERVER['SERVER_NAME']);
 				exit;
 			}
-				
+
 			break;
 	}
 }
-else{
-	die("There needs to be an action");
-}
+
+header("location: http://".$_SERVER['SERVER_NAME']);
+exit;
 ?>

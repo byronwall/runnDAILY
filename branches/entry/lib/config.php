@@ -18,6 +18,8 @@ $smarty->left_delimiter = "{{";
 $smarty->right_delimiter = "}}";
 
 /*VALIDATE THE USER EVERYTIME*/
+session_start();
+
 $user = new User();
 $user->validateUser();
 
