@@ -6,7 +6,7 @@
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load("map");
+	load("map_placeholder");
 	var polyline = new GPolyline.fromEncoded({{$map_current_route->points}});
 	map.addOverlay(polyline);
 	var boundingBox = polyline.getBounds();

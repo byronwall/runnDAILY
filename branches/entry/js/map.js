@@ -4,10 +4,26 @@ var route_line;
 var total_distance = 0;
 var meters_to_miles = 0.000621371192;
 
+var tinyIcon = new GIcon();
+tinyIcon.image = "/img/marker.png";
+tinyIcon.shadow = "";
+tinyIcon.iconSize = new GSize(7, 7);
+tinyIcon.shadowSize = new GSize(0, 0);
+tinyIcon.iconAnchor = new GPoint(4, 4);
+tinyIcon.infoWindowAnchor = new GPoint(5, 1);
+
 /*
- * This section is used to define custom types and their properties
+ * marker_id
+ * 
+ * This property is added to all markers because it is used for updating the
+ * internal references when markers are dragged around.
  * 
  */
+GMarker.prototype.marker_id = -1;
+
+/******************************************************************************
+ * This section is used to define custom types and their properties
+ *****************************************************************************/
 
 /*
  * routePoint
@@ -25,9 +41,9 @@ routePoint.prototype = {
 	index:0	
 }
 
-/*
+/******************************************************************************
  * This section contains the functions that make the map go.
- */
+ *****************************************************************************/
  
  /*
   * load
@@ -45,17 +61,6 @@ function load(map_holder_id) {
 		map.addControl(new GLargeMapControl());
 		map.addControl(new GMapTypeControl());
 		map.enableScrollWheelZoom();
-		
-		//This definition does not belong in here and will be moved.
-		var tinyIcon = new GIcon();
-		tinyIcon.image = "/img/marker.png";
-		tinyIcon.shadow = "";
-		tinyIcon.iconSize = new GSize(7, 7);
-		tinyIcon.shadowSize = new GSize(0, 0);
-		tinyIcon.iconAnchor = new GPoint(4, 4);
-		tinyIcon.infoWindowAnchor = new GPoint(5, 1);
-
-		markerOptions = { icon:tinyIcon };
 	}  
 }
 
@@ -72,9 +77,9 @@ function load(map_holder_id) {
  * do is filter out clicks that are not new points and then adds that new
  * point to the map.
  */
-function map_click(overlay, latlng){
+function map_click(overlay, latlng, overlaylatlng){
 	if(overlay){				
-		return;
+		addPoint(overlaylatlng);
 	}
 	if (latlng) {		
 		addPoint(latlng);		
@@ -89,8 +94,8 @@ function map_click(overlay, latlng){
  * by a more universal refresh function.
  */
 function update_distance(){
-	var display = document.getElementById("map_distance_holder");
-	display.innerHTML = total_distance.toFixed(2);	
+	var route_length = (route_line.getLength()*meters_to_miles).toFixed(2);
+	$("#map_distance_holder").text("Distance: " + route_length + " miles");
 }
 
 var geocoder = new GClientGeocoder();
@@ -140,21 +145,24 @@ function show_address_callback(point){
  */
 function convertToPolyline(){
 	var encoder = new PolylineEncoder();
-	line = encoder.dpEncodeToJSON(_getLatLngArray( route_points));
+	var enoder_output = encoder.dpEncodeToJSON(
+		$.map(
+			route_points,
+			function(route_point){
+				return route_point.latlng;
+			}
+		)
+	);
 	
-	return $.toJSON(line);
-
+	return $.toJSON(enoder_output);
 }
 
 /*
  * _getLatLngArray
  * 
- * -routePointArray, array of routePoint's that need to be transformed to GLatLng
+ * Deprecated by use of $.map().
+ * Comments and code will be removed in next revision.
  * 
- * This function is used to create a new array of GLatLng from routePoint.
- * routePoint already has the GLatLng in it.  This is solely a helper function
- * that is used for the encode polyline algorithm.  Probably not going to be
- * called directly.
  */
 function _getLatLngArray(routePointArray){
 	var output = [];
@@ -183,6 +191,55 @@ function saveSubmit(submitForm){
 }
 
 /*
+ * _markerDragEnd
+ * 
+ * -latlng, the new GLatLng for the displaced marker
+ * 
+ * This function is the event callback for when markers are dragged around. It
+ * updates the location of the marker and refreshes everything.
+ * 
+ */
+function _markerDragEnd(latlng){
+	route_points[this.marker_id].latlng = latlng;
+	
+	map_refreshAll();
+}
+
+/*
+ * map_refreshAll
+ * 
+ * Function which completely refreshes the map.
+ * This is done by clearing all overlays, adding markers again,
+ * adding the route line back in, updating mile markers, and
+ * finally updating the distance.
+ * 
+ */
+function map_refreshAll(){
+	map.clearOverlays();
+	
+	$.each(
+		route_points, 
+		function(index, route_point){
+			map.addOverlay(route_point.marker);	
+		}
+	);
+	route_line = new GPolyline(
+		$.map(
+			route_points,
+			function(route_point){
+				return route_point.latlng;
+			}
+		),
+		"#ff0000",
+		3
+	);
+	map.addOverlay(route_line);
+	
+	updateMileMarkers(true);
+	update_distance();
+}
+
+/*
  * addPoint
  * 
  * -latlngNew, GLatLng for the point that needs to be added
@@ -193,8 +250,11 @@ function saveSubmit(submitForm){
  * can be called from anywhere that needs to add a point to the route.
  */
 function addPoint(latlngNew){
+	var markerOptions = { icon:tinyIcon, draggable:true };
 	var markerNew = new GMarker(latlngNew, markerOptions);
 	map.addOverlay(markerNew);
+	
+	GEvent.addListener(markerNew, "dragend", _markerDragEnd)
 	
 	if(!isRouteLineInit){
 		route_line = new GPolyline([latlngNew],"#ff0000", 3);
@@ -203,23 +263,24 @@ function addPoint(latlngNew){
 	}
 	else{
 		route_line.insertVertex(route_line.getVertexCount(), latlngNew);
-		total_distance += latlngNew.distanceFrom(route_points[route_points.length-1].latlng) * meters_to_miles;
+		total_distance = route_line.getLength() * meters_to_miles;
 		update_distance();
 	}
 	
 	var point = new routePoint();
 	point.latlng = latlngNew;
-	point.marker=markerNew;
-	point.index=route_points.length - 1;
+	point.marker = markerNew;
+	point.index = route_points.length - 1;
 	
-	route_points.push(point);
+	 
+	point.marker.marker_id = point.index;
 	
 	updateMileMarkers(false);
 }
 
-/*
+/******************************************************************************
  * This section pertains to the addition of mile markers.
- */
+ *****************************************************************************/
 var previousDistance = 0;
 var mileDistance = 1.0;
 var shouldUpdateAll;
@@ -247,7 +308,7 @@ function updateMileMarkers(shouldUpdateAll){
 	
 	if(shouldUpdateAll){
 	//this is the code to start at the front and redo all the markers
-		for(var i =mileMarkers.length-1;i>=0;i--){
+		for(var i = mileMarkers.length-1; i >= 0; i--){
 			point = mileMarkers.pop();
 			map.removeOverlay(point.marker);
 		}
@@ -298,7 +359,7 @@ function addMileMarker(lat, lng){
 	markerIcon.shadowSize = new GSize(0, 0);
 	markerIcon.iconAnchor = new GPoint(0, 35);
 	markerIcon.infoWindowAnchor = new GPoint(0, 35);
-	var options = {icon: markerIcon};
+	var options = {icon: markerIcon, clickable: false};
 	
 	var latlng = new GLatLng(lat, lng);
 	var marker = new GMarker(latlng, options);
@@ -311,9 +372,9 @@ function addMileMarker(lat, lng){
 	mileMarkers.push(point);
 }
 
-/*
+/******************************************************************************
  * This final section pertains to the additional interaciton on the map.
- */
+ *****************************************************************************/
  
  /*
   * undoLastPoint
@@ -336,12 +397,8 @@ function clearAllPoints(){
 	map.clearOverlays();
 	route_points = [];
 	mileMarkers = [];
-	total_distance = 0;
-	previousDistance = 0;
-	previousMarkerDistance = 0;
-	isRouteLineInit = false;
 	
-	update_distance();	
+	map_refreshAll();
 }
 
 /*

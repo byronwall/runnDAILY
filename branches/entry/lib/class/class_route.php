@@ -6,6 +6,8 @@ class Route{
 	var	$comments;
 	var	$name;
 	var $id;
+	var $start_lat;
+	var $start_lng;
 
 	private $mysqli;
 
@@ -31,18 +33,11 @@ class Route{
 
 		$stmt->execute() or die($stmt->error);
 
-		if($stmt->affected_rows ==1){
-			echo "created successfully";
-		}
-		else{
-			$stmt->close();
-			die("there was an error creating the route.");
-		}
 		$stmt->close();
 
 		return true;
 	}
-	
+
 	/**
 	 * Returns the routes that were created by a specific user
 	 *
@@ -67,7 +62,7 @@ class Route{
 		$stmt->close();
 		return $output;
 	}
-	
+
 	/**
 	 * Returns an array of the all the routes in the database.
 	 * This function will soon be deprecated by more specific functions.
@@ -105,7 +100,7 @@ class Route{
 	public static function fromRouteIdentifier($id){
 		$mysqli = database::getDB();
 
-		$stmt = $mysqli->prepare("SELECT r_points, r_name, r_distance FROM routes WHERE r_id=?");
+		$stmt = $mysqli->prepare("SELECT * FROM routes WHERE r_id=?");
 		$stmt->bind_param("i", $id);
 
 		$stmt->execute();
@@ -113,12 +108,67 @@ class Route{
 
 		$row = $stmt->fetch_assoc();
 
-		$route = new Route($row["r_name"]);
-		$route->points = $row["r_points"];
-
+		$route = Route::fromFetchAssoc($row, true);
 
 		$stmt->close();
 
+		return $route;
+	}
+	
+	
+	/**
+	 * Returns a list of routes that are withing a given area.  This function is intended
+	 * to be called for getting the routes within a given map area.  Assumes that the points
+	 * are not wanted yet (quick AJAX calls).
+	 *
+	 * @param float $ne_lat
+	 * @param float $ne_lng
+	 * @param float $sw_lat
+	 * @param float $sw_lng
+	 * @return Array : an array of Route objects with the appropriate data
+	 */
+	public static function getRoutesInBox($ne_lat, $ne_lng, $sw_lat, $sw_lng){
+		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_start_lat BETWEEN ? AND ? AND r_start_lng BETWEEN ? AND ? LIMIT 10");
+		$stmt->bind_param("dddd", $sw_lat, $ne_lat, $sw_lng, $ne_lng);
+
+		$stmt->execute();
+		$stmt->store_result();
+
+		$routes_out = array();
+
+		while($row = $stmt->fetch_assoc()){
+			$routes_out[] = Route::fromFetchAssoc($row);
+		}
+
+		$stmt->close();
+
+		return $routes_out;
+	}
+	
+	
+	/**
+	 * Creates a new Route object from the result of a database query.  It is assumed
+	 * that the call is of the form SELECT *, or that the call will grab enough
+	 * fields to justify calling this method.  Intended to provide a uniform spot
+	 * for creating a route from the database without being repetitive. 
+	 *
+	 * @param Array $row : an associative array containing the data
+	 * @param bool $includePoints : whether or not to grab point data
+	 * @return Route : the object created from the data
+	 */
+	public static function fromFetchAssoc($row, $includePoints = false){
+		$route = new Route();
+			
+		$route->distance = $row["r_distance"];
+		$route->name = $row["r_name"];
+		$route->start_lat = $row["r_start_lat"];
+		$route->start_lng = $row["r_start_lng"];
+		$route->id = $row["r_id"];
+
+		if($includePoints){
+			$route->points = $row["r_points"];
+		}
+			
 		return $route;
 	}
 }
