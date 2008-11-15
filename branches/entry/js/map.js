@@ -37,8 +37,7 @@ function routePoint(){
 }
 routePoint.prototype = {
 	latlng:null,
-	marker:null,
-	index:0	
+	marker:null,	
 }
 
 /******************************************************************************
@@ -154,7 +153,7 @@ function convertToPolyline(){
 		)
 	);
 	
-	return $.toJSON(enoder_output);
+	return $.toJSON({points: enoder_output.points, levels: enoder_output.levels});
 }
 
 /*
@@ -270,10 +269,10 @@ function addPoint(latlngNew){
 	var point = new routePoint();
 	point.latlng = latlngNew;
 	point.marker = markerNew;
-	point.index = route_points.length - 1;
 	
-	 
-	point.marker.marker_id = point.index;
+	route_points.push(point); 
+	
+	point.marker.marker_id = route_points.length - 1;
 	
 	updateMileMarkers(false);
 }

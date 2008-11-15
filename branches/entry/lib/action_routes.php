@@ -12,10 +12,10 @@ if(isset($_REQUEST["action"])){
 			$start_lng = $_POST["start_lng"];
 
 			$route = new Route();
-			$good= $route->createNewRoute($_SESSION["userData"], $distance, $points, $comments, $name, $start_lat, $start_lng);
+			$route_id = $route->createNewRoute($_SESSION["userData"], $distance, $points, $comments, $name, $start_lat, $start_lng);
 
-			if($good){
-				header("location: http://".$_SERVER['SERVER_NAME']);
+			if($route_id){
+				header("location: http://".$_SERVER['SERVER_NAME']."/routes/view.php?id=".$route_id);
 				exit;
 			}
 

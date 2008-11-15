@@ -32,10 +32,10 @@ class Route{
 		$stmt->bind_param("idsssdd", $user->userID, $distance, $points, $comments, $name, $start_lat, $start_lng) or die($stmt->error);
 
 		$stmt->execute() or die($stmt->error);
-
+		$ins_id = $stmt->insert_id;
 		$stmt->close();
 
-		return true;
+		return $ins_id;
 	}
 
 	/**
@@ -71,8 +71,7 @@ class Route{
 	 */
 	public static function getAllRoutes(){
 		$mysqli = database::getDB();
-
-		$stmt = $mysqli->prepare("SELECT r_name, r_id, r_distance FROM routes");
+		$stmt = $mysqli->prepare("SELECT * FROM routes LIMIT 20");
 
 		$stmt->execute();
 		$stmt->store_result();
@@ -80,14 +79,11 @@ class Route{
 		$routes = array();
 
 		while($row = $stmt->fetch_assoc()){
-			$route = new Route($row["r_name"]);
-			$route->id = $row["r_id"];
-			$route->distance = $row["r_distance"];
-
-			$routes[] = $route;
+			$routes[] = Route::fromFetchAssoc($row);
 		}
 
 		$stmt->close();
+		
 		return $routes;
 	}
 

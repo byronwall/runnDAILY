@@ -43,12 +43,14 @@ class User{
 			$stmt->bind_param('is', $userid, $cookie);
 
 			$stmt->execute();
-			$stmt->bind_result($username);
+			$stmt->store_result();
 
-			if($stmt->fetch()){
-				$this->username = $username;
+			if($row = $stmt->fetch_assoc()){
+				$this->username = $row["u_username"];
 				$this->userID  = $userid;
 				$this->isAuthenticated = true;
+				
+				$stmt->close();
 				
 				$this->updateAccessTime();
 				
@@ -80,11 +82,8 @@ class User{
 			$this->userID = $userRow["u_uid"];
 
 			$_SESSION["userData"] = $this;
-			//TODO: add in the session starting code
 
 			if($remember){
-				//TODO:test this code
-
 				$this->updateUserCookie();
 			}
 			$loggedin = true;
