@@ -57,7 +57,7 @@ function load(map_holder_id) {
 		map = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
 		map.setCenter(new GLatLng(40.4242126,-86.930522), 13);
 		GEvent.addListener(map,"click", map_click);
-		map.addControl(new GLargeMapControl());
+		map.addControl(new GSmallMapControl());
 		map.addControl(new GMapTypeControl());
 		map.enableScrollWheelZoom();
 	}  
