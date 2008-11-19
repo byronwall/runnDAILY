@@ -53,10 +53,13 @@ routePoint.prototype = {
   * handlers.
   */
 function load(map_holder_id) {
-	if (GBrowserIsCompatible()) {
+	if (GBrowserIsCompatible()) {		
 		map = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
 		map.setCenter(new GLatLng(40.4242126,-86.930522), 13);
-		GEvent.addListener(map,"click", map_click);
+		
+		//if(options.canEdit){
+			GEvent.addListener(map,"click", map_click);
+		//}
 		map.addControl(new GSmallMapControl());
 		map.addControl(new GMapTypeControl());
 		map.enableScrollWheelZoom();
@@ -130,11 +133,6 @@ function show_address_callback(point){
 }
 
 /*
- * NOTE: I have removed the fullscreen stuff.  It did not really work and
- * can be added back when it is required.
- */
-
-/*
  * convertToPolyline
  * 
  * This function is used to convert the current route to the encoded polyline
@@ -154,21 +152,6 @@ function convertToPolyline(){
 	);
 	
 	return $.toJSON({points: enoder_output.points, levels: enoder_output.levels});
-}
-
-/*
- * _getLatLngArray
- * 
- * Deprecated by use of $.map().
- * Comments and code will be removed in next revision.
- * 
- */
-function _getLatLngArray(routePointArray){
-	var output = [];
-	for(var i =0;i<routePointArray.length;i++){
-		output[i] = routePointArray[i].latlng;
-	}
-	return output;
 }
 
 /*
@@ -196,6 +179,8 @@ function saveSubmit(submitForm){
  * 
  * This function is the event callback for when markers are dragged around. It
  * updates the location of the marker and refreshes everything.
+ * 
+ * The this reference is the marker that triggered the event.
  * 
  */
 function _markerDragEnd(latlng){

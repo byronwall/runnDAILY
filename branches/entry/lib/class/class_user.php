@@ -21,7 +21,6 @@ class User{
 		$this->mysqli = database::getDB();
 	}
 
-
 	/**
 	 * Function is called to determine if the user is currently logged in.
 	 * This check is first done using the session variables.  If those are
@@ -40,7 +39,7 @@ class User{
 			$userid = substr($cookie_val, 32);
 
 			$stmt = $this->mysqli->prepare("SELECT u_username FROM users WHERE u_uid=? AND u_cookie_hash=?");
-			$stmt->bind_param('is', $userid, $cookie);
+			$stmt->bind_param("is", $userid, $cookie);
 
 			$stmt->execute();
 			$stmt->store_result();
@@ -95,6 +94,8 @@ class User{
 		$this->isAuthenticated = $loggedin;
 
 		$stmt->close();
+		
+		$this->updateAccessTime();
 
 		return $loggedin;
 	}
@@ -109,7 +110,7 @@ class User{
 
 		$stmt = $this->mysqli->prepare("UPDATE users SET u_cookie_hash=? WHERE u_uid=?") or die($stmt->error);
 			
-		$stmt->bind_param('si', $cookie, $this->userID) or die($stmt->error);
+		$stmt->bind_param("si", $cookie, $this->userID) or die($stmt->error);
 
 		$stmt->execute() or die($stmt->error);
 
@@ -127,7 +128,7 @@ class User{
 	 */
 	function createUser($uname, $password){
 		$stmt = $this->mysqli->prepare("INSERT INTO users(u_username, u_password) VALUES (?, MD5(?))");
-		$stmt->bind_param('ss', $uname, $password);
+		$stmt->bind_param("ss", $uname, $password);
 		$stmt->execute();
 		$stmt->close();
 
