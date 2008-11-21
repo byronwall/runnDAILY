@@ -15,7 +15,9 @@ if(isset($_REQUEST["action"])){
 			$remember = isset($_POST["remember"])?$_POST["remember"]:false;
 			
 			if($user->login($username, $password, $remember)){
-				header("location: http://".$_SERVER['SERVER_NAME']);
+				$refer = (isset($_POST["refer"]))?$_POST["refer"]:"";
+				
+				header("location: http://".$_SERVER['SERVER_NAME'].$refer);
 				exit;
 			}
 			else{
