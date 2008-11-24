@@ -1,16 +1,17 @@
 /*Global Elements */
-
-html, body {
+html,body {
 	margin: 0px;
 	padding: 0px;
 	height: 100%;
 }
+
 body {
 	font: 12px Arial, Helvetica, sans-serif
 }
+
 a {
-	text-decoration:none;
-	color:#000000;
+	text-decoration: none;
+	color: #000000;
 }
 
 a:hover {
@@ -18,7 +19,6 @@ a:hover {
 }
 
 /*Header Elements */
-
 #top_container {
 	margin: 0px auto;
 	padding: 0px;
@@ -29,15 +29,15 @@ a:hover {
 }
 
 /* Navigation Elements */
-
 #navi_container {
 	margin: 0px auto;
 	padding: 0px;
 	position: relative;
 	height: 40px;
 	width: 800px;
-	top: 80px
+	top: 79px;
 }
+
 #navi_content {
 	list-style: none;
 	margin: 0px;
@@ -45,11 +45,14 @@ a:hover {
 	width: 650px;
 	text-align: center;
 }
+
 #navi_content li {
+	border-right: 1px solid Black;
 	background: #ffffff;
 	margin: 0px 5px;
 	padding: 5px 5px 0px;
 	border-top: 1px solid Black;
+	border-left: 1px solid Black;
 	position: relative;
 	font-weight: bold;
 	float: left;
@@ -57,8 +60,11 @@ a:hover {
 	top: 10px
 }
 
-/* User Bar Elements */
+#navi_content li:hover {
+	background-color: #ffff93
+}
 
+/* User Bar Elements */
 #user_container {
 	margin: 0px;
 	padding: 0px;
@@ -68,12 +74,14 @@ a:hover {
 	top: 10px;
 	background-color: White
 }
+
 #user_content {
 	margin: 0px;
 	padding: 5px;
 	font-weight: bold;
 	float: right;
 }
+
 #user_actions {
 	margin: 0px;
 	padding: 5px;
@@ -83,20 +91,35 @@ a:hover {
 }
 
 /*Content Elements */
-
 #content_wrapper {
 	background: url(../img/content.png) repeat-y center;
 }
+
 #content_container {
 	margin: 0px auto;
 	padding: 5px;
 	width: 790px;
 }
+
 #content_content {
+	margin: 0px;
+	padding: 0px
+}
+
+#content_content h1 {
+	margin: 0px;
+	padding: 0px;
+	font-size: x-large;
+	font-weight: bold
+}
+
+#content_content h2 {
+	margin: 0px;
+	padding: 0px;
+	font-size: large
 }
 
 /* Map Elements */
-
 #map_placeholder {
 	height: 500px;
 	width: 790px;
@@ -107,13 +130,13 @@ a:hover {
 }
 
 /* Footer Elements */
-
 #footer_container {
 	padding: 10px 0px;
 	margin-right: auto;
 	width: 800px;
 	margin-left: auto
 }
+
 #footer_content {
 	margin: 0px auto;
 	padding: 0px;
@@ -121,4 +144,3 @@ a:hover {
 	text-align: center;
 	font-weight: bold;
 }
-
