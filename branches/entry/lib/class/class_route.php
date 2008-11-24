@@ -8,6 +8,7 @@ class Route{
 	var $id;
 	var $start_lat;
 	var $start_lng;
+	var $date_creation;
 
 	private $mysqli;
 
@@ -36,6 +37,19 @@ class Route{
 		$stmt->close();
 
 		return $ins_id;
+	}
+	
+	/**
+	 * Function used to get the actual data that is held for the encoded
+	 * poyline.  This function is called to generate the URL of the image
+	 * generation page.
+	 *
+	 * @return string: the encoded polyline
+	 */
+	function getEncodedString(){
+		$encoded = json_decode($this->points);
+		
+		return $encoded->points;
 	}
 
 	/**
@@ -79,7 +93,7 @@ class Route{
 		$routes = array();
 
 		while($row = $stmt->fetch_assoc()){
-			$routes[] = Route::fromFetchAssoc($row);
+			$routes[] = Route::fromFetchAssoc($row, true);
 		}
 
 		$stmt->close();
@@ -160,6 +174,7 @@ class Route{
 		$route->start_lat = $row["r_start_lat"];
 		$route->start_lng = $row["r_start_lng"];
 		$route->id = $row["r_id"];
+		$route->date_creation = $row["r_creation"];
 
 		if($includePoints){
 			$route->points = $row["r_points"];

@@ -38,21 +38,21 @@ class User{
 			$cookie = substr($cookie_val, 0, 32);
 			$userid = substr($cookie_val, 32);
 
-			$stmt = $this->mysqli->prepare("SELECT u_username FROM users WHERE u_uid=? AND u_cookie_hash=?");
+			$stmt = $this->mysqli->prepare("SELECT * FROM users WHERE u_uid=? AND u_cookie_hash=?");
 			$stmt->bind_param("is", $userid, $cookie);
 
 			$stmt->execute();
 			$stmt->store_result();
 
 			if($row = $stmt->fetch_assoc()){
-				$this->username = $row["u_username"];
-				$this->userID  = $userid;
+				
+				$this->loadInfoFromFetchAssoc($row);
 				$this->isAuthenticated = true;
-				
+
 				$stmt->close();
-				
+
 				$this->updateAccessTime();
-				
+
 				$_SESSION["userData"] = $this;
 			}
 		}
@@ -69,16 +69,15 @@ class User{
 	function login($uname, $password, $remember = 0){
 		$loggedin = false;
 
-		$stmt = $this->mysqli->prepare("SELECT u_uid FROM users WHERE u_username=? AND u_password=MD5(?)");
+		$stmt = $this->mysqli->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
 		$stmt->bind_param('ss', $uname, $password) or die("error binding");
 		$stmt->execute() or die("error");
 		$stmt->store_result();
 
 		//TODO:expand this so that all of the user details are grabbed
 
-		if($userRow = $stmt->fetch_assoc()){
-			$this->username = $uname;
-			$this->userID = $userRow["u_uid"];
+		if($row = $stmt->fetch_assoc()){
+			$this->loadInfoFromFetchAssoc($row);
 
 			$_SESSION["userData"] = $this;
 
@@ -87,14 +86,11 @@ class User{
 			}
 			$loggedin = true;
 		}
-		else{
-
-			$loggedin = false;
-		}
+		
 		$this->isAuthenticated = $loggedin;
 
 		$stmt->close();
-		
+
 		$this->updateAccessTime();
 
 		return $loggedin;
@@ -105,7 +101,6 @@ class User{
 	 *
 	 */
 	private function updateUserCookie(){
-		//TODO:test this code
 		$cookie = md5(mktime());
 
 		$stmt = $this->mysqli->prepare("UPDATE users SET u_cookie_hash=? WHERE u_uid=?") or die($stmt->error);
@@ -143,13 +138,13 @@ class User{
 		$stmt = $this->mysqli->prepare("UPDATE users SET u_location_lat = ?, u_location_lng = ? WHERE u_uid = ?");
 		$stmt->bind_param("ddi", $this->location_lat, $this->location_lng, $this->userID);
 		$stmt->execute();
-		
+
 		$isSuccess = $stmt->affected_rows == 1;
-		
+
 		$stmt->close();
 		return $isSuccess;
 	}
-	
+
 	/**
 	 * Updates the database to reflect user activity.
 	 *
@@ -160,7 +155,7 @@ class User{
 		$stmt->execute();
 		$stmt->close();
 	}
-	
+
 	/**
 	 * Logs the current user out of the system.  This is done by destroying the session
 	 * and removing the cookie.
@@ -214,6 +209,12 @@ class User{
 
 		$stmt->close();
 
+		return $user;
+	}
+	private function loadInfoFromFetchAssoc($row){
+		$this->username = $row["u_username"];
+		$this->userID = $row["u_uid"];
+		
 		return $user;
 	}
 }

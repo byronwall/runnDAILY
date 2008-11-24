@@ -46,9 +46,15 @@ This is the master template which holds all of the main layout.
 	<div id="user_container">
 	{{if $currentUser->isAuthenticated}}
     	<div id="user_content">You are currently logged in as {{$currentUser->username}}.</div>
-        <div id="user_actions"><a href="/settings.php">Settings</a> | <a href="/lib/action_login.php?action=logout">Logout</a></div>
+        <div id="user_actions">
+        	<a href="/settings.php">Settings</a> | 
+        	<a href="/lib/action_login.php?action=logout">Logout</a>
+        </div>
     {{else}}
-    	<div id="user_actions"><a href="/login.php?refer={{$smarty.server.SCRIPT_NAME}}">Login</a></div>
+    	<div id="user_actions">
+    		<a href="/login.php?refer={{$smarty.server.SCRIPT_NAME}}">Login</a> | 
+    		<a href="/register.php">Register</a>
+    	</div>
     {{/if}}
     </div>
 </div>
