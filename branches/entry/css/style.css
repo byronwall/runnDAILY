@@ -6,77 +6,79 @@ html, body {
 	height: 100%;
 }
 body {
-	font: 12px Arial, Helvetica, sans-serif;
-	background: url(../img/bg.png) no-repeat center top;
+	font: 12px Arial, Helvetica, sans-serif
 }
 a {
 	text-decoration:none;
 	color:#000000;
 }
 
+a:hover {
+	text-decoration: underline
+}
+
 /*Header Elements */
 
 #top_container {
-	height: 150px;
-	width: 800px;
+	margin: 0px auto;
 	padding: 0px;
-	margin-top: 0px;
-	margin-right: auto;
-	margin-bottom: 0px;
-	margin-left: auto;
+	height: 140px;
+	width: 100%;
+	background-image: url(../img/top.png);
+	background-repeat: repeat-x
 }
 
 /* Navigation Elements */
 
 #navi_container {
-	height: 40px;
-	width: 800px;
-	margin: 0px;
+	margin: 0px auto;
 	padding: 0px;
 	position: relative;
-	top: 80px;
+	height: 40px;
+	width: 800px;
+	top: 80px
 }
 #navi_content {
 	list-style: none;
-	margin: 0px 0px 0px 150px;
+	margin: 0px;
 	padding: 0px;
 	width: 650px;
 	text-align: center;
 }
 #navi_content li {
-	float: left;
+	background: #ffffff;
 	margin: 0px 5px;
 	padding: 5px 5px 0px;
-	height: 25px;
+	border-top: 1px solid Black;
 	position: relative;
-	top: 10px;
-	background: #FFFFFF;
 	font-weight: bold;
+	float: left;
+	height: 25px;
+	top: 10px
 }
 
 /* User Bar Elements */
 
 #user_container {
-	height: 25px;
-	width: 800px;
 	margin: 0px;
 	padding: 0px;
-	position: relative;
-	top: 85px;
+	border: 1px solid Black;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	background-color: White
 }
 #user_content {
 	margin: 0px;
 	padding: 5px;
-	width: 640px;
 	font-weight: bold;
-	float: left;
+	float: right;
 }
 #user_actions {
 	margin: 0px;
 	padding: 5px;
-	width: 140px;
 	font-weight: bold;
-	float: right;
+	clear: right;
 	text-align: right;
 }
 
@@ -107,10 +109,10 @@ a {
 /* Footer Elements */
 
 #footer_container {
+	padding: 10px 0px;
+	margin-right: auto;
 	width: 800px;
-	padding: 0px;
-	margin: 10px auto 0px;
-	background: #c0c0c0;
+	margin-left: auto
 }
 #footer_content {
 	margin: 0px auto;
@@ -119,3 +121,4 @@ a {
 	text-align: center;
 	font-weight: bold;
 }
+
