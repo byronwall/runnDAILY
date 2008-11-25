@@ -5,8 +5,6 @@
 create a route (done) | view detailed list | find nearby routes
 <h2>Route List</h2>
 
-<h2>list of routes for the current user</h2>
-
 <div id="route_list_container">
 {{foreach from=$currentUser->routes item=route}}
 	<div id="route_list_item">
