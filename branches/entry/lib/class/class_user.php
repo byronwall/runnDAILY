@@ -13,9 +13,9 @@ class User{
 	var $location_lat;
 	var $location_lng;
 
-	private $mysqli;
+	var $routes = array();
 
-	//TODO:add in the other fields for user preferences
+	private $mysqli;
 
 	function __construct(){
 		$this->mysqli = database::getDB();
@@ -45,7 +45,7 @@ class User{
 			$stmt->store_result();
 
 			if($row = $stmt->fetch_assoc()){
-				
+
 				$this->loadInfoFromFetchAssoc($row);
 				$this->isAuthenticated = true;
 
@@ -74,8 +74,6 @@ class User{
 		$stmt->execute() or die("error");
 		$stmt->store_result();
 
-		//TODO:expand this so that all of the user details are grabbed
-
 		if($row = $stmt->fetch_assoc()){
 			$this->loadInfoFromFetchAssoc($row);
 
@@ -86,7 +84,7 @@ class User{
 			}
 			$loggedin = true;
 		}
-		
+
 		$this->isAuthenticated = $loggedin;
 
 		$stmt->close();
@@ -130,7 +128,7 @@ class User{
 		return $this->login($uname, $password);
 
 	}
-	//TODO:implement a way to change the user details
+
 	/*
 	 * This function would be used to update user preferences from some sort of profile page.
 	 * */
@@ -157,6 +155,30 @@ class User{
 	}
 
 	/**
+	 * Function loads a collection of routes into memory for the current user.
+	 * This call is designed to be used to see a sampling of a user's routes.
+	 *
+	 * @param int $count: number of results returned
+	 */
+
+	function loadRoutes($count = 5){
+		$this->routes = array();
+		$stmt = $this->mysqli->prepare("SELECT * FROM routes WHERE r_uid = ? LIMIT ?");
+
+		$stmt->bind_param("ii", $this->userID, $count) or die($stmt->error);
+
+		$stmt->execute() or die($stmt->error);
+
+		$stmt->store_result() or die($stmt->error);
+
+		while($row = $stmt->fetch_assoc()){
+			$this->routes[] = Route::fromFetchAssoc($row, true);
+		}
+
+		$stmt->close();
+	}
+
+	/**
 	 * Logs the current user out of the system.  This is done by destroying the session
 	 * and removing the cookie.
 	 *
@@ -175,14 +197,12 @@ class User{
 	public static function getListOfUsers(){
 		$mysqli = database::getDB();
 
-		$result = $mysqli->query("SELECT u_username FROM users") or die("error on sql");
+		$result = $mysqli->query("SELECT * FROM users") or die("error on sql");
 
 		$output = array();
 
 		while($row = $result->fetch_assoc()){
-			$temp = new User();
-			$temp->username = $row["u_username"];
-			$output[] =$temp;
+			$output[] = User::fromFetchAssoc($row);
 		}
 		return $output;
 	}
@@ -211,10 +231,53 @@ class User{
 
 		return $user;
 	}
+
+	/**
+	 * Creates a new user from a given user id.
+	 *
+	 * @param int $uid: the user id of the desired user
+	 * @return User: object representing the new user
+	 */
+	public static function fromUid($uid){
+		$mysqli = database::getDB();
+
+		$stmt = $mysqli->prepare("SELECT u_username, u_uid FROM users WHERE u_uid=?") or die($stmt->error);
+
+		$stmt->bind_param("i",$uid);
+		$stmt->execute();
+		$stmt->store_result();
+
+		$row = $stmt->fetch_assoc();
+
+		$user = User::fromFetchAssoc($row);
+
+		$stmt->close();
+
+		return $user;
+	}
+
+	/**
+	 * Function used as a uniform means of returning a new user from a datbase
+	 * query.  Updates the current user in place.
+	 *
+	 * @param array $row: array of results from a database query
+	 */
 	private function loadInfoFromFetchAssoc($row){
 		$this->username = $row["u_username"];
 		$this->userID = $row["u_uid"];
-		
+
+	}
+
+	/**
+	 * Wrapper for the instance funciton of the similar name.  Is used to
+	 * return a new User from a database query.
+	 *
+	 * @param array $row: array representing the database query
+	 * @return User: the new user from the database query
+	 */
+	public static function fromFetchAssoc($row){
+		$user = new User();
+		$user->loadInfoFromFetchAssoc($row);
 		return $user;
 	}
 }

@@ -3,6 +3,10 @@
 
 <div id="map_placeholder"></div>
 
+{{if $map_current_route->uid eq $currentUser->userID}}
+<h2>You created this map!!
+coming soon: ability to edit, delete, reconfigure your routes!</h2>
+{{/if}}
 
 <div id="form_time_log">
 <h2>record a time for this route</h2>

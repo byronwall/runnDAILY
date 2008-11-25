@@ -9,6 +9,7 @@ class Route{
 	var $start_lat;
 	var $start_lng;
 	var $date_creation;
+	var $uid;
 
 	private $mysqli;
 
@@ -179,6 +180,7 @@ class Route{
 		$route->start_lng = $row["r_start_lng"];
 		$route->id = $row["r_id"];
 		$route->date_creation = $row["r_creation"];
+		$route->uid = $row["r_uid"];
 
 		if($includePoints){
 			$route->points = $row["r_points"];

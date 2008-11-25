@@ -21,6 +21,7 @@ ImageAlphaBlending($im, true);
 ImageAntiAlias($im, true);
 //ImageSetThickness($im, 3);
 
+$black = imagecolorallocatealpha($im, 0x00, 0x00, 0x00, 0);
 $clear = imagecolorallocatealpha($im, 200, 200, 200, 127);
 $line_color = imagecolorallocatealpha($im, "0x00", "0x3c", "0xff", 0);
 imagefill($im, 0, 0, $clear);
