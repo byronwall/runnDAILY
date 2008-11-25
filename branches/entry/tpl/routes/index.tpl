@@ -1,9 +1,9 @@
 {{* This is the template for the index of the routes folder. *}}
-<h1>Routes Page</h1>
+<h1>Route Dashboard</h1>
 
 <a href="/routes/create.php"><img src="/img/route_create.png" /></a>
-
-<h2>list of routes on the site</h2>
+create a route (done) | view detailed list | find nearby routes
+<h2>Route List</h2>
 
 <div id="route_list_container">
 {{foreach from=$route_list item=route}}
