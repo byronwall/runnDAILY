@@ -51,6 +51,10 @@ class Route{
 		
 		return $encoded->points;
 	}
+	
+	function getRoundedDistance(){
+		return round($this->distance, 2);
+	}
 
 	/**
 	 * Returns the routes that were created by a specific user

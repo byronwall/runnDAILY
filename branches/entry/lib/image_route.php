@@ -2,6 +2,7 @@
 require("../lib/config.php");
 
 $encoded = (isset($_GET["encoded"]))? $_GET["encoded"]: die();
+$distance = (isset($_GET["distance"]))? $_GET["distance"]: die();
 
 $im_width = 100;
 $im_height = 100;
@@ -11,11 +12,11 @@ $padding = 0.95;
 $point_arr = decodePolylineToArray($encoded);
 
 $bg = imagecreatefrompng($site_root."/img/route_bg.png");
-$shadow = imagecreatefrompng($site_root."/img/route_shadow.png");
+//$shadow = imagecreatefrompng($site_root."/img/route_shadow.png");
 
 $im = imagecreatetruecolor($im_width, $im_height) or die('Cannot Initialize new GD image stream');
 
-imageSaveAlpha($shadow, true);
+imageSaveAlpha($bg, true);
 ImageAlphaBlending($im, true);
 ImageAntiAlias($im, true);
 //ImageSetThickness($im, 3);
@@ -58,12 +59,14 @@ for($i = 1; $i < count($normal_points); $i++){
 	imageline($im, $normal_scaled[$i-1]["x"], $normal_scaled[$i-1]["y"], $normal_scaled[$i]["x"], $normal_scaled[$i]["y"],$line_color);
 }
 
-imagecopy($bg, $im, 0, 0, 0, 0, $im_width, $im_height);
-imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
+imagestring($im, 2, 50, 85, $distance." mi", $black);
+
+imagecopy($bg, $im, 5, 5, 0, 0, $im_width, $im_height);
+//imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
 
 header ("Content-type: image/png");
-imagepng($shadow);
-imagedestroy($shadow);
+imagepng($bg);
+//imagedestroy($shadow);
 imagedestroy($im);
 imagedestroy($bg);
 

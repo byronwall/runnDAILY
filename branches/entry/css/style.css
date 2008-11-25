@@ -13,6 +13,7 @@ a {
 	text-decoration: none;
 	color: Black
 }
+
 img {
 	margin: 0px;
 	padding: 0px;
@@ -144,6 +145,7 @@ a:hover {
 /* Footer Elements */
 #footer_container {
 	padding: 10px 0px;
+	clear: left;
 	margin-right: auto;
 	width: 800px;
 	margin-left: auto
@@ -155,4 +157,41 @@ a:hover {
 	width: 800px;
 	text-align: center;
 	font-weight: bold;
+}
+
+/* Route List Elements */
+#route_list_container {
+	margin: 0px auto;
+	padding: 0px;
+	width: 100%;
+	background-color: greenyellow
+}
+
+#route_list_item {
+	position: relative;
+	height: 190px;
+	width: 180px;
+	float: left
+}
+
+.route_list_item_name {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	font-size: larger;
+	width: 100%;
+	font-weight: bold
+}
+
+.route_list_item_img {
+	margin: 0px;
+	padding: 5px 0px;
+	text-align: center;
+	width: 100%
+}
+
+.route_list_item_date {
+	margin: 0px;
+	padding: 3px 0px 0px;
+	text-align: center
 }
