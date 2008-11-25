@@ -1,22 +1,27 @@
 <?php
+require("../lib/config.php");
 
 $encoded = (isset($_GET["encoded"]))? $_GET["encoded"]: die();
 
-$im_width = 250;
-$im_height = 250;
+$im_width = 100;
+$im_height = 100;
 
 $padding = 0.95;
 
 $point_arr = decodePolylineToArray($encoded);
 
+$bg = imagecreatefrompng($site_root."/img/route_bg.png");
+$shadow = imagecreatefrompng($site_root."/img/route_shadow.png");
+
 $im = imagecreatetruecolor($im_width, $im_height) or die('Cannot Initialize new GD image stream');
 
-imageSaveAlpha($im, true);
+imageSaveAlpha($shadow, true);
 ImageAlphaBlending($im, true);
 ImageAntiAlias($im, true);
+//ImageSetThickness($im, 3);
 
 $clear = imagecolorallocatealpha($im, 200, 200, 200, 127);
-$black = imagecolorallocatealpha($im, 0x00, 0x00, 0x00, 0);
+$line_color = imagecolorallocatealpha($im, "0x00", "0x3c", "0xff", 0);
 imagefill($im, 0, 0, $clear);
 
 $boundingBox = getBoundingBox($point_arr);
@@ -50,12 +55,17 @@ while($i < count($point_arr["x"])){
 }
 
 for($i = 1; $i < count($normal_points); $i++){
-	imageline($im, $normal_scaled[$i-1]["x"], $normal_scaled[$i-1]["y"], $normal_scaled[$i]["x"], $normal_scaled[$i]["y"],$black);
+	imageline($im, $normal_scaled[$i-1]["x"], $normal_scaled[$i-1]["y"], $normal_scaled[$i]["x"], $normal_scaled[$i]["y"],$line_color);
 }
 
+imagecopy($bg, $im, 0, 0, 0, 0, $im_width, $im_height);
+imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
+
 header ("Content-type: image/png");
-imagepng($im);
+imagepng($shadow);
+imagedestroy($shadow);
 imagedestroy($im);
+imagedestroy($bg);
 
 exit;
 
