@@ -27,11 +27,22 @@ a:hover {
 	text-decoration: underline
 }
 
+.centered_container {
+	margin: 5px auto;
+	padding: 0px;
+	text-align: center
+}
+
+.mar_lr_10 {
+	margin: 0px 10px;
+	padding: 0px
+}
+
 /*Header Elements */
 #top_container {
 	margin: 0px auto;
 	padding: 0px;
-	height: 140px;
+	height: 120px;
 	width: 100%;
 	background-image: url(../img/top.png);
 	background-repeat: repeat-x
@@ -42,9 +53,8 @@ a:hover {
 	margin: 0px auto;
 	padding: 0px;
 	position: relative;
-	height: 40px;
+	height: 120px;
 	width: 800px;
-	top: 78px;
 }
 
 #navi_content {
@@ -58,15 +68,14 @@ a:hover {
 #navi_content li {
 	border-right: 1px solid Black;
 	background: White;
-	margin: 0px 5px;
-	padding: 5px 5px 0px;
-	border-top: 1px solid Black;
+	margin: 0px 10px;
+	padding: 15px 15px 0px;
 	border-left: 1px solid Black;
 	position: relative;
 	font-weight: bold;
 	float: left;
-	height: 25px;
-	top: 10px;
+	height: 105px;
+	top: 0px
 }
 
 #navi_content .unselected {
@@ -161,17 +170,18 @@ a:hover {
 
 /* Route List Elements */
 #route_list_container {
-	margin: 0px auto;
+	margin: 5px auto;
 	padding: 0px;
-	width: 100%;
-	background-color: greenyellow
+	width: 100%
 }
 
 #route_list_item {
+	border: 1px dashed gainsboro;
 	position: relative;
-	height: 190px;
 	width: 180px;
-	float: left
+	background-color: lavenderblush;
+	float: left;
+	height: 190px
 }
 
 .route_list_item_name {

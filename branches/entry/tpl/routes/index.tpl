@@ -1,8 +1,10 @@
 {{* This is the template for the index of the routes folder. *}}
-<h1>Route Dashboard</h1>
+<div class="centered_container">
+	<a href="/routes/create.php" class="mar_lr_10"><img src="/img/route_create.png" /></a>
+	<a href="/route/browse.php" class="mar_lr_10"><img src="/img/route_browse.png" /></a>
+	<a href="/community/local.php" class="mar_lr_10"><img src="/img/route_local.png" /></a>
+</div>
 
-<a href="/routes/create.php"><img src="/img/route_create.png" /></a>
-create a route (done) | view detailed list | find nearby routes
 <h2>Route List</h2>
 
 <div id="route_list_container">
