@@ -52,14 +52,14 @@ routePoint.prototype = {
   * map types displayed, the central location, and also the event
   * handlers.
   */
-function load(map_holder_id) {
+function load(map_holder_id, click_callback) {
 	if (GBrowserIsCompatible()) {		
 		map = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
 		map.setCenter(new GLatLng(40.4242126,-86.930522), 13);
 		
-		//if(options.canEdit){
-			GEvent.addListener(map,"click", map_click);
-		//}
+		if(click_callback != null){
+			GEvent.addListener(map,"click", click_callback);
+		}
 		map.addControl(new GSmallMapControl());
 		map.addControl(new GMapTypeControl());
 		map.enableScrollWheelZoom();
@@ -164,7 +164,7 @@ function convertToPolyline(){
  * needs to be sent to the save route page.
  */
 function saveSubmit(submitForm){
-	submitForm.distance.value = total_distance;
+	submitForm.distance.value = total_distance.toFixed(2);
 	submitForm.points.value = convertToPolyline();
 	submitForm.start_lat.value = route_points[0].latlng.lat();
 	submitForm.start_lng.value = route_points[0].latlng.lng();
