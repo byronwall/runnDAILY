@@ -27,18 +27,22 @@ width:300px;
 
 <script type="text/javascript">
 
+
+
 $(document).ready( function(){
-	loadMiniMap();
+	load("map_home_location", map_settings_click);
+	
+	{{if !$currentUser->location_lat|@is_null}}
+		user_options.latlng_start = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
+		map.setCenter(user_options.latlng_start);
+		var home_marker = new GMarker(user_options.latlng_start);
+		map.addOverlay(home_marker);
+	{{/if}}
 });
 
 document.body.onunload = GUnload();
 
-var user = {};
-
-var home_lat = user.lat || "40.4242126";
-var home_lng = user.lng || "-86.930522";
-
-var home_marker = new GMarker(new GLatLng(home_lat,home_lng));
+var home_marker = new GMarker(user_options.latlng_start);
 
 function loadMiniMap(){
 	if (GBrowserIsCompatible()) {
@@ -52,9 +56,9 @@ function loadMiniMap(){
 		map.addOverlay(home_marker);
 	}
 }
-function map_click(overlay, latlng){
+function map_settings_click(overlay, latlng){
 	if(latlng){
-		map.removeOverlay(home_marker);
+		map.clearOverlays();
 		home_marker = new GMarker(latlng);
 		map.addOverlay(home_marker);
 		

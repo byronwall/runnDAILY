@@ -1,7 +1,11 @@
 {{*
 This is the template for the page where new routes are created.
 *}}
-
+<h1>create a new route</h1>
+<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;">
+    	<input type="text" id="txt_address" value="purdue university">
+    	<input type="submit" value="center map">
+</form>
 <div id="map_placeholder"></div>
 
 <div id="other_content">
@@ -13,31 +17,33 @@ This is the template for the page where new routes are created.
    	</div>
    	
     {{if $currentUser->isAuthenticated}}
-    <a href="#TB_inline?height=300&amp;width=300&amp;inlineId=active_user_controls" title="save" class="thickbox">save</a> 
-    <div id="active_user_controls" class="rh_login">
+    <div id="map_controls">
+    	<h2>save route</h2>
     	<form action="/lib/action_routes.php?action=save" method="post" onsubmit="saveSubmit(this)">
-    		<input type="text" value="routeName" name="routeName">
+    	<ul>	
+    		<li><label for="input_routename">route name</label><input id="input_routename" type="text" name="routeName"></li>
+    		<li><label for="input_desc">description</label><input id="input_desc" type="text" name="r_description"></li>
     		<input type="submit" value="save">
     		<input type="hidden" name="distance">
     		<input type="hidden" name="points">
     		<input type="hidden" name="comments">
     		<input type="hidden" name="start_lat">
     		<input type="hidden" name="start_lng">
+    	</ul>
    		</form>
 	</div>
-    {{/if}}
-    <form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;">
-    	<input type="text" id="txt_address" value="purdue university">
-    	<input type="submit" value="map it">
-   	</form>
-   	
+    {{/if}}   	
     <a href="#" onclick="alert('not implemented');return false;">full screen map</a>
 </div>
 
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load("map_placeholder");
+	load("map_placeholder", map_click);
+	{{if !$currentUser->location_lat|@is_null}}
+	user_options.latlng_start = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
+	map.setCenter(user_options.latlng_start);
+	{{/if}}
 });
 
 document.body.onunload = GUnload();

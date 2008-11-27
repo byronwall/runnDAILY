@@ -1,6 +1,5 @@
 {{if $map_current_route}}
 <h1>Viewing details of {{$map_current_route->name}}.</h1>
-
 <div id="map_placeholder"></div>
 
 {{if $map_current_route->uid eq $currentUser->userID}}
@@ -15,7 +14,7 @@ coming soon: ability to edit, delete, reconfigure your routes!</h2>
 <ul>
 <li><label>time</label><input type="text" name="time" value="12:52.6"></li>
 <li><label>date</label><input type="text" name="date" value="today"></li>
-<li><label>distance</label><input type="text" name="distance" value="{{$map_current_route->distance}}"></li>
+<li><label>distance</label><input type="text" name="distance" value="{{$map_current_route->distance|@round:2}}"></li>
 
 <li><input type="submit" value="add to log"></li>
 </ul>
@@ -29,14 +28,28 @@ coming soon: ability to edit, delete, reconfigure your routes!</h2>
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load("map_placeholder");
-	var options = {{$map_current_route->points}};
-	options.zoomFactor = 2;
-	options.numLevels=18;
-	var polyline = new GPolyline.fromEncoded(options);
-	map.addOverlay(polyline);
+	load("map_placeholder", null);
+	var polyline_options = {{$map_current_route->points}};
+	polyline_options.zoomFactor = 2;
+	polyline_options.numLevels=18;
+	var polyline = new GPolyline.fromEncoded(polyline_options);
+
 	var boundingBox = polyline.getBounds();
 	map.setCenter(boundingBox.getCenter(), map.getBoundsZoomLevel(boundingBox));
+	
+	for(var k = 0; k < polyline.getVertexCount(); k++){
+		var latlng = polyline.getVertex(k);
+		var markerOptions = { icon:tinyIcon, draggable:false };
+		var markerNew = new GMarker(latlng, markerOptions);
+		
+		var point = new routePoint();
+		point.marker = markerNew;
+		point.latlng = latlng;
+		
+		route_points.push(point);
+	}
+	map_options.draggable = false;
+	map_refreshAll();
 });
 document.body.onunload = GUnload();
 

@@ -12,6 +12,12 @@ tinyIcon.shadowSize = new GSize(0, 0);
 tinyIcon.iconAnchor = new GPoint(4, 4);
 tinyIcon.infoWindowAnchor = new GPoint(5, 1);
 
+var map_options = new Object();
+map_options.draggable = true;
+
+var user_options = new Object();
+user_options.latlng_start = null;
+
 /*
  * marker_id
  * 
@@ -234,11 +240,13 @@ function map_refreshAll(){
  * can be called from anywhere that needs to add a point to the route.
  */
 function addPoint(latlngNew){
-	var markerOptions = { icon:tinyIcon, draggable:true };
+	var markerOptions = { icon:tinyIcon, draggable:map_options.draggable };
 	var markerNew = new GMarker(latlngNew, markerOptions);
 	map.addOverlay(markerNew);
 	
-	GEvent.addListener(markerNew, "dragend", _markerDragEnd)
+	if(markerOptions.draggable){
+		GEvent.addListener(markerNew, "dragend", _markerDragEnd);
+	}
 	
 	if(!isRouteLineInit){
 		route_line = new GPolyline([latlngNew],"#ff0000", 3);

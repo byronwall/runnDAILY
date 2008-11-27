@@ -30,7 +30,7 @@ class Route{
 	 */
 	function createNewRoute(User $user, $distance, $points, $comments, $name, $start_lat, $start_lng){
 		$stmt = $this->mysqli->stmt_init();
-		$stmt->prepare("INSERT INTO running.routes (r_uid ,r_distance ,r_points ,r_comments ,r_name ,r_creation, r_start_lat, r_start_lng) VALUES(?, ?,?,?,?, NOW(),?,?)") or die($stmt->error);
+		$stmt->prepare("INSERT INTO running.routes (r_uid ,r_distance ,r_points ,r_description ,r_name ,r_creation, r_start_lat, r_start_lng) VALUES(?, ?,?,?,?, NOW(),?,?)") or die($stmt->error);
 		$stmt->bind_param("idsssdd", $user->userID, $distance, $points, $comments, $name, $start_lat, $start_lng) or die($stmt->error);
 
 		$stmt->execute() or die($stmt->error);

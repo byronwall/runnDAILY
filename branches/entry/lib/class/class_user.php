@@ -221,15 +221,20 @@ class User{
 		$stmt->execute();
 		$stmt->store_result();
 
-		$row = $stmt->fetch_assoc();
+		if($stmt->num_rows == 1){
+			$row = $stmt->fetch_assoc();
 
-		$user = new User();
-		$user->username = $row["u_username"];
-		$user->userID = $row["u_uid"];
+			$user = new User();
+			$user->username = $row["u_username"];
+			$user->userID = $row["u_uid"];
 
-		$stmt->close();
+			$stmt->close();
 
-		return $user;
+			return $user;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -241,7 +246,7 @@ class User{
 	public static function fromUid($uid){
 		$mysqli = database::getDB();
 
-		$stmt = $mysqli->prepare("SELECT u_username, u_uid FROM users WHERE u_uid=?") or die($stmt->error);
+		$stmt = $mysqli->prepare("SELECT * FROM users WHERE u_uid=?") or die($stmt->error);
 
 		$stmt->bind_param("i",$uid);
 		$stmt->execute();
@@ -265,6 +270,8 @@ class User{
 	private function loadInfoFromFetchAssoc($row){
 		$this->username = $row["u_username"];
 		$this->userID = $row["u_uid"];
+		$this->location_lat = $row["u_location_lat"];
+		$this->location_lng = $row["u_location_lng"];
 
 	}
 
