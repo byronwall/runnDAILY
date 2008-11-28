@@ -8,6 +8,6 @@ require("../lib/config.php");
 $content = $smarty->fetch("training/index.tpl");
 $smarty->assign("page_content", $content);
 
-$smarty->assign("page_title", "Training .::. Running Site");
+$smarty->assign("page_title", "Training - Running Site");
 $smarty->display("master.tpl");
 ?>

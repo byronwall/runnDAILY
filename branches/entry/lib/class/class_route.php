@@ -11,11 +11,7 @@ class Route{
 	var $date_creation;
 	var $uid;
 
-	private $mysqli;
-
-	function __construct($name = NULL){
-		$this->mysqli = database::getDB();
-		$this->name = $name;
+	function __construct(){
 	}
 
 	/**
@@ -29,17 +25,21 @@ class Route{
 	 * @return bool indicating the success
 	 */
 	function createNewRoute(User $user, $distance, $points, $comments, $name, $start_lat, $start_lng){
-		$stmt = $this->mysqli->stmt_init();
+		$stmt = database::getDB()->stmt_init();
 		$stmt->prepare("INSERT INTO running.routes (r_uid ,r_distance ,r_points ,r_description ,r_name ,r_creation, r_start_lat, r_start_lng) VALUES(?, ?,?,?,?, NOW(),?,?)") or die($stmt->error);
 		$stmt->bind_param("idsssdd", $user->userID, $distance, $points, $comments, $name, $start_lat, $start_lng) or die($stmt->error);
 
 		$stmt->execute() or die($stmt->error);
-		$ins_id = $stmt->insert_id;
-		$stmt->close();
-
-		return $ins_id;
+		
+		if($stmt->affected_rows == 1){
+			$ins_id = $stmt->insert_id;
+			$stmt->close();
+			$user->logActivity("route", "created route ". $ins_id);
+			return $ins_id;
+		}
+		return false;
 	}
-	
+
 	/**
 	 * Function used to get the actual data that is held for the encoded
 	 * poyline.  This function is called to generate the URL of the image
@@ -49,12 +49,8 @@ class Route{
 	 */
 	function getEncodedString(){
 		$encoded = json_decode($this->points);
-		
+
 		return $encoded->points;
-	}
-	
-	function getRoundedDistance(){
-		return round($this->distance, 2);
 	}
 
 	/**
@@ -63,23 +59,23 @@ class Route{
 	 * @param User $user : the user in question
 	 * @return array of Route objects
 	 */
-	public static function getRoutesForUser(User $user){
-		$mysqli = database::getDB();
+	public static function getRoutesForUser($uid, $count = 10, $page = 0){
+		$limit_lower = $page * $count;
+		$limit_upper = $page * $count + $count;
 
-		$stmt = $mysqli->prepare("SELECT r_name, r_id FROM routes WHERE r_uid=?") or die("error:".$stmt->error);
-		$stmt->bind_param("i", $user->userID) or die("error:".$stmt->error);
-
+		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_uid=? LIMIT ?,?") or die("error:".$stmt->error);
+		$stmt->bind_param("iii", $uid, $limit_lower, $limit_upper) or die("error:".$stmt->error);
 		$stmt->execute() or die("error:".$stmt->error);
 		$stmt->store_result();
 
+		$route_list = array();
+
 		while ($row = $stmt->fetch_assoc()) {
-			$route = new Route($row["r_name"]);
-			$route->id = $row["r_id"];
-			$output[] = $route;
+			$route_list[] = Route::fromFetchAssoc($row, true);
 		}
 
 		$stmt->close();
-		return $output;
+		return $route_list;
 	}
 
 	/**
@@ -89,8 +85,7 @@ class Route{
 	 * @return array of Route objects
 	 */
 	public static function getAllRoutes(){
-		$mysqli = database::getDB();
-		$stmt = $mysqli->prepare("SELECT * FROM routes LIMIT 20");
+		$stmt = database::getDB()->prepare("SELECT * FROM routes LIMIT 20");
 
 		$stmt->execute();
 		$stmt->store_result();
@@ -102,7 +97,7 @@ class Route{
 		}
 
 		$stmt->close();
-		
+
 		return $routes;
 	}
 
@@ -113,24 +108,23 @@ class Route{
 	 * @return Route : a populated Route object with the details
 	 */
 	public static function fromRouteIdentifier($id){
-		$mysqli = database::getDB();
-
-		$stmt = $mysqli->prepare("SELECT * FROM routes WHERE r_id=?");
+		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_id=?");
 		$stmt->bind_param("i", $id);
-
 		$stmt->execute();
 		$stmt->store_result();
 
-		$row = $stmt->fetch_assoc();
-
-		$route = Route::fromFetchAssoc($row, true);
-
-		$stmt->close();
-
-		return $route;
+		if($row = $stmt->fetch_assoc()){
+			$route = Route::fromFetchAssoc($row, true);
+			$stmt->close();
+			return $route;
+		}
+		else{
+			$stmt->close();
+			return false;
+		}
 	}
-	
-	
+
+
 	/**
 	 * Returns a list of routes that are withing a given area.  This function is intended
 	 * to be called for getting the routes within a given map area.  Assumes that the points
@@ -159,13 +153,13 @@ class Route{
 
 		return $routes_out;
 	}
-	
-	
+
+
 	/**
 	 * Creates a new Route object from the result of a database query.  It is assumed
 	 * that the call is of the form SELECT *, or that the call will grab enough
 	 * fields to justify calling this method.  Intended to provide a uniform spot
-	 * for creating a route from the database without being repetitive. 
+	 * for creating a route from the database without being repetitive.
 	 *
 	 * @param Array $row : an associative array containing the data
 	 * @param bool $includePoints : whether or not to grab point data

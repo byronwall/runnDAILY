@@ -8,11 +8,11 @@
 <h2>Route List</h2>
 
 <div id="route_list_container">
-{{foreach from=$currentUser->routes item=route}}
+{{foreach from=$route_list item=route}}
 	<div id="route_list_item">
 		<div class="route_list_item_img">
 		<a href="/routes/view.php?id={{$route->id}}">
-			<img src="/lib/image_route.php?encoded={{$route->getEncodedString()}}&distance={{$route->getRoundedDistance()}}" />
+			<img src="/lib/image_route.php?encoded={{$route->getEncodedString()}}&distance={{$route->distance|@round:2}}" />
 		</a>
 		</div>
 		<div id="route_list_info_container">

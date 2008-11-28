@@ -1,9 +1,5 @@
 <?php
-$site_root = dirname(dirname(__FILE__));
-
-require_once($site_root."/lib/class/ext_mysqli.php");
-require_once($site_root."/lib/class/class_user.php");
-require_once($site_root."/lib/class/class_route.php");
+require("config_class.php");
 
 require_once($site_root."/_smarty/Smarty.class.php");
 
@@ -20,10 +16,13 @@ $smarty->right_delimiter = "}}";
 /*VALIDATE THE USER EVERYTIME*/
 session_start();
 
-$user = new User();
-$user->validateUser();
-
-if(isset($_SESSION["userData"])){
+if(!isset($_SESSION["userData"])){
+	$user = User::cookieLogin();
+	if($user){
+		$_SESSION["userData"] = $user;
+	}
+}
+else{
 	$user = $_SESSION["userData"];
 }
 

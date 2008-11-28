@@ -13,12 +13,14 @@ class User{
 	var $location_lat;
 	var $location_lng;
 
+	var $u_email;
+
 	var $routes = array();
 
 	private $mysqli;
 
 	function __construct(){
-		$this->mysqli = database::getDB();
+
 	}
 
 	/**
@@ -27,35 +29,28 @@ class User{
 	 * not successful then the cookies are checked.
 	 *
 	 */
-	function validateUser(){
-		if(isset($_SESSION["userData"])){
-			//the user data already exists, so the user is valid.
-		}
-		elseif(isset($_COOKIE["byroni_us_validation"])){
-
+	public static function cookieLogin(){
+		if(isset($_COOKIE["byroni_us_validation"])){
 			$cookie_val = $_COOKIE["byroni_us_validation"];
-
 			$cookie = substr($cookie_val, 0, 32);
 			$userid = substr($cookie_val, 32);
 
-			$stmt = $this->mysqli->prepare("SELECT * FROM users WHERE u_uid=? AND u_cookie_hash=?");
+			$stmt = database::getDB()->prepare("SELECT * FROM users WHERE u_uid=? AND u_cookie_hash=?");
 			$stmt->bind_param("is", $userid, $cookie);
 
 			$stmt->execute();
 			$stmt->store_result();
 
 			if($row = $stmt->fetch_assoc()){
-
-				$this->loadInfoFromFetchAssoc($row);
-				$this->isAuthenticated = true;
-
+				$valid_user = User::fromFetchAssoc($row);
+				$valid_user->isAuthenticated = true;
 				$stmt->close();
-
-				$this->updateAccessTime();
-
-				$_SESSION["userData"] = $this;
+				$valid_user->updateAccessTime();
+				return $valid_user;
 			}
+			$stmt->close();
 		}
+		return false;
 	}
 
 	/**
@@ -66,32 +61,29 @@ class User{
 	 * @param boolean $remember
 	 * @return boolean indicating whether or not the user is logged in
 	 */
-	function login($uname, $password, $remember = 0){
-		$loggedin = false;
-
-		$stmt = $this->mysqli->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
+	public static function login($uname, $password, $remember = 0){
+		$stmt = database::getDB()->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
 		$stmt->bind_param('ss', $uname, $password) or die("error binding");
 		$stmt->execute() or die("error");
 		$stmt->store_result();
 
 		if($row = $stmt->fetch_assoc()){
-			$this->loadInfoFromFetchAssoc($row);
+			$valid_user = User::fromFetchAssoc($row);
 
-			$_SESSION["userData"] = $this;
+			$_SESSION["userData"] = $valid_user;
 
 			if($remember){
-				$this->updateUserCookie();
+				$valid_user->updateUserCookie();
 			}
-			$loggedin = true;
+			$valid_user->isAuthenticated = true;
+			$stmt->close();
+			$valid_user->updateAccessTime();
+			
+			return $valid_user;
 		}
-
-		$this->isAuthenticated = $loggedin;
-
 		$stmt->close();
 
-		$this->updateAccessTime();
-
-		return $loggedin;
+		return false;
 	}
 	/**
 	 * Internal function that is called when the cookie needs to be updated for the user.
@@ -101,7 +93,7 @@ class User{
 	private function updateUserCookie(){
 		$cookie = md5(mktime());
 
-		$stmt = $this->mysqli->prepare("UPDATE users SET u_cookie_hash=? WHERE u_uid=?") or die($stmt->error);
+		$stmt = database::getDB()->prepare("UPDATE users SET u_cookie_hash=? WHERE u_uid=?") or die($stmt->error);
 			
 		$stmt->bind_param("si", $cookie, $this->userID) or die($stmt->error);
 
@@ -120,7 +112,7 @@ class User{
 	 * @return boolean indicating whether or not the creation and subsequent login were successful.
 	 */
 	function createUser($uname, $password){
-		$stmt = $this->mysqli->prepare("INSERT INTO users(u_username, u_password) VALUES (?, MD5(?))");
+		$stmt = database::getDB()->prepare("INSERT INTO users(u_username, u_password) VALUES (?, MD5(?))");
 		$stmt->bind_param("ss", $uname, $password);
 		$stmt->execute();
 		$stmt->close();
@@ -133,8 +125,8 @@ class User{
 	 * This function would be used to update user preferences from some sort of profile page.
 	 * */
 	function updateUserDetails(){
-		$stmt = $this->mysqli->prepare("UPDATE users SET u_location_lat = ?, u_location_lng = ? WHERE u_uid = ?");
-		$stmt->bind_param("ddi", $this->location_lat, $this->location_lng, $this->userID);
+		$stmt = database::getDB()->prepare("UPDATE users SET u_location_lat = ?, u_location_lng = ?, u_email = ? WHERE u_uid = ?");
+		$stmt->bind_param("ddsi", $this->location_lat, $this->location_lng, $this->u_email, $this->userID);
 		$stmt->execute();
 
 		$isSuccess = $stmt->affected_rows == 1;
@@ -148,7 +140,7 @@ class User{
 	 *
 	 */
 	function updateAccessTime(){
-		$stmt = $this->mysqli->prepare("UPDATE users SET u_date_access = NOW() WHERE u_uid = ?");
+		$stmt = database::getDB()->prepare("UPDATE users SET u_date_access = NOW() WHERE u_uid = ?");
 		$stmt->bind_param("i", $this->userID);
 		$stmt->execute();
 		$stmt->close();
@@ -161,21 +153,19 @@ class User{
 	 * @param int $count: number of results returned
 	 */
 
-	function loadRoutes($count = 5){
-		$this->routes = array();
-		$stmt = $this->mysqli->prepare("SELECT * FROM routes WHERE r_uid = ? LIMIT ?");
-
+	function getUserRoutes($count = 5){
+		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_uid = ? LIMIT ?");
 		$stmt->bind_param("ii", $this->userID, $count) or die($stmt->error);
-
 		$stmt->execute() or die($stmt->error);
-
 		$stmt->store_result() or die($stmt->error);
 
+		$routes = array();
 		while($row = $stmt->fetch_assoc()){
-			$this->routes[] = Route::fromFetchAssoc($row, true);
+			$routes[] = Route::fromFetchAssoc($row, true);
 		}
 
 		$stmt->close();
+		return $routes;
 	}
 
 	/**
@@ -183,9 +173,10 @@ class User{
 	 * and removing the cookie.
 	 *
 	 */
-	function logout(){
+	public static function logout(){
 		session_destroy();
 		setcookie("byroni_us_validation", "", mktime()-3600, "/");
+		return true;
 	}
 
 	/**
@@ -195,16 +186,14 @@ class User{
 	 * @return Array of User types
 	 */
 	public static function getListOfUsers(){
-		$mysqli = database::getDB();
+		$result = database::getDB()->query("SELECT * FROM users") or die("error on sql");
 
-		$result = $mysqli->query("SELECT * FROM users") or die("error on sql");
-
-		$output = array();
+		$user_list = array();
 
 		while($row = $result->fetch_assoc()){
-			$output[] = User::fromFetchAssoc($row);
+			$user_list[] = User::fromFetchAssoc($row);
 		}
-		return $output;
+		return $user_list;
 	}
 	/**
 	 * This function is used to populate a User with details given only their username.
@@ -213,9 +202,7 @@ class User{
 	 * @return User
 	 */
 	public static function fromUsername($username){
-		$mysqli = database::getDB();
-
-		$stmt = $mysqli->prepare("SELECT u_username, u_uid FROM users WHERE u_username=?") or die($stmt->error);
+		$stmt = database::getDB()->prepare("SELECT u_username, u_uid FROM users WHERE u_username=?") or die($stmt->error);
 
 		$stmt->bind_param("s",$username);
 		$stmt->execute();
@@ -244,10 +231,7 @@ class User{
 	 * @return User: object representing the new user
 	 */
 	public static function fromUid($uid){
-		$mysqli = database::getDB();
-
-		$stmt = $mysqli->prepare("SELECT * FROM users WHERE u_uid=?") or die($stmt->error);
-
+		$stmt = database::getDB()->prepare("SELECT * FROM users WHERE u_uid=?") or die($stmt->error);
 		$stmt->bind_param("i",$uid);
 		$stmt->execute();
 		$stmt->store_result();
@@ -272,6 +256,7 @@ class User{
 		$this->userID = $row["u_uid"];
 		$this->location_lat = $row["u_location_lat"];
 		$this->location_lng = $row["u_location_lng"];
+		$this->u_email = $row["u_email"];
 
 	}
 
@@ -286,6 +271,15 @@ class User{
 		$user = new User();
 		$user->loadInfoFromFetchAssoc($row);
 		return $user;
+	}
+	public function logActivity($item_type, $item){
+		$stmt = database::getDB()->prepare("INSERT INTO users_activity(a_uid, a_item_type, a_item) VALUES(?,?,?)");
+		$stmt->bind_param("iss", $this->userID, $item_type, $item);
+		$stmt->execute();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		return $rows == 1;		
 	}
 }
 ?>

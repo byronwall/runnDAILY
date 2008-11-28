@@ -16,6 +16,6 @@ if(isset($_GET["id"])){
 $content = $smarty->fetch("routes/view.tpl");
 $smarty->assign("page_content", $content);
 
-$smarty->assign("page_title", "Routes .::. Running Site");
+$smarty->assign("page_title", "Routes - Running Site");
 $smarty->display("master.tpl");
 ?>

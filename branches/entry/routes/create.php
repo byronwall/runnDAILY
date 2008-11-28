@@ -8,6 +8,6 @@ require("../lib/config.php");
 $content = $smarty->fetch("routes/create.tpl");
 $smarty->assign("page_content", $content);
 
-$smarty->assign("page_title", "Routes .::. Running Site");
+$smarty->assign("page_title", "Routes - Running Site");
 $smarty->display("master.tpl");
 ?>

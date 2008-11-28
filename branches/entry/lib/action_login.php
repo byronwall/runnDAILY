@@ -4,8 +4,7 @@ require("config.php");
 if(isset($_REQUEST["action"])){
 	switch ($_REQUEST["action"]){
 		case "logout":
-			$user->logout();
-
+			User::logout();
 			header("location: http://".$_SERVER['SERVER_NAME']);
 			exit;
 			break;
@@ -14,14 +13,15 @@ if(isset($_REQUEST["action"])){
 			$password = $_POST["password"];
 			$remember = isset($_POST["remember"])?$_POST["remember"]:false;
 			
-			if($user->login($username, $password, $remember)){
+			if(User::login($username, $password, $remember)){
 				$refer = (isset($_POST["refer"]))?$_POST["refer"]:"";
 				
 				header("location: http://".$_SERVER['SERVER_NAME'].$refer);
 				exit;
 			}
 			else{
-				die("log in failed");
+				header("location: http://". $_SERVER["SERVER_NAME"]."/login.php");
+				exit;
 			}
 			break;
 		case "register":

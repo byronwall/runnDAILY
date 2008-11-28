@@ -10,6 +10,6 @@ $smarty->assign("users_all", User::getListOfUsers());
 $content = $smarty->fetch("community/index.tpl");
 $smarty->assign("page_content", $content);
 
-$smarty->assign("page_title", "Community .::. Running Site");
+$smarty->assign("page_title", "Community - Running Site");
 $smarty->display("master.tpl");
 ?>
