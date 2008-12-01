@@ -53,8 +53,9 @@ a:hover {
 	margin: 0px auto;
 	padding: 0px;
 	position: relative;
-	height: 120px;
+	height: 40px;
 	width: 800px;
+	top: 80px
 }
 
 #navi_content {
@@ -71,11 +72,13 @@ a:hover {
 	margin: 0px 10px;
 	padding: 15px 15px 0px;
 	border-left: 1px solid Black;
+	border-top: 1px solid Black;
 	position: relative;
 	font-weight: bold;
 	float: left;
-	height: 105px;
-	top: 0px
+	height: 23px;
+	top: 0px;
+	position: relative;
 }
 
 #navi_content .unselected {
@@ -118,9 +121,8 @@ a:hover {
 }
 
 #content_container {
-	margin: 0px auto;
-	padding: 5px;
-	width: 790px;
+	margin: 10px auto 0px;
+	width: 800px
 }
 
 #content_content {
@@ -143,12 +145,21 @@ a:hover {
 
 /* Map Elements */
 #map_placeholder {
-	height: 500px;
-	width: 790px;
 	margin: 0px;
 	padding: 0px;
 	border-width: 0px;
 	border-style: none;
+}
+
+.large_map {
+	height: 500px;
+	width: 100%
+}
+
+.small_map {
+	margin: 0px auto;
+	height: 250px;
+	width: 100%
 }
 
 /* Footer Elements */
@@ -204,4 +215,40 @@ a:hover {
 	margin: 0px;
 	padding: 3px 0px 0px;
 	text-align: center
+}
+
+#reg_ctain {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+
+#reg_in_ctain {
+	width: 300px;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#reg_loc_ctain {
+	width: 500px;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#reg_loc_sub input {
+	margin: 0px auto;
+	padding: 0px;
+	border: 1px solid Black;
+	position: relative;
+	width: 120px;
+	background-color: White;
+	color: Black;
+	font-size: 16pt;
+	font-family: Arial, Helvetica, sans-serif
+}
+
+#reg_loc_sub input:hover {
+	
 }
