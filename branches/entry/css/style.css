@@ -152,12 +152,11 @@ a:hover {
 }
 
 .large_map {
-	height: 500px;
+	height: 450px;
 	width: 100%
 }
 
 .small_map {
-	margin: 0px auto;
 	height: 250px;
 	width: 100%
 }

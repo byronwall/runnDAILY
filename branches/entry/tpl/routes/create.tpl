@@ -6,7 +6,7 @@ This is the template for the page where new routes are created.
     	<input type="text" id="txt_address" value="purdue university">
     	<input type="submit" value="center map">
 </form>
-<div id="map_placeholder"></div>
+<div id="map_placeholder" class="large_map"></div>
 
 <div id="other_content">
 	<div id="map_distance_holder">Distance: 0.0 miles</div>
