@@ -1,29 +1,31 @@
-{{*
-This is the template for the registration of a new user.
-*}}
+{{* This is the template for the registration of a new user. *}}
 <h1>Register a new account on the running site</h1>
 <form action="/lib/action_login.php?action=register" method="post" onsubmit="return checkPasswords();">
-	<h2>user details</h2>
-	<ul>
-		<li><label for="input_email">email</label><input id="input_email" type="text" name="email"></li>
-		<li><label for="input_username">username</label><input id="input_username" type="text" name="username"></li>
-		<li><label for="input_password">password</label><input id="input_password" type="password" name="password"></li>
-		<li><label for="input_password2">password</label><input id="input_password2" type="password" name="password_confirm"></li>
-		<li><a id="a_checkname" href="#" onclick="return false;">check availability</a></li>
-	</ul>
-	<h2>personal information</h2>
-	<ul>
-		<li><label for="input_realname">real name</label><input type="text" id="input_realname" name="real_name"></li>
-		<li><label for="input_birthday">birthday</label><input type="text" id="input_birthday" name="birthday"></li>
-	</ul>
-	<h2>geographic details</h2>
-	<ul>
-		<li><label for="input_location">home location</label><input type="text" id="input_location" name="location"></li>
-		<li>
-			<div id="map_placeholder"></div>
-		</li>
-	</ul>
+<div id="reg_ctain">
+<div id="reg_in_ctain">
+<h2>user details</h2>
+<ul>
+	<li><label for="input_email">email</label><input id="input_email" type="text" name="email"></li>
+	<li><label for="input_username">username</label><input id="input_username" type="text" name="username"></li>
+	<li><label for="input_password">password</label><input id="input_password" type="password" name="password"></li>
+	<li><label for="input_password2">password</label><input id="input_password2" type="password" name="password_confirm"></li>
+	<li><a id="a_checkname" href="#" onclick="return false;">check availability</a></li>
+</ul>
+<h2>personal information</h2>
+<ul>
+	<li><label for="input_realname">real name</label><input type="text" id="input_realname" name="real_name"></li>
+	<li><label for="input_birthday">birthday</label><input type="text" id="input_birthday" name="birthday"></li>
+</ul>
+<div id="reg_loc_sub">
 	<input type="submit" value="register">
+</div>
+</div>
+<div id="reg_loc_ctain">
+<h2>geographic details</h2>
+	<label for="input_location">home location</label><input type="text" id="input_location" name="location">
+	<div id="map_placeholder" class="small_map"></div>
+</div>
+</div>
 </form>
 
 <script type="text/javascript">
