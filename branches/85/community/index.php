@@ -6,6 +6,7 @@ require("../lib/config.php");
  */
 
 $smarty->assign("users_all", User::getListOfUsers());
+$smarty->assign("users_friends", $user->getFriends());
 
 $content = $smarty->fetch("community/index.tpl");
 $smarty->assign("page_content", $content);

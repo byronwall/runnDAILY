@@ -50,7 +50,7 @@ class User{
 			}
 			$stmt->close();
 		}
-		return false;
+		return new User();
 	}
 
 	/**
@@ -280,6 +280,44 @@ class User{
 		$rows = $stmt->affected_rows;
 		$stmt->close();
 		return $rows == 1;		
+	}
+	/**
+	 * Function is used to create a friend for the current user.
+	 *
+	 * @param int $friend_uid: uid of the person to be added as a friend
+	 * @return int: int giving the number of rows changed (success/fail)
+	 */
+	public function addFriend($friend_uid){
+		if($this->userID == $friend_uid) return 0;
+		
+		$stmt = database::getDB()->prepare("INSERT INTO users_friends(f_uid_1, f_uid_2, f_date_start) VALUES(?,?, NOW())");
+		$stmt->bind_param("ii", $this->userID, $friend_uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$affected_rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $affected_rows;
+	}
+	public function getFriends(){
+		$stmt = database::getDB()->prepare("
+		SELECT users.* FROM users_friends
+INNER JOIN users
+ON users.u_uid = users_friends.f_uid_2
+WHERE users_friends.f_uid_1 = ?
+		");
+		$stmt->bind_param("i", $this->userID);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$users = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$users[] = User::fromFetchAssoc($row);
+		}
+		
+		return $users;		
 	}
 }
 ?>
