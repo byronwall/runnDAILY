@@ -300,12 +300,17 @@ class User{
 		
 		return $affected_rows;
 	}
+	/**
+	 * Function returns an array of the user's friends.
+	 *
+	 * @return array: an array of User objects
+	 */
 	public function getFriends(){
 		$stmt = database::getDB()->prepare("
-		SELECT users.* FROM users_friends
-INNER JOIN users
-ON users.u_uid = users_friends.f_uid_2
-WHERE users_friends.f_uid_1 = ?
+			SELECT users.* FROM users_friends
+			INNER JOIN users
+			ON users.u_uid = users_friends.f_uid_2
+			WHERE users_friends.f_uid_1 = ?
 		");
 		$stmt->bind_param("i", $this->userID);
 		$stmt->execute();
