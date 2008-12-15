@@ -15,7 +15,6 @@ if(isset($_REQUEST["action"])){
 			$route_id = $route->createNewRoute($_SESSION["userData"], $distance, $points, $description, $name, $start_lat, $start_lng);
 
 			if($route_id){
-				Log::insertItem($_SESSION["userData"]->userID, 100, null, $route_id, null, null);
 				header("location: http://".$_SERVER['SERVER_NAME']."/routes/view.php?id=".$route_id);
 				exit;
 			}

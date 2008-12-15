@@ -46,6 +46,7 @@ class User{
 				$valid_user->isAuthenticated = true;
 				$stmt->close();
 				$valid_user->updateAccessTime();
+				Log::insertItem($valid_user->userID, 203, null, null, null, null);
 				return $valid_user;
 			}
 			$stmt->close();
@@ -78,6 +79,7 @@ class User{
 			$valid_user->isAuthenticated = true;
 			$stmt->close();
 			$valid_user->updateAccessTime();
+			Log::insertItem($valid_user->userID, 201, null, null, null, null);
 			
 			return $valid_user;
 		}
@@ -174,6 +176,7 @@ class User{
 	 *
 	 */
 	public static function logout(){
+		Log::insertItem($_SESSION["userData"]->userID, 202, null, null, null, null);
 		session_destroy();
 		setcookie("byroni_us_validation", "", mktime()-3600, "/");
 		return true;
