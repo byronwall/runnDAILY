@@ -7,9 +7,11 @@ require("../lib/config.php");
 
 if($_SESSION["userData"]){
 	$routes = Route::getRoutesForUser($_SESSION["userData"]->userID, 10);
+	$recent_activity = Log::getRouteActivityForUser($_SESSION["userData"]->userID);
 }
 
 $smarty->assign("route_list", $routes);
+$smarty->assign("recent_list", $recent_activity);
 $content = $smarty->fetch("routes/index.tpl");
 
 $smarty->assign("page_content", $content);
