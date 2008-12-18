@@ -32,6 +32,8 @@ This is the master template which holds all of the main layout.
 <!-- HEADER -->
 <div id="header_ctain">
 
+<div id="logo_ctain"><a id="logo" href="/index.php"><img src="/img/logo.png" /></a></div>
+
 <!-- NAVIGATION -->
     <div id="nav_ctain">
     	<ul id="nav_tabs">
@@ -68,7 +70,7 @@ This is the master template which holds all of the main layout.
 
 <!-- FOOTER -->
 <div id="footer_container">
-	<div id="footer_content">Copyright Byron & Chandler 2008</div>
+	<div id="footer_content">&copy Byron & Chandler 2008</div>
 </div>
 
 </body>
