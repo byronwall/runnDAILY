@@ -27,22 +27,22 @@ This is the master template which holds all of the main layout.
     </title>
 </head>
 
-<body>
+<body id="{{$body_id}}">
 
-<!--TOP BAR-->
-<div id="top_container">
+<!-- HEADER -->
+<div id="header_ctain">
 
-<!--NAVIGATION-->
-    <div id="navi_container">
-	   	<ul id="navi_content">
-        	<li><a href="/index.php">Home</a></li>
-            <li><a href="/routes/">Routes</a></li>
-            <li><a href="/training/">Training</a></li>
-            <li><a href="/community/">Community</a></li>
-        </ul>
+<!-- NAVIGATION -->
+    <div id="nav_ctain">
+    	<ul id="nav_tabs">
+    		<li id="tab_home" class="tab_active"><a href="/index.php">Home</a></li>
+    		<li id="tab_routes" class="tab_inactive"><a href="/routes/index.php">Routes</a></li>
+    		<li id="tab_training" class="tab_inactive"><a href="/training/index.php">Training</a></li>
+    		<li id="tab_community" class="tab_inactive"><a href="/community/index.php">Community</a></li>
+    	</ul>
     </div>
     
-<!--USER BAR-->
+<!-- USER BAR -->
 	<div id="user_container">
 	{{if $currentUser->isAuthenticated}}
     	<div id="user_content">You are currently logged in as {{$currentUser->username}}.</div>
@@ -59,14 +59,14 @@ This is the master template which holds all of the main layout.
     </div>
 </div>
 
-<!--CONTENT-->
+<!-- CONTENT -->
 <div id="content_container">
     <div id="content_content">
     	{{$page_content}}
     </div>
 </div>
 
-<!--FOOTER-->
+<!-- FOOTER -->
 <div id="footer_container">
 	<div id="footer_content">Copyright Byron & Chandler 2008</div>
 </div>
