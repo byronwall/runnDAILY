@@ -32,6 +32,8 @@ This is the master template which holds all of the main layout.
 <!--TOP BAR-->
 <div id="top_container">
 
+<a id="logo" href="/index.php"><img src="/img/logo.png" /></a>
+
 <!--NAVIGATION-->
     <div id="navi_container">
 	   	<ul id="navi_content">

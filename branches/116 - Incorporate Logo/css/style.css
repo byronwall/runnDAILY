@@ -38,6 +38,12 @@ a:hover {
 	padding: 0px
 }
 
+#logo {
+	position: absolute;
+	left: 10px;
+	top: 20px
+}
+
 /*Header Elements */
 #top_container {
 	margin: 0px auto;
