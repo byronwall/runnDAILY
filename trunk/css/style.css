@@ -47,12 +47,24 @@ a:hover {
 	background-image: url(../img/top.png)
 }
 
-/* Navigation Elements */
-#nav_ctain {
-	margin: 0px auto;
+#logo_ctain {
+	position: absolute;
+	text-align: center;
+	width: 100%
+}
+
+#logo {
+	margin: 0px;
 	padding: 0px;
 	position: relative;
-	width: 800px;
+	top: 5px
+}
+
+/* Navigation Elements */
+#nav_ctain {
+	margin: 0px 0px 0px 25px;
+	padding: 0px;
+	position: relative;
 	top: 84px
 }
 
@@ -119,7 +131,7 @@ a:hover {
 #user_container {
 	margin: 0px;
 	padding: 0px;
-	border: 1px solid Black;
+	border: 1px solid #bfbfbf;
 	position: absolute;
 	right: 10px;
 	top: 10px;
@@ -243,7 +255,6 @@ a:hover {
 }
 
 /* Registration Elements */
-
 #reg_ctain {
 	margin: 0px;
 	padding: 0px;
