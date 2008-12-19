@@ -37,7 +37,7 @@ This is the master template which holds all of the main layout.
 <!-- NAVIGATION -->
     <div id="nav_ctain">
     	<ul id="nav_tabs">
-    		<li id="tab_home" class="tab_active"><a href="/index.php">Home</a></li>
+    		<li id="tab_home" class="tab_inactive"><a href="/index.php">Home</a></li>
     		<li id="tab_routes" class="tab_inactive"><a href="/routes/index.php">Routes</a></li>
     		<li id="tab_training" class="tab_inactive"><a href="/training/index.php">Training</a></li>
     		<li id="tab_community" class="tab_inactive"><a href="/community/index.php">Community</a></li>

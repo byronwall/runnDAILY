@@ -14,3 +14,14 @@ There are several things you can do as a new user!
 <div><a href="/routes/create.php">Create a route</a></div>
 
 {{/if}}
+
+<script type="text/javascript">
+
+$(document).ready(
+	function(){
+		$("#tab_home").removeClass("tab_inactive");
+		$("#tab_home").addClass("tab_active");
+	}
+);
+
+</script>

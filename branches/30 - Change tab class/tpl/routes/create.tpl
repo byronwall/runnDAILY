@@ -38,6 +38,17 @@ This is the template for the page where new routes are created.
 
 <script type="text/javascript">
 
+$(document).ready(
+	function(){
+		$("#tab_routes").removeClass("tab_inactive");
+		$("#tab_routes").addClass("tab_active");
+	}
+);
+
+</script>
+
+<script type="text/javascript">
+
 $(document).ready( function(){
 	load("map_placeholder", map_click);
 	{{if !$currentUser->location_lat|@is_null}}
