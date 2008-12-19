@@ -1,8 +1,7 @@
 {{*
 This is the template for the page where new routes are created.
 *}}
-
-    <h1>create a new route</h1>
+<h1>create a new route</h1>
 <form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;">
     	<input type="text" id="txt_address" value="purdue university">
     	<input type="submit" value="center map">
@@ -37,8 +36,9 @@ This is the template for the page where new routes are created.
     <a href="#" onclick="alert('not implemented');return false;">full screen map</a>
 </div>
 
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
 <script src="/js/map.js" type="text/javascript"></script>
+<script src="/js/PolylineEncoder.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 $(document).ready( function(){

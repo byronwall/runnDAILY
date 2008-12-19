@@ -14,12 +14,8 @@ This is the master template which holds all of the main layout.
     <link rel="icon" type="image/png" href="/img/favico.png">
     
     <!--JAVASCRIPT-->
-
     <script src="/js/jquery-latest.pack.js" type="text/javascript"></script>
     <script src="/js/json.js" type="text/javascript"></script>
-
-    <script src="/js/PolylineEncoder.js" type="text/javascript"></script>
-    <script src="/js/thickbox-compressed.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>
