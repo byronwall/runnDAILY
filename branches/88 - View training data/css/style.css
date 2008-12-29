@@ -252,27 +252,24 @@ a:hover {
 	
 }
 #training_cal{
-	width:100%;
-	background-color:#444444;
+	width:500px;
+	background-color:#444444
 }
-#training_cal li{
-	float:left;
-	width:13%;
+#training_cal td{
+	width:50px;
 	height:100px;
-	display:inline;
-	position:relative;
-	margin:2px;
+	vertical-align: top
 }
 #training_cal .activeMonth{
-	background-color:#999999;
+	background-color:#999999
 }
 #training_cal .inactiveMonth{
-	background-color:#555555;
+	background-color:#555555
 }
 #training_cal .month_header{
-	background-color:#af00af;
+	background-color:#af00af
 }
 #training_cal .day_header{
 	background-color:#444444;
-	color:white;
+	color:white
 }

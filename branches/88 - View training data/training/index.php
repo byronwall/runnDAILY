@@ -4,16 +4,22 @@ require("../lib/config.php");
 /*
  * This is the index page for the training folder.
  */
-$cal = new Calendar(12,2008);
 
-for($day = 1; $day <= $cal->getDaysInMonth();$day++){
-	$timestamp = mktime(0,0,0,12,$day, 2008);
-	$cal->addItemToDay($timestamp, "item $day");
+$cal = new Calendar(mktime(), CAL_MONTH);
+$cal2 = new Calendar(mktime(), CAL_WEEK);
+
+$training_items = TrainingLog::getItemsForUser($user->userID, $cal->getFirstDayOnCalendar(), $cal->getLastDayOnCalendar());
+$training_items2 = TrainingLog::getItemsForUser($user->userID, $cal2->getFirstDayOnCalendar(), $cal2->getLastDayOnCalendar());
+
+foreach($training_items as $item){
+	$cal->addItemToDay(strtotime($item->date), $item);
 }
-$cal->addItemToDay(mktime(0,0,0,12,25, 2008), "CHRISTMAS");
-$cal->addItemToDay(mktime(0,0,0,12,5, 2008), "sdasdsadsadasdsa dsadsadsadsadasdsds");
+foreach($training_items2 as $item){
+	$cal2->addItemToDay(strtotime($item->date), $item);
+}
 
 $smarty->assign("calendar", $cal);
+$smarty->assign("calendar2", $cal2);
 
 $content = $smarty->fetch("training/index.tpl");
 $smarty->assign("page_content", $content);
