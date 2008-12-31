@@ -24,6 +24,7 @@ if(!isset($_SESSION["userData"])){
 }
 else{
 	$user = $_SESSION["userData"];
+	$user->refreshDetails();
 }
 
 /*GENERATE THE TEMPLATE THINGS FOR EVERY PAGE*/

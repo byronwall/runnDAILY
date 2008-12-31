@@ -12,6 +12,7 @@ class User{
 	var $userID;
 	var $location_lat;
 	var $location_lng;
+	var $msg_new;
 
 	var $u_email;
 
@@ -257,6 +258,7 @@ class User{
 		$this->location_lat = $row["u_location_lat"];
 		$this->location_lng = $row["u_location_lng"];
 		$this->u_email = $row["u_email"];
+		$this->msg_new = $row["u_msg_new"];
 
 	}
 
@@ -279,7 +281,20 @@ class User{
 		
 		$rows = $stmt->affected_rows;
 		$stmt->close();
-		return $rows == 1;		
+		return $rows == 1;
+	}
+	public function refreshDetails(){
+		$stmt = database::getDB()->prepare("
+			SELECT * FROM users WHERE u_uid = ?
+		");
+		$stmt->bind_param("i", $this->userID);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$row = $stmt->fetch_assoc();
+		$this->loadInfoFromFetchAssoc($row);
+		$stmt->close();
+		
 	}
 }
 ?>
