@@ -290,3 +290,11 @@ a:hover {
 #reg_loc_sub input:hover {
 	
 }
+#footer_content ul{
+	float:left;
+	width:150px;	
+}
+#footer_copyright{
+	clear:both;
+	text-align:center
+}
