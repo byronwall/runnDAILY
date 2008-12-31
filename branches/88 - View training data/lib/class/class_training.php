@@ -20,31 +20,20 @@ class TrainingLog{
 
 		return $training_items;
 	}
-}
-
-class TrainingLogItem{
-	var $date;
-	var $time;
-	var $distance;
-	var $rid;
-	var $uid;
-	var $tid;
-	var $route;
-
-	public static function fromFetchAssoc($row, $shouldGetRoute = false){
-		$item = new TrainingLogItem();
-
-		$item->date = $row["t_date"];
-		$item->distance = $row["t_distance"];
-		$item->rid = $row["t_rid"];
-		$item->tid = $row["t_tid"];
-		$item->time = $row["t_time"];
-		$item->uid = $row["t_uid"];
-
-		if($shouldGetRoute){
-			$item->route = Route::fromFetchAssoc($row);
+	public static function removeItemFromDB($tid, $uid){
+		$stmt = database::getDB()->prepare("
+		DELETE FROM training_times
+		WHERE t_tid = ? AND t_uid = ?");
+		$stmt->bind_param("ii", $tid, $uid);
+		$stmt->execute();
+		
+		if($stmt->affected_rows){
+			return true;
 		}
-		return $item;
+		return false;
+	}
+	public static function updateItem($log_item){
+		return false;
 	}
 	public static function getItem($tid){
 		$stmt = database::getDB()->prepare("
@@ -62,6 +51,36 @@ class TrainingLogItem{
 		else{
 			return false;
 		}
+	}
+}
+
+class TrainingLogItem{
+	var $date;
+	var $time;
+	var $distance;
+	var $rid;
+	var $uid;
+	var $tid;
+	var $route;
+
+	public function getPace(){
+		return $this->distance * 3600 / $this->time;
+	}
+	
+	public static function fromFetchAssoc($row, $shouldGetRoute = false){
+		$item = new TrainingLogItem();
+
+		$item->date = $row["t_date"];
+		$item->distance = $row["t_distance"];
+		$item->rid = $row["t_rid"];
+		$item->tid = $row["t_tid"];
+		$item->time = $row["t_time"];
+		$item->uid = $row["t_uid"];
+
+		if($shouldGetRoute){
+			$item->route = Route::fromFetchAssoc($row);
+		}
+		return $item;
 	}
 }
 ?>
