@@ -34,7 +34,7 @@ class Route{
 		if($stmt->affected_rows == 1){
 			$ins_id = $stmt->insert_id;
 			$stmt->close();
-			$user->logActivity("route", "created route ". $ins_id);
+			Log::insertItem($user->userID, 100, null, $ins_id, null, null);
 			return $ins_id;
 		}
 		return false;
