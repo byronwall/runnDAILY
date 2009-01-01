@@ -12,8 +12,8 @@ body {
 }
 
 a {
-	text-decoration: none;
-	color: Black
+	color: #0098cb;
+	text-decoration: none
 }
 
 img {
@@ -178,6 +178,7 @@ a:hover {
 #content_content h2 {
 	margin: 0px;
 	padding: 0px;
+	clear: left;
 	font-size: large
 }
 
@@ -220,6 +221,7 @@ a:hover {
 #route_list_container {
 	margin: 5px auto;
 	padding: 0px;
+	clear: left;
 	width: 100%
 }
 

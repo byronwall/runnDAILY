@@ -26,3 +26,12 @@
 No data!
 {{/foreach}}
 </div>
+
+<h2>Recent Activity</h2>
+<div id="route_recent_ctain">
+{{foreach from=$recent_list item=recent}}
+	<div id="recent_item">You {{$recent->activity_desc}} <a href="/routes/view.php?id={{$recent->rid}}">{{$recent->r_name}}</a>. {{$recent->familiar}}.</div>
+{{foreachelse}}
+No recent activity, do something!
+{{/foreach}}
+</div>
