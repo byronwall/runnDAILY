@@ -59,5 +59,21 @@ class Message{
 
 		return $message;
 	}
+	public static function getMessagesToUser($uid){
+		$stmt = database::getDB()->prepare("
+			SELECT * FROM messages WHERE m_uid_to = ?
+		");
+		$stmt->bind_param("i",$uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$msgs = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$msgs[] = Message::fromFetchAssoc($row);
+		}
+		
+		return $msgs;
+	}
 }
 ?>
