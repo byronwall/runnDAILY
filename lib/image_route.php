@@ -11,7 +11,7 @@ $padding = 0.95;
 
 $point_arr = decodePolylineToArray($encoded);
 
-$bg = imagecreatefrompng($site_root."/img/route_bg.png");
+$bg = imagecreatefrompng(SITE_ROOT."/img/route_bg.png");
 //$shadow = imagecreatefrompng($site_root."/img/route_shadow.png");
 
 $im = imagecreatetruecolor($im_width, $im_height) or die('Cannot Initialize new GD image stream');
