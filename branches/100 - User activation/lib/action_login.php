@@ -14,9 +14,13 @@ if(isset($_REQUEST["action"])){
 			$remember = isset($_POST["remember"])?$_POST["remember"]:false;
 			
 			if(User::login($username, $password, $remember)){
-				$refer = (isset($_POST["refer"]))?$_POST["refer"]:"";
+				$refer = "http://" . $_SERVER["SERVER_NAME"];
+				if(isset($_SESSION["login_redirect"])){
+					$refer = $_SESSION["login_redirect"];
+					unset($_SESSION["login_redirect"]);
+				}
 				
-				header("location: http://".$_SERVER['SERVER_NAME'].$refer);
+				header("location: ".$refer);
 				exit;
 			}
 			else{
