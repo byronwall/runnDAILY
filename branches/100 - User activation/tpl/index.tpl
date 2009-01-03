@@ -6,6 +6,9 @@ This is the template for the index page of the root folder.
 
 {{if $currentUser->isAuthenticated}}
 This will soon become your customized dashboard.
+{{if $currentUser->type eq 301}}
+<a href="/lib/action_login.php?action=activate&uid={{$currentUser->userID}}&hash={{$currentUser->cookie_hash}}">activate</a>
+{{/if}}
 {{else}}
 There are several things you can do as a new user!
 
