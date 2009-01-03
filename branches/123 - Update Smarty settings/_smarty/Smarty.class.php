@@ -569,6 +569,12 @@ class Smarty
     {
       $this->assign('SCRIPT_NAME', isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME']
                     : @$GLOBALS['HTTP_SERVER_VARS']['SCRIPT_NAME']);
+        $this->template_dir = SITE_ROOT."/tpl";
+		$this->compile_dir = SITE_ROOT."/_smarty/templates_c";
+		$this->cache_dir = SITE_ROOT."/_smarty/cache";
+		$this->config_dir = SITE_ROOT."/_smarty/configs";
+		$this->left_delimiter = "{{";
+		$this->right_delimiter = "}}";
     }
 
     /**
@@ -1057,7 +1063,7 @@ class Smarty
         } else {
             // var non-existant, return valid reference
             $_tmp = null;
-            return $_tmp;   
+            return $_tmp;
         }
     }
 
@@ -1935,7 +1941,7 @@ class Smarty
     
     /**
      * Extracts the filter name from the given callback
-     * 
+     *
      * @param callback $function
      * @return string
      */
