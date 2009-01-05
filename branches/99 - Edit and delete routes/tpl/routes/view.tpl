@@ -3,8 +3,23 @@
 <div id="map_placeholder" class="large_map"></div>
 
 {{if $map_current_route->uid eq $currentUser->userID}}
-<h2>You created this map!!
-coming soon: ability to edit, delete, reconfigure your routes!</h2>
+<ul id="creator_actions">
+	<h2>creator actions</h2>
+	<li><a href="/routes/create.php?rid={{$map_current_route->id}}">edit route</a></li>
+	<li><a href="#TB_inline?height=300&width=300&inlineId=delete_modal&modal=true" class="thickbox">
+		delete route
+	</a></li>
+</ul>
+
+<div id="delete_modal" style="display:none">
+	<div>Are you sure you want to delete this route?</div>
+	<form method="POST" action="/lib/action_routes.php">
+		<input type="hidden" name="action" value="delete" />
+		<input type="hidden" name="r_rid" value="{{$map_current_route->id}}" />
+		<input type="submit" value="delete" />
+		<input type="button" value="cancel" onclick="tb_remove()" />
+	</form>
+</div>
 {{/if}}
 
 <div id="form_time_log">
@@ -26,30 +41,13 @@ coming soon: ability to edit, delete, reconfigure your routes!</h2>
 
 $(document).ready( function(){
 	load("map_placeholder", null);
-	var polyline_options = {{$map_current_route->points}};
-	polyline_options.zoomFactor = 2;
-	polyline_options.numLevels=18;
-	var polyline = new GPolyline.fromEncoded(polyline_options);
-
-	var boundingBox = polyline.getBounds();
-	map.setCenter(boundingBox.getCenter(), map.getBoundsZoomLevel(boundingBox));
-	
-	for(var k = 0; k < polyline.getVertexCount(); k++){
-		var latlng = polyline.getVertex(k);
-		var markerOptions = { icon:tinyIcon, draggable:false };
-		var markerNew = new GMarker(latlng, markerOptions);
-		
-		var point = new routePoint();
-		point.marker = markerNew;
-		point.latlng = latlng;
-		
-		route_points.push(point);
-	}
-	map_options.draggable = false;
-	map_refreshAll();
+	loadRouteFromDB({{$map_current_route->points}}, false);	
 });
 document.body.onunload = GUnload();
 
+function load_call(){
+	
+}
 
 function sub(){
 	regex = /^(?:(?:(\d+):)?(\d+):)?(\d+(?:\.\d+))$/;

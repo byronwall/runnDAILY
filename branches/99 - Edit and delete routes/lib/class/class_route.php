@@ -30,7 +30,7 @@ class Route{
 		$stmt->bind_param("idsssdd", $user->userID, $distance, $points, $comments, $name, $start_lat, $start_lng) or die($stmt->error);
 
 		$stmt->execute() or die($stmt->error);
-		
+
 		if($stmt->affected_rows == 1){
 			$ins_id = $stmt->insert_id;
 			$stmt->close();
@@ -168,19 +168,97 @@ class Route{
 	public static function fromFetchAssoc($row, $includePoints = false){
 		$route = new Route();
 			
-		$route->distance = $row["r_distance"];
-		$route->name = $row["r_name"];
-		$route->start_lat = $row["r_start_lat"];
-		$route->start_lng = $row["r_start_lng"];
-		$route->id = $row["r_id"];
-		$route->date_creation = $row["r_creation"];
-		$route->uid = $row["r_uid"];
+		$route->distance = (isset($row["r_distance"]))?$row["r_distance"]:null;
+		$route->name = (isset($row["r_name"]))?$row["r_name"]:null;
+		$route->start_lat = (isset($row["r_start_lat"]))?$row["r_start_lat"]:null;
+		$route->start_lng = (isset($row["r_start_lng"]))?$row["r_start_lng"]:null;
+		$route->id = (isset($row["r_id"]))?$row["r_id"]:null;
+		$route->date_creation = (isset($row["r_creation"]))?$row["r_creation"]:null;
+		$route->uid = (isset($row["r_uid"]))?$row["r_uid"]:null;
 
 		if($includePoints){
-			$route->points = $row["r_points"];
+			$route->points = (isset($row["r_points"]))?$row["r_points"]:null;
 		}
 			
 		return $route;
+	}
+
+	public static function deleteRouteSecure($rid, $uid){
+		$stmt = database::getDB()->prepare("
+			DELETE routes
+			FROM routes, users
+			WHERE
+				routes.r_id = ? AND
+				routes.r_uid = users.u_uid AND
+				users.u_uid = ?
+		");
+		$stmt->bind_param("ii", $rid, $uid);
+		$stmt->execute();
+		$stmt->store_result();
+
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		if($rows == 1){
+			Log::insertItem($uid, 101, null, $rid, null, null);
+			return true;
+		}
+		return false;
+	}
+
+	public function updateRoute(){
+		$stmt = database::getDB()->prepare("
+			UPDATE routes
+			SET
+				r_name = ?,
+				r_creation = NOW(),
+				r_points = ?,
+				r_distance = ?,
+				r_start_lat = ?,
+				r_start_lng = ?,
+				r_description = ?
+			WHERE
+				r_id = ?
+		");
+		$stmt->bind_param("ssdddsi", $this->name, $this->points, $this->distance, $this->start_lat, $this->start_lng, $this->comments, $this->id);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+
+		if($rows == 1){
+			Log::insertItem($_SESSION["userData"]->userID, 102, null, $this->id, null, null);
+			return true;
+		}
+		return false;
+	}
+	public function createRoute(){
+		$stmt = database::getDB()->prepare("
+			INSERT INTO routes
+			SET
+				r_name = ?,
+				r_creation = NOW(),
+				r_points = ?,
+				r_distance = ?,
+				r_start_lat = ?,
+				r_start_lng = ?,
+				r_description = ?,
+				r_uid = ?
+		");
+		$stmt->bind_param("ssdddsi", $this->name, $this->points, $this->distance, $this->start_lat, $this->start_lng, $this->comments, $_SESSION["userData"]->userID);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$rows = $stmt->affected_rows;
+		$ins_id = $stmt->insert_id;
+		$stmt->close();
+		
+		if($rows == 1){
+			$this->id = $ins_id;
+			Log::insertItem($_SESSION["userData"]->userID, 100, null, $this->id, null, null);
+			return true;
+		}
+		return false;
 	}
 }
 ?>

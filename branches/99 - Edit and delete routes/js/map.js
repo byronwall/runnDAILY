@@ -60,15 +60,18 @@ routePoint.prototype = {
   */
 function load(map_holder_id, click_callback) {
 	if (GBrowserIsCompatible()) {		
+		
 		map = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
-		map.setCenter(new GLatLng(40.4242126,-86.930522), 13);
+		map.setCenter(new GLatLng(38.4242126,-86.930522), 13);
 		
 		if(click_callback != null){
 			GEvent.addListener(map,"click", click_callback);
-		}
+		}				
+		
 		map.addControl(new GSmallMapControl());
 		map.addControl(new GMapTypeControl());
 		map.enableScrollWheelZoom();
+		
 	}  
 }
 
@@ -170,10 +173,10 @@ function convertToPolyline(){
  * needs to be sent to the save route page.
  */
 function saveSubmit(submitForm){
-	submitForm.distance.value = total_distance.toFixed(2);
-	submitForm.points.value = convertToPolyline();
-	submitForm.start_lat.value = route_points[0].latlng.lat();
-	submitForm.start_lng.value = route_points[0].latlng.lng();
+	submitForm.r_distance.value = total_distance.toFixed(2);
+	submitForm.r_points.value = convertToPolyline();
+	submitForm.r_start_lat.value = route_points[0].latlng.lat();
+	submitForm.r_start_lng.value = route_points[0].latlng.lng();
 
 	return true;
 }
@@ -254,7 +257,7 @@ function addPoint(latlngNew){
 		isRouteLineInit = true;
 	}
 	else{
-		route_line.insertVertex(route_line.getVertexCount(), latlngNew);
+		route_line.insertVertex(route_points.length, latlngNew);
 		total_distance = route_line.getLength() * meters_to_miles;
 		update_distance();
 	}
@@ -402,4 +405,21 @@ function outAndBack(){
 	for(var i = route_points.length-1;i>=0;i--){
 		addPoint(route_points[i].latlng);
 	}	
+}
+
+function loadRouteFromDB(polyline_options, is_edit){
+	map_options.draggable = is_edit;
+	polyline_options.zoomFactor = 2;
+	polyline_options.numLevels=18;
+	var polyline = new GPolyline.fromEncoded(polyline_options);
+
+	var boundingBox = polyline.getBounds();
+	map.setCenter(boundingBox.getCenter(), map.getBoundsZoomLevel(boundingBox));
+	for(var k = 0; k < polyline.getVertexCount(); k++){
+		var latlng = polyline.getVertex(k);
+		addPoint(latlng);
+	}
+	
+	
+	//map_refreshAll();
 }

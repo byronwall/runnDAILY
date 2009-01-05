@@ -9,6 +9,7 @@ This is the master template which holds all of the main layout.
     
     <!--SYTLE SHEETS-->
     <link href="/css/style.css"rel="stylesheet" type="text/css">
+    <link href="/css/thickbox.css"rel="stylesheet" type="text/css">
     
     <!--FAVORITE ICON-->
     <link rel="icon" type="image/png" href="/img/favico.png">
@@ -20,6 +21,7 @@ This is the master template which holds all of the main layout.
     <script src="/js/map.js" type="text/javascript"></script>
     <script src="/js/PolylineEncoder.js" type="text/javascript"></script>
     <script src="/js/thickbox-compressed.js" type="text/javascript"></script>
+    <script src="/js/jquery.dimensions.pack.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>
