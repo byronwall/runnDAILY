@@ -271,6 +271,7 @@ class User{
 		$this->location_lat = $row["u_location_lat"];
 		$this->location_lng = $row["u_location_lng"];
 		$this->u_email = $row["u_email"];
+		$this->msg_new = $row["u_msg_new"];
 		$this->type = $row["u_type"];
 		$this->cookie_hash = $row["u_cookie_hash"];
 
@@ -345,6 +346,19 @@ class User{
 			return true;
 		}
 		return false;
+	}
+	public function refreshDetails(){
+		$stmt = database::getDB()->prepare("
+			SELECT * FROM users WHERE u_uid = ?
+		");
+		$stmt->bind_param("i", $this->userID);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$row = $stmt->fetch_assoc();
+		$this->loadInfoFromFetchAssoc($row);
+		$stmt->close();
+		
 	}
 
 }

@@ -52,7 +52,8 @@ This is the master template which holds all of the main layout.
     	<div id="user_content">You are currently logged in as {{$currentUser->username}}.</div>
         <div id="user_actions">
         	<a href="/settings.php">Settings</a> | 
-        	<a href="/lib/action_login.php?action=logout">Logout</a>
+        	<a href="/lib/action_login.php?action=logout">Logout</a> |
+        	<a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
         </div>
     {{else}}
     	<div id="user_actions">
