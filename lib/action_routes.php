@@ -1,23 +1,36 @@
 <?php
 require("config.php");
 
-if(isset($_REQUEST["action"])){
-	switch ($_REQUEST["action"]){
+if(isset($_POST["action"])){
+	switch ($_POST["action"]){
 		case "save":
-			$distance = $_POST["distance"];
-			$points= $_POST["points"];
-			$description = $_POST["r_description"];
-			$name = $_POST["routeName"];
-			$start_lat = $_POST["start_lat"];
-			$start_lng = $_POST["start_lng"];
-
-			$route = new Route();
-			$route_id = $route->createNewRoute($_SESSION["userData"], $distance, $points, $description, $name, $start_lat, $start_lng);
-
-			if($route_id){
-				header("location: http://".$_SERVER['SERVER_NAME']."/routes/view.php?id=".$route_id);
+			$route = Route::fromFetchAssoc($_POST, true);
+			
+			if($route->createRoute()){
+				header("location: http://".$_SERVER['SERVER_NAME']."/routes/view.php?id=".$route->id);
 				exit;
 			}
+
+			break;
+		case "edit":
+			$route = Route::fromFetchAssoc($_POST, true);
+			if($route->updateRoute()){
+				header("location: http://".$_SERVER['SERVER_NAME']."/routes/view.php?id=".$route->id);
+				exit;
+			}
+			die("error updating?");
+				
+			break;
+		case "delete":
+			$rid = $_POST["r_rid"];
+			$uid = $_SESSION["userData"]->userID;
+
+			if(Route::deleteRouteSecure($rid, $uid)){
+				header("location: http://".$_SERVER['SERVER_NAME']."/routes/");
+				exit;
+			}
+			header("location: http://".$_SERVER['SERVER_NAME']."/routes/view.php?id=".$rid);
+			exit;
 
 			break;
 	}
