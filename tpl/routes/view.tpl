@@ -10,7 +10,7 @@ coming soon: ability to edit, delete, reconfigure your routes!</h2>
 <div id="form_time_log">
 
 <h2>record a time for this route</h2>
-<form action="/lib/action_time_save.php" method="post" onsubmit="sub()">
+<form action="/lib/action_time_save.php" method="post" onsubmit="return sub();">
 <input type="hidden" name="route_id" value="{{$map_current_route->id}}">
 	<ul>
 		<li><label>time</label><input type="text" name="time" value="12:52.6"></li>
@@ -62,9 +62,10 @@ function sub(){
 	minutes = seconds_match[2]||0;
 	seconds = seconds_match[3];
 	
-	seconds = hours * 3600 + minutes * 60 + seconds;
+	seconds = hours * 3600 + minutes * 60 + seconds * 1;
 	
 	$("input[name='time']").val(seconds);
+	return true;
 }
 
 </script>
