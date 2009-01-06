@@ -350,3 +350,11 @@ a:hover {
 	background-color:#444444;
 	color:white
 }
+#footer_content ul{
+	float:left;
+	width:150px;	
+}
+#footer_copyright{
+	clear:both;
+	text-align:center
+}
