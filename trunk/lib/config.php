@@ -14,12 +14,15 @@ if(!isset($_SESSION["userData"])){
 	if($user){
 		$_SESSION["userData"] = $user;
 	}
+	else{
+		$user = new User();
+	}
 }
 else{
 	$user = $_SESSION["userData"];
 }
+$user->checkPermissions();
 
 /*GENERATE THE TEMPLATE THINGS FOR EVERY PAGE*/
 $smarty->assign("currentUser", $user);
-
 ?>
