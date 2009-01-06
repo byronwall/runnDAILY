@@ -73,7 +73,9 @@ This is the master template which holds all of the main layout.
 
 <!-- FOOTER -->
 <div id="footer_container">
-	<div id="footer_content">&copy Byron & Chandler 2008</div>
+	<div id="footer_content">
+		{{include file="footer.tpl"}}
+	</div>
 </div>
 
 </body>
