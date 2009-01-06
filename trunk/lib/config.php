@@ -20,6 +20,7 @@ if(!isset($_SESSION["userData"])){
 }
 else{
 	$user = $_SESSION["userData"];
+	$user->refreshDetails();
 }
 $user->checkPermissions();
 
