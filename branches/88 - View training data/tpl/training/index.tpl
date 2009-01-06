@@ -5,14 +5,7 @@
 
 {{
 	include file=generic/calendar.tpl 
-	calendar=$calendar 
-	day_week_template="training/cal_day.tpl" 
-	day_mon_template="training/cal_day.tpl"
-}}
-<br><br>
-{{
-	include file=generic/calendar.tpl 
-	calendar=$calendar2
+	calendar=$calendar
 	day_week_template="training/cal_day.tpl" 
 	day_mon_template="training/cal_day.tpl"
 }}

@@ -2,9 +2,9 @@
 
 <h2>general info</h2>
 <div>distance: {{$item->distance}} mi</div>
-<div>time: {{$item->time}} sec</div>
-<div>pace: {{$item->getPace()}} mph</div>
-<div>date: {{$item->date}}</div>
+<div>time: {{$item->time|time_format}}</div>
+<div>pace: {{$item->pace}} mph</div>
+<div>date: {{$item->date|date_format}}</div>
 <a href="/routes/view.php?id={{$item->route->id}}">view {{$item->route->name}}</a>
 
 <h2>better info</h2>
@@ -15,7 +15,7 @@
 	day_week_template="training/cal_day.tpl" 
 	day_mon_template="training/cal_day.tpl"
 }}
-{{if $item->uid eq $currentUser->userID}}
+{{if $item->getIsOwnedBy($currentUser->userID)}}
 <h2>manage the log</h2>
 <a href="/training/manage.php?tid={{$item->tid}}">manage log entry</a>
 {{/if}}
@@ -30,9 +30,6 @@ line charts of this log versus others (pace vs min/max)<br>
 calendar for the week of the event<br>
 milestones affected by the log<br>
 links to schedule the same event at a later date<br>
-<h4>edit and delete</h4>
-links to edit the event<br>
-links to delete the event<br>
 <h4>community</h4>
 links to send the log to a friend<br>
 preview of the route run<br>

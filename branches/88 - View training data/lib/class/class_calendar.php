@@ -11,6 +11,12 @@ class Calendar{
 
 	var $days = array();
 
+	/**
+	 * Creates a new Calendar object
+	 * @param $timestamp: timestamp to focus calendar around
+	 * @param $cal_type: CAL_MONTH or CAL_WEEK determines style
+	 * @return Calendar
+	 */
 	public function __construct($timestamp, $cal_type = CAL_MONTH){
 		$this->timestamp = $timestamp;
 		$this->month = date("n", $timestamp);
@@ -71,6 +77,12 @@ class Calendar{
 			return mktime(0,0,0,$this->month, $day - $day_offset +6, $this->year);
 		}
 	}
+	/**
+	 * Adds an arbitrary item to the calendar on a given day
+	 * @param $timestamp
+	 * @param $item: any object
+	 * @return bool
+	 */
 	public function addItemToDay($timestamp, $item){
 		$hash = $this->hashTime($timestamp);
 		$this->days[$hash]->items[] = $item;
@@ -81,12 +93,22 @@ class Calendar{
 		return date("md", $timestamp);
 	}
 }
+/**
+ * Class is used to hold data for a given day in a Calendar object.
+ *
+ */
 class CalendarDay{
 	var $timestamp;
 	var $items = array();
 	var $day_num;
 	var $month_current = true;
 
+	/**
+	 * Creates a new CalendarDay object
+	 * @param $timestamp
+	 * @param $day_num: number representing location in a grid, not actually day of month
+	 * @return CalendarDay
+	 */
 	function __construct($timestamp, $day_num = 0){
 		$this->timestamp = $timestamp;
 		$this->day_num = $day_num;

@@ -4,7 +4,12 @@ require("../lib/config.php");
 /*
  * This is the index page for the training folder.
  */
-$tid = (isset($_GET["tid"]))?$_GET["tid"]:0;
+if(!isset($_GET["tid"])){
+	header("location: http://". $_SERVER["SERVER_NAME"]. "/training/" );
+	exit;
+}
+
+$tid = $_GET["tid"];
 
 $training_item = TrainingLog::getItem($tid);
 $cal_week = new Calendar(strtotime($training_item->date), CAL_WEEK);

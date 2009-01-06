@@ -1,6 +1,6 @@
 <h2>manage a log</h2>
 
-<form action="/lib/action_training_delete.php" method="post">
+<form action="/lib/action_training.php" method="post">
 <input type="radio" name="action" value="edit" checked="checked">edit</input>
 <div>
 	<div><label>time</label><input type="text" name="t_time" value="{{$t_item->time|time_format}}" /></div>
@@ -10,5 +10,5 @@
 <input type="radio" name="action" value="delete">delete</input>
 <input type="submit" value="submit"/>
 
-<input type="hidden" name="tid" value="{{$t_item->tid}}" />
+<input type="hidden" name="t_tid" value="{{$t_item->tid}}" />
 </form>
