@@ -5,13 +5,13 @@ require("../lib/config.php");
  * This is the page for viewing an existing route.
  */
 
-if(isset($_GET["id"])){
-	$id = $_GET["id"];
-	
-	$route = Route::fromRouteIdentifier($id);
-	
-	$smarty->assign("map_current_route", $route);
+if(!isset($_GET["id"])){
+	header("location: http://". $_SERVER["SERVER_NAME"]."/routes/");
+	exit;
 }
+$id = $_GET["id"];
+$route = Route::fromRouteIdentifier($id);
+$smarty->assign("route_view", $route);
 
 $content = $smarty->fetch("routes/view.tpl");
 $smarty->assign("page_content", $content);
