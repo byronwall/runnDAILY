@@ -12,11 +12,15 @@ if(isset($_REQUEST["action"])){
 			$username = $_POST["username"];
 			$password = $_POST["password"];
 			$remember = isset($_POST["remember"])?$_POST["remember"]:false;
-			
+
 			if(User::login($username, $password, $remember)){
-				$refer = (isset($_POST["refer"]))?$_POST["refer"]:"";
-				
-				header("location: http://".$_SERVER['SERVER_NAME'].$refer);
+				$refer = "http://" . $_SERVER["SERVER_NAME"];
+				if(isset($_SESSION["login_redirect"])){
+					$refer = $_SESSION["login_redirect"];
+					unset($_SESSION["login_redirect"]);
+				}
+
+				header("location: ".$refer);
 				exit;
 			}
 			else{
@@ -28,13 +32,25 @@ if(isset($_REQUEST["action"])){
 			$username = $_POST["username"];
 			$password = $_POST["password"];
 
-			if($user->createUser($username, $password)){
+			if(User::createUser($username, $password)){
 				header("location: http://".$_SERVER['SERVER_NAME']);
 				exit;
 			}
 			else{
-				die("error creating new user");
+				header("location: http://".$_SERVER['SERVER_NAME']."/register.php");
+				exit;
 			}
+			break;
+		case "activate":
+			$uid = $_GET["uid"];
+			$hash = $_GET["hash"];
+
+			if(User::activateUser($uid, $hash)){
+				echo "active";
+				User::loginSystem(User::fromUid($uid));
+			}
+			header("location: http://". $_SERVER["SERVER_NAME"]."/index.php");
+			exit;
 			break;
 	}
 }

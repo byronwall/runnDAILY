@@ -56,7 +56,7 @@ This is the master template which holds all of the main layout.
         </div>
     {{else}}
     	<div id="user_actions">
-    		<a href="/login.php?refer={{$smarty.server.SCRIPT_NAME}}">Login</a> | 
+    		<a href="/login.php">Login</a> | 
     		<a href="/register.php">Register</a>
     	</div>
     {{/if}}

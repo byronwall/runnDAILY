@@ -14,6 +14,8 @@ class User{
 	var $location_lng;
 
 	var $u_email;
+	var $type = 400;
+	var $cookie_hash;
 
 	var $routes = array();
 
@@ -64,28 +66,32 @@ class User{
 	 */
 	public static function login($uname, $password, $remember = 0){
 		$stmt = database::getDB()->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
-		$stmt->bind_param('ss', $uname, $password) or die("error binding");
-		$stmt->execute() or die("error");
+		$stmt->bind_param('ss', $uname, $password);
+		$stmt->execute();
 		$stmt->store_result();
 
-		if($row = $stmt->fetch_assoc()){
-			$valid_user = User::fromFetchAssoc($row);
-
-			$_SESSION["userData"] = $valid_user;
-
-			if($remember){
-				$valid_user->updateUserCookie();
-			}
-			$valid_user->isAuthenticated = true;
-			$stmt->close();
-			$valid_user->updateAccessTime();
-			Log::insertItem($valid_user->userID, 201, null, null, null, null);
-			
-			return $valid_user;
-		}
+		$row = $stmt->fetch_assoc();
 		$stmt->close();
 
+		if($row){
+			$valid_user = User::fromFetchAssoc($row);
+			return User::loginSystem($valid_user, $remember);
+		}
 		return false;
+	}
+
+	public static function loginSystem($user, $remember = false){
+		$_SESSION["userData"] = $user;
+
+		if($remember){
+			$user->updateUserCookie();
+		}
+		$user->isAuthenticated = true;
+		$user->updateAccessTime();
+		Log::insertItem($user->userID, 201, null, null, null, null);
+			
+		return $user;
+
 	}
 	/**
 	 * Internal function that is called when the cookie needs to be updated for the user.
@@ -93,18 +99,9 @@ class User{
 	 *
 	 */
 	private function updateUserCookie(){
-		$cookie = md5(mktime());
-
-		$stmt = database::getDB()->prepare("UPDATE users SET u_cookie_hash=? WHERE u_uid=?") or die($stmt->error);
-			
-		$stmt->bind_param("si", $cookie, $this->userID) or die($stmt->error);
-
-		$stmt->execute() or die($stmt->error);
-
-		if($stmt->affected_rows == 1){
-			setcookie("byroni_us_validation",$cookie.$this->userID, mktime()+3600*24*30,"/");
-		}
-		$stmt->close();
+		setcookie("byroni_us_validation",$this->cookie_hash.$this->userID, mktime()+3600*24*30,"/");
+		
+		return true;
 	}
 	/**
 	 * Creates a new user.
@@ -113,14 +110,28 @@ class User{
 	 * @param string $password
 	 * @return boolean indicating whether or not the creation and subsequent login were successful.
 	 */
-	function createUser($uname, $password){
-		$stmt = database::getDB()->prepare("INSERT INTO users(u_username, u_password) VALUES (?, MD5(?))");
+	public static function createUser($uname, $password){
+		$stmt = database::getDB()->prepare("
+			INSERT INTO users(u_username, u_password, u_cookie_hash) VALUES (?, MD5(?), MD5(NOW()))
+		");
 		$stmt->bind_param("ss", $uname, $password);
 		$stmt->execute();
+
+		$rows = $stmt->affected_rows;
+		$uid = $stmt->insert_id;
+
 		$stmt->close();
 
-		return $this->login($uname, $password);
+		if($rows == 1){
+			User::sendActivationEmail($uid);
+			User::loginSystem(User::fromUid($uid));
+			return true;
+		}
+		return false;
+	}
 
+	public static function sendActivationEmail($uid){
+		return false;
 	}
 
 	/*
@@ -260,6 +271,8 @@ class User{
 		$this->location_lat = $row["u_location_lat"];
 		$this->location_lng = $row["u_location_lng"];
 		$this->u_email = $row["u_email"];
+		$this->type = $row["u_type"];
+		$this->cookie_hash = $row["u_cookie_hash"];
 
 	}
 
@@ -279,10 +292,60 @@ class User{
 		$stmt = database::getDB()->prepare("INSERT INTO users_activity(a_uid, a_item_type, a_item) VALUES(?,?,?)");
 		$stmt->bind_param("iss", $this->userID, $item_type, $item);
 		$stmt->execute();
-		
+
 		$rows = $stmt->affected_rows;
 		$stmt->close();
-		return $rows == 1;		
+		return $rows == 1;
 	}
+	public function checkPermissions(){
+		$stmt = database::getDB()->prepare("
+			SELECT * FROM permissions WHERE p_page_name = ?
+		");
+		$stmt->bind_param("s", $_SERVER["SCRIPT_NAME"]);
+		$stmt->execute();
+		$stmt->store_result();
+
+		$row = $stmt->fetch_assoc();
+		$rows = $stmt->num_rows;
+
+		$stmt->close();
+
+		//temporary code to add in new pages with admin
+		if($rows == 0){
+			$add_stmt = database::getDB()->prepare("
+				INSERT INTO permissions(p_page_name) VALUES(?)
+			");
+			$add_stmt->bind_param("s", $_SERVER["SCRIPT_NAME"]);
+			$add_stmt->execute();
+			$add_stmt->close();
+			return $this->type <= 100;
+		}
+
+		if($this->type > $row["p_min_permission"] ){
+			$_SESSION["login_redirect"] = "http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+			header("location: http://" . $_SERVER["SERVER_NAME"] ."/login.php");
+			exit;
+		}
+		return true;
+	}
+	public static function activateUser($uid, $activation_hash){
+		$stmt = database::getDB()->prepare("
+			UPDATE users
+			SET u_type = 300
+			WHERE u_uid = ? AND u_cookie_hash = ?
+		");
+		$stmt->bind_param("is", $uid, $activation_hash) or die($stmt->error);
+		$stmt->execute();
+		$stmt->store_result();
+
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+
+		if($rows == 1){
+			return true;
+		}
+		return false;
+	}
+
 }
 ?>
