@@ -173,7 +173,7 @@ function convertToPolyline(){
  * needs to be sent to the save route page.
  */
 function saveSubmit(submitForm){
-	submitForm.r_distance.value = total_distance.toFixed(2);
+	submitForm.r_distance.value = (route_line.getLength()*meters_to_miles).toFixed(2);
 	submitForm.r_points.value = convertToPolyline();
 	submitForm.r_start_lat.value = route_points[0].latlng.lat();
 	submitForm.r_start_lng.value = route_points[0].latlng.lng();
@@ -419,7 +419,4 @@ function loadRouteFromDB(polyline_options, is_edit){
 		var latlng = polyline.getVertex(k);
 		addPoint(latlng);
 	}
-	
-	
-	//map_refreshAll();
 }

@@ -9,6 +9,11 @@ if(isset($_GET["rid"])){
 	$route = Route::fromRouteIdentifier($_GET["rid"]);
 	$smarty->assign("route_edit", $route);
 	$smarty->assign("is_edit", true);
+	
+	if(isset($_GET["mode"])){
+		$isCopy = $_GET["mode"] == "copy";
+		$smarty->assign("isCopy", $isCopy);
+	}
 }
 
 $content = $smarty->fetch("routes/create.tpl");

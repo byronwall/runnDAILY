@@ -41,9 +41,15 @@ This is the template for the page where new routes are created.
 		    		<input type="hidden" name="r_start_lat">
 		    		<input type="hidden" name="r_start_lng">
 		    		{{if $is_edit}}
-		    			<input type="hidden" name="action" value="edit" />
 		    			<input type="hidden" name="r_id" value="{{$route_edit->id}}" />
-		    			<input type="submit" value="update">
+		    			{{if $isCopy}}
+		    				<input type="hidden" name="r_rid_parent" value="{{$route_edit->id}}" />
+		    				<input type="hidden" name="action" value="save" />
+			    			<input type="submit" value="create">
+		    			{{else}}
+			    			<input type="submit" value="update">
+		    				<input type="hidden" name="action" value="edit" />
+		    			{{/if}}		    			
 		    		{{else}}
 		    			<input type="hidden" name="action" value="save" />
 		    			<input type="submit" value="create">
@@ -72,7 +78,7 @@ $(document).ready( function(){
 
 	updateHeight();
 	{{if $is_edit}}
-		loadRouteFromDB({{$route_edit->points}}, false);
+		loadRouteFromDB({{$route_edit->points}}, true);
 	{{/if}}	
 });
 

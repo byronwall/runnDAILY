@@ -6,38 +6,16 @@ class Route{
 	var	$comments;
 	var	$name;
 	var $id;
+	var $rid_parent;
 	var $start_lat;
 	var $start_lng;
 	var $date_creation;
 	var $uid;
+	
+	var $training_count;
+	var $user;
 
 	function __construct(){
-	}
-
-	/**
-	 * Creates a new route with the given information
-	 *
-	 * @param User $user : user creating the route
-	 * @param double $distance
-	 * @param string $points
-	 * @param string $comments
-	 * @param string $name
-	 * @return bool indicating the success
-	 */
-	function createNewRoute(User $user, $distance, $points, $comments, $name, $start_lat, $start_lng){
-		$stmt = database::getDB()->stmt_init();
-		$stmt->prepare("INSERT INTO running.routes (r_uid ,r_distance ,r_points ,r_description ,r_name ,r_creation, r_start_lat, r_start_lng) VALUES(?, ?,?,?,?, NOW(),?,?)") or die($stmt->error);
-		$stmt->bind_param("idsssdd", $user->userID, $distance, $points, $comments, $name, $start_lat, $start_lng) or die($stmt->error);
-
-		$stmt->execute() or die($stmt->error);
-
-		if($stmt->affected_rows == 1){
-			$ins_id = $stmt->insert_id;
-			$stmt->close();
-			Log::insertItem($user->userID, 100, null, $ins_id, null, null);
-			return $ins_id;
-		}
-		return false;
 	}
 
 	/**
@@ -108,13 +86,19 @@ class Route{
 	 * @return Route : a populated Route object with the details
 	 */
 	public static function fromRouteIdentifier($id){
-		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_id=?");
+		$stmt = database::getDB()->prepare("
+			SELECT *
+			FROM routes as r, users as u
+			WHERE
+				r.r_id = ? AND
+				r.r_uid = u.u_uid
+		");
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
 		$stmt->store_result();
 
 		if($row = $stmt->fetch_assoc()){
-			$route = Route::fromFetchAssoc($row, true);
+			$route = Route::fromFetchAssoc($row, true, true);
 			$stmt->close();
 			return $route;
 		}
@@ -165,7 +149,7 @@ class Route{
 	 * @param bool $includePoints : whether or not to grab point data
 	 * @return Route : the object created from the data
 	 */
-	public static function fromFetchAssoc($row, $includePoints = false){
+	public static function fromFetchAssoc($row, $includePoints = false, $includeUser = false){
 		$route = new Route();
 			
 		$route->distance = (isset($row["r_distance"]))?$row["r_distance"]:null;
@@ -175,9 +159,13 @@ class Route{
 		$route->id = (isset($row["r_id"]))?$row["r_id"]:null;
 		$route->date_creation = (isset($row["r_creation"]))?$row["r_creation"]:null;
 		$route->uid = (isset($row["r_uid"]))?$row["r_uid"]:null;
+		$route->rid_parent = (isset($row["r_rid_parent"]))?$row["r_rid_parent"]:null;
 
 		if($includePoints){
 			$route->points = (isset($row["r_points"]))?$row["r_points"]:null;
+		}
+		if($includeUser){
+			$route->user = User::fromFetchAssoc($row);
 		}
 			
 		return $route;
@@ -243,22 +231,53 @@ class Route{
 				r_start_lat = ?,
 				r_start_lng = ?,
 				r_description = ?,
-				r_uid = ?
+				r_uid = ?,
+				r_rid_parent = ?
 		");
-		$stmt->bind_param("ssdddsi", $this->name, $this->points, $this->distance, $this->start_lat, $this->start_lng, $this->comments, $_SESSION["userData"]->userID);
+		$stmt->bind_param("ssdddsii", $this->name, $this->points,
+			$this->distance, $this->start_lat, $this->start_lng,
+			$this->comments, $_SESSION["userData"]->userID, $this->rid_parent);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
 		$rows = $stmt->affected_rows;
 		$ins_id = $stmt->insert_id;
 		$stmt->close();
-		
+
 		if($rows == 1){
 			$this->id = $ins_id;
 			Log::insertItem($_SESSION["userData"]->userID, 100, null, $this->id, null, null);
 			return true;
 		}
 		return false;
+	}
+
+	public function getTrainingCount(){
+		if($this->training_count) return $this->training_count;
+		
+		$stmt = database::getDB()->prepare("
+			SELECT COUNT(*) as total FROM training_times WHERE t_rid = ?
+		");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$stmt->store_result();
+
+		$row = $stmt->fetch_assoc();
+		$stmt->close();
+		
+		$this->training_count = $row["total"];
+		
+		return $row["total"];
+	}
+	
+	public function getCanEdit(){
+		return $this->getTrainingCount() == 0;
+	}
+	public function getHasParent(){
+		return $this->rid_parent != null;
+	}
+	public function getIsOwner($uid){
+		return $this->uid = $uid;
 	}
 }
 ?>
