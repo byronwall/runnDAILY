@@ -15,11 +15,8 @@ This is the master template which holds all of the main layout.
     <link rel="icon" type="image/png" href="/img/favico.png">
     
     <!--JAVASCRIPT-->
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
     <script src="/js/jquery-latest.pack.js" type="text/javascript"></script>
     <script src="/js/json.js" type="text/javascript"></script>
-    <script src="/js/map.js" type="text/javascript"></script>
-    <script src="/js/PolylineEncoder.js" type="text/javascript"></script>
     <script src="/js/thickbox-compressed.js" type="text/javascript"></script>
     <script src="/js/jquery.dimensions.pack.js" type="text/javascript"></script>
     
