@@ -22,8 +22,11 @@ else{
 	$user = $_SESSION["userData"];
 	$user->refreshDetails();
 }
-$user->checkPermissions();
+$page = Page::getPage($_SERVER["SCRIPT_NAME"]);
+
+$user->checkPermissions($page->min_permission);
 
 /*GENERATE THE TEMPLATE THINGS FOR EVERY PAGE*/
 $smarty->assign("currentUser", $user);
+$smarty->assign("page", $page);
 ?>

@@ -298,31 +298,8 @@ class User{
 		$stmt->close();
 		return $rows == 1;
 	}
-	public function checkPermissions(){
-		$stmt = database::getDB()->prepare("
-			SELECT * FROM permissions WHERE p_page_name = ?
-		");
-		$stmt->bind_param("s", $_SERVER["SCRIPT_NAME"]);
-		$stmt->execute();
-		$stmt->store_result();
-
-		$row = $stmt->fetch_assoc();
-		$rows = $stmt->num_rows;
-
-		$stmt->close();
-
-		//temporary code to add in new pages with admin
-		if($rows == 0){
-			$add_stmt = database::getDB()->prepare("
-				INSERT INTO permissions(p_page_name) VALUES(?)
-			");
-			$add_stmt->bind_param("s", $_SERVER["SCRIPT_NAME"]);
-			$add_stmt->execute();
-			$add_stmt->close();
-			return $this->type <= 100;
-		}
-
-		if($this->type > $row["p_min_permission"] ){
+	public function checkPermissions($min_perm){
+		if($this->type > $min_perm ){
 			$_SESSION["login_redirect"] = "http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 			header("location: http://" . $_SERVER["SERVER_NAME"] ."/login.php");
 			exit;
