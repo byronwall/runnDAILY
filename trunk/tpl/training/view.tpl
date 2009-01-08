@@ -16,8 +16,42 @@
 	day_mon_template="training/cal_day.tpl"
 }}
 {{if $item->getIsOwnedBy($currentUser->userID)}}
-<h2>manage the log</h2>
-<a href="/training/manage.php?tid={{$item->tid}}">manage log entry</a>
+	<ul id="training_manage">
+		<h2>manage the log</h2>
+		<li><a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox">
+			edit
+		</a></li>
+		<li><a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox">
+			delete
+		</a></li>
+	</ul>
+	
+	<div id="training_edit_modal" style="display:none">
+		<h2>edit this entry</h2>
+		<form action="/lib/action_training.php" method="post">
+			<input type="hidden" name="t_tid" value="{{$item->tid}}" />
+			<input type="hidden" name="action" value="edit" />			
+			<ul>
+				<li><label>time</label><input type="text" name="t_time" value="{{$item->time|time_format}}" /></li>
+				<li><label>date</label><input type="text" name="t_date" value="{{$item->date}}" /></li>
+				<li><label>distance</label><input type="text" name="t_distance" value="{{$item->distance}}" /></li>
+				<li><input type="submit" value="edit" /></li>
+				<li><input type="button" value="cancel" onclick="tb_remove()" /></li>
+			</ul>
+		</form>
+	</div>
+	
+	<div id="training_delete_modal" style="display:none">
+		<h2>Are you sure you want to delete this route?</h2>
+		<div>
+			<form method="POST" action="/lib/action_training.php">
+				<input type="hidden" name="t_tid" value="{{$item->tid}}" />
+				<input type="hidden" name="action" value="delete" />
+				<input type="submit" value="delete" />
+				<input type="button" value="cancel" onclick="tb_remove()" />
+			</form>
+		</div>
+	</div>
 {{/if}}
 <h3>coming soon</h3>
 <h4>general info</h4>
