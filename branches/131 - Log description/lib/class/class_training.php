@@ -70,6 +70,7 @@ class TrainingLog{
 		$stmt->close();
 
 		if($rows == 1){
+			Log::insertItem($_SESSION["userData"], 301, null, $this->rid, $this->tid, null);
 			return true;
 		}
 		return false;
@@ -96,6 +97,7 @@ class TrainingLog{
 		$stmt->close();
 
 		if($rows == 1){
+			Log::insertItem($_SESSION["userData"], 302, null, $this->rid, $this->tid, null);
 			return true;
 		}
 		return false;
@@ -182,6 +184,7 @@ class TrainingLog{
 		
 		if($rows == 1){
 			$this->tid = $ins_id;
+			Log::insertItem($_SESSION["userData"], 300, null, $this->rid, $this->tid, null);
 			return $ins_id;
 		}
 		return false;

@@ -13,10 +13,9 @@ class Log{
 	public $gid;
 	public $datetime;
 	public $familiar;
-	public $activity_desc;
+	public $desc;
 	
-	/*optional parameters*/
-	public $r_name;
+	public $route;
 	
 	public static function insertItem($uid, $aid, $xid, $rid, $tid, $gid){
 		$stmt = database::getDB()->stmt_init();
@@ -35,7 +34,15 @@ class Log{
 	}
 	
 	public static function getRouteActivityForUser($uid){
-		$stmt = database::getDB()->prepare("SELECT logs.l_id, logs.l_datetime, logs.l_uid, logs_actions.l_cid, logs.l_aid, logs.l_xid, logs.l_rid, logs.l_tid, logs.l_gid, routes.r_name FROM logs JOIN logs_actions ON logs.l_aid = logs_actions.l_aid JOIN routes ON logs.l_rid = routes.r_id WHERE logs.l_uid = ? AND logs_actions.l_cid = 1") or die ($stmt->error);
+		$stmt = database::getDB()->prepare("
+			SELECT *
+			FROM logs as l
+			JOIN logs_actions as la ON l.l_aid = la.l_aid
+			JOIN routes as r ON l.l_rid = r.r_id
+			WHERE
+				l.l_uid = ? AND
+				la.l_cid = 1
+		");
 		$stmt->bind_param("i", $uid) or die ($stmt->error);
 		$stmt->execute();
 		$stmt->store_result();
@@ -57,7 +64,7 @@ class Log{
 		
 		if ($days_since < 7){
 			if ($days_since == 0){
-				return ("This " . Log::evaluateTime($datetime));			
+				return ("This " . Log::evaluateTime($datetime));
 			}elseif ($days_since == 1){
 				return ("Yesterday " . Log::evaluateTime($datetime));
 			}else{
@@ -111,22 +118,14 @@ class Log{
 		$log->tid = $row["l_tid"];
 		$log->gid = $row["l_gid"];
 		$log->datetime = $row["l_datetime"];
+		$log->desc = $row["l_desc"];
 		$log->familiar = Log::reckonDate($log->datetime);
-		$log->activity_desc = Log::generateActivityDesc($log->aid);
 		
 		if ($route){
-			$log->r_name = $row["r_name"];
+			$log->route = Route::fromFetchAssoc($row, false, false);
 		}
 			
 		return $log;
-	}
-	
-	public static function generateActivityDesc($aid){
-		switch($aid){
-			case 100:
-				return ("created the route");
-				break;
-		}
 	}
 }
 ?>
