@@ -26,7 +26,7 @@ This is the template for the page where new routes are created.
 	    {{if $currentUser->isAuthenticated}}
 		    <div id="map_controls">
 		    	<h2>save route</h2>
-		    	<form action="/lib/action_routes.php" method="post" onsubmit="saveSubmit(this)">
+		    	<form action="/lib/action_routes.php" method="post" onsubmit="saveSubmit(this)" id="route_save_form">
 		    	<ul>	
 		    		<li>
 		    			<label for="input_routename">route name</label>
@@ -82,7 +82,40 @@ $(document).ready( function(){
 	updateHeight();
 	{{if $is_edit}}
 		loadRouteFromDB({{$route_edit->points}}, true);
-	{{/if}}	
+	{{/if}}
+
+	var validator = $("#route_save_form").validate({
+		rules: {
+			r_name: {
+				required: true
+			}
+		},
+		messages: {
+			r_name: {
+				required: "Enter a name"
+			}
+		},
+		// the errorPlacement has to take the table layout into account
+		errorPlacement: function(error, element) {
+			if ( element.is(":checkbox") )
+				error.appendTo ( element.next() );
+			else if( element.is(":hidden") )
+				alert(error.text());				
+			else
+				error.appendTo( element.parent() );
+		},
+		submitHandler: function(form){
+			saveSubmit($(form));
+			
+			form.submit();
+		},
+		// set this class to error-labels to indicate valid fields
+		success: function(label) {
+			// set &nbsp; as text for IE
+			label.html("&nbsp;").addClass("checked");
+		}
+	});
+		
 });
 
 
