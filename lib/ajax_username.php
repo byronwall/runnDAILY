@@ -1,13 +1,15 @@
 <?php
-require("config.php");
+require("config_class.php");
 
 $username = $_GET["username"];
 
-if(User::fromUsername($username)){
-	echo "taken";	
+if(User::getUserExists($username)){
+	echo json_encode(false);
+	exit;
 }
 else{
-	echo "available";
+	echo json_encode(true);
+	exit;
 }
 
 

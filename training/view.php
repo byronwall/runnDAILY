@@ -12,10 +12,10 @@ if(!isset($_GET["tid"])){
 $tid = $_GET["tid"];
 
 $training_item = TrainingLog::getItem($tid);
-$cal_week = new Calendar(strtotime($training_item->date), CAL_WEEK);
+$cal_week = new Calendar($training_item->date, CAL_WEEK);
 $training_items = TrainingLog::getItemsForUser($training_item->uid, $cal_week->getFirstDayOnCalendar(), $cal_week->getLastDayOnCalendar());
 foreach($training_items as $item){
-	$cal_week->addItemToDay(strtotime($item->date), $item);
+	$cal_week->addItemToDay($item->date, $item);
 }
 
 $smarty->assign("item", $training_item);
