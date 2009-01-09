@@ -10,7 +10,7 @@ $cal = new Calendar(mktime(), CAL_MONTH);
 $training_items = TrainingLog::getItemsForUser($user->userID, $cal->getFirstDayOnCalendar(), $cal->getLastDayOnCalendar());
 
 foreach($training_items as $item){
-	$cal->addItemToDay(strtotime($item->date), $item);
+	$cal->addItemToDay($item->date, $item);
 }
 
 $smarty->assign("calendar", $cal);

@@ -19,7 +19,7 @@
 		{{if $route_view->getCanEdit()}}
 			<li><a href="/routes/create.php?rid={{$route_view->id}}">edit original</a></li>
 			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
-			<li><a href="#TB_inline?height=300&width=300&inlineId=delete_modal&modal=true" class="thickbox">
+			<li><a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">
 				delete route
 			</a></li>
 		{{else}}
@@ -28,7 +28,7 @@
 	</ul>
 	
 	<div id="delete_modal" style="display:none">
-		<div>Are you sure you want to delete this route?</div>
+		<h2>Are you sure you want to delete this route?</h2>
 		<form method="POST" action="/lib/action_routes.php">
 			<input type="hidden" name="action" value="delete" />
 			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />
@@ -40,16 +40,23 @@
 
 <div id="form_time_log">
 
-<h2>record a time for this route</h2>
-<form action="/lib/action_time_save.php" method="post" onsubmit="return sub();">
-<input type="hidden" name="route_id" value="{{$route_view->id}}">
-	<ul>
-		<li><label>time</label><input type="text" name="time" value="12:52.6"></li>
-		<li><label>date</label><input type="text" name="date" value="today"></li>
-		<li><label>distance</label><input type="text" name="distance" value="{{$route_view->distance}}"></li>
-		<li><input type="submit" value="add to log"></li>
-	</ul>
-</form>
+<h2>route actions</h2>
+<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">record a time for this route</a>
+
+<div id="route_train_modal" style="display:none">
+	<h2>enter details of entry</h2>
+	<form action="/lib/action_training.php" method="post" id="route_train_form">
+	<input type="hidden" name="t_rid" value="{{$route_view->id}}">
+	<input type="hidden" name="action" value="save" />
+		<ul>
+			<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>
+			<li><label>date</label><input type="text" name="t_date" value="today"></li>
+			<li><label>distance</label><input type="text" name="t_distance" value="{{$route_view->distance}}"></li>
+			<li><input type="submit" value="add to log"></li>
+			<li><input type="button" value="cancel" onclick="tb_remove()" />
+		</ul>
+	</form>
+</div>
 
 </div>
 
@@ -59,7 +66,48 @@
 
 $(document).ready( function(){
 	load("map_placeholder", null);
-	loadRouteFromDB({{$route_view->points}}, false);	
+	loadRouteFromDB({{$route_view->points}}, false);
+
+	var validator = $("#route_train_form").validate({
+		rules: {
+			t_time: {
+				required: true
+			},
+			t_date: {
+				required: true
+			},
+			t_distance: {
+				required: true,
+				number: true
+			}
+		},
+		messages: {
+			t_time: {
+				required: "Enter a time"
+			},
+			t_date: {
+				required: "Enter a date"
+			},
+			t_distance: {
+				required: "Enter a distance",
+				number: "Must be a number"
+			}
+		},
+		// the errorPlacement has to take the table layout into account
+		errorPlacement: function(error, element) {
+			if ( element.is(":checkbox") )
+				error.appendTo ( element.next() );
+			else if( element.is(":hidden") )
+				alert(error.text());				
+			else
+				error.appendTo( element.parent() );
+		},
+		// set this class to error-labels to indicate valid fields
+		success: function(label) {
+			// set &nbsp; as text for IE
+			label.html("&nbsp;").addClass("checked");
+		}
+	});	
 });
 document.body.onunload = GUnload();
 

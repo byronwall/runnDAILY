@@ -337,6 +337,22 @@ class User{
 		$stmt->close();
 		
 	}
+	public static function getUserExists($username){
+		$stmt = database::getDB()->prepare("
+			SELECT u_uid
+			FROM users
+			WHERE
+				u_username = ?
+		");
+		$stmt->bind_param("s", $username);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$rows = $stmt->num_rows;
+		$stmt->close();
+		
+		return $rows == 1;
+	}
 
 }
 ?>

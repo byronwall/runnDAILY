@@ -27,7 +27,7 @@ class TrainingLog{
 	public static function fromFetchAssoc($row, $shouldGetRoute = false){
 		$item = new TrainingLog();
 
-		$item->date = isset($row["t_date"])?$row["t_date"] : null;
+		$item->date = isset($row["t_date"])?strtotime( $row["t_date"]) : null;
 		$item->distance = isset($row["t_distance"])? $row["t_distance"]: null;
 		$item->rid = isset($row["t_rid"])?$row["t_rid"] : null;
 		$item->tid = isset($row["t_tid"])?$row["t_tid"] : null;
@@ -84,7 +84,7 @@ class TrainingLog{
 			SET
 				t_time = ?,
 				t_distance = ?,
-				t_date = ?,
+				t_date = FROM_UNIXTIME(?),
 				t_pace = ?
 			WHERE t_tid = ?
 		");
@@ -159,6 +159,32 @@ class TrainingLog{
 		$stmt->close();
 
 		return TrainingLog::fromFetchAssoc($row, true);
+	}
+	
+	public function createItem(){
+		$stmt = database::getDB()->prepare("
+			INSERT INTO training_times
+			SET
+				t_time = ?,
+				t_distance = ?,
+				t_pace = ?,
+				t_date = FROM_UNIXTIME(?),
+				t_rid = ?,
+				t_uid = ?
+		");
+		$stmt->bind_param("dddsii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, $_SESSION["userData"]->userID);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$ins_id = $stmt->insert_id;
+		$stmt->close();
+		
+		if($rows == 1){
+			$this->tid = $ins_id;
+			return $ins_id;
+		}
+		return false;
 	}
 }
 ?>
