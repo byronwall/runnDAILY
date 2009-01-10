@@ -6,6 +6,8 @@
 
 class Log{
 	/*standard parameters*/
+	public $id;
+	public $uid;
 	public $aid;
 	public $xid;
 	public $rid;
@@ -113,6 +115,8 @@ class Log{
 	public static function fromFetchAssoc($row, $route = false){
 		$log = new Log();
 		
+		$log->id = $row["l_id"];
+		$log->uid = $row["l_uid"];
 		$log->aid = $row["l_aid"];
 		$log->xid = $row["l_xid"];
 		$log->rid = $row["l_rid"];
@@ -127,6 +131,72 @@ class Log{
 		}
 			
 		return $log;
+	}
+	/**
+	 * Function returns the log data for a given user with the given activity ids.
+	 * @param $uid: user id
+	 * @param $aids: array containing the l_aid to match (eg: "200,201,202")
+	 * @return arrar(Log)
+	 */
+	public static function getActivityForUserByAid($uid, $aids){
+		if(count($aids) == 0){
+			return false;
+		}
+		$in_str = implode(",", $aids);
+		
+		$query = "
+			SELECT *
+			FROM logs as l
+			JOIN logs_actions as la USING(l_aid)
+			LEFT JOIN routes as r ON l.l_rid = r.r_id
+			WHERE
+				l.l_aid IN({$in_str}) AND
+				l.l_uid = {$uid}
+		";
+		
+		$result = database::getDB()->query($query);
+				
+		$items = array();
+		
+		while($row = $result->fetch_assoc()){
+			$items[] = Log::fromFetchAssoc($row, true);
+		}
+		$result->close();
+		
+		return $items;
+	}
+	/**
+	 * Function returns the log data for a given user with the given category ids.
+	 * @param $uid: user id
+	 * @param $aids: array containing the l_cid to match (eg: "1,2")
+	 * @return arrar(Log)
+	 */
+	public static function getActivityForUserByCid($uid, $cids){
+		if(count($cids) == 0){
+			return false;
+		}
+		$in_str = implode(",", $cids);
+		
+		$query = "
+			SELECT *
+			FROM logs as l
+			JOIN logs_actions as la USING(l_aid)
+			LEFT JOIN routes as r ON l.l_rid = r.r_id
+			WHERE
+				la.l_cid IN({$in_str}) AND
+				l.l_uid = {$uid}
+		";
+		
+		$result = database::getDB()->query($query);
+				
+		$items = array();
+		
+		while($row = $result->fetch_assoc()){
+			$items[] = Log::fromFetchAssoc($row, true);
+		}
+		$result->close();
+		
+		return $items;
 	}
 }
 ?>
