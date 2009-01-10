@@ -128,7 +128,7 @@ class TrainingLog{
 		$stmt = database::getDB()->prepare(
 		"SELECT *
 		FROM training_times
-		WHERE t_uid = ? AND t_date <= FROM_UNIXTIME(?) AND t_date >= FROM_UNIXTIME(?)"
+		WHERE t_uid = ? AND t_date <= FROM_UNIXTIME(?) AND t_date >= FROM_UNIXTIME(?) ORDER BY t_date DESC"
 		) or die("error with prepare");
 		$stmt->bind_param("iii", $uid, $date_end, $date_start) or die($stmt->error);
 		$stmt->execute() or die($stmt->error);
