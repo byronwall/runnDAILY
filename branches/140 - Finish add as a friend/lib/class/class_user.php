@@ -326,17 +326,46 @@ class User{
 	 * @return int: int giving the number of rows changed (success/fail)
 	 */
 	public function addFriend($friend_uid){
-		if($this->userID == $friend_uid) return 0;
+		if($this->userID == $friend_uid) return false;
 		
-		$stmt = database::getDB()->prepare("INSERT INTO users_friends(f_uid_1, f_uid_2, f_date_start) VALUES(?,?, NOW())");
+		$stmt = database::getDB()->prepare("
+			INSERT INTO users_friends
+			SET
+			f_uid_1 = ?,
+			f_uid_2 = ?, 
+			f_date_start = NOW()
+		");
 		$stmt->bind_param("ii", $this->userID, $friend_uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
-		$affected_rows = $stmt->affected_rows;
+		$rows = $stmt->affected_rows;
 		$stmt->close();
 		
-		return $affected_rows;
+		if($rows == 1){
+			return true;
+		}
+		return false;
+	}
+	
+	public function removeFriend($uid){
+		$stmt = database::getDB()->prepare("
+			DELETE FROM users_friends
+			WHERE
+				f_uid_1 = ? AND
+				f_uid_2 = ?
+		");
+		$stmt->bind_param("ii", $this->userID, $uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		if($rows == 1){
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Function returns an array of the user's friends.
@@ -361,6 +390,32 @@ class User{
 		}
 		
 		return $users;		
+	}
+	/**
+	 * Function to check if the current user is friends with another user.
+	 * @param $uid: uid to check against
+	 * @return bool: note that it returns true if friend and current are the same
+	 */
+	public function getIsFriend($uid){
+		if($this->userID == $uid) return true;
+		
+		$stmt = database::getDB()->prepare("
+			SELECT *
+			FROM users_friends
+			WHERE
+				f_uid_1 = ? AND
+				f_uid_2 = ?
+		");
+		$stmt->bind_param("ii", $this->userID, $uid);
+		$stmt->execute();
+		$stmt->store_result();
+
+		$rows = $stmt->num_rows;
+		$stmt->close();		
+		if($rows == 1){
+			return true;
+		}
+		return false;
 	}
 }
 ?>

@@ -1,7 +1,13 @@
 <h1>user details</h1>
 
 <h2>name: {{$user->username}}</h2>
-<a href="#addFriend" id="a_addfriend" rel="{{$user->userID}}">add as friend</a>
+{{if !$currentUser->getIsFriend($user->userID)}}
+	<a href="#" id="a_friend" rel="add,{{$user->userID}}">add as friend</a>
+{{elseif $currentUser->userID == $user->userID}}
+{{else}}
+	<a href="#" id="a_friend" rel="remove,{{$user->userID}}">remove as friend</a>
+{{/if}}
+
 <h2>coming soon: list of routes by this user</h2>
 
 <h1>send a message</h1>
@@ -14,30 +20,28 @@
 
 <script type="text/javascript">
 
-$("#a_addfriend").bind("click", click_addFriend);
+$("#a_friend").bind("click", click_friend);
 
-function click_addFriend(){
-	var friend_uid = this.rel;
-	$(this).text("adding friend...");
+function click_friend(){
+	$(this).text("talking to database...");
+	var action = this.rel.split(",")[0];
+	var uid = this.rel.split(",")[1];
+
+	$("#a_friend").unbind("click", click_friend);
+	$("#a_friend").bind("click", function(){ return false; });
 	$.post(
-		"/lib/ajax_addFriend.php",
-		{f_uid:friend_uid},
+		"/lib/ajax_friend.php",
+		{f_uid:uid, action:action},
 		function(data){
-			if(data > 0){
-				alert(data);
-				$("#a_addfriend").text("friend added");
-				$("#a_addfriend").unbind("click", click_addFriend);
-				$("#a_addfriend").bind("click", function(){ return false; });
+			if(data){
+				$("#a_friend").text("complete");
 			}
 			else{
-				$("#a_addfriend").text("try adding again");
-				$("#a_addfriend").hide();
-				$("#a_addfriend").fadeIn("slow");
-			}
+				$("#a_friend").text("refresh and try again");
+			}			
 		},
-		"text"
+		"json"
 	);
 	return false;
 }
-
 </script>
