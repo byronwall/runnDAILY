@@ -358,3 +358,6 @@ a:hover {
 	clear:both;
 	text-align:center
 }
+input.error{
+	border:1px red solid;
+}
