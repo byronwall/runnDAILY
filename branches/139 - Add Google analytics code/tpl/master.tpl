@@ -84,6 +84,7 @@ This is the master template which holds all of the main layout.
 		}
 	);
 </script>
+{{include file="google.tpl"}}
 </body>
 </html>
 
