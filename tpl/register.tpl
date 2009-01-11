@@ -90,11 +90,7 @@ $(document).ready(
 					alert(error.text());				
 				else
 					error.appendTo( element.parent() );
-			},
-			// specifying a submitHandler prevents the default submit, good for the demo
-			submitHandler: function() {
-				alert("submitted!");
-			},
+			},			
 			// set this class to error-labels to indicate valid fields
 			success: function(label) {
 				// set &nbsp; as text for IE
