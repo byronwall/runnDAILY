@@ -361,3 +361,9 @@ a:hover {
 input.error{
 	border:1px red solid;
 }
+#help_header{
+	height: 40px;
+	width: 100%;
+	background-repeat: repeat-x;
+	background-image: url(../img/top.png)
+}

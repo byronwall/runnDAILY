@@ -52,6 +52,9 @@ This is the master template which holds all of the main layout.
         	<a href="/settings.php">Settings</a> | 
         	<a href="/lib/action_login.php?action=logout">Logout</a> |
         	<a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
+        	{{if $page->common}}
+        		| <a href="/help/view.php?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a>
+        	{{/if}}
         </div>
     {{else}}
     	<div id="user_actions">
