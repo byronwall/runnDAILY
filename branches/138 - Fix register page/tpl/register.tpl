@@ -1,6 +1,13 @@
 {{* This is the template for the registration of a new user. *}}
 <h1>Register a new account on the running site</h1>
+<div id="errors">
+	<ul>
+	
+	</ul>
+</div>
 <form action="/lib/action_login.php?action=register" method="post" id="form_register">
+	<input type="hidden" name="u_start_lat" value="" />
+	<input type="hidden" name="u_start_lng" value="" />
 <div id="reg_ctain">
 <div id="reg_in_ctain">
 <h2>user details</h2>
@@ -23,6 +30,7 @@
 <div id="reg_loc_ctain">
 <h2>geographic details</h2>
 	<label for="input_location">home location</label><input type="text" id="input_location" name="location">
+	<input type="button" onclick="show_address($('[name=location]').val())" value="center map" />
 	<div id="map_placeholder" class="small_map"></div>
 </div>
 </div>
@@ -57,7 +65,10 @@ $(document).ready(
 				},
 				birthday: {
 					date: true
-				}
+				},
+				u_start_lat:{
+					required: true
+				}				
 			},
 			messages: {
 				username: {
@@ -70,7 +81,7 @@ $(document).ready(
 					rangelength: jQuery.format("Enter at least {0} characters")
 				},
 				password_confirm: {
-					required: "Repeat your password",
+					required: "Repeat the password to confirm",
 					minlength: jQuery.format("Enter at least {0} characters"),
 					equalTo: "Enter the same password as above"
 				},
@@ -80,45 +91,26 @@ $(document).ready(
 				},
 				birthday: {
 					date: "Enter mm/dd/yyyy"
+				},
+				u_start_lat: {
+					required: "Select your location on the map"
 				}
 			},
-			// the errorPlacement has to take the table layout into account
-			errorPlacement: function(error, element) {
-				if ( element.is(":checkbox") )
-					error.appendTo ( element.next() );
-				else if( element.is(":hidden") )
-					alert(error.text());				
-				else
-					error.appendTo( element.parent() );
-			},			
-			// set this class to error-labels to indicate valid fields
-			success: function(label) {
-				// set &nbsp; as text for IE
-				label.html("&nbsp;").addClass("checked");
-			}
+			errorLabelContainer: "#errors ul",
+			wrapper: "li"
 		});
-			
 	}
 );
 document.body.onunload = GUnload();
 
 function register_click(overlay, latlng){
-	var geocoder = new GClientGeocoder();
-	geocoder.getLocations(
-		latlng,
-		function(response){
-			alert(response.Status.code);
-			$.each(
-				response.Placemark,
-				function(index, item){
-					if(item.AddressDetails.Accuracy == 4 || item.AddressDetails.Accuracy == 5){
-						alert(item.address + "    " + item.AddressDetails.Accuracy);
-					}
-				}
-			);
-			
-		}
-	);
+	if(latlng){
+		map.clearOverlays();
+		$("[name=u_start_lat]").val(latlng.lat());
+		$("[name=u_start_lng]").val(latlng.lng());
+
+		map.addOverlay(new GMarker(latlng));
+	}
 }
 
 </script>
