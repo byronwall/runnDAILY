@@ -5,5 +5,6 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 <script type="text/javascript">
 try {
 var pageTracker = _gat._getTracker("UA-5559919-1");
+pageTracker._setDomainName(".byroni.us");
 pageTracker._trackPageview();
 } catch(err) {}</script>
