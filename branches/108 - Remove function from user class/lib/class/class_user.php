@@ -21,10 +21,6 @@ class User{
 
 	private $mysqli;
 
-	function __construct(){
-
-	}
-
 	/**
 	 * Function is called to determine if the user is currently logged in.
 	 * This check is first done using the session variables.  If those are
@@ -160,28 +156,6 @@ class User{
 	}
 
 	/**
-	 * Function loads a collection of routes into memory for the current user.
-	 * This call is designed to be used to see a sampling of a user's routes.
-	 *
-	 * @param int $count: number of results returned
-	 */
-
-	function getUserRoutes($count = 5){
-		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_uid = ? LIMIT ?");
-		$stmt->bind_param("ii", $this->userID, $count) or die($stmt->error);
-		$stmt->execute() or die($stmt->error);
-		$stmt->store_result() or die($stmt->error);
-
-		$routes = array();
-		while($row = $stmt->fetch_assoc()){
-			$routes[] = Route::fromFetchAssoc($row, true);
-		}
-
-		$stmt->close();
-		return $routes;
-	}
-
-	/**
 	 * Logs the current user out of the system.  This is done by destroying the session
 	 * and removing the cookie.
 	 *
@@ -289,15 +263,7 @@ class User{
 		$user->loadInfoFromFetchAssoc($row);
 		return $user;
 	}
-	public function logActivity($item_type, $item){
-		$stmt = database::getDB()->prepare("INSERT INTO users_activity(a_uid, a_item_type, a_item) VALUES(?,?,?)");
-		$stmt->bind_param("iss", $this->userID, $item_type, $item);
-		$stmt->execute();
 
-		$rows = $stmt->affected_rows;
-		$stmt->close();
-		return $rows == 1;
-	}
 	public function checkPermissions($min_perm){
 		if($this->type > $min_perm ){
 			$_SESSION["login_redirect"] = "http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
