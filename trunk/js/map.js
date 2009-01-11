@@ -374,10 +374,8 @@ function addMileMarker(lat, lng){
   * This function is used to remove the last point from the map.
   */
 function undoLastPoint(){
-	var point = route_points.pop();
-	route_line.deleteVertex(route_line.getVertexCount()- 1);		
-	map.removeOverlay(point.marker);
-	updateMileMarkers(true);
+	route_points.pop();	
+	map_refreshAll();
 }
 
 /*
@@ -386,10 +384,7 @@ function undoLastPoint(){
  * This function is used to remove all points from the map.
  */
 function clearAllPoints(){
-	map.clearOverlays();
 	route_points = [];
-	mileMarkers = [];
-	
 	map_refreshAll();
 }
 
