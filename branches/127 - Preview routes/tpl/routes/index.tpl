@@ -19,6 +19,7 @@
 			<a href="/routes/view.php?id={{$route->id}}">
 				<div class="route_list_item_name">{{$route->name}}</div>
 			</a>
+			<a href="#TB_inline?&height=500&width=500&inlineId=preview_map" rel='{{$route->points}}' title="{{$route->name}}" class="preview">preview</a>
 			<div class="route_list_item_date"><img src="/img/icon_check.png" />{{$route->date_creation}}</div>
 		</div>
 	</div>
@@ -35,3 +36,28 @@ No data!
 No recent activity, do something!
 {{/foreach}}
 </div>
+
+<div style="display:none" id="preview_map">
+	<div id="map_placeholder" class="large_map"></div>
+</div>
+
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
+<script src="/js/map.js" type="text/javascript"></script>    
+<script type="text/javascript">
+var init = false;
+$(document).ready(function(){
+	$("a.preview").click( function(){
+		if(!init){
+			load("map_placeholder", null);
+			init = !init;
+		}			
+		tb_show(this.title, this.href, false);
+		map.checkResize();
+		loadRouteFromDB($.parseJSON(this.rel));
+		
+		return false;
+	});
+}
+);
+
+</script>
