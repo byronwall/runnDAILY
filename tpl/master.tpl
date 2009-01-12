@@ -36,7 +36,7 @@ This is the master template which holds all of the main layout.
 
 <!-- NAVIGATION -->
     <div id="nav_ctain">
-    	<ul id="nav_tabs">
+    	<ul>
     		<li id="tab_home" class="tab_inactive"><a href="/index.php">Home</a></li>
     		<li id="tab_routes" class="tab_inactive"><a href="/routes/index.php">Routes</a></li>
     		<li id="tab_training" class="tab_inactive"><a href="/training/index.php">Training</a></li>
@@ -45,21 +45,33 @@ This is the master template which holds all of the main layout.
     </div>
     
 <!-- USER BAR -->
-	<div id="user_container">
-	{{if $currentUser->isAuthenticated}}
-    	<div id="user_content">You are currently logged in as {{$currentUser->username}}.</div>
-        <div id="user_actions">
-        	<a href="/settings.php">Settings</a> | 
-        	<a href="/lib/action_login.php?action=logout">Logout</a> |
-        	<a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
-        </div>
-    {{else}}
-    	<div id="user_actions">
-    		<a href="/login.php">Login</a> | 
-    		<a href="/register.php">Register</a>
-    	</div>
-    {{/if}}
-    </div>
+	<div id="user_ctain">
+        {{if $currentUser->isAuthenticated}}
+        <ul>
+        	<li id="tab_profile" class="tab_special"><a href="/profile.php">My Profile</a></li>
+<!--            <div id="user_content">You are currently logged in as {{$currentUser->username}}.</div>
+            <div id="user_actions">
+                <a href="/settings.php">Settings</a> | 
+                <a href="/lib/action_login.php?action=logout">Logout</a> |
+                <a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
+            </div>-->
+           </ul>
+           <div id="user_panel">
+				You are currently logged in as {{$currentUser->username}}.
+                <a href="/settings.php">Settings</a> | 
+                <a href="/lib/action_login.php?action=logout">Logout</a> |
+                <a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
+           </div>
+        {{else}}
+        <ul id="user_tabs">
+        	<li id="tab_profile" class="tab_special"><a href="/login.php">Login</a></li>
+<!--            <div id="user_actions">
+                <a href="/login.php">Login</a> | 
+                <a href="/register.php">Register</a>
+            </div>-->
+           </ul>
+        {{/if}}
+	</div>
 </div>
 
 <!-- CONTENT -->
@@ -70,10 +82,11 @@ This is the master template which holds all of the main layout.
 </div>
 
 <!-- FOOTER -->
-<div id="footer_container">
-	<div id="footer_content">
+<div id="footer_ctain">
+	<div id="footer_con">
 		{{include file="footer.tpl"}}
 	</div>
+    <div id="footer_copyright">&copy Byron & Chandler 2008</div>
 </div>
 
 <script type="text/javascript">
