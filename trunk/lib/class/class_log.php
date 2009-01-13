@@ -34,7 +34,7 @@ class Log{
 		return false;
 	}
 	
-	public static function getRouteActivityForUser($uid){
+	public static function getRouteActivityForUser($uid, $limit = 20){
 		$stmt = database::getDB()->prepare("
 			SELECT *
 			FROM logs as l
@@ -45,8 +45,38 @@ class Log{
 				la.l_cid = 1
 			ORDER BY
 				l_datetime DESC
+			LIMIT
+				?
 		");
-		$stmt->bind_param("i", $uid) or die ($stmt->error);
+		$stmt->bind_param("ii", $uid, $limit) or die ($stmt->error);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$recent_list = array();
+		
+		while ($row = $stmt->fetch_assoc()){
+			$recent_list[] = Log::fromFetchAssoc($row, true);
+		}
+		
+		$stmt->close();
+		
+		return $recent_list;
+	}
+	
+	public static function getAllActivityForUser($uid, $limit = 20){
+		$stmt = database::getDB()->prepare("
+			SELECT *
+			FROM logs as l
+			JOIN logs_actions as la ON l.l_aid = la.l_aid
+			JOIN routes as r ON l.l_rid = r.r_id
+			WHERE
+				l.l_uid = ?
+			ORDER BY
+				l_datetime DESC
+			LIMIT
+				?
+		");
+		$stmt->bind_param("ii", $uid, $limit) or die ($stmt->error);
 		$stmt->execute();
 		$stmt->store_result();
 		
