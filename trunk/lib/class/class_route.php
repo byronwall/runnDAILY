@@ -41,7 +41,7 @@ class Route{
 		$limit_lower = $page * $count;
 		$limit_upper = $page * $count + $count;
 
-		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_uid=? LIMIT ?,?") or die("error:".$stmt->error);
+		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_uid=? ORDER BY r_creation DESC LIMIT ?,?") or die("error:".$stmt->error);
 		$stmt->bind_param("iii", $uid, $limit_lower, $limit_upper) or die("error:".$stmt->error);
 		$stmt->execute() or die("error:".$stmt->error);
 		$stmt->store_result();

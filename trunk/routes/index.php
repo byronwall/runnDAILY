@@ -6,12 +6,14 @@ require("../lib/config.php");
  */
 
 if($_SESSION["userData"]){
-	$routes = Route::getRoutesForUser($_SESSION["userData"]->userID, 10);
+	$recent_routes = Route::getRoutesForUser($_SESSION["userData"]->userID, 6);
 	$recent_activity = Log::getRouteActivityForUser($_SESSION["userData"]->userID);
+	$more_routes = Route::getRoutesForUser($_SESSION["userData"]->userID, 50);
 }
 
-$smarty->assign("route_list", $routes);
-$smarty->assign("recent_list", $recent_activity);
+$smarty->assign("recent_route_list", $recent_routes);
+$smarty->assign("recent_activity_list", $recent_activity);
+$smarty->assign("all_route_list", $more_routes);
 $content = $smarty->fetch("routes/index.tpl");
 
 $smarty->assign("page_content", $content);

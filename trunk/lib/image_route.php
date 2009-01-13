@@ -4,10 +4,10 @@ require("../lib/config.php");
 $encoded = (isset($_GET["encoded"]))? $_GET["encoded"]: die();
 $distance = (isset($_GET["distance"]))? $_GET["distance"]: die();
 
-$im_width = 100;
-$im_height = 100;
+$im_width = 40;
+$im_height = 40;
 
-$padding = 0.95;
+$padding = 0.85;
 
 $point_arr = decodePolylineToArray($encoded);
 
@@ -62,11 +62,11 @@ for($i = 1; $i < count($normal_points); $i++){
 
 imagestring($im, 2, 50, 85, $distance." mi", $black);
 
-imagecopy($bg, $im, 5, 5, 0, 0, $im_width, $im_height);
+//imagecopy($bg, $im, 5, 5, 0, 0, $im_width, $im_height);
 //imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
 
 header ("Content-type: image/png");
-imagepng($bg);
+imagepng($im);
 //imagedestroy($shadow);
 imagedestroy($im);
 imagedestroy($bg);
