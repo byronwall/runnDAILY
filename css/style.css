@@ -62,7 +62,8 @@ a:hover {
 	text-align: center;
 	text-decoration: none;
 	font-family: Geneva, Arial, Helvetica, sans-serif;
-	display: block
+	display: block;
+	color: #666666;
 }
 .tab_active {
 	margin: 0px -18px;
@@ -261,39 +262,32 @@ a:hover {
 	text-align: center;
 }
 /* Route List Elements */
-#route_list_container {
-	margin: 5px auto;
-	padding: 0px;
-	clear: left;
-	width: 100%
-}
-#route_list_item {
-	border: 1px dashed gainsboro;
-	position: relative;
-	width: 180px;
-	background-color: lavenderblush;
+#route_recent_con {
 	float: left;
-	height: 190px
+	width: 350px;
 }
-.route_list_item_name {
-	margin: 0px;
-	padding: 0px;
-	text-align: center;
-	font-size: larger;
-	width: 100%;
-	font-weight: bold
+.route_recent_list {
+	list-style: none;
+	clear: left;
 }
-.route_list_item_img {
-	margin: 0px;
-	padding: 5px 0px;
-	text-align: center;
-	width: 100%
+.route_item_image{
+	float: left;
+	margin-left: 5px;
 }
-.route_list_item_date {
-	margin: 0px;
-	padding: 3px 0px 0px;
-	text-align: center
+.route_item_content{
+	float: left;
 }
+#recent_activity_con {
+	float: right;
+	width: 350px;
+}
+.recent_activity_list {
+	list-style: none;
+}
+.recent_activity_item {
+	margin-left: 5px;
+}
+.route_all_con {}
 /* Registration Elements */
 #reg_ctain {
 	margin: 0px;

@@ -43,6 +43,8 @@ class Log{
 			WHERE
 				l.l_uid = ? AND
 				la.l_cid = 1
+			ORDER BY
+				l_datetime DESC
 		");
 		$stmt->bind_param("i", $uid) or die ($stmt->error);
 		$stmt->execute();

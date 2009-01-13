@@ -1,7 +1,6 @@
 <ul>
 	<h2>Routes</h2>
 	<li><a href="/routes/create.php">create</a></li>
-	<li><a href="/routes/browse.php">browse</a></li>
 	<li><a href="/routes/index.php">view</a></li>
 </ul>
 
