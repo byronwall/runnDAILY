@@ -1,5 +1,10 @@
 {{* This is the template for the index of the routes folder. *}}
-<h2>Route Actions</h2>
+<div id="route_actions_con">
+	<h2>Route Actions</h2>
+	<ul>
+		<li><a href="/routes/create.php">Create a route</a></li>
+	</ul>
+</div>
 
 <div id="route_recent_con">
 	<h2>Recently Created</h2>
@@ -21,7 +26,7 @@ No data!
 </div>
 
 <div id="recent_activity_con">
-	<h2>Recent Activity</h2>
+	<h2>Recent Route Activity</h2>
 	<ul class="recent_activity_list">
 	{{foreach from=$recent_activity_list item=recent}}
 		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view.php?id={{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
