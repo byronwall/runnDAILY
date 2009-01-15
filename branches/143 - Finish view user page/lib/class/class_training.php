@@ -142,6 +142,31 @@ class TrainingLog{
 
 		return $training_items;
 	}
+	public static function getItemsForUserPaged($uid, $count = 10, $page = 0){
+		$limit_lower = $page * $count;
+		$limit_upper = $page * $count + $count;
+
+		$stmt = database::getDB()->prepare("
+			SELECT * 
+			FROM training_times 
+			WHERE t_uid=? 
+			ORDER BY t_date DESC 
+			LIMIT ?,?
+		");
+		$stmt->bind_param("iii", $uid, $limit_lower, $limit_upper);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$items = array();
+
+		while ($row = $stmt->fetch_assoc()) {
+			$items[] = TrainingLog::fromFetchAssoc($row, false);
+		}
+
+		$stmt->close();
+		return $items;
+	}
+	
 	/**
 	 * Function returns a training item with a given id
 	 * @param $tid

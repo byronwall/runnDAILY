@@ -90,6 +90,36 @@ class Log{
 		
 		return $recent_list;
 	}
+	public static function getAllActivityForUserPaged($uid, $count=5, $page=0){
+		$limit_lower = $page * $count;
+		$limit_upper = $page * $count + $count;
+		$stmt = database::getDB()->prepare("
+			SELECT *
+			FROM logs as l
+			JOIN logs_actions as la ON l.l_aid = la.l_aid
+			JOIN routes as r ON l.l_rid = r.r_id
+			WHERE
+				l.l_uid = ?
+			ORDER BY
+				l_datetime DESC
+			LIMIT
+				?, ?
+		");
+		$stmt->bind_param("iii", $uid, $limit_lower, $limit_upper);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$logs = array();
+		
+		while ($row = $stmt->fetch_assoc()){
+			$logs[] = Log::fromFetchAssoc($row, true);
+		}
+		
+		$stmt->close();
+		
+		return $logs;
+		
+	}
 	
 	public static function reckonDate($datetime){
 		$date_secs = strtotime($datetime);
