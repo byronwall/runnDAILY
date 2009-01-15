@@ -47,29 +47,19 @@ This is the master template which holds all of the main layout.
 <!-- USER BAR -->
 	<div id="user_ctain">
         {{if $currentUser->isAuthenticated}}
-        <ul>
-        	<li id="tab_profile" class="tab_special"><a href="/profile.php">My Profile</a></li>
-<!--            <div id="user_content">You are currently logged in as {{$currentUser->username}}.</div>
-            <div id="user_actions">
-                <a href="/settings.php">Settings</a> | 
-                <a href="/lib/action_login.php?action=logout">Logout</a> |
-                <a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
-            </div>-->
-           </ul>
-           <div id="user_panel">
-				You are currently logged in as {{$currentUser->username}}.
-                <a href="/settings.php">Settings</a> | 
-                <a href="/lib/action_login.php?action=logout">Logout</a> |
-                <a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
-           </div>
+		<ul>
+			<li id="tab_profile" class="tab_special"><a href="/profile.php">My Profile</a></li>
+		</ul>
+		<div id="user_panel">
+			You are currently logged in as {{$currentUser->username}}.
+			<a href="/settings.php">Settings</a> | 
+			<a href="/lib/action_login.php?action=logout">Logout</a> |
+			<a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
+		</div>
         {{else}}
-        <ul id="user_tabs">
-        	<li id="tab_profile" class="tab_special"><a href="/login.php">Login</a></li>
-<!--            <div id="user_actions">
-                <a href="/login.php">Login</a> | 
-                <a href="/register.php">Register</a>
-            </div>-->
-           </ul>
+		<ul>
+			<li id="tab_profile" class="tab_special"><a href="/login.php">Login</a></li>
+		</ul>
         {{/if}}
 	</div>
 </div>

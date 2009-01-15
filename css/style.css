@@ -136,18 +136,14 @@ a:hover {
 	top: 37px;
 	right: 0px;
 	z-index: 2;
-}
-
-#user_ctain #user_panel {
 	visibility: hidden;
 }
 
-#user_ctain :hover #user_panel {
+#user_ctain:hover #user_panel {
 	visibility: visible;
 }
 
 #user_ctain .tab_special {
-	margin: 0px -2px;
 	position: relative;
 	height: 31px;
 	width: 105px;
@@ -158,7 +154,7 @@ a:hover {
 	top: 7px
 }
 
-#user_ctain :hover .tab_special {
+#user_ctain:hover .tab_special {
 	background-position: 0px -31px
 }
 
@@ -397,35 +393,9 @@ a:hover {
 #reg_loc_sub input:hover {
 	
 }
-
+/* Calendar Elements */
+.small_cal_month{}
 /* Training Elements */
-#training_cal {
-	width: 500px;
-	background-color: #444444
-}
-
-#training_cal td {
-	width: 50px;
-	height: 100px;
-	vertical-align: top
-}
-
-#training_cal .activeMonth {
-	background-color: #999999
-}
-
-#training_cal .inactiveMonth {
-	background-color: #555555
-}
-
-#training_cal .month_header {
-	background-color: #af00af
-}
-
-#training_cal .day_header {
-	background-color: #444444;
-	color: white
-}
 
 input.error {
 	border: 1px red solid;
