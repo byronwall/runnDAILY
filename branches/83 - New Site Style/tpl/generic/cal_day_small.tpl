@@ -1,11 +1,7 @@
-<td class="activeMonth">
-	<div class="day_header">
-		{{$day->timestamp|date_format}}
-	</div>
+<td class="cal_day_current">
+	<a href="#" class="cal_head_link">17</a>
 	
 	{{foreach from=$day->items item=item}}
-	<div class="item">
-		<a href="/training/view.php?tid={{$item->tid}}">{{$item->distance}}</a>
-	</div>
+		<a href="/training/view.php?tid={{$item->tid}}" class="cal_box_link"></a>
 	{{/foreach}}
 </td>

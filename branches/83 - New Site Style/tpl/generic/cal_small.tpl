@@ -1,14 +1,14 @@
 {{if $calendar->cal_type == CAL_MONTH}}
-	<table id="training_cal">
+	<table id="cal_month_small">
 		<tr>
 			{{foreach from=$calendar->getDayHeaders() item=header}}
-				<td class="month_header">{{$header}}</td>
+				<td class="cal_month_head">{{$header}}</td>
 			{{/foreach}}
 		</tr>
 		
 		{{foreach from=$calendar->days item=day}}
 			{{if ($day->day_num%7) eq 1}}
-				<tr>
+				<tr class="cal_day_head">
 			{{/if}}
 				
 			{{include file="$day_mon_template"}}
