@@ -319,7 +319,9 @@ a:hover {
 }
 #reg_loc_sub input:hover {
 }
-/* Training Elements */
+/*
+Training Elements - Old
+
 #training_cal {
 	width:500px;
 	background-color:#444444
@@ -342,6 +344,12 @@ a:hover {
 	background-color:#444444;
 	color:white
 }
+*/
+
+/* Training Elements new */
+
+/* Calendar Elements */
+
 input.error {
 	border:1px red solid;
 }
