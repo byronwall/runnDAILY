@@ -72,6 +72,7 @@ This is the template for the page where new routes are created.
 <script type="text/javascript">
 
 $(document).ready( function(){
+	alert(map_click);
 	load("map_placeholder", map_click);
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
@@ -123,7 +124,7 @@ $(window).resize(
 	updateHeight
 );
 
-document.body.onunload = GUnload();
+document.body.onunload = GUnload;
 
 var sidebarVisible = true;
 

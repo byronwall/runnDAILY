@@ -109,7 +109,7 @@ $(document).ready( function(){
 		}
 	});	
 });
-document.body.onunload = GUnload();
+document.body.onunload = GUnload;
 
 function sub(){
 	regex = /^(?:(?:(\d+):)?(\d+):)?(\d+(?:\.\d+))$/;

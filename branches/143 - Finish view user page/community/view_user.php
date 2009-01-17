@@ -21,10 +21,5 @@ $smarty->assign("user_training", $t_items);
 $smarty->assign("user_log", $l_items); 
 $smarty->assign("user",User::fromUid($uid));
 
-$content = $smarty->fetch("community/view_user.tpl");
-$smarty->assign("page_content", $content);
-
-$smarty->assign("page_title", "Community - Running Site");
-$smarty->display("master.tpl");
-
+$smarty->display_master("community/view_user.tpl");
 ?>

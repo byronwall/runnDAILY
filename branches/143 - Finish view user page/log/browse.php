@@ -1,12 +1,9 @@
 <?php
 require("../lib/config.php");
 
-if(!isset($_GET["format"])){
-	header("location: http://{$_SERVER['SERVER_NAME']}/");
-	exit;
-}
+$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 
-if($_GET["format"] == "ajax"){
+if($format == "ajax"){
 
 	$uid = $_GET["uid"];
 	$page_no = $_GET["page"];
@@ -18,5 +15,8 @@ if($_GET["format"] == "ajax"){
 	$smarty->assign("page_no", $page_no+1);
 	
 	echo $smarty->fetch("log/log_list.tpl");
+}
+else{
+	
 }
 ?>
