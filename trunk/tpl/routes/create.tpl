@@ -123,7 +123,7 @@ $(window).resize(
 	updateHeight
 );
 
-document.body.onunload = GUnload();
+document.body.onunload = GUnload;
 
 var sidebarVisible = true;
 

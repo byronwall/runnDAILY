@@ -16,6 +16,7 @@ class User{
 	var $u_email;
 	var $type = 400;
 	var $cookie_hash;
+	public $date_access;
 
 	var $routes = array();
 
@@ -242,6 +243,7 @@ class User{
 		$this->msg_new = $row["u_msg_new"];
 		$this->type = $row["u_type"];
 		$this->cookie_hash = $row["u_cookie_hash"];
+		$this->date_access = $row["u_date_access"];
 
 	}
 

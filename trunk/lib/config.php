@@ -2,9 +2,10 @@
 require("config_class.php");
 
 require_once(SITE_ROOT."/_smarty/Smarty.class.php");
+require_once(SITE_ROOT."/lib/class/ext_smarty.php");
 
 /*SET UP TEMPLATING ENGINE*/
-$smarty = new Smarty();
+$smarty = new Smarty_Ext();
 
 /*VALIDATE THE USER EVERYTIME*/
 session_start();

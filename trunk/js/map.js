@@ -43,7 +43,7 @@ function routePoint(){
 }
 routePoint.prototype = {
 	latlng:null,
-	marker:null,	
+	marker:null	
 }
 
 /******************************************************************************
