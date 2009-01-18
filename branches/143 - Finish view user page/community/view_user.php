@@ -16,6 +16,8 @@ $t_items = TrainingLog::getItemsForUserPaged($uid, 4);
 //get log data for the user.
 $l_items = Log::getAllActivityForUserPaged($uid, 5);
 
+$smarty->assign("r_query", "u_uid={$uid}&page=1&count=5");
+$smarty->assign("t_query", "u_uid={$uid}&page=1&count=5");
 $smarty->assign("user_routes", $routes); 
 $smarty->assign("user_training", $t_items); 
 $smarty->assign("user_log", $l_items); 

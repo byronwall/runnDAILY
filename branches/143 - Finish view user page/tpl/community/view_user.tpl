@@ -8,13 +8,13 @@
 
 <h2>Recently Created Routes</h2>
 <ul id="route_recent_con">
-	{{include file="routes/parts/route_list.tpl" routes=$user_routes uid=$user->userID page_no=1}}
+	{{include file="routes/parts/route_list.tpl" routes=$user_routes query=$r_query }}
 </ul>
 
 <h2>Recently Created Training Entries</h2>
 <ul id="route_recent_con">
-	{{include file="training/parts/item_list.tpl" t_items=$user_training uid=$user->userID page_no=1}}	
-	<li class="route_recent_list"><a href="#">coming soon: see all training</a></li>
+	{{include file="training/parts/item_list.tpl" t_items=$user_training query=$t_query}}	
+	<li class="route_recent_list"><a href="/training/browse.php?u_uid={{$user->userID}}">coming soon: see all training</a></li>
 </ul>
 
 <h2>Recently Added Activity</h2>

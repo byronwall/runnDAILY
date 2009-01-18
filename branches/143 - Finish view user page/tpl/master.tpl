@@ -20,6 +20,7 @@ This is the master template which holds all of the main layout.
     <script src="/js/thickbox-compressed.js" type="text/javascript"></script>
     <script src="/js/jquery.dimensions.pack.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.pack.js" type="text/javascript"></script>
+    <script src="/js/jquery.form.pack.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>

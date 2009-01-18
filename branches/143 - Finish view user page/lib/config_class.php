@@ -10,4 +10,5 @@ require_once(SITE_ROOT."/lib/class/class_calendar.php");
 require_once(SITE_ROOT."/lib/class/class_message.php");
 require_once(SITE_ROOT."/lib/class/class_page.php");
 require_once(SITE_ROOT."/lib/class/class_rss.php");
+require_once(SITE_ROOT."/lib/class/class_sql_generator.php");
 ?>

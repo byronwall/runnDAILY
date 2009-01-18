@@ -8,6 +8,7 @@
 {{/foreach}}
 {{if count($t_items)}}
 	<li class="route_recent_list">
-		<div class="route_item_content"><a href="/training/browse.php?uid={{$uid}}&page={{$page_no}}&format=ajax" class="ajax">see more in this table</a></div>
+		<div class="route_item_content">
+			<a href="/training/browse.php?{{$query}}&format=ajax" class="ajax">see more in this table</a></div>
 	</li>
 {{/if}}

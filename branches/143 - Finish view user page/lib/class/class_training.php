@@ -31,7 +31,7 @@ class TrainingLog{
 		$item->distance = isset($row["t_distance"])? $row["t_distance"]: null;
 		$item->rid = isset($row["t_rid"])?$row["t_rid"] : null;
 		$item->tid = isset($row["t_tid"])?$row["t_tid"] : null;
-		$item->time = isset($row["t_time"])? $item->getSecondsFromFormat($row["t_time"]) : null ;
+		$item->time = isset($row["t_time"])? TrainingLog::getSecondsFromFormat($row["t_time"]) : null ;
 		$item->uid = isset($row["t_uid"])?$row["t_uid"] : null;
 		$item->pace = isset($row["t_pace"])?$row["t_pace"] : null;
 
@@ -107,7 +107,7 @@ class TrainingLog{
 	 * @param $format: string containing HH:MM:SS or some derivative
 	 * @return float
 	 */
-	public function getSecondsFromFormat($format){
+	public static function getSecondsFromFormat($format){
 		$splits = split(":", $format);
 		$time = 0;
 		for($i = count($splits)-1; $i>=0;$i--){
