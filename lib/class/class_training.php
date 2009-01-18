@@ -31,7 +31,7 @@ class TrainingLog{
 		$item->distance = isset($row["t_distance"])? $row["t_distance"]: null;
 		$item->rid = isset($row["t_rid"])?$row["t_rid"] : null;
 		$item->tid = isset($row["t_tid"])?$row["t_tid"] : null;
-		$item->time = isset($row["t_time"])? $item->getSecondsFromFormat($row["t_time"]) : null ;
+		$item->time = isset($row["t_time"])? TrainingLog::getSecondsFromFormat($row["t_time"]) : null ;
 		$item->uid = isset($row["t_uid"])?$row["t_uid"] : null;
 		$item->pace = isset($row["t_pace"])?$row["t_pace"] : null;
 
@@ -107,7 +107,7 @@ class TrainingLog{
 	 * @param $format: string containing HH:MM:SS or some derivative
 	 * @return float
 	 */
-	public function getSecondsFromFormat($format){
+	public static function getSecondsFromFormat($format){
 		$splits = split(":", $format);
 		$time = 0;
 		for($i = count($splits)-1; $i>=0;$i--){
@@ -142,6 +142,31 @@ class TrainingLog{
 
 		return $training_items;
 	}
+	public static function getItemsForUserPaged($uid, $count = 10, $page = 0){
+		$limit_lower = $page * $count;
+		$limit_upper = $page * $count + $count;
+
+		$stmt = database::getDB()->prepare("
+			SELECT * 
+			FROM training_times 
+			WHERE t_uid=? 
+			ORDER BY t_date DESC 
+			LIMIT ?,?
+		");
+		$stmt->bind_param("iii", $uid, $limit_lower, $limit_upper);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$items = array();
+
+		while ($row = $stmt->fetch_assoc()) {
+			$items[] = TrainingLog::fromFetchAssoc($row, false);
+		}
+
+		$stmt->close();
+		return $items;
+	}
+	
 	/**
 	 * Function returns a training item with a given id
 	 * @param $tid
