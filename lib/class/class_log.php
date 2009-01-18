@@ -44,7 +44,7 @@ class Log{
 				l.l_uid = ? AND
 				la.l_cid = 1
 			ORDER BY
-				l_datetime DESC
+				l.l_datetime DESC
 			LIMIT
 				?
 		");
@@ -72,7 +72,7 @@ class Log{
 			WHERE
 				l.l_uid = ?
 			ORDER BY
-				l_datetime DESC
+				l.l_datetime DESC
 			LIMIT
 				?
 		");
