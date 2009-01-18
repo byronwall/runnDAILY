@@ -15,12 +15,7 @@ This is the master template which holds all of the main layout.
     <link rel="icon" type="image/png" href="/img/favico.png">
     
     <!--JAVASCRIPT-->
-    <script src="/js/jquery-latest.pack.js" type="text/javascript"></script>
-    <script src="/js/json.js" type="text/javascript"></script>
-    <script src="/js/thickbox-compressed.js" type="text/javascript"></script>
-    <script src="/js/jquery.dimensions.pack.js" type="text/javascript"></script>
-    <script src="/js/jquery.validate.pack.js" type="text/javascript"></script>
-    <script src="/js/jquery.form.pack.js" type="text/javascript"></script>
+    <script src="/js/site.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>
