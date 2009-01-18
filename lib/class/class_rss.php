@@ -3,6 +3,7 @@ class RssFeed{
 	var $title = "runndaily feed";
 	var $link = "http://runndaily.com";
 	var $description = "runndaily feed desc";
+	public $pubDate;
 	
 	var $image;
 	var $hasImage = false;
@@ -31,7 +32,7 @@ class RssItem{
 	var $description;
 	var $pubDate;
 	
-	function __construct($title, $guid, $link, $desc){
+	function __construct($title = null, $guid = null, $link = null, $desc = null){
 		$this->title = $title;
 		$this->guid  = $guid;
 		$this->link = $link;

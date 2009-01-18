@@ -7,7 +7,7 @@
 		<description>{{$RssFeed->description}}</description>
 		<language>en-us</language>
 		<copyright>© Byron and Chandler</copyright>
-		<pubDate>{{"r"|@date:$smarty.now}}</pubDate>
+		<pubDate>{{$RssFeed->pubDate}}</pubDate>
 		<ttl>5</ttl>
 		
 		{{if $RssFeed->hasImage}}
@@ -27,7 +27,7 @@
 		<guid isPermaLink="false">{{$feedItem->guid}}</guid>
 		<link>{{$feedItem->link}}</link>
 		<description>{{$feedItem->description}}</description>
-		<pubDate>{{"r"|@date:$smarty.now}}</pubDate>
+		<pubDate>{{$feedItem->pubDate}}</pubDate>
 		</item>
 		{{/foreach}}
 	
