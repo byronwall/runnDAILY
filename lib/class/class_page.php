@@ -4,6 +4,7 @@ class Page{
 	var $min_permission = 100;
 	var $tab = "home";
 	var $title = "Runn Daily";
+	public $common;
 	
 	public static function fromFetchAssoc($row){
 		$page = new Page();
@@ -12,6 +13,7 @@ class Page{
 		$page->page_name = isset($row["p_page_name"])? $row["p_page_name"] : null;
 		$page->tab = isset($row["p_tab"])? $row["p_tab"] : null;
 		$page->title = isset($row["p_title"])? $row["p_title"] : null;
+		$page->common = isset($row["p_common"])? $row["p_common"] : null;
 		
 		return $page;
 	}
