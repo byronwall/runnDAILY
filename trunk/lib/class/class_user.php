@@ -190,26 +190,20 @@ class User{
 	 * @return User
 	 */
 	public static function fromUsername($username){
-		$stmt = database::getDB()->prepare("SELECT u_username, u_uid FROM users WHERE u_username=?") or die($stmt->error);
+		$stmt = database::getDB()->prepare("
+			SELECT * FROM users WHERE u_username=?
+		") or die($stmt->error);
 
 		$stmt->bind_param("s",$username);
 		$stmt->execute();
 		$stmt->store_result();
 
-		if($stmt->num_rows == 1){
-			$row = $stmt->fetch_assoc();
-
-			$user = new User();
-			$user->username = $row["u_username"];
-			$user->userID = $row["u_uid"];
-
-			$stmt->close();
-
-			return $user;
-		}
-		else{
-			return false;
-		}
+		$row = $stmt->fetch_assoc();
+		
+		$user = User::fromFetchAssoc($row);
+		$stmt->close();
+		
+		return $user;
 	}
 
 	/**
