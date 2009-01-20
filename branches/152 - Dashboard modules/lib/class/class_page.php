@@ -44,6 +44,10 @@ class Page{
 		}
 		return Page::fromFetchAssoc($row);
 	}
+	public $modules = array();
+	public function addModule($module){
+		$this->modules[] = call_user_func("Module::draw_{$module}");
+	}
 	
 }
 ?>

@@ -17,6 +17,7 @@ class User{
 	var $type = 400;
 	var $cookie_hash;
 	public $date_access;
+	public $route_panels;
 
 	var $routes = array();
 
@@ -244,6 +245,7 @@ class User{
 		$this->type = $row["u_type"];
 		$this->cookie_hash = $row["u_cookie_hash"];
 		$this->date_access = $row["u_date_access"];
+		$this->route_panels = array_safe($row, "u_route_panels");
 
 	}
 

@@ -6,6 +6,13 @@
 	</ul>
 </div>
 
+{{foreach from=$page->modules item=module}}
+<div id="module_{{$module->id}}">
+	<h2>{{$module->title}}</h2>
+	{{$module->content}}
+</div>
+{{/foreach}}
+
 <div id="route_recent_con">
 	<h2>Recently Created</h2>
 	{{foreach from=$recent_route_list item=route}}
