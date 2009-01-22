@@ -16,6 +16,7 @@ class User extends Object{
 	public $type = 400;
 	public $cookie_hash;
 	public $date_access;
+	public $msg_new;
 
 	public $routes = array();
 	
