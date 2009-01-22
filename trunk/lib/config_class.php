@@ -1,6 +1,10 @@
 <?php
 DEFINE("SITE_ROOT", dirname(dirname(__FILE__)));
 
+function __autoload($class){
+	require_once(SITE_ROOT."/lib/class/class_".strtolower($class).".php");
+}
+
 require_once(SITE_ROOT."/lib/class/ext_mysqli.php");
 require_once(SITE_ROOT."/lib/class/class_user.php");
 require_once(SITE_ROOT."/lib/class/class_route.php");
