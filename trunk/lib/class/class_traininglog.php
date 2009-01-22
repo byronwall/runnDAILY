@@ -1,15 +1,21 @@
 <?php
-class TrainingLog{
-	var $date;
-	var $time;
-	var $distance;
-	var $rid;
-	var $uid;
-	var $tid;
-	var $pace;
+class TrainingLog extends Object{
+	public $date;
+	public $time;
+	public $distance;
+	public $rid;
+	public $uid;
+	public $tid;
+	public $pace;
 
-	var $route;
+	public $route;
 
+	function __construct($arr = null, $arr_pre = "t_"){
+		parent::__construct($arr, $arr_pre);
+		$this->date = strtotime($this->date);
+		$this->time = TrainingLog::getSecondsFromFormat($this->time);
+		$this->route = new Route($arr);
+	}	
 	/**
 	 * Calculates the pace in MPH
 	 * @return float
@@ -18,28 +24,6 @@ class TrainingLog{
 		return $this->distance * 3600 / $this->time;
 	}
 	
-	/**
-	 * Function takes an array and attempts to convert it into a trainging object.
-	 * @param $row: the array with data
-	 * @param $shouldGetRoute: whether or not to search for route data
-	 * @return TrainingLog
-	 */
-	public static function fromFetchAssoc($row, $shouldGetRoute = false){
-		$item = new TrainingLog();
-
-		$item->date = isset($row["t_date"])?strtotime( $row["t_date"]) : null;
-		$item->distance = isset($row["t_distance"])? $row["t_distance"]: null;
-		$item->rid = isset($row["t_rid"])?$row["t_rid"] : null;
-		$item->tid = isset($row["t_tid"])?$row["t_tid"] : null;
-		$item->time = isset($row["t_time"])? TrainingLog::getSecondsFromFormat($row["t_time"]) : null ;
-		$item->uid = isset($row["t_uid"])?$row["t_uid"] : null;
-		$item->pace = isset($row["t_pace"])?$row["t_pace"] : null;
-
-		if($shouldGetRoute){
-			$item->route = Route::fromFetchAssoc($row);
-		}
-		return $item;
-	}
 	/**
 	 * Returns whether or not the user ID of the training log equals a given user ID.
 	 * @param $uid: ID for comparison
@@ -55,14 +39,14 @@ class TrainingLog{
 	 * @return bool
 	 */
 	public function deleteItemSecure(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			DELETE t FROM training_times as t, users as u
 			WHERE
 				t.t_tid = ? AND
 				t.t_uid = u.u_uid AND
 				u.u_uid = ?
 		");
-		$stmt->bind_param("ii", $this->tid, $_SESSION["userData"]->userID );
+		$stmt->bind_param("ii", $this->tid, User::$current_user->uid );
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
@@ -70,7 +54,7 @@ class TrainingLog{
 		$stmt->close();
 
 		if($rows == 1){
-			Log::insertItem($_SESSION["userData"], 301, null, $this->rid, $this->tid, null);
+			Log::insertItem(User::$current_user->uid, 301, null, $this->rid, $this->tid, null);
 			return true;
 		}
 		return false;
@@ -80,7 +64,7 @@ class TrainingLog{
 	 * @return bool
 	 */
 	public function updateItem(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			UPDATE training_times
 			SET
 				t_time = ?,
@@ -97,7 +81,7 @@ class TrainingLog{
 		$stmt->close();
 
 		if($rows == 1){
-			Log::insertItem($_SESSION["userData"], 302, null, $this->rid, $this->tid, null);
+			Log::insertItem(User::$current_user->uid, 302, null, $this->rid, $this->tid, null);
 			return true;
 		}
 		return false;
@@ -125,7 +109,7 @@ class TrainingLog{
 	 */
 	public static function getItemsForUser($uid, $date_start = 0, $date_end = 0){
 		if($date_end == 0) $date_end = mktime();
-		$stmt = database::getDB()->prepare(
+		$stmt = Database::getDB()->prepare(
 		"SELECT *
 		FROM training_times
 		WHERE t_uid = ? AND t_date <= FROM_UNIXTIME(?) AND t_date >= FROM_UNIXTIME(?) ORDER BY t_date DESC"
@@ -137,7 +121,7 @@ class TrainingLog{
 		$training_items = array();
 
 		while($row = $stmt->fetch_assoc()){
-			$training_items[] = TrainingLog::fromFetchAssoc($row);
+			$training_items[] = new TrainingLog($row);
 		}
 
 		return $training_items;
@@ -146,7 +130,7 @@ class TrainingLog{
 		$limit_lower = $page * $count;
 		$limit_upper = $page * $count + $count;
 
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT * 
 			FROM training_times 
 			WHERE t_uid=? 
@@ -160,7 +144,7 @@ class TrainingLog{
 		$items = array();
 
 		while ($row = $stmt->fetch_assoc()) {
-			$items[] = TrainingLog::fromFetchAssoc($row, false);
+			$items[] = new TrainingLog($row);
 		}
 
 		$stmt->close();
@@ -173,7 +157,7 @@ class TrainingLog{
 	 * @return TrainingLog
 	 */
 	public static function getItem($tid){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 		SELECT * FROM training_times as t
 		LEFT JOIN routes as r ON r.r_id = t.t_rid
 		WHERE t.t_tid = ?
@@ -185,11 +169,11 @@ class TrainingLog{
 		$row = $stmt->fetch_assoc();
 		$stmt->close();
 
-		return TrainingLog::fromFetchAssoc($row, true);
+		return new TrainingLog($row);
 	}
 	
 	public function createItem(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			INSERT INTO training_times
 			SET
 				t_time = ?,
@@ -199,7 +183,7 @@ class TrainingLog{
 				t_rid = ?,
 				t_uid = ?
 		");
-		$stmt->bind_param("dddsii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, $_SESSION["userData"]->userID);
+		$stmt->bind_param("dddsii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
@@ -209,7 +193,7 @@ class TrainingLog{
 		
 		if($rows == 1){
 			$this->tid = $ins_id;
-			Log::insertItem($_SESSION["userData"], 300, null, $this->rid, $this->tid, null);
+			Log::insertItem(User::$current_user->uid, 300, null, $this->rid, $this->tid, null);
 			return $ins_id;
 		}
 		return false;

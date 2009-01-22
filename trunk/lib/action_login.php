@@ -5,8 +5,7 @@ if(isset($_REQUEST["action"])){
 	switch ($_REQUEST["action"]){
 		case "logout":
 			User::logout();
-			header("location: http://".$_SERVER['SERVER_NAME']);
-			exit;
+			Page::redirect("/");
 			break;
 		case "login":
 			$username = $_POST["username"];
@@ -14,18 +13,15 @@ if(isset($_REQUEST["action"])){
 			$remember = isset($_POST["remember"])?$_POST["remember"]:false;
 
 			if(User::login($username, $password, $remember)){
-				$refer = "http://" . $_SERVER["SERVER_NAME"];
+				$refer = "/";
 				if(isset($_SESSION["login_redirect"])){
 					$refer = $_SESSION["login_redirect"];
 					unset($_SESSION["login_redirect"]);
 				}
-
-				header("location: ".$refer);
-				exit;
+				Page::redirect($refer);
 			}
 			else{
-				header("location: http://". $_SERVER["SERVER_NAME"]."/login.php");
-				exit;
+				Page::redirect("/login.php");
 			}
 			break;
 		case "register":
@@ -33,12 +29,10 @@ if(isset($_REQUEST["action"])){
 			$password = $_POST["password"];
 
 			if(User::createUser($username, $password)){
-				header("location: http://".$_SERVER['SERVER_NAME']);
-				exit;
+				Page::redirect("/");
 			}
 			else{
-				header("location: http://".$_SERVER['SERVER_NAME']."/register.php");
-				exit;
+				Page::redirect("/register.php");
 			}
 			break;
 		case "activate":
@@ -49,8 +43,7 @@ if(isset($_REQUEST["action"])){
 				echo "active";
 				User::loginSystem(User::fromUid($uid));
 			}
-			header("location: http://". $_SERVER["SERVER_NAME"]."/index.php");
-			exit;
+			Page::redirect("/index.php");
 			break;
 	}
 }

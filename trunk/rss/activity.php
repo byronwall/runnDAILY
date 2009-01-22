@@ -6,7 +6,7 @@ if(!isset($_GET["username"])){
 }
 
 $user = User::fromUsername($_GET["username"]);
-$a_items = Log::getActivityForUserByAid($user->userID, array(300,102,100,302));
+$a_items = Log::getActivityForUserByAid($user->uid, array(300,102,100,302));
 $feed = new RssFeed("Training entries for {$user->username}", "http://{$_SERVER["SERVER_NAME"]}", "Includes the activity for a given user.");
 $feed->pubDate = date(DATE_RSS);
 $feed->defineImageForFeed(new RssImage("running logo", "http://{$_SERVER["SERVER_NAME"]}", "http://{$_SERVER["SERVER_NAME"]}/img/logo.png"));

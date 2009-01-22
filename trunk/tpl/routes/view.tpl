@@ -13,7 +13,7 @@
 
 <div id="map_placeholder" class="large_map"></div>
 
-{{if $route_view->getIsOwner($currentUser->userID)}}
+{{if $route_view->getIsOwner($currentUser->uid)}}
 	<ul id="creator_actions">
 		<h2>creator actions</h2>
 		{{if $route_view->getCanEdit()}}

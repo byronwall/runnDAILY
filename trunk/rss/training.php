@@ -7,7 +7,7 @@ if(!isset($_GET["username"])){
 
 $user = User::fromUsername($_GET["username"]);
 
-$t_items = TrainingLog::getItemsForUser($user->userID);
+$t_items = TrainingLog::getItemsForUser($user->uid);
 
 $feed = new RssFeed("Training entries for {$user->username}", "http://{$_SERVER["SERVER_NAME"]}", "Includes the training data for a given user.");
 $feed->pubDate = date(DATE_RSS);

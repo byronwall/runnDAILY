@@ -9,7 +9,7 @@ $parser->addCondition(new SqlEqualCondition("u_uid"));
 $parser->addCondition(new SqlRangeCondition("u_type"));
 $parser->setData($_GET);
 
-$stmt = database::getDB()->prepare("
+$stmt = Database::getDB()->prepare("
 	SELECT *
 	FROM users
 	WHERE 
@@ -22,7 +22,7 @@ $stmt->store_result();
 
 $users = array();
 while($row = $stmt->fetch_assoc()){
-	$users[] = User::fromFetchAssoc($row);
+	$users[] = new User($row);
 }
 
 $smarty->assign("users", $users);

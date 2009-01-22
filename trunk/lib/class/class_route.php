@@ -1,21 +1,21 @@
 <?php
-class Route{
+class Route extends Object{
+	public $distance;
+	public $points;
+	public $description;
+	public $name;
+	public $id;
+	public $rid_parent;
+	public $start_lat;
+	public $start_lng;
+	public $creation;
+	public $uid;
 
-	var $distance;
-	var	$points;
-	var	$comments;
-	var	$name;
-	var $id;
-	var $rid_parent;
-	var $start_lat;
-	var $start_lng;
-	var $date_creation;
-	var $uid;
-	
-	var $training_count;
-	var $user;
+	public $training_count;
+	public $user;
 
-	function __construct(){
+	function __construct($arr = null, $arr_pre = "r_"){
+		parent::__construct($arr, $arr_pre);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Route{
 		$limit_lower = $page * $count;
 		$limit_upper = $page * $count + $count;
 
-		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_uid=? ORDER BY r_creation DESC LIMIT ?,?") or die("error:".$stmt->error);
+		$stmt = Database::getDB()->prepare("SELECT * FROM routes WHERE r_uid=? ORDER BY r_creation DESC LIMIT ?,?") or die("error:".$stmt->error);
 		$stmt->bind_param("iii", $uid, $limit_lower, $limit_upper) or die("error:".$stmt->error);
 		$stmt->execute() or die("error:".$stmt->error);
 		$stmt->store_result();
@@ -49,7 +49,7 @@ class Route{
 		$route_list = array();
 
 		while ($row = $stmt->fetch_assoc()) {
-			$route_list[] = Route::fromFetchAssoc($row, true);
+			$route_list[] = new Route($row);
 		}
 
 		$stmt->close();
@@ -63,7 +63,7 @@ class Route{
 	 * @return array of Route objects
 	 */
 	public static function getAllRoutes(){
-		$stmt = database::getDB()->prepare("SELECT * FROM routes LIMIT 20");
+		$stmt = Database::getDB()->prepare("SELECT * FROM routes LIMIT 20");
 
 		$stmt->execute();
 		$stmt->store_result();
@@ -71,7 +71,7 @@ class Route{
 		$routes = array();
 
 		while($row = $stmt->fetch_assoc()){
-			$routes[] = Route::fromFetchAssoc($row, true);
+			$routes[] = new Route($row);
 		}
 
 		$stmt->close();
@@ -86,7 +86,7 @@ class Route{
 	 * @return Route : a populated Route object with the details
 	 */
 	public static function fromRouteIdentifier($id){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM routes as r, users as u
 			WHERE
@@ -96,16 +96,11 @@ class Route{
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
 		$stmt->store_result();
+		
+		$row = $stmt->fetch_assoc();
+		$stmt->close();
 
-		if($row = $stmt->fetch_assoc()){
-			$route = Route::fromFetchAssoc($row, true, true);
-			$stmt->close();
-			return $route;
-		}
-		else{
-			$stmt->close();
-			return false;
-		}
+		return new Route($row);
 	}
 
 
@@ -121,7 +116,7 @@ class Route{
 	 * @return Array : an array of Route objects with the appropriate data
 	 */
 	public static function getRoutesInBox($ne_lat, $ne_lng, $sw_lat, $sw_lng){
-		$stmt = database::getDB()->prepare("SELECT * FROM routes WHERE r_start_lat BETWEEN ? AND ? AND r_start_lng BETWEEN ? AND ? LIMIT 10");
+		$stmt = Database::getDB()->prepare("SELECT * FROM routes WHERE r_start_lat BETWEEN ? AND ? AND r_start_lng BETWEEN ? AND ? LIMIT 10");
 		$stmt->bind_param("dddd", $sw_lat, $ne_lat, $sw_lng, $ne_lng);
 
 		$stmt->execute();
@@ -130,7 +125,7 @@ class Route{
 		$routes_out = array();
 
 		while($row = $stmt->fetch_assoc()){
-			$routes_out[] = Route::fromFetchAssoc($row);
+			$routes_out[] = new Route($row);
 		}
 
 		$stmt->close();
@@ -138,41 +133,8 @@ class Route{
 		return $routes_out;
 	}
 
-
-	/**
-	 * Creates a new Route object from the result of a database query.  It is assumed
-	 * that the call is of the form SELECT *, or that the call will grab enough
-	 * fields to justify calling this method.  Intended to provide a uniform spot
-	 * for creating a route from the database without being repetitive.
-	 *
-	 * @param Array $row : an associative array containing the data
-	 * @param bool $includePoints : whether or not to grab point data
-	 * @return Route : the object created from the data
-	 */
-	public static function fromFetchAssoc($row, $includePoints = false, $includeUser = false){
-		$route = new Route();
-			
-		$route->distance = (isset($row["r_distance"]))?$row["r_distance"]:null;
-		$route->name = (isset($row["r_name"]))?$row["r_name"]:null;
-		$route->start_lat = (isset($row["r_start_lat"]))?$row["r_start_lat"]:null;
-		$route->start_lng = (isset($row["r_start_lng"]))?$row["r_start_lng"]:null;
-		$route->id = (isset($row["r_id"]))?$row["r_id"]:null;
-		$route->date_creation = (isset($row["r_creation"]))?$row["r_creation"]:null;
-		$route->uid = (isset($row["r_uid"]))?$row["r_uid"]:null;
-		$route->rid_parent = (isset($row["r_rid_parent"]))?$row["r_rid_parent"]:null;
-
-		if($includePoints){
-			$route->points = (isset($row["r_points"]))?$row["r_points"]:null;
-		}
-		if($includeUser){
-			$route->user = User::fromFetchAssoc($row);
-		}
-			
-		return $route;
-	}
-
 	public static function deleteRouteSecure($rid, $uid){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			DELETE routes
 			FROM routes, users
 			WHERE
@@ -194,7 +156,7 @@ class Route{
 	}
 
 	public function updateRoute(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			UPDATE routes
 			SET
 				r_name = ?,
@@ -207,7 +169,7 @@ class Route{
 			WHERE
 				r_id = ?
 		");
-		$stmt->bind_param("ssdddsi", $this->name, $this->points, $this->distance, $this->start_lat, $this->start_lng, $this->comments, $this->id);
+		$stmt->bind_param("ssdddsi", $this->name, $this->points, $this->distance, $this->start_lat, $this->start_lng, $this->description, $this->id);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
@@ -215,13 +177,13 @@ class Route{
 		$stmt->close();
 
 		if($rows == 1){
-			Log::insertItem($_SESSION["userData"]->userID, 102, null, $this->id, null, null);
+			Log::insertItem(User::$current_user->uid, 102, null, $this->id, null, null);
 			return true;
 		}
 		return false;
 	}
 	public function createRoute(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			INSERT INTO routes
 			SET
 				r_name = ?,
@@ -236,7 +198,7 @@ class Route{
 		");
 		$stmt->bind_param("ssdddsii", $this->name, $this->points,
 			$this->distance, $this->start_lat, $this->start_lng,
-			$this->comments, $_SESSION["userData"]->userID, $this->rid_parent);
+			$this->description, User::$current_user->uid, $this->rid_parent);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
@@ -246,7 +208,7 @@ class Route{
 
 		if($rows == 1){
 			$this->id = $ins_id;
-			Log::insertItem($_SESSION["userData"]->userID, 100, null, $this->id, null, null);
+			Log::insertItem(User::$current_user->uid, 100, null, $this->id, null, null);
 			return true;
 		}
 		return false;
@@ -255,7 +217,7 @@ class Route{
 	public function getTrainingCount(){
 		if($this->training_count) return $this->training_count;
 		
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT COUNT(*) as total FROM training_times WHERE t_rid = ?
 		");
 		$stmt->bind_param("i", $this->id);

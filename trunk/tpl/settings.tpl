@@ -4,7 +4,7 @@
 
 <h2>user details</h2>
 <ul>
-	<li><label for="input_email">email</label><input id="input_email" type="text" name="u_email" value="{{$currentUser->u_email}}"></li>
+	<li><label for="input_email">email</label><input id="input_email" type="text" name="u_email" value="{{$currentUser->email}}"></li>
 	<li><label for="input_password">password</label><input id="input_password" type="password" name="password"></li>
 	<li><label for="input_password2">confirm password</label><input id="input_password2" type="password" name="password_confirm"></li>
 </ul>

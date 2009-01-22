@@ -7,10 +7,5 @@ if(isset($_GET["tid"])){
 	$smarty->assign("t_item", $item);
 }
 
-$content = $smarty->fetch("training/manage.tpl");
-$smarty->assign("page_content", $content);
-
-$smarty->assign("page_title", "Training - Running Site");
-$smarty->display("master.tpl");
-
+$smarty->display_master("training/manage.tpl");
 ?>

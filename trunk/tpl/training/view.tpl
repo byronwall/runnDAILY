@@ -15,7 +15,7 @@
 	day_week_template="training/cal_day.tpl" 
 	day_mon_template="training/cal_day.tpl"
 }}
-{{if $item->getIsOwnedBy($currentUser->userID)}}
+{{if $item->getIsOwnedBy($currentUser->uid)}}
 	<ul id="training_manage">
 		<h2>manage the log</h2>
 		<li><a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox">

@@ -34,7 +34,7 @@ This is the template for the page where new routes are created.
 		    		</li>
 		    		<li>
 		    			<label for="input_desc">description</label>
-		    			<input id="input_desc" type="text" name="r_description" value="{{$route_edit->comments}}">
+		    			<input id="input_desc" type="text" name="r_description" value="{{$route_edit->description}}">
 		    		</li>		    
 		    		<input type="hidden" name="r_distance">
 		    		<input type="hidden" name="r_points">

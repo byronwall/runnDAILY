@@ -1,5 +1,5 @@
 <?php
-require("config_class.php");
+require("config.php");
 
 $username = $_GET["username"];
 

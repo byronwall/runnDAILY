@@ -4,24 +4,27 @@
  * Provides a means to create users, and authenticate users.
  *
  */
-class User{
+class User extends Object{
 
-	var $isAuthenticated = false;
-	var $username;
-	var $passwordHash;
-	var $userID;
-	var $location_lat;
-	var $location_lng;
+	public $isAuthenticated = false;
 
-	var $u_email;
-	var $type = 400;
-	var $cookie_hash;
+	public $uid;
+	public $location_lng;
+	public $location_lat;
+	public $username;
+	public $email;
+	public $type = 400;
+	public $cookie_hash;
 	public $date_access;
 
-	var $routes = array();
-
-	private $mysqli;
-
+	public $routes = array();
+	
+	public static $current_user;
+	
+	function __construct($arr = null, $arr_pre = "u_"){
+		parent::__construct($arr, $arr_pre);
+	}
+	
 	/**
 	 * Function is called to determine if the user is currently logged in.
 	 * This check is first done using the session variables.  If those are
@@ -30,27 +33,33 @@ class User{
 	 */
 	public static function cookieLogin(){
 		if(isset($_COOKIE["byroni_us_validation"])){
-			$cookie_val = $_COOKIE["byroni_us_validation"];
-			$cookie = substr($cookie_val, 0, 32);
-			$userid = substr($cookie_val, 32);
+			$cookie = substr($_COOKIE["byroni_us_validation"], 0, 32);
+			$uid = substr($_COOKIE["byroni_us_validation"], 32);
 
-			$stmt = database::getDB()->prepare("SELECT * FROM users WHERE u_uid=? AND u_cookie_hash=?");
-			$stmt->bind_param("is", $userid, $cookie);
-
+			$stmt = Database::getDB()->prepare("
+				SELECT * 
+				FROM users 
+				WHERE 
+					u_uid = ? AND 
+					u_cookie_hash = ?
+			");
+			$stmt->bind_param("is", $uid, $cookie);
 			$stmt->execute();
 			$stmt->store_result();
+			
+			$rows = $stmt->num_rows;
+			$row = $stmt->fetch_assoc();
+			$stmt->close();
 
-			if($row = $stmt->fetch_assoc()){
-				$valid_user = User::fromFetchAssoc($row);
+			if($rows == 1){
+				$valid_user = new User($row, "u_");
 				$valid_user->isAuthenticated = true;
-				$stmt->close();
 				$valid_user->updateAccessTime();
-				Log::insertItem($valid_user->userID, 203, null, null, null, null);
+				Log::insertItem($valid_user->uid, 203, null, null, null, null);
 				return $valid_user;
 			}
-			$stmt->close();
 		}
-		return false;
+		return new User();
 	}
 
 	/**
@@ -62,7 +71,7 @@ class User{
 	 * @return boolean indicating whether or not the user is logged in
 	 */
 	public static function login($uname, $password, $remember = 0){
-		$stmt = database::getDB()->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
+		$stmt = Database::getDB()->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
 		$stmt->bind_param('ss', $uname, $password);
 		$stmt->execute();
 		$stmt->store_result();
@@ -71,7 +80,7 @@ class User{
 		$stmt->close();
 
 		if($row){
-			$valid_user = User::fromFetchAssoc($row);
+			$valid_user = new User($row);
 			return User::loginSystem($valid_user, $remember);
 		}
 		return false;
@@ -85,7 +94,7 @@ class User{
 		}
 		$user->isAuthenticated = true;
 		$user->updateAccessTime();
-		Log::insertItem($user->userID, 201, null, null, null, null);
+		Log::insertItem($user->uid, 201, null, null, null, null);
 			
 		return $user;
 
@@ -96,7 +105,7 @@ class User{
 	 *
 	 */
 	private function updateUserCookie(){
-		setcookie("byroni_us_validation",$this->cookie_hash.$this->userID, mktime()+3600*24*30,"/");
+		setcookie("byroni_us_validation",$this->cookie_hash.$this->uid, mktime()+3600*24*30,"/");
 		
 		return true;
 	}
@@ -108,7 +117,7 @@ class User{
 	 * @return boolean indicating whether or not the creation and subsequent login were successful.
 	 */
 	public static function createUser($uname, $password){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			INSERT INTO users(u_username, u_password, u_cookie_hash) VALUES (?, MD5(?), MD5(NOW()))
 		");
 		$stmt->bind_param("ss", $uname, $password);
@@ -135,8 +144,8 @@ class User{
 	 * This function would be used to update user preferences from some sort of profile page.
 	 * */
 	function updateUserDetails(){
-		$stmt = database::getDB()->prepare("UPDATE users SET u_location_lat = ?, u_location_lng = ?, u_email = ? WHERE u_uid = ?");
-		$stmt->bind_param("ddsi", $this->location_lat, $this->location_lng, $this->u_email, $this->userID);
+		$stmt = Database::getDB()->prepare("UPDATE users SET u_location_lat = ?, u_location_lng = ?, u_email = ? WHERE u_uid = ?");
+		$stmt->bind_param("ddsi", $this->location_lat, $this->location_lng, $this->email, $this->uid);
 		$stmt->execute();
 
 		$isSuccess = $stmt->affected_rows == 1;
@@ -150,8 +159,8 @@ class User{
 	 *
 	 */
 	function updateAccessTime(){
-		$stmt = database::getDB()->prepare("UPDATE users SET u_date_access = NOW() WHERE u_uid = ?");
-		$stmt->bind_param("i", $this->userID);
+		$stmt = Database::getDB()->prepare("UPDATE users SET u_date_access = NOW() WHERE u_uid = ?");
+		$stmt->bind_param("i", $this->uid);
 		$stmt->execute();
 		$stmt->close();
 	}
@@ -162,7 +171,7 @@ class User{
 	 *
 	 */
 	public static function logout(){
-		Log::insertItem($_SESSION["userData"]->userID, 202, null, null, null, null);
+		Log::insertItem(User::$current_user->uid, 202, null, null, null, null);
 		session_destroy();
 		setcookie("byroni_us_validation", "", mktime()-3600, "/");
 		return true;
@@ -175,12 +184,12 @@ class User{
 	 * @return Array of User types
 	 */
 	public static function getListOfUsers(){
-		$result = database::getDB()->query("SELECT * FROM users") or die("error on sql");
+		$result = Database::getDB()->query("SELECT * FROM users") or die("error on sql");
 
 		$user_list = array();
 
 		while($row = $result->fetch_assoc()){
-			$user_list[] = User::fromFetchAssoc($row);
+			$user_list[] = new User($row);
 		}
 		return $user_list;
 	}
@@ -191,7 +200,7 @@ class User{
 	 * @return User
 	 */
 	public static function fromUsername($username){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT * FROM users WHERE u_username=?
 		") or die($stmt->error);
 
@@ -201,7 +210,7 @@ class User{
 
 		$row = $stmt->fetch_assoc();
 		
-		$user = User::fromFetchAssoc($row);
+		$user = new User($row);
 		$stmt->close();
 		
 		return $user;
@@ -214,62 +223,30 @@ class User{
 	 * @return User: object representing the new user
 	 */
 	public static function fromUid($uid){
-		$stmt = database::getDB()->prepare("SELECT * FROM users WHERE u_uid=?") or die($stmt->error);
+		$stmt = Database::getDB()->prepare("SELECT * FROM users WHERE u_uid=?") or die($stmt->error);
 		$stmt->bind_param("i",$uid);
 		$stmt->execute();
 		$stmt->store_result();
 
 		$row = $stmt->fetch_assoc();
 
-		$user = User::fromFetchAssoc($row);
+		$user = new User($row);
 
 		$stmt->close();
 
 		return $user;
 	}
 
-	/**
-	 * Function used as a uniform means of returning a new user from a datbase
-	 * query.  Updates the current user in place.
-	 *
-	 * @param array $row: array of results from a database query
-	 */
-	private function loadInfoFromFetchAssoc($row){
-		$this->username = $row["u_username"];
-		$this->userID = $row["u_uid"];
-		$this->location_lat = $row["u_location_lat"];
-		$this->location_lng = $row["u_location_lng"];
-		$this->u_email = $row["u_email"];
-		$this->msg_new = $row["u_msg_new"];
-		$this->type = $row["u_type"];
-		$this->cookie_hash = $row["u_cookie_hash"];
-		$this->date_access = $row["u_date_access"];
-
-	}
-
-	/**
-	 * Wrapper for the instance funciton of the similar name.  Is used to
-	 * return a new User from a database query.
-	 *
-	 * @param array $row: array representing the database query
-	 * @return User: the new user from the database query
-	 */
-	public static function fromFetchAssoc($row){
-		$user = new User();
-		$user->loadInfoFromFetchAssoc($row);
-		return $user;
-	}
 	public function checkPermissions($min_perm, $redirect = true){
-		if($this->type > $min_perm){
+		if(isset($this->type) && $this->type > $min_perm){
 			if(!$redirect) return false;
-			$_SESSION["login_redirect"] = "http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-			header("location: http://" . $_SERVER["SERVER_NAME"] ."/login.php");
-			exit;
+			$_SESSION["login_redirect"] = $_SERVER["REQUEST_URI"];
+			Page::redirect("/login.php");
 		}
 		return true;
 	}
 	public static function activateUser($uid, $activation_hash){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			UPDATE users
 			SET u_type = 300
 			WHERE u_uid = ? AND u_cookie_hash = ?
@@ -287,20 +264,20 @@ class User{
 		return false;
 	}
 	public function refreshDetails(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT * FROM users WHERE u_uid = ?
 		");
-		$stmt->bind_param("i", $this->userID);
+		$stmt->bind_param("i", $this->uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
 		$row = $stmt->fetch_assoc();
-		$this->loadInfoFromFetchAssoc($row);
+		$this->__construct($row);
 		$stmt->close();
 		
 	}
 	public static function getUserExists($username){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT u_uid
 			FROM users
 			WHERE
@@ -323,10 +300,10 @@ class User{
 	 * @return int: int giving the number of rows changed (success/fail)
 	 */
 	public function addFriend($friend_uid){
-		if($this->userID == $friend_uid) return 0;
+		if($this->uid == $friend_uid) return 0;
 		
-		$stmt = database::getDB()->prepare("INSERT INTO users_friends(f_uid_1, f_uid_2, f_date_start) VALUES(?,?, NOW())");
-		$stmt->bind_param("ii", $this->userID, $friend_uid);
+		$stmt = Database::getDB()->prepare("INSERT INTO users_friends(f_uid_1, f_uid_2, f_date_start) VALUES(?,?, NOW())");
+		$stmt->bind_param("ii", $this->uid, $friend_uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
@@ -341,20 +318,20 @@ class User{
 	 * @return array: an array of User objects
 	 */
 	public function getFriends(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT users.* FROM users_friends
 			INNER JOIN users
 			ON users.u_uid = users_friends.f_uid_2
 			WHERE users_friends.f_uid_1 = ?
 		");
-		$stmt->bind_param("i", $this->userID);
+		$stmt->bind_param("i", $this->uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
 		$users = array();
 		
 		while($row = $stmt->fetch_assoc()){
-			$users[] = User::fromFetchAssoc($row);
+			$users[] = new User($row);
 		}
 		
 		return $users;		
