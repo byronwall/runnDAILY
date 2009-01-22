@@ -12,7 +12,7 @@ $parser->addCondition(new SqlLikeCondition("u_username"));
 $parser->addCondition(new SqlEqualCondition("u_uid"));
 $parser->setData($_GET);
 
-$stmt = database::getDB()->prepare("
+$stmt = Database::getDB()->prepare("
 	SELECT *
 	FROM training_times
 	JOIN users ON u_uid = t_uid
@@ -26,7 +26,7 @@ $stmt->store_result();
 
 $t_items = array();
 while($row = $stmt->fetch_assoc()){
-	$t_items[] = TrainingLog::fromFetchAssoc($row);
+	$t_items[] = new TrainingLog($row);
 }
 
 $smarty->assign("t_items", $t_items);

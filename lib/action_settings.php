@@ -6,7 +6,7 @@ require("config.php");
 
 $user->location_lat = $_POST["user_home_lat"];
 $user->location_lng = $_POST["user_home_lng"];
-$user->u_email = $_POST["u_email"];
+$user->email = $_POST["u_email"];
 
 if($user->updateUserDetails()){
 	header("Location: http://". $_SERVER['SERVER_NAME']);

@@ -10,7 +10,7 @@ $parser->addCondition(new SqlLikeCondition("r_name"));
 $parser->addCondition(new SqlEqualCondition("u_uid"));
 $parser->setData($_GET);
 
-$stmt = database::getDB()->prepare("
+$stmt = Database::getDB()->prepare("
 	SELECT *
 	FROM routes
 	JOIN users ON u_uid = r_uid
@@ -24,7 +24,7 @@ $stmt->store_result();
 
 $routes = array();
 while($row = $stmt->fetch_assoc()){
-	$routes[] = Route::fromFetchAssoc($row, true, true);
+	$routes[] = new Route($row);
 }
 
 $smarty->assign("routes", $routes);

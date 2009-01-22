@@ -1,24 +1,17 @@
 <?php
 class Page extends Object{
-	var $page_name;
-	var $min_permission = 100;
-	var $tab = "home";
-	var $title = "Runn Daily";
+	public $page_name;
+	public $min_permission = 100;
+	public $tab = "home";
+	public $title = "Runn Daily";
 	public $common;
 	
-	public static function fromFetchAssoc($row){
-		$page = new Page();
-		
-		$page->min_permission = isset($row["p_min_permission"])? $row["p_min_permission"] : null;
-		$page->page_name = isset($row["p_page_name"])? $row["p_page_name"] : null;
-		$page->tab = isset($row["p_tab"])? $row["p_tab"] : null;
-		$page->title = isset($row["p_title"])? $row["p_title"] : null;
-		$page->common = isset($row["p_common"])? $row["p_common"] : null;
-		
-		return $page;
+	function __construct($arr = null, $arr_pre = "p_"){
+		parent::__construct($arr, $arr_pre);
 	}
+	
 	public static function getPage($script_name){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM permissions
 			WHERE
@@ -33,7 +26,7 @@ class Page extends Object{
 		$stmt->close();
 		
 		if($rows != 1){
-			$add_stmt = database::getDB()->prepare("
+			$add_stmt = Database::getDB()->prepare("
 				INSERT INTO permissions(p_page_name) VALUES(?)
 			");
 			$add_stmt->bind_param("s", $script_name);
@@ -42,14 +35,14 @@ class Page extends Object{
 			
 			return new Page();
 		}
-		return Page::fromFetchAssoc($row);
+		return new Page($row);
 	}
-	public static function redirect($page){
+	public static function redirect($page = "/"){
 		header("location: http://{$_SERVER["SERVER_NAME"]}{$page}");
 		exit;
 	}
 	public static function getAllPages(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM permissions
 		");
@@ -59,13 +52,13 @@ class Page extends Object{
 		$pages = array();
 		
 		while($row = $stmt->fetch_assoc()){
-			$pages[] = new Page($row, "p_");
+			$pages[] = new Page($row);
 		}
 		$stmt->close();
 		return $pages;
 	}
 	public function updatePage(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			UPDATE permissions
 			SET
 				p_min_permission = ?,

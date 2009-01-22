@@ -1,17 +1,21 @@
 <?php
-class Message{
+class Message extends Object{
 
-	var $mid;
-	var $uid_to;
-	var $uid_from;
-	var $user;
-	var $msg;
-	var $new;
-	var $date;
+	public $mid;
+	public $uid_to;
+	public $uid_from;
+	public $msg;
+	public $new;
+	public $date;
 
-	function __construct(){
+	public $user;
+
+	function __construct($arr = null, $arr_pre = "m_"){
+		parent::__construct($arr, $arr_pre);
+		
+		$this->user = new User($arr);
 	}
-
+	
 	function createOrUpdateMessage(){
 		if(!$this->mid){
 			return $this->createMessage();
@@ -21,7 +25,7 @@ class Message{
 		}
 	}
 	private function createMessage(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			INSERT INTO messages(m_uid_to, m_uid_from, m_msg, m_date)
 			VALUES(?,?,?,NOW())
 		");
@@ -33,7 +37,7 @@ class Message{
 		$stmt->close();
 
 		if($rows == 1){
-			$stmt = database::getDB()->prepare("
+			$stmt = Database::getDB()->prepare("
 				UPDATE users SET u_msg_new = u_msg_new + 1 WHERE u_uid = ?
 			");
 			$stmt->bind_param("i", $this->uid_to);
@@ -48,32 +52,17 @@ class Message{
 	private function updateMessage(){
 		return false;
 	}
-	public static function fromFetchAssoc($row, $getUserFrom = false){
-		$message = new Message();
 
-		$message->date = isset($row["m_date"])?$row["m_date"]:null;
-		$message->mid = isset($row["m_mid"])?$row["m_mid"]:null;
-		$message->msg = isset($row["m_msg"])?$row["m_msg"]:null;
-		$message->new = isset($row["m_new"]) ? $row["m_new"] : true;
-		$message->uid_from = isset($row["m_uid_from"])?$row["m_uid_from"]:null;
-		$message->uid_to = isset($row["m_uid_to"])?$row["m_uid_to"]:null;
-		
-		if($getUserFrom){
-			$message->user = User::fromFetchAssoc($row);
-		}
-		
-		return $message;
-	}
 	public static function getMessagesForUser($uid, $getToUser = true){
 		
 		if($getToUser){
-			$stmt = database::getDB()->prepare("
+			$stmt = Database::getDB()->prepare("
 				SELECT * FROM messages as m, users as u
 				WHERE m.m_uid_to = ? AND m.m_uid_from = u.u_uid
 			");
 		}
 		else{
-			$stmt = database::getDB()->prepare("
+			$stmt = Database::getDB()->prepare("
 				SELECT * FROM messages as m, users as u
 				WHERE m.m_uid_from = ? AND m.m_uid_to = u.u_uid
 			");
@@ -85,7 +74,7 @@ class Message{
 		$msgs = array();
 		
 		while($row = $stmt->fetch_assoc()){
-			$msgs[] = Message::fromFetchAssoc($row, true);
+			$msgs[] = new Message($row);
 		}
 		
 		$stmt->close();
@@ -95,7 +84,7 @@ class Message{
 	public function deleteMessage(){
 		if(!$this->mid) return false;
 		
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			DELETE FROM messages WHERE m_mid = ?
 		");
 		$stmt->bind_param("i", $this->mid);

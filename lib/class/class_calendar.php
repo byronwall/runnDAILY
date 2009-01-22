@@ -3,13 +3,13 @@ define("CAL_MONTH", 1);
 define("CAL_WEEK", 2);
 
 class Calendar{
-	var $month;
-	var $year;
-	var $offset;
-	var $cal_type = CAL_MONTH;
-	var $timestamp;
+	public $month;
+	public $year;
+	public $offset;
+	public $cal_type = CAL_MONTH;
+	public $timestamp;
 
-	var $days = array();
+	public $days = array();
 
 	/**
 	 * Creates a new Calendar object
@@ -98,10 +98,10 @@ class Calendar{
  *
  */
 class CalendarDay{
-	var $timestamp;
-	var $items = array();
-	var $day_num;
-	var $month_current = true;
+	public $timestamp;
+	public $items = array();
+	public $day_num;
+	public $month_current = true;
 
 	/**
 	 * Creates a new CalendarDay object

@@ -1,33 +1,32 @@
 <?php
-require("config_class.php");
+DEFINE("SITE_ROOT", dirname(dirname(__FILE__)));
+DEFINE("CLASS_ROOT", SITE_ROOT."/lib/class");
 
-require_once(SITE_ROOT."/_smarty/Smarty.class.php");
-require_once(SITE_ROOT."/lib/class/ext_smarty.php");
-
-/*SET UP TEMPLATING ENGINE*/
-$smarty = new Smarty_Ext();
-
-/*VALIDATE THE USER EVERYTIME*/
-session_start();
-
-if(!isset($_SESSION["userData"])){
-	$user = User::cookieLogin();
-	if($user){
-		$_SESSION["userData"] = $user;
-	}
-	else{
-		$user = new User();
+function __autoload($class){
+	$dirs = array(CLASS_ROOT."/", SITE_ROOT."/_smarty/", CLASS_ROOT."/rss/", CLASS_ROOT."/sql/");
+	foreach($dirs as $dir){
+		$path = $dir."class_".strtolower($class).".php";
+		if(file_exists($path)){
+			require_once($path);
+			return;
+		}
 	}
 }
+session_start();
+
+if(isset($_SESSION["userData"]) && $_SESSION["userData"]->uid){
+	User::$current_user = $_SESSION["userData"];
+	User::$current_user->refreshDetails();
+}
 else{
-	$user = $_SESSION["userData"];
-	$user->refreshDetails();
+	$_SESSION["userData"] = User::cookieLogin();
+	User::$current_user = $_SESSION["userData"];
 }
 $page = Page::getPage($_SERVER["SCRIPT_NAME"]);
 
-$user->checkPermissions($page->min_permission);
+User::$current_user->checkPermissions($page->min_permission);
 
-/*GENERATE THE TEMPLATE THINGS FOR EVERY PAGE*/
-$smarty->assign("currentUser", $user);
+$smarty = new Smarty_Ext();
+$smarty->assign("currentUser", User::$current_user);
 $smarty->assign("page", $page);
 ?>

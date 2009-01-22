@@ -22,10 +22,10 @@
 {{foreach from=$users item=user}}
 <form class="user_item" action="/lib/action_users.php" method="post" id="form_{{counter}}">
 	<input type="hidden" name="action" value="update" />
-	<input type="hidden" name="u_uid" value="{{$user->userID}}" />
+	<input type="hidden" name="u_uid" value="{{$user->uid}}" />
 	<tr class="{{cycle values=" , alt_row"}}">
 		<td>{{$user->username}}</td>
-		<td><input type="text" value="{{$user->u_email}}" name="u_email" class="email"/></td>
+		<td><input type="text" value="{{$user->email}}" name="u_email" class="email"/></td>
 		<td><input type="text" value="{{$user->type}}" name="u_type" class="number required"/></td>
 		<td><input type="submit" value="update" /></td>
 	</tr>

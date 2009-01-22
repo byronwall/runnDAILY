@@ -6,11 +6,7 @@ require("../lib/config.php");
  */
 
 $smarty->assign("users_all", User::getListOfUsers());
-$smarty->assign("users_friends", $user->getFriends());
+$smarty->assign("users_friends", User::$current_user->getFriends());
 
-$content = $smarty->fetch("community/index.tpl");
-$smarty->assign("page_content", $content);
-
-$smarty->assign("page_title", "Community - Running Site");
-$smarty->display("master.tpl");
+$smarty->display_master("community/index.tpl");
 ?>

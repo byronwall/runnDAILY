@@ -14,19 +14,19 @@
 <h2>Recently Created Training Entries</h2>
 <ul id="route_recent_con">
 	{{include file="training/parts/item_list.tpl" t_items=$user_training query=$t_query}}	
-	<li class="route_recent_list"><a href="/training/browse.php?u_uid={{$user->userID}}">coming soon: see all training</a></li>
+	<li class="route_recent_list"><a href="/training/browse.php?u_uid={{$user->uid}}">coming soon: see all training</a></li>
 </ul>
 
 <h2>Recently Added Activity</h2>
 <ul id="route_recent_con">
-	{{include file="log/log_list.tpl" logs=$user_log uid=$user->userID page_no=1}}
+	{{include file="log/log_list.tpl" logs=$user_log uid=$user->uid page_no=1}}
 	<li class="route_recent_list"><a href="#">coming soon: see all activity</a></li>
 </ul>
 
 <h2>Actions</h2>
 <ul>
 	<li><a href="#TB_inline?&height=300&width=300&inlineId=message_modal&modal=true" class="thickbox">send message</a></li>
-	<li><a href="#addFriend" id="a_addfriend" rel="{{$user->userID}}">add as friend</a></li>
+	<li><a href="#addFriend" id="a_addfriend" rel="{{$user->uid}}">add as friend</a></li>
 </ul>
 
 <div id="message_modal" style="display:none">
@@ -35,8 +35,8 @@
 		<textarea name="m_msg">enter message</textarea>
 		<input type="submit" value="send" />
 		<input type="button" value="cancel" onclick="tb_remove()" />
-		<input type="hidden" name="m_uid_to" value="{{$user->userID}}" />
-		<input type="hidden" name="m_uid_from" value="{{$currentUser->userID}}" />
+		<input type="hidden" name="m_uid_to" value="{{$user->uid}}" />
+		<input type="hidden" name="m_uid_from" value="{{$currentUser->uid}}" />
 	</form>
 </div>
 

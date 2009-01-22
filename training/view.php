@@ -1,12 +1,8 @@
 <?php
 require("../lib/config.php");
 
-/*
- * This is the index page for the training folder.
- */
 if(!isset($_GET["tid"])){
-	header("location: http://". $_SERVER["SERVER_NAME"]. "/training/" );
-	exit;
+	Page::redirect("/training/");
 }
 
 $tid = $_GET["tid"];
@@ -21,11 +17,5 @@ foreach($training_items as $item){
 $smarty->assign("item", $training_item);
 $smarty->assign("calendar", $cal_week);
 
-$content = $smarty->fetch("training/view.tpl");
-$smarty->assign("page_content", $content);
-
-$smarty->assign("page_title", "Training - Running Site");
-$smarty->display("master.tpl");
-
-
+$smarty->display_master("training/view.tpl");
 ?>

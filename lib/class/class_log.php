@@ -4,7 +4,7 @@
  *Additional functions are required in order to improve the
  *logic and effeciency of the entire class.*/
 
-class Log{
+class Log extends Object{
 	/*standard parameters*/
 	public $id;
 	public $uid;
@@ -14,14 +14,22 @@ class Log{
 	public $tid;
 	public $gid;
 	public $datetime;
+	
 	public $familiar;
 	public $desc;
 	
 	/*optional parameters*/
 	public $route;
 	
+	public function __construct($arr = null, $arr_pre = "l_"){
+		parent::__construct($arr, $arr_pre);
+		
+		$this->familiar = Log::reckonDate($this->datetime);
+		$this->route = new Route($arr);
+	}
+	
 	public static function insertItem($uid, $aid, $xid, $rid, $tid, $gid){
-		$stmt = database::getDB()->stmt_init();
+		$stmt = Database::getDB()->stmt_init();
 		$stmt->prepare("INSERT INTO running.logs (l_id, l_datetime, l_uid, l_aid, l_xid, l_rid, l_tid, l_gid) VALUES(NULL, NOW(), ?, ?, ?, ?, ?, ?)") or die($stmt->error);
 		$stmt->bind_param("iiiiii", $uid, $aid, $xid, $rid, $tid, $gid) or die ($stmt->error);
 		
@@ -37,7 +45,7 @@ class Log{
 	}
 	
 	public static function getRouteActivityForUser($uid, $limit = 20){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM logs as l
 			JOIN logs_actions as la ON l.l_aid = la.l_aid
@@ -57,7 +65,7 @@ class Log{
 		$recent_list = array();
 		
 		while ($row = $stmt->fetch_assoc()){
-			$recent_list[] = Log::fromFetchAssoc($row, true);
+			$recent_list[] = new Log($row);
 		}
 		
 		$stmt->close();
@@ -66,7 +74,7 @@ class Log{
 	}
 	
 	public static function getAllActivityForUser($uid, $limit = 20){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM logs as l
 			JOIN logs_actions as la ON l.l_aid = la.l_aid
@@ -85,7 +93,7 @@ class Log{
 		$recent_list = array();
 		
 		while ($row = $stmt->fetch_assoc()){
-			$recent_list[] = Log::fromFetchAssoc($row, true);
+			$recent_list[] = new Log($row);
 		}
 		
 		$stmt->close();
@@ -95,7 +103,7 @@ class Log{
 	public static function getAllActivityForUserPaged($uid, $count=5, $page=0){
 		$limit_lower = $page * $count;
 		$limit_upper = $page * $count + $count;
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM logs as l
 			JOIN logs_actions as la ON l.l_aid = la.l_aid
@@ -114,7 +122,7 @@ class Log{
 		$logs = array();
 		
 		while ($row = $stmt->fetch_assoc()){
-			$logs[] = Log::fromFetchAssoc($row, true);
+			$logs[] = new Log($row);
 		}
 		
 		$stmt->close();
@@ -174,26 +182,6 @@ class Log{
 		}
 	}
 	
-	public static function fromFetchAssoc($row, $route = false){
-		$log = new Log();
-		
-		$log->id = $row["l_id"];
-		$log->uid = $row["l_uid"];
-		$log->aid = $row["l_aid"];
-		$log->xid = $row["l_xid"];
-		$log->rid = $row["l_rid"];
-		$log->tid = $row["l_tid"];
-		$log->gid = $row["l_gid"];
-		$log->datetime = $row["l_datetime"];
-		$log->desc = $row["l_desc"];
-		$log->familiar = Log::reckonDate($log->datetime);
-		
-		if ($route){
-			$log->route = Route::fromFetchAssoc($row, false, false);
-		}
-			
-		return $log;
-	}
 	/**
 	 * Function returns the log data for a given user with the given activity ids.
 	 * @param $uid: user id
@@ -216,12 +204,12 @@ class Log{
 				l.l_uid = {$uid}
 		";
 		
-		$result = database::getDB()->query($query);
+		$result = Database::getDB()->query($query);
 				
 		$items = array();
 		
 		while($row = $result->fetch_assoc()){
-			$items[] = Log::fromFetchAssoc($row, true);
+			$items[] = new Log($row);
 		}
 		$result->close();
 		
@@ -249,12 +237,12 @@ class Log{
 				l.l_uid = {$uid}
 		";
 		
-		$result = database::getDB()->query($query);
+		$result = Database::getDB()->query($query);
 				
 		$items = array();
 		
 		while($row = $result->fetch_assoc()){
-			$items[] = Log::fromFetchAssoc($row, true);
+			$items[] = new Log($row);
 		}
 		$result->close();
 		

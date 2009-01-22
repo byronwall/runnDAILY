@@ -1,6 +1,6 @@
 <?php
 
-class database extends mysqli
+class Database extends mysqli
 {
 	//create a singleton instance
 	private static $instance = NULL;

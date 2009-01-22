@@ -7,7 +7,7 @@ class Stats extends Object{
 	public $trainings;
 
 	public static function insertStats(){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			INSERT INTO stats
 			SELECT
 				NOW() as s_date,
@@ -27,7 +27,7 @@ class Stats extends Object{
 		return false;
 	}
 	public static function getRecentStats($limit = 10){
-		$stmt = database::getDB()->prepare("
+		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM stats
 			LIMIT ?

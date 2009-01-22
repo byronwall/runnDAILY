@@ -6,16 +6,11 @@ require("../lib/config.php");
  */
 
 if(!isset($_GET["id"])){
-	header("location: http://". $_SERVER["SERVER_NAME"]."/routes/");
-	exit;
+	Page::redirect("/routes/");
 }
 $id = $_GET["id"];
 $route = Route::fromRouteIdentifier($id);
 $smarty->assign("route_view", $route);
 
-$content = $smarty->fetch("routes/view.tpl");
-$smarty->assign("page_content", $content);
-
-$smarty->assign("page_title", "Routes - Running Site");
-$smarty->display("master.tpl");
+$smarty->display_master("routes/view.tpl");
 ?>
