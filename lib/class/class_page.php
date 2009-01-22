@@ -1,5 +1,5 @@
 <?php
-class Page{
+class Page extends Object{
 	var $page_name;
 	var $min_permission = 100;
 	var $tab = "home";
@@ -43,6 +43,50 @@ class Page{
 			return new Page();
 		}
 		return Page::fromFetchAssoc($row);
+	}
+	public static function redirect($page){
+		header("location: http://{$_SERVER["SERVER_NAME"]}{$page}");
+		exit;
+	}
+	public static function getAllPages(){
+		$stmt = database::getDB()->prepare("
+			SELECT *
+			FROM permissions
+		");
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$pages = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$pages[] = new Page($row, "p_");
+		}
+		$stmt->close();
+		return $pages;
+	}
+	public function updatePage(){
+		$stmt = database::getDB()->prepare("
+			UPDATE permissions
+			SET
+				p_min_permission = ?,
+				p_title = ?,
+				p_new_flag = FALSE,
+				p_tab = ?,
+				p_common = ?
+			WHERE
+				p_page_name = ?
+		");
+		$stmt->bind_param("issss", $this->min_permission, $this->title, $this->tab, $this->common,$this->page_name);
+		$stmt->execute() or die("error:{$stmt->error}");
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		if($rows == 1){
+			return true;
+		}
+		return false;
 	}
 	
 }

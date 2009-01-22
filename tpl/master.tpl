@@ -37,6 +37,9 @@ This is the master template which holds all of the main layout.
     		<li id="tab_routes" class="tab_inactive"><a href="/routes/index.php">Routes</a></li>
     		<li id="tab_training" class="tab_inactive"><a href="/training/index.php">Training</a></li>
     		<li id="tab_community" class="tab_inactive"><a href="/community/index.php">Community</a></li>
+    		{{if $currentUser->checkPermissions(100, false)}}
+    			<li id="tab_admin" class="tab_inactive"><a href="/admin/index.php">Admin</a></li>
+    		{{/if}}
     	</ul>
     </div>
     
