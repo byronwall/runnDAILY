@@ -400,3 +400,6 @@ input.error {
 	background-repeat: repeat-x;
 	background-image: url(../img/top.png);
 }
+.alt_row{
+	background-color:#DDDDDD;
+}

@@ -1,27 +1,47 @@
 <?php
-class Stats{
-	public static function insertStats(){
-		$result  = database::getDB()->query("SELECT COUNT(*) as s_users FROM users");
-		$result_arr = $result->fetch_assoc();
-		$users = $result_arr["s_users"];
-		$result->close();
+class Stats extends Object{
+	public $date;
+	public $users;
+	public $routes;
+	public $routes_parent;
+	public $trainings;
 
-		$result  = database::getDB()->query("SELECT COUNT(*) as s_routes FROM routes");
-		$result_arr = $result->fetch_assoc();
-		$users = $result_arr["s_users"];
-		$result->close();
+	public static function insertStats(){
+		$stmt = database::getDB()->prepare("
+			INSERT INTO stats
+			SELECT
+				NOW() as s_date,
+				(SELECT COUNT(*)FROM users) as s_users,
+				(SELECT COUNT(*) FROM routes) as s_routes,
+				(SELECT COUNT(*) FROM routes WHERE r_rid_parent IS NULL) as s_routes_parent,
+				(SELECT COUNT(*) FROM training_times) as s_trainings
+		");
+		$stmt->execute();
+		$stmt->store_result();
+
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		if($rows == 1){
+			return true;
+		}
+		return false;
+	}
+	public static function getRecentStats($limit = 10){
+		$stmt = database::getDB()->prepare("
+			SELECT *
+			FROM stats
+			LIMIT ?
+		");
+		$stmt->bind_param("i", $limit);
+		$stmt->execute();
+		$stmt->store_result();
 		
-		$result  = database::getDB()->query("SELECT COUNT(*) as s_routes_parent FROM routes WHERE r_rid_parent IS NULL");
-		$result_arr = $result->fetch_assoc();
-		$users = $result_arr["s_users"];
-		$result->close();
+		$stats = array();
 		
-		$result  = database::getDB()->query("SELECT COUNT(*) as s_trainings FROM training_times");
-		$result_arr = $result->fetch_assoc();
-		$users = $result_arr["s_users"];
-		$result->close();
-		
-		
+		while($row =$stmt->fetch_assoc()){
+			$stats[] = new Stats($row, "s_");
+		}
+		return $stats;
 	}
 }
 ?>

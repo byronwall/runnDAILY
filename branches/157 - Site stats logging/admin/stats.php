@@ -1,5 +1,6 @@
 <?php
 require("../lib/config.php");
 
-Stats::insertStats();
+$smarty->assign("stats",Stats::getRecentStats());
+$smarty->display_master("admin/stats.tpl");
 ?>

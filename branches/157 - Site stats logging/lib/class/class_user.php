@@ -259,8 +259,9 @@ class User{
 		$user->loadInfoFromFetchAssoc($row);
 		return $user;
 	}
-	public function checkPermissions($min_perm){
-		if($this->type > $min_perm ){
+	public function checkPermissions($min_perm, $redirect = true){
+		if($this->type > $min_perm){
+			if(!$redirect) return false;
 			$_SESSION["login_redirect"] = "http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 			header("location: http://" . $_SERVER["SERVER_NAME"] ."/login.php");
 			exit;
@@ -356,7 +357,7 @@ class User{
 			$users[] = User::fromFetchAssoc($row);
 		}
 		
-		return $users;		
+		return $users;
 	}
 }
 ?>
