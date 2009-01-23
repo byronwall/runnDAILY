@@ -38,10 +38,10 @@ class User extends Object{
 			$uid = substr($_COOKIE["byroni_us_validation"], 32);
 
 			$stmt = Database::getDB()->prepare("
-				SELECT * 
-				FROM users 
-				WHERE 
-					u_uid = ? AND 
+				SELECT *
+				FROM users
+				WHERE
+					u_uid = ? AND
 					u_cookie_hash = ?
 			");
 			$stmt->bind_param("is", $uid, $cookie);
@@ -335,7 +335,24 @@ class User extends Object{
 			$users[] = new User($row);
 		}
 		
-		return $users;		
+		return $users;
+	}
+	public function updateUserInDB(){
+		$stmt = Database::getDB()->prepare("
+			UPDATE users
+			SET
+				u_type = ?
+			WHERE
+				u_uid = ?
+		");
+		$stmt->bind_param("ii", $this->type, $this->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows == 1;
 	}
 }
 ?>

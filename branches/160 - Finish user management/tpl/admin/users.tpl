@@ -20,14 +20,16 @@
 	<td>username</td><td>email</td><td>type</td>
 </thead>
 {{foreach from=$users item=user}}
-<form class="user_item" action="/lib/action_users.php" method="post" id="form_{{counter}}">
+<form class="user_item" action="/lib/action_users.php" method="post">
 	<input type="hidden" name="action" value="update" />
+	<input type="hidden" name="format" value="ajax" />
 	<input type="hidden" name="u_uid" value="{{$user->uid}}" />
-	<tr class="{{cycle values=" , alt_row"}}">
+	<tr class="{{cycle values=' ,alt_row'}}">
 		<td>{{$user->username}}</td>
 		<td><input type="text" value="{{$user->email}}" name="u_email" class="email"/></td>
 		<td><input type="text" value="{{$user->type}}" name="u_type" class="number required"/></td>
 		<td><input type="submit" value="update" /></td>
+		<td><a href="/lib/action_users.php" class="form" >delete</a></td>
 	</tr>
 </form>
 {{foreachelse}}
@@ -41,7 +43,6 @@ $(document).ready(	function(){
 	$("form.user_item").each(function(){
 		$(this).validate({
 			submitHandler: function(form){
-				return false;
 				$(form).ajaxSubmit({
 					target: "#result"
 				});
@@ -55,6 +56,11 @@ $(document).ready(	function(){
 			});
 			form.submit();
 		}
+	});
+	$("a.form").click(	function(){
+		alert("clciked");
+		$(this).parents().each( function(){alert($(this).html())});
+		return false;
 	});
 });
 
