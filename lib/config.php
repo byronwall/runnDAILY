@@ -12,6 +12,9 @@ function __autoload($class){
 		}
 	}
 }
+function array_safe($arr, $key, $default){
+	return (isset($arr[$key]))?$arr[$key]:$default;
+}
 session_start();
 
 if(isset($_SESSION["userData"]) && $_SESSION["userData"]->uid){

@@ -8,11 +8,6 @@
 	<li><a href="/admin/stats.php">Site Stats</a></li>
 </ul>
 
-<h3>Coming Soon</h3>
-<ul>
-	<li>manage users</li>
-</ul>
-
 <script type="text/javascript">
 
 $(document).ready(	function(){
