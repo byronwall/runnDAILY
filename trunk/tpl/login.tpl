@@ -6,7 +6,7 @@ This is the template for the login page.
 
 <input type="text" value="username" name="username">
 <input type="password" value="password" name="password">
-<input type="checkbox" name="remember" value=1">
+<input type="checkbox" name="remember" value="1">
 <input type="submit" value="login">
 
 
