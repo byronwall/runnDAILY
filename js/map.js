@@ -400,6 +400,7 @@ function outAndBack(){
 }
 
 function loadRouteFromDB(polyline_options, is_edit){
+	clearAllPoints();
 	map_options.draggable = is_edit;
 	polyline_options.zoomFactor = 2;
 	polyline_options.numLevels=18;
