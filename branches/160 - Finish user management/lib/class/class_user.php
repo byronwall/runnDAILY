@@ -24,6 +24,7 @@ class User extends Object{
 	
 	function __construct($arr = null, $arr_pre = "u_"){
 		parent::__construct($arr, $arr_pre);
+		$this->date_access = strtotime($this->date_access);
 	}
 	
 	/**
@@ -346,6 +347,24 @@ class User extends Object{
 				u_uid = ?
 		");
 		$stmt->bind_param("ii", $this->type, $this->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows == 1;
+	}
+	public function deleteUser(){
+		//require admin privs
+		User::$current_user->checkPermissions(100);
+		
+		$stmt = Database::getDB()->prepare("
+			DELETE FROM users
+			WHERE
+				u_uid = ?
+		");
+		$stmt->bind_param("i", $this->uid);
 		$stmt->execute();
 		$stmt->store_result();
 		

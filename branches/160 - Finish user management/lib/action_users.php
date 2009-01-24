@@ -17,6 +17,14 @@ switch($_POST["action"]){
 		
 		
 		break;
+	case "delete":
+		$user = new User($_POST);
+
+		$success = $user->deleteUser();
+
+		if($success) exit("deleted");
+		else exit("did not delete");
+		break;
 }
 Page::redirect("/admin/user.php");
 ?>
