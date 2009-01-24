@@ -40,6 +40,9 @@ This is the master template which holds all of the main layout.
     		{{if $currentUser->checkPermissions(100, false)}}
     			<li id="tab_admin" class="tab_inactive"><a href="/admin/index.php">Admin</a></li>
     		{{/if}}
+    		<li id="tab_feedback" class="tab_inactive">
+    			<a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox">Feedback</a>
+    		</li>
     	</ul>
     </div>
     
@@ -81,11 +84,24 @@ This is the master template which holds all of the main layout.
     <div id="footer_copyright">&copy Byron & Chandler 2008</div>
 </div>
 
+<div id="feedback_modal" style="display:none">
+	<form action="/lib/action_feedback.php" method="post" id="form_feedback">
+		<h2>tell us what you think</h2>
+		<textarea name="m_msg" class="required"></textarea>
+		<input type="submit" value="send it!" />
+		<input type="button" value="cancel" onclick="tb_remove()" />
+		<input type="hidden" name="action" value="create" />
+	</form>
+</div>
+
 <script type="text/javascript">
 	$(document).ready(
 		function(){
 			$("#tab_{{$page->tab}}").removeClass("tab_inactive");
 			$("#tab_{{$page->tab}}").addClass("tab_active");
+			$("#form_feedback").validate({
+				submitHandler : function(form){$(form).ajaxSubmit();$(form).clearForm();tb_remove();}
+			});
 		}
 	);
 </script>

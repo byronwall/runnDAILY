@@ -13,6 +13,7 @@ class Message extends Object{
 	function __construct($arr = null, $arr_pre = "m_"){
 		parent::__construct($arr, $arr_pre);
 		
+		$this->date = strtotime($this->date);
 		$this->user = new User($arr);
 	}
 	
@@ -94,10 +95,7 @@ class Message extends Object{
 		$rows = $stmt->affected_rows;
 		$stmt->close();
 		
-		if($rows == 1){
-			return true;
-		}
-		return false;
+		return $rows == 1;
 	}
 }
 ?>
