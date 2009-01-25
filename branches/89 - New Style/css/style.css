@@ -1,0 +1,405 @@
+/*Global Elements */
+html, body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%
+}
+body {
+	font-size: 12px;
+	background-color: White;
+	font-family: Arial, Helvetica, sans-serif
+}
+a {
+	text-decoration: none;
+	color: #000000;
+}
+img {
+	margin: 0px;
+	padding: 0px;
+	border: 0px none
+}
+a:hover {
+	text-decoration: underline
+}
+/*Header Elements */
+#header_ctain {
+	margin: 0px;
+	padding: 0px;
+	height: 122px;
+	width: 100%;
+	background-repeat: repeat-x;
+	background-image: url(../img/top.png)
+}
+#logo_ctain {
+	position: absolute;
+	text-align: center;
+	width: 100%
+}
+#logo {
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	top: 5px
+}
+/* Navigation Elements */
+#nav_ctain {
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	top: 84px;
+	left: 30px;
+}
+#nav_ctain ul, #user_ctain ul {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none
+}
+#nav_ctain ul li, #user_ctain ul li {
+	float: left
+}
+#nav_ctain ul li a, #user_ctain ul li a {
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	display: block;
+	color: #666666;
+}
+.tab_active {
+	margin: 0px -18px;
+	position: relative;
+	height: 38px;
+	width: 138px;
+	z-index: 2;
+	background-image: url(../img/tab.png);
+	background-repeat: no-repeat;
+	background-position: 0px 0px
+}
+.tab_active a {
+	margin: 8px auto 0px;
+	height: 29px;
+	width: 100px;
+	font-size: 14pt;
+}
+.tab_inactive {
+	margin: 0px -2px;
+	position: relative;
+	height: 31px;
+	width: 105px;
+	z-index: 1;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	background-image: url(../img/tab_i.png);
+	top: 7px
+}
+.tab_inactive:hover {
+	background-position: 0px -31px
+}
+.tab_inactive a {
+	margin: 6px auto 0px;
+	height: 23px;
+	font-size: 12pt;
+	width: 82px;
+}
+/* User Bar Elements */
+#user_ctain{
+	padding: 0px;
+	position: absolute;
+	top: 84px;
+	right: 30px;
+}
+#user_panel{
+	background: url(../img/user_panel.png) no-repeat right top;
+	height: 111px;
+	width: 203px;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	top: 37px;
+	right: 0px;
+	z-index: 2;
+}
+#user_ctain #user_panel{
+	visibility: hidden;
+}
+#user_ctain:hover #user_panel{
+	visibility: visible;
+}
+#user_ctain .tab_special{
+	margin: 0px -2px;
+	position: relative;
+	height: 31px;
+	width: 105px;
+	z-index: 1;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	background-image: url(../img/tab_i.png);
+	top: 7px
+}
+#user_ctain:hover .tab_special{
+	background-position: 0px -31px
+}
+.tab_special a{
+	margin: 6px auto 0px;
+	height: 23px;
+	font-size: 12pt;
+	width: 82px;
+	color: #009933;
+}
+/*Content Elements */
+#content_container {
+	margin: 10px auto 0px;
+	width: 800px;
+}
+#content_content a {
+	color: #0098cb;
+	text-decoration: none;
+}
+#content_content a:hover {
+	text-decoration:underline;
+}
+#content_content h1 {
+	margin: 0px;
+	padding: 0px;
+	font-size: x-large;
+	font-weight: bold
+}
+#content_content h2 {
+	margin: 0px;
+	padding: 0px;
+	clear: left;
+	font-size: large
+}
+/* Map Elements */
+#map_create #content_container {
+	margin:0;
+	width:100%;
+}
+#map_create #content_container #content_content {
+	width:100%;
+	height:100%;
+	position:relative;
+}
+#map_container {
+	width:100%;
+	height:100%;
+	position:relative;
+}
+#map_container_right {
+	height:100%;
+	position:relative;
+	margin-left:300px;
+}
+#map_container_left {
+	width:300px;
+	float:left;
+}
+.right_small {
+	margin-left:10px;
+}
+.left_small {
+	width:10px;
+}
+#map_placeholder {
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px;
+	border-style: none;
+}
+.fullscreen {
+	width:100%;
+	height:100%;
+}
+.large_map {
+	height: 450px;
+	width: 100%
+}
+.small_map {
+	height: 250px;
+	width: 100%
+}
+/* Footer Elements */
+#footer_ctain {
+	padding: 0px;
+	clear: both;
+	width: 800px;
+	margin: 0px auto;
+	position: relative;
+}
+#footer_con {
+	color: #666666;
+	margin: 30px auto 0px;
+	padding: 0px;
+	width: 620px;
+}
+#footer_con ul{
+	float: left;
+	list-style: none;
+}
+#footer_con ul li{
+	margin: 0px 0px 0px 5px;
+	padding: 0px;
+	width: 150px;
+	text-align: left;
+}
+#footer_con a {
+	font: normal 12px Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	color: #666666;
+}
+#footer_con a:hover{
+	text-decoration:underline;
+}
+#footer_con h2 {
+	font: bold 14px Arial, Helvetica, sans-serif;
+	border-bottom: 1px dotted #666666;
+	text-align: left;
+	width: 80%;
+}
+#footer_copyright {
+	clear: left;
+	padding-top: 10px;
+	text-align: center;
+}
+/* Route List Elements */
+#route_recent_con {
+	float: left;
+	width: 350px;
+}
+.route_recent_list {
+	list-style: none;
+	clear: left;
+}
+.route_item_image{
+	float: left;
+	margin-left: 5px;
+}
+.route_item_content{
+	float: left;
+}
+#recent_activity_con {
+	float: right;
+	width: 350px;
+}
+.recent_activity_list {
+	list-style: none;
+}
+.recent_activity_item {
+	margin-left: 5px;
+}
+.route_all_con {}
+/* Registration Elements */
+#reg_ctain {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+#reg_in_ctain {
+	width: 300px;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+#reg_loc_ctain {
+	width: 500px;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+#reg_loc_sub input {
+	margin: 0px auto;
+	padding: 0px;
+	border: 1px solid Black;
+	position: relative;
+	width: 120px;
+	background-color: White;
+	color: Black;
+	font-size: 16pt;
+	font-family: Arial, Helvetica, sans-serif
+}
+#reg_loc_sub input:hover {
+}
+/*
+Training Elements - Old
+
+#training_cal {
+	width:500px;
+	background-color:#444444
+}
+#training_cal td {
+	width:50px;
+	height:100px;
+	vertical-align: top
+}
+#training_cal .activeMonth {
+	background-color:#999999
+}
+#training_cal .inactiveMonth {
+	background-color:#555555
+}
+#training_cal .month_header {
+	background-color:#af00af
+}
+#training_cal .day_header {
+	background-color:#444444;
+	color:white
+}
+*/
+
+/* Training Elements new */
+
+/* Calendar Elements */
+/*#cal_month_small {
+	float: right;
+}
+#cal_month_small a{
+	color: #000000;
+}
+.cal_box_link {
+	background: #dddddd;
+	height: 10px;
+	width: 10px;
+	margin: 1px;
+	padding: 0px;
+	position: relative;
+	color: #FFFFFF;
+	float: right;
+}
+
+.cal_head_link{
+	margin: 1px;
+	padding: 0px;
+	font-size: small;
+	font-weight: bold;
+	clear: both;
+	float: right;
+	background: #FFFFFF;
+}
+.cal_day_current{
+	vertical-align: top;
+	background: #efefef;
+}
+.cal_month_head{
+	height: 5px;
+	width: 24px;
+	font-weight: bold;
+	text-align: center;
+}
+.cal_day_head{
+	clear: left;
+}
+*/
+
+input.error {
+	border:1px red solid;
+}
+
+#help_header{
+	height: 40px;
+	width: 100%;
+	background-repeat: repeat-x;
+	background-image: url(../img/top.png);
+}
+.alt_row{
+	background-color:#DDDDDD;
+}
