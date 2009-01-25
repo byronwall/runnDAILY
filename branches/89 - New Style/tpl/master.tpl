@@ -25,8 +25,6 @@ This is the master template which holds all of the main layout.
 </head>
 
 <body id="{{$body_id}}">
-
-<body>
 	<div class="container_12">
 		<div class="grid_12">
 			<h1>Runn Daily</h1>
