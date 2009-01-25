@@ -8,8 +8,9 @@ This is the master template which holds all of the main layout.
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     
     <!--SYTLE SHEETS-->
-    <link href="/css/style.css"rel="stylesheet" type="text/css">
-    <link href="/css/thickbox.css"rel="stylesheet" type="text/css">
+<!--    <link href="/css/style.css"rel="stylesheet" type="text/css">-->
+	<link href="/css/combine.css" rel="stylesheet" type="text/css">
+    <link href="/css/thickbox.css" rel="stylesheet" type="text/css">
     
     <!--FAVORITE ICON-->
     <link rel="icon" type="image/png" href="/img/favico.png">
@@ -25,64 +26,66 @@ This is the master template which holds all of the main layout.
 
 <body id="{{$body_id}}">
 
-<!-- HEADER -->
-<div id="header_ctain">
-
-<div id="logo_ctain"><a id="logo" href="/index.php"><img src="/img/logo.png" /></a></div>
-
-<!-- NAVIGATION -->
-    <div id="nav_ctain">
-    	<ul>
-    		<li id="tab_home" class="tab_inactive"><a href="/index.php">Home</a></li>
-    		<li id="tab_routes" class="tab_inactive"><a href="/routes/index.php">Routes</a></li>
-    		<li id="tab_training" class="tab_inactive"><a href="/training/index.php">Training</a></li>
-    		<li id="tab_community" class="tab_inactive"><a href="/community/index.php">Community</a></li>
-    		{{if $currentUser->checkPermissions(100, false)}}
-    			<li id="tab_admin" class="tab_inactive"><a href="/admin/index.php">Admin</a></li>
-    		{{/if}}
-    		<li id="tab_feedback" class="tab_inactive">
-    			<a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox">Feedback</a>
-    		</li>
-    	</ul>
-    </div>
-    
-<!-- USER BAR -->
-	<div id="user_ctain">
-        {{if $currentUser->isAuthenticated}}
-		<ul>
-			<li id="tab_profile" class="tab_special"><a href="/profile.php">My Profile</a></li>
-		</ul>
-		<div id="user_panel">
-			You are currently logged in as {{$currentUser->username}}.
-			<a href="/settings.php">Settings</a> | 
-			<a href="/lib/action_login.php?action=logout">Logout</a> |
-			<a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
-			{{if $page->common}}
-        		| <a href="/help/view.php?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a>
-        	{{/if}}
+<body>
+	<div class="container_12">
+		<div class="grid_12">
+			<h1>Runn Daily</h1>
 		</div>
-        {{else}}
-		<ul>
-			<li id="tab_profile" class="tab_special"><a href="/login.php">Login</a></li>
-		</ul>
-        {{/if}}
+		<div class="clear"></div>
+		<div class="grid_12">
+			<ul class="nav main">
+				<li><a href="/index.php">Home</a></li>
+				<li><a href="/routes/index.php">Routes</a></li>
+				<li><a href="/training/index.php">Training</a></li>
+				<li><a href="/community/index.php">Community</a></li>
+				<li>
+					<a href="#">Runn Daily</a>
+					<ul>
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</li>
+				<li class="secondary">
+					{{if $currentUser->isAuthenticated}}
+					<a href="#">{{$currentUser->username}}</a>
+					<ul>
+						<li><a href="/settings.php">Settings</a></li>
+						<li><a href="/messages.php">Messages ({{$currentUser->msg_new}})</a></li>
+						<li><a href="/lib/action_login.php?action=logout">Logout</a></li>
+					</ul>
+					{{else}}
+					<a href="/login.php">Login</a>
+					{{/if}}
+				</li>
+				{{if $currentUser->checkPermissions(100, false)}}
+				<li class="secondary">
+					<a href="/admin/index.php">Admin</a>
+					<ul>
+						{{if $page->common}}<li><a href="/help/view.php?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a></li>{{/if}}
+						<li><a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox">Feedback</a></li>
+					</ul>
+				</li>
+				{{/if}}
+			</ul>
+		</div>
+		<div class="clear"></div>
+		<div class="grid_12">
+			<h2 id="page-heading">Home</h2>
+		</div>
+		<div class="clear"></div>
+		<div class="grid_12">
+			<div class="box">
+				{{$page_content}}
+			</div>
+		</div>
+		<div class="grid_12" id="site_info">
+			<div class="box">
+				{{include file="footer.tpl"}}
+				<p>&copy; 2008-2009 Byron and Chandler</p>
+			</div>
+		</div>
+		<div class="clear"></div>
 	</div>
-</div>
-
-<!-- CONTENT -->
-<div id="content_container">
-    <div id="content_content">
-    	{{$page_content}}
-    </div>
-</div>
-
-<!-- FOOTER -->
-<div id="footer_ctain">
-	<div id="footer_con">
-		{{include file="footer.tpl"}}
-	</div>
-    <div id="footer_copyright">&copy Byron & Chandler 2008</div>
-</div>
 
 <div id="feedback_modal" style="display:none">
 	<form action="/lib/action_feedback.php" method="post" id="form_feedback">
