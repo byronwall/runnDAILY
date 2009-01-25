@@ -14,7 +14,11 @@ class Database extends mysqli
 			throw new Exception(mysqli_connect_error(), mysqli_connect_errno());
 		}
 	}
-	//public create instance function to create singleton
+
+	
+	/**
+	 * @return Database
+	 */
 	public function getDB()
 	{
 		if(self::$instance === null)
@@ -24,6 +28,8 @@ class Database extends mysqli
 		}
 		return self::$instance;
 	}
+	
+	
 	public function prepare($query)
 	{
 		$stmt = new stmt_Extended(self::$instance, $query);

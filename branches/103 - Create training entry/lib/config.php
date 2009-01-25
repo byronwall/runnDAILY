@@ -12,7 +12,7 @@ function __autoload($class){
 		}
 	}
 }
-function array_safe($arr, $key, $default){
+function array_safe($arr, $key, $default = null){
 	return (isset($arr[$key]))?$arr[$key]:$default;
 }
 session_start();

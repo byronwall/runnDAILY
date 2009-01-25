@@ -12,8 +12,8 @@
 {{
 	include file=generic/calendar.tpl 
 	calendar=$calendar 
-	day_week_template="training/cal_day.tpl" 
-	day_mon_template="training/cal_day.tpl"
+	day_week_template="generic/cal_day.tpl" 
+	day_mon_template="generic/cal_day.tpl"
 }}
 {{if $item->getIsOwnedBy($currentUser->uid)}}
 	<ul id="training_manage">
@@ -97,20 +97,6 @@ $(document).ready(
 					required: "Enter a distance",
 					number: "Must be a number"
 				}
-			},
-			// the errorPlacement has to take the table layout into account
-			errorPlacement: function(error, element) {
-				if ( element.is(":checkbox") )
-					error.appendTo ( element.next() );
-				else if( element.is(":hidden") )
-					alert(error.text());				
-				else
-					error.appendTo( element.parent() );
-			},
-			// set this class to error-labels to indicate valid fields
-			success: function(label) {
-				// set &nbsp; as text for IE
-				label.html("&nbsp;").addClass("checked");
 			}
 		});
 	}

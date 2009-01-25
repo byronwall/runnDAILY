@@ -1,6 +1,9 @@
 <?php
 class Smarty_Ext extends Smarty{
 	
+	/**
+	 * @return Smarty_Ex
+	 */
 	function __construct(){
 		$this->template_dir = SITE_ROOT."/tpl";
 		$this->compile_dir = SITE_ROOT."/_smarty/templates_c";

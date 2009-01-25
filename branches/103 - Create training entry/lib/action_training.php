@@ -6,6 +6,7 @@ if(!isset($_POST["action"])){
 }
 
 $t_item = new TrainingLog($_POST);
+if(array_safe($_POST, "t_rid") == "") $t_item->rid = null;
 
 switch ($_POST["action"]){
 	case "edit":

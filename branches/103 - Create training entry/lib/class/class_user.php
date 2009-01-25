@@ -20,6 +20,9 @@ class User extends Object{
 
 	public $routes = array();
 	
+	/**
+	 * @var User
+	 */
 	public static $current_user;
 	
 	function __construct($arr = null, $arr_pre = "u_"){

@@ -7,7 +7,13 @@ class TrainingLog extends Object{
 	public $uid;
 	public $tid;
 	public $pace;
+	public $type;
+	public $type_name;
+	public $type_desc;	
 
+	/**
+	 * @var Route
+	 */
 	public $route;
 
 	function __construct($arr = null, $arr_pre = "t_"){
@@ -105,7 +111,7 @@ class TrainingLog extends Object{
 	 * @param $uid
 	 * @param $date_start
 	 * @param $date_end
-	 * @return array:TrainingLogg
+	 * @return array
 	 */
 	public static function getItemsForUser($uid, $date_start = 0, $date_end = 0){
 		if($date_end == 0) $date_end = mktime();
@@ -181,9 +187,10 @@ class TrainingLog extends Object{
 				t_pace = ?,
 				t_date = FROM_UNIXTIME(?),
 				t_rid = ?,
-				t_uid = ?
+				t_uid = ?,
+				t_type_id = ?
 		");
-		$stmt->bind_param("dddsii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid);
+		$stmt->bind_param("dddsiii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid, $this->type);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		

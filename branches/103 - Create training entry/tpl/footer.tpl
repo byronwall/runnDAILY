@@ -7,7 +7,7 @@
 
 <ul>
 	<h2>Training</h2>
-	<li><a href="/training/manage.php">create</a></li>
+	<li><a href="/training/create.php">create</a></li>
 	<li><a href="/training/index.php">view</a></li>
 	<li><a href="/training/browse.php">browse</a></li>
 </ul>
