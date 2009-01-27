@@ -1,6 +1,4 @@
 <?php
-require("../lib/config.php");
-
 $format = (isset($_GET["format"]))?$_GET["format"]:"html";
 
 if($format == "ajax"){

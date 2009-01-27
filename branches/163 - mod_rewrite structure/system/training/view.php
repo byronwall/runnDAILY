@@ -1,6 +1,4 @@
 <?php
-require("../lib/config.php");
-
 if(!isset($_GET["tid"])){
 	Page::redirect("/training/");
 }
@@ -16,6 +14,4 @@ foreach($training_items as $item){
 
 $smarty->assign("item", $training_item);
 $smarty->assign("calendar", $cal_week);
-
-$smarty->display_master("training/view.tpl");
 ?>

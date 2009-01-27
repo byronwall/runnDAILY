@@ -1,6 +1,4 @@
 <?php
-require("../lib/config.php");
-
 $encoded = (isset($_GET["encoded"]))? $_GET["encoded"]: die();
 $distance = (isset($_GET["distance"]))? $_GET["distance"]: die();
 

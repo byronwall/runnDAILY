@@ -81,6 +81,9 @@ class Page extends Object{
 		}
 		return false;
 	}
+	public function getTemplateName(){
+		return preg_replace("/\/(.*)\.php/", "$1.tpl", $this->page_name);
+	}
 	
 }
 ?>

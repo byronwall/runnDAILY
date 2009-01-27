@@ -1,5 +1,4 @@
 <?php
-require("../lib/config.php");
 
 $result = Database::getDB()->query("
 	SELECT * FROM messages as m
@@ -15,5 +14,4 @@ while($row = $result->fetch_assoc()){
 $result->close();
 
 $smarty->assign("message", $msgs);
-$smarty->display_master("admin/feedback.tpl");
 ?>

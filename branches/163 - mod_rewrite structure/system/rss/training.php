@@ -1,6 +1,4 @@
 <?php
-require("../lib/config.php");
-
 if(!isset($_GET["username"])){
 	exit;
 }

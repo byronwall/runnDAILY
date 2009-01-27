@@ -1,5 +1,4 @@
 <?php
-require("../lib/config.php");
 $format = (isset($_GET["format"]))?$_GET["format"]:"html";
 
 $parser = new SqlParser(true, 10, 0);
@@ -32,7 +31,5 @@ $smarty->assign("query", $parser->getQueryString(true, true));
 if($format == "ajax"){
 	echo $smarty->fetch("routes/parts/route_list.tpl");
 }
-else{	
-	$smarty->display_master("routes/browse.tpl");
-}
+//TODO: Add AJAX support here.
 ?>

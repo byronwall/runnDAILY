@@ -25,7 +25,7 @@ else{
 	$_SESSION["userData"] = User::cookieLogin();
 	User::$current_user = $_SESSION["userData"];
 }
-$page = Page::getPage($_SERVER["SCRIPT_NAME"]);
+$page = Page::getPage(REQUEST);
 
 User::$current_user->checkPermissions($page->min_permission);
 

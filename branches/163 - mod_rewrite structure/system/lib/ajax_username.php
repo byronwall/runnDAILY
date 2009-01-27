@@ -1,6 +1,4 @@
 <?php
-require("config.php");
-
 $username = $_GET["username"];
 
 if(User::getUserExists($username)){

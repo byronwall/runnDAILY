@@ -1,6 +1,4 @@
 <?php
-require("config.php");
-
 if(!isset($_POST["action"])) exit("No action");
 
 switch($_POST["action"]){

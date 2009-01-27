@@ -1,7 +1,4 @@
 <?php
-
-require("../lib/config.php");
-
 if(!isset($_GET["uid"])){
 	header("Location: http://{$_SERVER['SERVER_NAME']}/community/");
 	exit;
@@ -22,6 +19,4 @@ $smarty->assign("user_routes", $routes);
 $smarty->assign("user_training", $t_items); 
 $smarty->assign("user_log", $l_items); 
 $smarty->assign("user",User::fromUid($uid));
-
-$smarty->display_master("community/view_user.tpl");
 ?>

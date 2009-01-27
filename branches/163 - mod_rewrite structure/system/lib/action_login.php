@@ -1,6 +1,4 @@
 <?php
-require("config.php");
-
 if(isset($_REQUEST["action"])){
 	switch ($_REQUEST["action"]){
 		case "logout":
@@ -47,8 +45,6 @@ if(isset($_REQUEST["action"])){
 			break;
 	}
 }
-else{
-	die("there needs to be an action");
-}
+Page::redirect("/");
 
 ?>

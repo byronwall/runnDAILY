@@ -1,6 +1,4 @@
 <?php
-require("config.php");
-
 switch($_GET["action"]){
 	case "list":
 		$sw_lat = $_GET["sw_corner_lat"];

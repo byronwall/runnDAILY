@@ -1,6 +1,4 @@
 <?php
-require("../lib/config.php");
-
 if(!isset($_GET["username"])){
 	exit;
 }
@@ -29,4 +27,6 @@ $rss_out = $smarty->fetch("generic/rss.tpl");
 
 header("Content-Type: application/rss+xml");
 echo $rss_out;
+
+//TODO: Add in RSS support
 ?>

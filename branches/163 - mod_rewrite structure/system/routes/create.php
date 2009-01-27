@@ -1,5 +1,4 @@
 <?php
-require("../lib/config.php");
 
 /*
  * This is the page for creating a new route.
@@ -17,5 +16,4 @@ if(isset($_GET["rid"])){
 }
 
 $smarty->assign("body_id", "map_create");
-$smarty->display_master("routes/create.tpl");
 ?>

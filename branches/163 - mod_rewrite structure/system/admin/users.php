@@ -1,6 +1,4 @@
 <?php
-require("../lib/config.php");
-
 $parser = new SqlParser(true, 10, 0);
 $parser->addCondition(new SqlRangeCondition("u_date_access", "FROM_UNIXTIME", "strtotime"));
 $parser->addCondition(new SqlLikeCondition("u_username"));
@@ -27,5 +25,4 @@ while($row = $stmt->fetch_assoc()){
 
 $smarty->assign("users", $users);
 
-$smarty->display_master("admin/users.tpl");
 ?>

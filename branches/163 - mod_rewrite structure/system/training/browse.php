@@ -1,6 +1,4 @@
 <?php
-require("../lib/config.php");
-
 $format = (isset($_GET["format"]))?$_GET["format"]:"html";
 
 //SQL query code
@@ -36,7 +34,5 @@ $smarty->assign("query", $parser->getQueryString(true, true));
 if($format == "ajax"){
 	echo $smarty->fetch("training/parts/item_list.tpl");
 }
-else{
-	$smarty->display_master("training/browse.tpl");
-}
+//TODO: AJAX code
 ?>
