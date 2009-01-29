@@ -28,17 +28,17 @@ This is the master template which holds all of the main layout.
 <!-- HEADER -->
 <div id="header_ctain">
 
-<div id="logo_ctain"><a id="logo" href="/index.php"><img src="/img/logo.png" /></a></div>
+<div id="logo_ctain"><a id="logo" href="/index"><img src="/img/logo.png" /></a></div>
 
 <!-- NAVIGATION -->
     <div id="nav_ctain">
     	<ul>
-    		<li id="tab_home" class="tab_inactive"><a href="/index.php">Home</a></li>
-    		<li id="tab_routes" class="tab_inactive"><a href="/routes/index.php">Routes</a></li>
-    		<li id="tab_training" class="tab_inactive"><a href="/training/index.php">Training</a></li>
-    		<li id="tab_community" class="tab_inactive"><a href="/community/index.php">Community</a></li>
+    		<li id="tab_home" class="tab_inactive"><a href="/index">Home</a></li>
+    		<li id="tab_routes" class="tab_inactive"><a href="/routes/index">Routes</a></li>
+    		<li id="tab_training" class="tab_inactive"><a href="/training/index">Training</a></li>
+    		<li id="tab_community" class="tab_inactive"><a href="/community/index">Community</a></li>
     		{{if $currentUser->checkPermissions(100, false)}}
-    			<li id="tab_admin" class="tab_inactive"><a href="/admin/index.php">Admin</a></li>
+    			<li id="tab_admin" class="tab_inactive"><a href="/admin/index">Admin</a></li>
     		{{/if}}
     		<li id="tab_feedback" class="tab_inactive">
     			<a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox">Feedback</a>
@@ -54,16 +54,16 @@ This is the master template which holds all of the main layout.
 		</ul>
 		<div id="user_panel">
 			You are currently logged in as {{$currentUser->username}}.
-			<a href="/settings.php">Settings</a> | 
+			<a href="/settings">Settings</a> | 
 			<a href="/lib/action_login.php?action=logout">Logout</a> |
-			<a href="/messages.php">Messages ({{$currentUser->msg_new}})</a>
+			<a href="/messages">Messages ({{$currentUser->msg_new}})</a>
 			{{if $page->common}}
-        		| <a href="/help/view.php?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a>
+        		| <a href="/help/view?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a>
         	{{/if}}
 		</div>
         {{else}}
 		<ul>
-			<li id="tab_profile" class="tab_special"><a href="/login.php">Login</a></li>
+			<li id="tab_profile" class="tab_special"><a href="/login">Login</a></li>
 		</ul>
         {{/if}}
 	</div>

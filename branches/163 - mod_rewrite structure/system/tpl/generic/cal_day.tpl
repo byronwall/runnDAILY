@@ -5,7 +5,7 @@
 	
 	{{foreach from=$day->items item=item}}
 	<div class="item">
-		<a href="/training/view.php?tid={{$item->tid}}">{{$item->distance}}</a>
+		<a href="/training/view/{{$item->tid}}">{{$item->distance}}</a>
 	</div>
 	{{/foreach}}
 </td>

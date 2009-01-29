@@ -3,7 +3,7 @@
 <ul>
 	<h2>route details</h2>
 	<li>distance: {{$route_view->distance}}</li>
-	<li>creator: <a href="/community/view_user.php?uid={{$route_view->uid}}">{{$route_view->user->username}}</a></li>
+	<li>creator: <a href="/community/view_user/{{$route_view->uid}}">{{$route_view->user->username}}</a></li>
 	<li>training logs: {{$route_view->getTrainingCount()}}</li>
 	{{if $route_view->getHasParent()}}
 		<li><a href="/routes/view.php?id={{$route_view->rid_parent}}">view parent route</a></li>
@@ -17,13 +17,13 @@
 	<ul id="creator_actions">
 		<h2>creator actions</h2>
 		{{if $route_view->getCanEdit()}}
-			<li><a href="/routes/create.php?rid={{$route_view->id}}">edit original</a></li>
-			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
+			<li><a href="/routes/create/{{$route_view->id}}">edit original</a></li>
+			<li><a href="/routes/create/{{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
 			<li><a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">
 				delete route
 			</a></li>
 		{{else}}
-			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
+			<li><a href="/routes/create/{{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
 		{{/if}}
 	</ul>
 	

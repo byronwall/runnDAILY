@@ -3,10 +3,10 @@
 <h2>Actions</h2>
 <ul>
 	<li><a href="/lib/action_admin.php" rel="update_stats" class="post">Update Stats (this really does update them)</a></li>
-	<li><a href="/admin/pages.php">Manage Pages</a></li>
-	<li><a href="/admin/users.php">Manage Users</a></li>
-	<li><a href="/admin/feedback.php">See User Feedback</a></li>
-	<li><a href="/admin/stats.php">Site Stats</a></li>
+	<li><a href="/admin/pages">Manage Pages</a></li>
+	<li><a href="/admin/users">Manage Users</a></li>
+	<li><a href="/admin/feedback">See User Feedback</a></li>
+	<li><a href="/admin/stats">Site Stats</a></li>
 </ul>
 
 <script type="text/javascript">

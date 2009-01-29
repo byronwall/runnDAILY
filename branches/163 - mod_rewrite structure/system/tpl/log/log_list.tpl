@@ -5,6 +5,6 @@
 {{/foreach}}
 {{if count($logs)}}
 	<li>
-		<a href="/log/browse.php?uid={{$uid}}&page={{$page_no}}&format=ajax" class="ajax">see more in this table</a>
+		<a href="/log/browse?uid={{$uid}}&page={{$page_no}}&format=ajax" class="ajax">see more in this table</a>
 	</li>
 {{/if}}

@@ -1,7 +1,7 @@
 <div id="training_actions_con" class="actions_con">
 	<h2>Training Actions</h2>
 	<ul>
-		<li><a href="/routes/create.php">Create a route</a></li>
+		<li><a href="/training/create">Create a route</a></li>
 	</ul>
 </div>
 

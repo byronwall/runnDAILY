@@ -5,7 +5,7 @@
 <div>time: {{$item->time|time_format}}</div>
 <div>pace: {{$item->pace}} mph</div>
 <div>date: {{$item->date|date_format}}</div>
-<a href="/routes/view.php?id={{$item->route->id}}">view {{$item->route->name}}</a>
+<a href="/routes/view/{{$item->route->id}}">view {{$item->route->name}}</a>
 
 <h2>better info</h2>
 <h3>other logs for the user that week</h3>

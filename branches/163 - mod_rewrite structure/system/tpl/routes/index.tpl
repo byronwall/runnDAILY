@@ -2,7 +2,7 @@
 <div id="route_actions_con">
 	<h2>Route Actions</h2>
 	<ul>
-		<li><a href="/routes/create.php">Create a route</a></li>
+		<li><a href="/routes/create">Create a route</a></li>
 	</ul>
 </div>
 
@@ -11,12 +11,12 @@
 	{{foreach from=$recent_route_list item=route}}
 	<ul class="route_recent_list">
 		<li class="route_item_image">
-			<a href="/routes/view.php?id={{$route->id}}">
+			<a href="/routes/view/{{$route->id}}">
 				<img src="/lib/image_route.php?encoded={{$route->getEncodedString()}}&distance={{$route->distance|@round:2}}" />
 			</a>
 		</li>
 		<li class="route_item_content">
-			<p><a href="/routes/view.php?id={{$route->id}}">{{$route->name}}</a></p>
+			<p><a href="/routes/view/{{$route->id}}">{{$route->name}}</a></p>
 			<p>{{$route->distance}}</p>
 			<p><a href="#TB_inline?&height=500&width=500&inlineId=preview_map" rel='{{$route->points}}' title="{{$route->name}}" class="preview">preview</a></p>
 		</li>
@@ -30,7 +30,7 @@ No data!
 	<h2>Recent Route Activity</h2>
 	<ul class="recent_activity_list">
 	{{foreach from=$recent_activity_list item=recent}}
-		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view.php?id={{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
+		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view/{{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
 	{{foreachelse}}
 		<li class="recent_activity_item">No recent activity, do something!</li>
 	{{/foreach}}
@@ -41,7 +41,7 @@ No data!
 	<h2>All Routes</h2>
 	<ul class="recent_activity_list">
 	{{foreach from=$all_route_list item=route_all}}
-		<li class="recent_activity_item"><a href="/routes/view.php?id={{$route_all->id}}">{{$route_all->name}}</a></li>
+		<li class="recent_activity_item"><a href="/routes/view/{{$route_all->id}}">{{$route_all->name}}</a></li>
 	{{foreachelse}}
 		<li class="recent_activity_item">No routes, <a href="/routes/create.php">create a route</a>.</li>
 	{{/foreach}}

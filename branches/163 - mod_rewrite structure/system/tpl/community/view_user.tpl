@@ -14,7 +14,7 @@
 <h2>Recently Created Training Entries</h2>
 <ul id="route_recent_con">
 	{{include file="training/parts/item_list.tpl" t_items=$user_training query=$t_query}}	
-	<li class="route_recent_list"><a href="/training/browse.php?u_uid={{$user->uid}}">coming soon: see all training</a></li>
+	<li class="route_recent_list"><a href="/training/browse?u_uid={{$user->uid}}">coming soon: see all training</a></li>
 </ul>
 
 <h2>Recently Added Activity</h2>
@@ -31,7 +31,7 @@
 
 <div id="message_modal" style="display:none">
 	<h1>send {{$user->username}} a message</h1>
-	<form action="/lib/action_message_create.php" method="POST" name="user_message">
+	<form action="/lib/action_message_create" method="POST" name="user_message">
 		<textarea name="m_msg">enter message</textarea>
 		<input type="submit" value="send" />
 		<input type="button" value="cancel" onclick="tb_remove()" />

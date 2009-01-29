@@ -243,7 +243,7 @@ class User extends Object{
 		if(isset($this->type) && $this->type > $min_perm){
 			if(!$redirect) return false;
 			$_SESSION["login_redirect"] = $_SERVER["REQUEST_URI"];
-			Page::redirect("/login.php");
+			Page::redirect("/login");
 		}
 		return true;
 	}

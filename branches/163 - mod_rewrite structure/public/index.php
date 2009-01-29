@@ -5,19 +5,27 @@ DEFINE("SYSTEM_ROOT", ROOT . "/system");
 
 
 $type = explode("/", $_SERVER["REQUEST_URI"]);
-$type = $type[0];
+
 
 $request = explode("?", $_SERVER["REQUEST_URI"]);
 DEFINE("REQUEST", $request[0] );
 
 require(SYSTEM_ROOT."/lib/config.php");
 
-$path = SYSTEM_ROOT.REQUEST;
-//var_dump($GLOBALS);
-if(file_exists($path)){
-	include($path);
+if(!Page::getControllerExists($type[1])){
+	$class = "home_controller";
 }
+else{
+	$class = strtolower($type[1])."_controller";
+}
+$controller = new $class();
 
-$smarty->display_master($page->getTemplateName());
+if(method_exists($controller, array_safe($type,2))){
+	$controller->$type[2]();
+}
+else{
+	$controller->index();
+}
+Page::getSmarty()->display_master($type[1]."/".array_safe($type,2).".tpl");
 
 ?>

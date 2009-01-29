@@ -2,7 +2,7 @@
 <!--	<a href="#" class="cal_head_link">{{$day->day_num}}</a>-->
 <!--	-->
 <!--	{{foreach from=$day->items item=item}}-->
-<!--		<a href="/training/view.php?tid={{$item->tid}}" class="cal_box_link"></a>-->
+<!--		<a href="/training/view/{{$item->tid}}" class="cal_box_link"></a>-->
 <!--	{{/foreach}}-->
 <!--</td>-->
 
@@ -13,7 +13,7 @@
 	
 	{{foreach from=$day->items item=item}}
 	<div class="item">
-		<a href="/training/view.php?tid={{$item->tid}}">{{$item->distance}}</a>
+		<a href="/training/view/{{$item->tid}}">{{$item->distance}}</a>
 	</div>
 	{{/foreach}}
 </td>

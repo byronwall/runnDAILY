@@ -1,0 +1,34 @@
+<?php
+class community_controller{
+	public function index(){
+		Page::getSmarty()->assign("users_all", User::getListOfUsers());
+		Page::getSmarty()->assign("users_friends", User::$current_user->getFriends());
+	}
+	public function view_user(){
+		if(!isset($_GET["uid"])){
+			header("Location: http://{$_SERVER['SERVER_NAME']}/community/");
+			exit;
+		}
+		
+		$uid = $_GET["uid"];
+		
+		//get route data for the user.
+		$routes = Route::getRoutesForUser($uid, 5);
+		//get training data for the user.
+		$t_items = TrainingLog::getItemsForUserPaged($uid, 4);
+		//get log data for the user.
+		$l_items = Log::getAllActivityForUserPaged($uid, 5);
+		
+		Page::getSmarty()->assign("r_query", "u_uid={$uid}&page=1&count=5");
+		Page::getSmarty()->assign("t_query", "u_uid={$uid}&page=1&count=5");
+		Page::getSmarty()->assign("user_routes", $routes); 
+		Page::getSmarty()->assign("user_training", $t_items); 
+		Page::getSmarty()->assign("user_log", $l_items); 
+		Page::getSmarty()->assign("user",User::fromUid($uid));
+	}
+	public function browse(){
+	}
+	public function create(){
+	}
+}
+?>

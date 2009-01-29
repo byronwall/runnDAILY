@@ -4,7 +4,7 @@ This is the template for the index page of the root folder.
 <div id="route_actions_con" class="actions_con">
 	<h2>Home Actions</h2>
 	<ul>
-		<li><a href="/routes/create.php">Create a route</a></li>
+		<li><a href="/routes/create">Create a route</a></li>
 	</ul>
 </div>
 
@@ -17,7 +17,7 @@ This is the template for the index page of the root folder.
 	<h2>Recent Activity</h2>
 	<ul class="recent_activity_list">
 	{{foreach from=$recent_activity_list item=recent}}
-		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view.php?id={{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
+		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view/{{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
 	{{foreachelse}}
 		<li class="recent_activity_item">No recent activity, do something!</li>
 	{{/foreach}}
@@ -26,9 +26,9 @@ This is the template for the index page of the root folder.
 {{else}}
 There are several things you can do as a new user!
 
-<a href="/login.php">Login</a>
-<a href="/register.php">Register</a>
-<a href="/routes/create.php">Create a route</a>
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+<a href="/routes/create">Create a route</a>
 
 {{/if}}
 

@@ -6,8 +6,20 @@ class Page extends Object{
 	public $title = "Runn Daily";
 	public $common;
 	
+	private static $_smarty = null;
+	
 	function __construct($arr = null, $arr_pre = "p_"){
 		parent::__construct($arr, $arr_pre);
+	}
+	
+	/**
+	 * @return Smarty_Ext
+	 */
+	public static function getSmarty(){
+		if(is_null(self::$_smarty)){
+			self::$_smarty = new Smarty_Ext();
+		}
+		return self::$_smarty;
 	}
 	
 	public static function getPage($script_name){
@@ -83,6 +95,9 @@ class Page extends Object{
 	}
 	public function getTemplateName(){
 		return preg_replace("/\/(.*)\.php/", "$1.tpl", $this->page_name);
+	}
+	public static function getControllerExists($controller){
+		return file_exists(SYSTEM_ROOT."/controllers/{$controller}_controller.php");
 	}
 	
 }
