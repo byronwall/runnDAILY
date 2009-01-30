@@ -18,6 +18,7 @@ if(!Page::getControllerExists($type[1])){
 else{
 	$class = strtolower($type[1])."_controller";
 }
+//TODO:move this into the page class
 $controller = new $class();
 
 if(method_exists($controller, array_safe($type,2))){
@@ -26,6 +27,12 @@ if(method_exists($controller, array_safe($type,2))){
 else{
 	$controller->index();
 }
+//TODO: implement some sort of selective rendering mechanism
+/*
+ * $smarty->display_rss()
+ * $smarty->display_ajax()
+ * $smarty->display_mini_master()
+ */
 Page::getSmarty()->display_master($type[1]."/".array_safe($type,2).".tpl");
 
 ?>

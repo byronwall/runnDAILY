@@ -22,6 +22,10 @@ class Page extends Object{
 		return self::$_smarty;
 	}
 	
+	/**
+	 * @param string $script_name
+	 * @return Page
+	 */
 	public static function getPage($script_name){
 		$stmt = Database::getDB()->prepare("
 			SELECT *
@@ -53,6 +57,9 @@ class Page extends Object{
 		header("location: http://{$_SERVER["SERVER_NAME"]}{$page}");
 		exit;
 	}
+	/**
+	 * @return array[int]Page
+	 */
 	public static function getAllPages(){
 		$stmt = Database::getDB()->prepare("
 			SELECT *
@@ -93,9 +100,16 @@ class Page extends Object{
 		}
 		return false;
 	}
+	/**
+	 * @return string	Formatted name of the template with correct extension
+	 */
 	public function getTemplateName(){
 		return preg_replace("/\/(.*)\.php/", "$1.tpl", $this->page_name);
 	}
+	/**
+	 * @param string $controller
+	 * @return bool	Whether or not a controller exists
+	 */
 	public static function getControllerExists($controller){
 		return file_exists(SYSTEM_ROOT."/controllers/{$controller}_controller.php");
 	}
