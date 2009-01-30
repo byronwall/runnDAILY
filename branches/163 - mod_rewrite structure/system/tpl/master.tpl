@@ -55,7 +55,7 @@ This is the master template which holds all of the main layout.
 		<div id="user_panel">
 			You are currently logged in as {{$currentUser->username}}.
 			<a href="/settings">Settings</a> | 
-			<a href="/lib/action_login.php?action=logout">Logout</a> |
+			<a href="/user/logout">Logout</a> |
 			<a href="/messages">Messages ({{$currentUser->msg_new}})</a>
 			{{if $page->common}}
         		| <a href="/help/view?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a>

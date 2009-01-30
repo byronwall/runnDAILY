@@ -23,8 +23,7 @@
 	<td>username</td><td>last access</td><td>email</td><td>type</td>
 </thead>
 {{foreach from=$users item=user}}
-<form class="user_item" action="/lib/action_users.php" method="post">
-	<input type="hidden" name="action" value="update" />
+<form class="user_item" action="/user/update" method="post">
 	<input type="hidden" name="format" value="ajax" />
 	<input type="hidden" name="u_uid" value="{{$user->uid}}" />
 	<tr class="{{cycle values=' ,alt_row'}}">
@@ -42,7 +41,7 @@ No stats found!
 </table>
 
 <div id="delete_modal" style="display:none">
-	<form action="/lib/action_users.php" method="post" id="form_delete">
+	<form action="/user/delete" method="post" id="form_delete">
 		<h1>Are you sure you want to delete that user?  This really will delete it.</h1>
 		<input type="hidden" name="action" value="delete" />
 		<input type="hidden" name="u_uid" value="-1" />		

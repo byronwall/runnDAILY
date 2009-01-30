@@ -33,6 +33,6 @@ else{
  * $smarty->display_ajax()
  * $smarty->display_mini_master()
  */
-Page::getSmarty()->display_master($type[1]."/".array_safe($type,2).".tpl");
+Page::getSmarty()->display_master($page->getTemplateName());
 
 ?>

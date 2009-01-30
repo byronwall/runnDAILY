@@ -1,7 +1,7 @@
 <?php
 class Page extends Object{
 	public $page_name;
-	public $min_permission = 100;
+	public $min_permission = 400;
 	public $tab = "home";
 	public $title = "Runn Daily";
 	public $common;
@@ -104,7 +104,7 @@ class Page extends Object{
 	 * @return string	Formatted name of the template with correct extension
 	 */
 	public function getTemplateName(){
-		return preg_replace("/\/(.*)\.php/", "$1.tpl", $this->page_name);
+		return preg_replace("/\/(.*)(\.php)?/", "$1.tpl", $this->page_name);
 	}
 	/**
 	 * @param string $controller

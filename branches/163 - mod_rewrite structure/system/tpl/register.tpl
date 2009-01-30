@@ -5,7 +5,7 @@
 	
 	</ul>
 </div>
-<form action="/lib/action_login.php?action=register" method="post" id="form_register">
+<form action="/user/register" method="post" id="form_register">
 	<input type="hidden" name="u_start_lat" value="" />
 	<input type="hidden" name="u_start_lng" value="" />
 <div id="reg_ctain">
