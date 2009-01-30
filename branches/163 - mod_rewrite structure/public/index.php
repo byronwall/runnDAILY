@@ -6,7 +6,6 @@ DEFINE("SYSTEM_ROOT", ROOT . "/system");
 
 $type = explode("/", $_SERVER["REQUEST_URI"]);
 
-
 $request = explode("?", $_SERVER["REQUEST_URI"]);
 DEFINE("REQUEST", $request[0] );
 

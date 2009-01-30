@@ -1,6 +1,7 @@
 <?php
 DEFINE("SITE_ROOT", dirname(dirname(__FILE__)));
 DEFINE("CLASS_ROOT", SITE_ROOT."/lib/class");
+DEFINE("COOKIE_NAME", "runndaily");
 
 function __autoload($class){
 	$dirs = array(CLASS_ROOT."/", SITE_ROOT."/_smarty/", CLASS_ROOT."/rss/", CLASS_ROOT."/sql/", SYSTEM_ROOT."/controllers/");

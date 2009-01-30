@@ -34,9 +34,9 @@ class User extends Object{
 	 *
 	 */
 	public static function cookieLogin(){
-		if(isset($_COOKIE["byroni_us_validation"])){
-			$cookie = substr($_COOKIE["byroni_us_validation"], 0, 32);
-			$uid = substr($_COOKIE["byroni_us_validation"], 32);
+		if(isset($_COOKIE[COOKIE_NAME])){
+			$cookie = substr($_COOKIE[COOKIE_NAME], 0, 32);
+			$uid = substr($_COOKIE[COOKIE_NAME], 32);
 
 			$stmt = Database::getDB()->prepare("
 				SELECT *
@@ -107,7 +107,7 @@ class User extends Object{
 	 *
 	 */
 	private function updateUserCookie(){
-		setcookie("byroni_us_validation",$this->cookie_hash.$this->uid, mktime()+3600*24*30,"/");
+		setcookie(COOKIE_NAME,$this->cookie_hash.$this->uid, mktime()+3600*24*30,"/");
 		
 		return true;
 	}
@@ -175,7 +175,7 @@ class User extends Object{
 	public static function logout(){
 		Log::insertItem(User::$current_user->uid, 202, null, null, null, null);
 		session_destroy();
-		setcookie("byroni_us_validation", "", mktime()-3600, "/");
+		setcookie(COOKIE_NAME, "", mktime()-3600, "/");
 		return true;
 	}
 
