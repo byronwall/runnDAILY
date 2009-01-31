@@ -1,8 +1,8 @@
 <?php
 class community_controller{
 	public function index(){
-		Page::getSmarty()->assign("users_all", User::getListOfUsers());
-		Page::getSmarty()->assign("users_friends", User::$current_user->getFriends());
+		RoutingEngine::getSmarty()->assign("users_all", User::getListOfUsers());
+		RoutingEngine::getSmarty()->assign("users_friends", User::$current_user->getFriends());
 	}
 	public function view_user(){
 		if(!isset($_GET["uid"])){
@@ -19,12 +19,12 @@ class community_controller{
 		//get log data for the user.
 		$l_items = Log::getAllActivityForUserPaged($uid, 5);
 		
-		Page::getSmarty()->assign("r_query", "u_uid={$uid}&page=1&count=5");
-		Page::getSmarty()->assign("t_query", "u_uid={$uid}&page=1&count=5");
-		Page::getSmarty()->assign("user_routes", $routes); 
-		Page::getSmarty()->assign("user_training", $t_items); 
-		Page::getSmarty()->assign("user_log", $l_items); 
-		Page::getSmarty()->assign("user",User::fromUid($uid));
+		RoutingEngine::getSmarty()->assign("r_query", "u_uid={$uid}&page=1&count=5");
+		RoutingEngine::getSmarty()->assign("t_query", "u_uid={$uid}&page=1&count=5");
+		RoutingEngine::getSmarty()->assign("user_routes", $routes); 
+		RoutingEngine::getSmarty()->assign("user_training", $t_items); 
+		RoutingEngine::getSmarty()->assign("user_log", $l_items); 
+		RoutingEngine::getSmarty()->assign("user",User::fromUid($uid));
 	}
 	public function add_friend(){
 		if(!isset($_POST["f_uid"])){

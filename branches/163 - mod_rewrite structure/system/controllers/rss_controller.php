@@ -23,9 +23,9 @@ class rss_controller{
 		}
 		//die(var_dump($a_items));
 		
-		Page::getSmarty()->assign("RssFeed", $feed);
+		RoutingEngine::getSmarty()->assign("RssFeed", $feed);
 		
-		$rss_out = Page::getSmarty()->fetch("generic/rss.tpl");
+		$rss_out = RoutingEngine::getSmarty()->fetch("generic/rss.tpl");
 		
 		header("Content-Type: application/rss+xml");
 		echo $rss_out;
@@ -55,9 +55,9 @@ class rss_controller{
 		}
 		//die(var_dump($feed));
 		
-		Page::getSmarty()->assign("RssFeed", $feed);
+		RoutingEngine::getSmarty()->assign("RssFeed", $feed);
 		
-		$rss_out = Page::getSmarty()->fetch("generic/rss.tpl");
+		$rss_out = RoutingEngine::getSmarty()->fetch("generic/rss.tpl");
 		
 		header("Content-Type: application/rss+xml");
 		echo $rss_out;

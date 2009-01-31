@@ -7,7 +7,7 @@ class help_controller{
 		if(!isset($_GET["common"])){
 			exit;
 		}
-		Page::getSmarty()->assign("content", Page::getSmarty()->fetch("help/_pages/{$_GET["common"]}.tpl"));
+		RoutingEngine::getSmarty()->assign("content", RoutingEngine::getSmarty()->fetch("help/_pages/{$_GET["common"]}.tpl"));
 	}
 }
 ?>

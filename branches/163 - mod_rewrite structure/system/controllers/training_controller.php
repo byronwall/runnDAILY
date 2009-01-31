@@ -9,7 +9,7 @@ class training_controller{
 			$cal->addItemToDay($item->date, $item);
 		}
 		
-		Page::getSmarty()->assign("calendar", $cal);
+		RoutingEngine::getSmarty()->assign("calendar", $cal);
 	}
 	public function view(){
 		if(!isset($_GET["tid"])){
@@ -25,8 +25,8 @@ class training_controller{
 			$cal_week->addItemToDay($item->date, $item);
 		}
 		
-		Page::getSmarty()->assign("item", $training_item);
-		Page::getSmarty()->assign("calendar", $cal_week);		
+		RoutingEngine::getSmarty()->assign("item", $training_item);
+		RoutingEngine::getSmarty()->assign("calendar", $cal_week);		
 	}
 	public function create(){
 		
@@ -60,12 +60,12 @@ class training_controller{
 			$t_items[] = new TrainingLog($row);
 		}
 		
-		Page::getSmarty()->assign("t_items", $t_items);
-		Page::getSmarty()->assign("query", $parser->getQueryString(true, true));
+		RoutingEngine::getSmarty()->assign("t_items", $t_items);
+		RoutingEngine::getSmarty()->assign("query", $parser->getQueryString(true, true));
 		//END
 		
 		if($format == "ajax"){
-			echo Page::getSmarty()->fetch("training/parts/item_list.tpl");
+			echo RoutingEngine::getSmarty()->fetch("training/parts/item_list.tpl");
 		}
 	}
 	public function action_edit(){

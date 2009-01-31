@@ -5,9 +5,9 @@ class routes_controller{
 		$recent_activity = Log::getRouteActivityForUser(User::$current_user->uid);
 		$more_routes = Route::getRoutesForUser(User::$current_user->uid, 50);
 		
-		Page::getSmarty()->assign("recent_route_list", $recent_routes);
-		Page::getSmarty()->assign("recent_activity_list", $recent_activity);
-		Page::getSmarty()->assign("all_route_list", $more_routes);
+		RoutingEngine::getSmarty()->assign("recent_route_list", $recent_routes);
+		RoutingEngine::getSmarty()->assign("recent_activity_list", $recent_activity);
+		RoutingEngine::getSmarty()->assign("all_route_list", $more_routes);
 	}
 	public function view(){
 		if(!isset($_GET["rid"])){
@@ -15,7 +15,7 @@ class routes_controller{
 		}
 		$id = $_GET["rid"];
 		$route = Route::fromRouteIdentifier($id);
-		Page::getSmarty()->assign("route_view", $route);
+		RoutingEngine::getSmarty()->assign("route_view", $route);
 	}
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
@@ -45,24 +45,24 @@ class routes_controller{
 			$routes[] = new Route($row);
 		}
 		
-		Page::getSmarty()->assign("routes", $routes);
-		Page::getSmarty()->assign("query", $parser->getQueryString(true, true));
+		RoutingEngine::getSmarty()->assign("routes", $routes);
+		RoutingEngine::getSmarty()->assign("query", $parser->getQueryString(true, true));
 		if($format == "ajax"){
-			echo Page::getSmarty()->fetch("routes/parts/route_list.tpl");
+			echo RoutingEngine::getSmarty()->fetch("routes/parts/route_list.tpl");
 		}
 	}
 	public function create(){
 		if(isset($_GET["rid"])){
 			$route = Route::fromRouteIdentifier($_GET["rid"]);
-			Page::getSmarty()->assign("route_edit", $route);
-			Page::getSmarty()->assign("is_edit", true);
+			RoutingEngine::getSmarty()->assign("route_edit", $route);
+			RoutingEngine::getSmarty()->assign("is_edit", true);
 
 			if(isset($_GET["mode"])){
 				$isCopy = $_GET["mode"] == "copy";
-				Page::getSmarty()->assign("isCopy", $isCopy);
+				RoutingEngine::getSmarty()->assign("isCopy", $isCopy);
 			}
 		}
-		Page::getSmarty()->assign("body_id", "map_create");
+		RoutingEngine::getSmarty()->assign("body_id", "map_create");
 	}
 	public function action_create(){
 		$route = new Route($_POST);

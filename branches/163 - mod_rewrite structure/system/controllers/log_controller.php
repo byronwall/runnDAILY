@@ -10,11 +10,11 @@ class log_controller{
 		
 			$logs = Log::getAllActivityForUserPaged($uid, 5, $page_no);
 		
-			Page::getSmarty()->assign("logs", $logs);
-			Page::getSmarty()->assign("uid", $uid);
-			Page::getSmarty()->assign("page_no", $page_no+1);
+			RoutingEngine::getSmarty()->assign("logs", $logs);
+			RoutingEngine::getSmarty()->assign("uid", $uid);
+			RoutingEngine::getSmarty()->assign("page_no", $page_no+1);
 			
-			echo Page::getSmarty()->fetch("log/log_list.tpl");
+			echo RoutingEngine::getSmarty()->fetch("log/log_list.tpl");
 		}
 	}
 }

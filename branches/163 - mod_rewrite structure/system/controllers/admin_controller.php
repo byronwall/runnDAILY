@@ -14,16 +14,16 @@ class admin_controller{
 		
 		$result->close();
 		
-		Page::getSmarty()->assign("message", $msgs);
+		RoutingEngine::getSmarty()->assign("message", $msgs);
 	}
 	public function index(){
 		
 	}
 	public function pages(){
-		Page::getSmarty()->assign("pages", Page::getAllPages());
+		RoutingEngine::getSmarty()->assign("pages", Page::getAllPages());
 	}
 	public function stats(){
-		Page::getSmarty()->assign("stats",Stats::getRecentStats());
+		RoutingEngine::getSmarty()->assign("stats",Stats::getRecentStats());
 	}
 	public function users(){
 		$parser = new SqlParser(true, 10, 0);
@@ -50,7 +50,7 @@ class admin_controller{
 			$users[] = new User($row);
 		}
 		
-		Page::getSmarty()->assign("users", $users);
+		RoutingEngine::getSmarty()->assign("users", $users);
 	}
 	public function update_stats(){
 		if(Stats::insertStats()){

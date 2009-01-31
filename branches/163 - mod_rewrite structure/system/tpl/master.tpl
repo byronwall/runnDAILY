@@ -82,6 +82,7 @@ This is the master template which holds all of the main layout.
 		{{include file="footer.tpl"}}
 	</div>
     <div id="footer_copyright">&copy Byron & Chandler 2008</div>
+    <p>page generated in {{$engine->getPageTime()|string_format:"%.5f"}} seconds</p>
 </div>
 
 <div id="feedback_modal" style="display:none">
