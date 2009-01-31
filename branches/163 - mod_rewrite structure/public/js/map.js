@@ -227,6 +227,7 @@ function map_refreshAll(){
 	
 	updateMileMarkers(true);
 	update_distance();
+	drawMileCircle();
 }
 
 /*
@@ -255,7 +256,7 @@ function addPoint(latlngNew){
 	}
 	else{
 		route_line.insertVertex(route_points.length, latlngNew);
-		total_distance = route_line.getLength() * meters_to_miles;
+		total_distance += route_points[route_points.length-1].latlng.distanceFrom(latlngNew) * meters_to_miles;
 		update_distance();
 	}
 	
@@ -268,6 +269,7 @@ function addPoint(latlngNew){
 	point.marker.marker_id = route_points.length - 1;
 	
 	updateMileMarkers(false);
+	drawMileCircle();
 }
 
 /******************************************************************************
@@ -363,6 +365,47 @@ function addMileMarker(lat, lng){
 	map.addOverlay(marker);
 	mileMarkers.push(point);
 }
+
+/*
+ * 
+ */
+ var circle_distance = 5.0;
+ var circle_poly;
+ var circle_show = true;
+ var circle_init = false;
+ var circle_points = 36;
+ 
+ function drawMileCircle(){
+ 	if(circle_show){
+ 		if(circle_init){
+ 			map.removeOverlay(circle_poly);
+ 		}
+ 		var circle_rad = circle_distance - total_distance;
+	 	if(circle_rad > 0 && route_points.length > 0){
+	 		circle_rad *= 1.6093944;
+
+	 		var center = route_points[route_points.length - 1].latlng;
+	 		var latConv = center.distanceFrom(new GLatLng(center.lat()+0.1,center.lng()))/100;
+	        var lngConv = center.distanceFrom(new GLatLng(center.lat(),	center.lng()+0.1))/100;
+	 		
+	 		var circle_latlng = [];
+	 		for(var i = 0;i<=circle_points;i++){
+	 			var angle = 2 * Math.PI / circle_points * i;
+	 			circle_latlng[i] = new GLatLng(center.lat() + Math.cos(angle)*circle_rad/latConv, center.lng() + Math.sin(angle)*circle_rad/lngConv);
+	 		}
+	 		circle_poly = new GPolygon(circle_latlng, "#444444", 1, 0.5, "#555555", 0.2);
+	 		map.addOverlay(circle_poly);
+	 		circle_init = true;
+	 		
+	 		return true;
+	 	}
+ 	}
+ 	if(circle_init){
+ 		map.removeOverlay(circle_poly);
+ 		circle_init = false;
+ 	} 	
+ }
+
 
 /******************************************************************************
  * This final section pertains to the additional interaciton on the map.

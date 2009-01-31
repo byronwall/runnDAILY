@@ -22,6 +22,16 @@ This is the template for the page where new routes are created.
 	    	<li><a href="#" onclick="undoLastPoint();return false;">undo</a></li>
 	    	<li><a href="#" onclick="outAndBack()">out and back</a></li>
 	   	</ul>
+	   	<form id="form_settings">
+	   	
+	   	<ul>
+	   		<li>mile marker distance: <input type="text" id="u_mile_marker" class="number" value="1.0"/></li>
+	   		<li>
+	   			distance circle: <input type="text" id="u_circle_dist" class="number" value="5.0"/>
+	   			show: <input type="checkbox" id="input_circle_show" checked/>
+	   		</li>
+	   	</ul>
+	   	</form>
 	   	
 	    {{if $currentUser->isAuthenticated}}
 		    <div id="map_controls">
@@ -86,34 +96,28 @@ $(document).ready( function(){
 
 	var validator = $("#route_save_form").validate({
 		rules: {
-			r_name: {
-				required: true
-			}
+			r_name: {required: true}
 		},
 		messages: {
-			r_name: {
-				required: "Enter a name"
-			}
-		},
-		// the errorPlacement has to take the table layout into account
-		errorPlacement: function(error, element) {
-			if ( element.is(":checkbox") )
-				error.appendTo ( element.next() );
-			else if( element.is(":hidden") )
-				alert(error.text());				
-			else
-				error.appendTo( element.parent() );
+			r_name: {required: "Enter a name"}
 		},
 		submitHandler: function(form){
 			saveSubmit($(form));
 			
 			form.submit();
-		},
-		// set this class to error-labels to indicate valid fields
-		success: function(label) {
-			// set &nbsp; as text for IE
-			label.html("&nbsp;").addClass("checked");
 		}
+	});
+	$("#u_mile_marker").blur(function(){
+		mileDistance = $("#u_mile_marker").val();
+		map_refreshAll();
+	});
+	$("#input_circle_show").click(function(){
+		circle_show = $(this).attr("checked");
+		map_refreshAll();
+	});
+	$("#u_circle_dist").blur(function(){
+		circle_distance = $("#u_circle_dist").val();
+		map_refreshAll();
 	});
 		
 });
