@@ -17,7 +17,7 @@ This is the template for the index page of the root folder.
 	<h2>Recent Activity</h2>
 	<ul class="recent_activity_list">
 	{{foreach from=$recent_activity_list item=recent}}
-		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view/{{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
+		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view?rid={{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
 	{{foreachelse}}
 		<li class="recent_activity_item">No recent activity, do something!</li>
 	{{/foreach}}

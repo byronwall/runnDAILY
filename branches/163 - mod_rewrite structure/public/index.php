@@ -2,17 +2,32 @@
 DEFINE("PUBLIC_ROOT", dirname(__FILE__));
 DEFINE("ROOT", dirname(PUBLIC_ROOT));
 DEFINE("SYSTEM_ROOT", ROOT . "/system");
+DEFINE("CLASS_ROOT", SYSTEM_ROOT."/class");
 
-
-$type = explode("/", $_SERVER["REQUEST_URI"]);
+require(SYSTEM_ROOT."/config.php");
+session_start();
 
 $request = explode("?", $_SERVER["REQUEST_URI"]);
-DEFINE("REQUEST", $request[0] );
+$type = explode("/", $request[0]);
 
-require(SYSTEM_ROOT."/lib/config.php");
+if(isset($_SESSION["userData"]) && $_SESSION["userData"]->uid){
+	User::$current_user = $_SESSION["userData"];
+	User::$current_user->refreshDetails();
+}
+else{
+	$_SESSION["userData"] = User::cookieLogin();
+	User::$current_user = $_SESSION["userData"];
+}
+$page = Page::getPage($request[0]);
+
+User::$current_user->checkPermissions($page->min_permission);
+
+Page::getSmarty()->assign("currentUser", User::$current_user);
+Page::getSmarty()->assign("page", $page);
 
 if(!Page::getControllerExists($type[1])){
 	$class = "home_controller";
+	$type[2]=$type[1];
 }
 else{
 	$class = strtolower($type[1])."_controller";
@@ -25,6 +40,7 @@ if(method_exists($controller, array_safe($type,2))){
 }
 else{
 	$controller->index();
+	$page->page_name .= "/index";
 }
 //TODO: implement some sort of selective rendering mechanism
 /*

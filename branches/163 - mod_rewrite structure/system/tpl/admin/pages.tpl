@@ -7,8 +7,7 @@
 	<td>address</td><td>permissions</td><td>title</td><td>tab</td><td>common</td>
 </thead>
 {{foreach from=$pages item=p_page}}
-<form class="page_item" action="/lib/action_page.php" method="post" id="form_{{counter}}">
-	<input type="hidden" name="action" value="update" />
+<form class="page_item" action="/admin/update_page" method="post" id="form_{{counter}}">
 	<input type="hidden" name="p_page_name" value="{{$p_page->page_name}}" />
 	<tr class="{{cycle values=" , alt_row"}}">
 		<td>{{$p_page->page_name}}</td>

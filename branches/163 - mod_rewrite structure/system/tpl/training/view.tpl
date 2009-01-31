@@ -5,7 +5,7 @@
 <div>time: {{$item->time|time_format}}</div>
 <div>pace: {{$item->pace}} mph</div>
 <div>date: {{$item->date|date_format}}</div>
-<a href="/routes/view/{{$item->route->id}}">view {{$item->route->name}}</a>
+<a href="/routes/view?rid={{$item->route->id}}">view {{$item->route->name}}</a>
 
 <h2>better info</h2>
 <h3>other logs for the user that week</h3>
@@ -28,9 +28,8 @@
 	
 	<div id="training_edit_modal" style="display:none">
 		<h2>edit this entry</h2>
-		<form action="/lib/action_training.php" method="post" id="training_edit_form">
+		<form action="/training/action_edit" method="post" id="training_edit_form">
 			<input type="hidden" name="t_tid" value="{{$item->tid}}" />
-			<input type="hidden" name="action" value="edit" />			
 			<ul>
 				<li><label>time</label><input type="text" name="t_time" value="{{$item->time|time_format}}" /></li>
 				<li><label>date</label><input type="text" name="t_date" value="{{$item->date|date_format}}" /></li>
@@ -43,9 +42,8 @@
 	
 	<div id="training_delete_modal" style="display:none">
 		<h2>Are you sure you want to delete this route?</h2>
-		<form method="POST" action="/lib/action_training.php">
+		<form method="POST" action="/training/action_delete">
 			<input type="hidden" name="t_tid" value="{{$item->tid}}" />
-			<input type="hidden" name="action" value="delete" />
 			<input type="submit" value="delete" />
 			<input type="button" value="cancel" onclick="tb_remove()" />
 		</form>

@@ -26,9 +26,13 @@ class community_controller{
 		Page::getSmarty()->assign("user_log", $l_items); 
 		Page::getSmarty()->assign("user",User::fromUid($uid));
 	}
-	public function browse(){
-	}
-	public function create(){
+	public function add_friend(){
+		if(!isset($_POST["f_uid"])){
+			echo 0;
+			exit;
+		}
+		$friend_uid = $_POST["f_uid"];
+		echo User::$current_user->addFriend($friend_uid);
 	}
 }
 ?>

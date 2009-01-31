@@ -61,5 +61,29 @@ class user_controller{
 		else exit("did not delete");
 		Page::redirect("/admin/user");
 	}
+	public function action_settings(){
+		$user->location_lat = $_POST["user_home_lat"];
+		$user->location_lng = $_POST["user_home_lng"];
+		$user->email = $_POST["u_email"];
+		
+		if($user->updateUserDetails()){
+			Page::redirect("/");
+		}
+		else{
+			Page::redirect("/settings");
+		}
+	}
+	public function check_exists(){
+		$username = $_GET["username"];
+
+		if(User::getUserExists($username)){
+			echo json_encode(false);
+			exit;
+		}
+		else{
+			echo json_encode(true);
+			exit;
+		}
+	}
 }
 ?>

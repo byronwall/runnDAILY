@@ -1,6 +1,6 @@
 <h1>settings for {{$currentUser->username}}</h1>
 
-<form name="settings_form" id="form_settings" action="/lib/action_settings.php" method="post" onsubmit="checkSettings(this)">
+<form name="settings_form" id="form_settings" action="/user/action_settings" method="post" onsubmit="checkSettings(this)">
 
 <h2>user details</h2>
 <ul>

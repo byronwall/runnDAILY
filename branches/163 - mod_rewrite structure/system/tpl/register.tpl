@@ -48,7 +48,7 @@ $(document).ready(
 				username: {
 					required: true,
 					minlength: 2,
-					remote: "/lib/ajax_username.php"
+					remote: "/user/check_exists"
 				},
 				password: {
 					required: true,

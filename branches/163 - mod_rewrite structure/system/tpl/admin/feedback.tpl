@@ -17,9 +17,8 @@
 </table>
 
 <div id="delete_modal" style="display:none">
-	<form action="/lib/action_feedback.php" method="post" id="form_delete">
+	<form action="/feedback/delete" method="post" id="form_delete">
 		<h1>Are you sure you want to delete that message?</h1>
-		<input type="hidden" name="action" value="delete" />
 		<input type="hidden" name="m_mid" value="-1" />		
 		<input type="submit" value="yes, delete" />
 		<input type="button" value="cancel" onclick="tb_remove()" />

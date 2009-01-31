@@ -68,5 +68,23 @@ class training_controller{
 			echo Page::getSmarty()->fetch("training/parts/item_list.tpl");
 		}
 	}
+	public function action_edit(){
+		if($t_item->updateItem() ){
+			Page::redirect("/training/view.php?tid={$t_item->tid}");
+		}
+		Page::redirect("/training/manage.php?tid={$t_item->tid}");
+	}
+	public function action_delete(){
+		if($t_item->deleteItemSecure()){
+			Page::redirect("/training/");
+		}
+		Page::redirect("/training/manage.php?tid={$t_item->tid}");
+	}
+	public function action_save(){
+		if($t_item->createItem()){
+			Page::redirect("/training/view.php?tid={$t_item->tid}");
+		}
+		Page::redirect("/training/");
+	}
 }
 ?>

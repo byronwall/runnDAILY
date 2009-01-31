@@ -52,5 +52,18 @@ class admin_controller{
 		
 		Page::getSmarty()->assign("users", $users);
 	}
+	public function update_stats(){
+		if(Stats::insertStats()){
+			exit("success");
+		}
+		echo "DID NOT WORK";		
+	}
+	public function update_page(){
+		$p_page = new Page($_POST, "p_");
+		if($p_page->updatePage()){
+			exit("success");
+		}
+		exit("DID NOT UPDATE");
+	}
 }
 ?>

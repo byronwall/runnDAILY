@@ -31,7 +31,7 @@
 
 <div id="message_modal" style="display:none">
 	<h1>send {{$user->username}} a message</h1>
-	<form action="/lib/action_message_create" method="POST" name="user_message">
+	<form action="/message/create" method="POST" name="user_message">
 		<textarea name="m_msg">enter message</textarea>
 		<input type="submit" value="send" />
 		<input type="button" value="cancel" onclick="tb_remove()" />
@@ -67,7 +67,7 @@ function click_addFriend(){
 	var friend_uid = this.rel;
 	$(this).text("adding friend...");
 	$.post(
-		"/lib/ajax_addFriend.php",
+		"/community/add_friend",
 		{f_uid:friend_uid},
 		function(data){
 			if(data > 0){

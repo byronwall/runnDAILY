@@ -3,10 +3,10 @@
 <ul>
 	<h2>route details</h2>
 	<li>distance: {{$route_view->distance}}</li>
-	<li>creator: <a href="/community/view_user/{{$route_view->uid}}">{{$route_view->user->username}}</a></li>
+	<li>creator: <a href="/community/view_user?uid={{$route_view->uid}}">{{$route_view->user->username}}</a></li>
 	<li>training logs: {{$route_view->getTrainingCount()}}</li>
 	{{if $route_view->getHasParent()}}
-		<li><a href="/routes/view.php?id={{$route_view->rid_parent}}">view parent route</a></li>
+		<li><a href="/routes/view?rid={{$route_view->rid_parent}}">view parent route</a></li>
 	{{/if}}
 	
 </ul>
@@ -17,20 +17,19 @@
 	<ul id="creator_actions">
 		<h2>creator actions</h2>
 		{{if $route_view->getCanEdit()}}
-			<li><a href="/routes/create/{{$route_view->id}}">edit original</a></li>
-			<li><a href="/routes/create/{{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
+			<li><a href="/routes/create?rid={{$route_view->id}}">edit original</a></li>
+			<li><a href="/routes/create?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
 			<li><a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">
 				delete route
 			</a></li>
 		{{else}}
-			<li><a href="/routes/create/{{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
+			<li><a href="/routes/create?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
 		{{/if}}
 	</ul>
 	
 	<div id="delete_modal" style="display:none">
 		<h2>Are you sure you want to delete this route?</h2>
-		<form method="POST" action="/lib/action_routes.php">
-			<input type="hidden" name="action" value="delete" />
+		<form method="POST" action="/routes/action_delete">
 			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />
 			<input type="submit" value="delete" />
 			<input type="button" value="cancel" onclick="tb_remove()" />
@@ -45,9 +44,8 @@
 
 <div id="route_train_modal" style="display:none">
 	<h2>enter details of entry</h2>
-	<form action="/lib/action_training.php" method="post" id="route_train_form">
+	<form action="/training/action_save" method="post" id="route_train_form">
 	<input type="hidden" name="t_rid" value="{{$route_view->id}}">
-	<input type="hidden" name="action" value="save" />
 		<ul>
 			<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>
 			<li><label>date</label><input type="text" name="t_date" value="today"></li>

@@ -85,12 +85,11 @@ This is the master template which holds all of the main layout.
 </div>
 
 <div id="feedback_modal" style="display:none">
-	<form action="/lib/action_feedback.php" method="post" id="form_feedback">
+	<form action="/feedback/create" method="post" id="form_feedback">
 		<h2>tell us what you think</h2>
 		<textarea name="m_msg" class="required"></textarea>
 		<input type="submit" value="send it!" />
 		<input type="button" value="cancel" onclick="tb_remove()" />
-		<input type="hidden" name="action" value="create" />
 	</form>
 </div>
 
