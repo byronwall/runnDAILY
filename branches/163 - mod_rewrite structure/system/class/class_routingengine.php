@@ -42,15 +42,22 @@ class RoutingEngine{
 		if(in_array($paths[0]."_controller", self::$controllers)){
 			$this->controller = $paths[0];
 			$this->controller_full = $paths[0]."_controller";
-			if(!empty($paths[1])){
+			if(!empty($paths[1]) && $this->_checkAction($paths[1])){
 				$this->action = $paths[1]; 
 			}
 			else{
-				$this->action = "index";
+				Page::redirect("/{$this->controller}/index");
 			}
 		}
 		else{
-			$this->controller = "home_controller";
+			$this->controller = "home";
+			$this->controller_full = "home_controller";
+			if(!empty($paths[0]) && $this->_checkAction($paths[0])){
+				$this->action = $paths[0]; 
+			}
+			else{
+				Page::redirect("/{$this->controller}/index");
+			}
 		}
 		
 		$this->page = Page::getPage($this->_request_path);
@@ -59,6 +66,9 @@ class RoutingEngine{
 		
 		return $this;
 	}
+	/**
+	 * @return bool
+	 */
 	public function renderRequest(){
 		$controller = $this->controller_full;
 		$class = new $controller();
@@ -66,7 +76,11 @@ class RoutingEngine{
 		$class->{$action}();
 		
 		self::getSmarty()->display_master($this->getTemplateName());
+		return true;
 	}
+	/**
+	 * @return string	Formatted name of the template corresponding to the active controller/action
+	 */
 	public function getTemplateName(){
 		if($this->controller == "home"){			
 			return "{$this->action}.tpl";
@@ -84,8 +98,18 @@ class RoutingEngine{
 		return self::$_smarty;
 	}
 	
+	/**
+	 * @return float
+	 */
 	public function getPageTime(){
 		return microtime(true) - $this->start_time;
+	}
+	/**
+	 * @param string $action
+	 * @return bool
+	 */
+	private function _checkAction($action){
+		return method_exists($this->controller_full, $action);
 	}
 }
 ?>

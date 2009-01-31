@@ -14,7 +14,7 @@ class log_controller{
 			RoutingEngine::getSmarty()->assign("uid", $uid);
 			RoutingEngine::getSmarty()->assign("page_no", $page_no+1);
 			
-			echo RoutingEngine::getSmarty()->fetch("log/log_list.tpl");
+			exit(RoutingEngine::getSmarty()->fetch("log/log_list.tpl"));
 		}
 	}
 }

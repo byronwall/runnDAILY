@@ -34,7 +34,6 @@ class training_controller{
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 	
-		//SQL query code
 		$parser = new SqlParser(true, 5, 0);
 		$parser->addCondition(new SqlRangeCondition("t_distance"));
 		$parser->addCondition(new SqlRangeCondition("t_date", "FROM_UNIXTIME", "strtotime"));
@@ -62,27 +61,29 @@ class training_controller{
 		
 		RoutingEngine::getSmarty()->assign("t_items", $t_items);
 		RoutingEngine::getSmarty()->assign("query", $parser->getQueryString(true, true));
-		//END
 		
 		if($format == "ajax"){
-			echo RoutingEngine::getSmarty()->fetch("training/parts/item_list.tpl");
+			exit(RoutingEngine::getSmarty()->fetch("training/parts/item_list.tpl"));
 		}
 	}
 	public function action_edit(){
+		$t_item = new TrainingLog($_POST);
 		if($t_item->updateItem() ){
-			Page::redirect("/training/view.php?tid={$t_item->tid}");
+			Page::redirect("/training/view?tid={$t_item->tid}");
 		}
-		Page::redirect("/training/manage.php?tid={$t_item->tid}");
+		Page::redirect("/training/create?tid={$t_item->tid}");
 	}
 	public function action_delete(){
+		$t_item = new TrainingLog($_POST);
 		if($t_item->deleteItemSecure()){
 			Page::redirect("/training/");
 		}
-		Page::redirect("/training/manage.php?tid={$t_item->tid}");
+		Page::redirect("/training/create?tid={$t_item->tid}");
 	}
 	public function action_save(){
+		$t_item = new TrainingLog($_POST);
 		if($t_item->createItem()){
-			Page::redirect("/training/view.php?tid={$t_item->tid}");
+			Page::redirect("/training/view?tid={$t_item->tid}");
 		}
 		Page::redirect("/training/");
 	}

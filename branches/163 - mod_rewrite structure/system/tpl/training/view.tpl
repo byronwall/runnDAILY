@@ -12,8 +12,8 @@
 {{
 	include file=generic/calendar.tpl 
 	calendar=$calendar 
-	day_week_template="training/cal_day.tpl" 
-	day_mon_template="training/cal_day.tpl"
+	day_week_template="generic/cal_day.tpl" 
+	day_mon_template="generic/cal_day.tpl"
 }}
 {{if $item->getIsOwnedBy($currentUser->uid)}}
 	<ul id="training_manage">

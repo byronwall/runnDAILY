@@ -48,7 +48,7 @@ class routes_controller{
 		RoutingEngine::getSmarty()->assign("routes", $routes);
 		RoutingEngine::getSmarty()->assign("query", $parser->getQueryString(true, true));
 		if($format == "ajax"){
-			echo RoutingEngine::getSmarty()->fetch("routes/parts/route_list.tpl");
+			exit(RoutingEngine::getSmarty()->fetch("routes/parts/route_list.tpl"));
 		}
 	}
 	public function create(){
