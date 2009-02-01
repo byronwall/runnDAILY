@@ -7,7 +7,9 @@ class TrainingLog extends Object{
 	public $uid;
 	public $tid;
 	public $pace;
-
+	public $type;
+	public $type_name;
+	public $type_desc;	
 	public $route;
 
 	function __construct($arr = null, $arr_pre = "t_"){
@@ -181,9 +183,10 @@ class TrainingLog extends Object{
 				t_pace = ?,
 				t_date = FROM_UNIXTIME(?),
 				t_rid = ?,
-				t_uid = ?
+				t_uid = ?,
+				t_type = ?
 		");
-		$stmt->bind_param("dddsii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid);
+		$stmt->bind_param("dddsiii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid, $this->type);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
