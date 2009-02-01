@@ -28,9 +28,6 @@ class training_controller{
 		RoutingEngine::getSmarty()->assign("item", $training_item);
 		RoutingEngine::getSmarty()->assign("calendar", $cal_week);		
 	}
-	public function create(){
-		
-	}
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 	
@@ -82,10 +79,47 @@ class training_controller{
 	}
 	public function action_save(){
 		$t_item = new TrainingLog($_POST);
+		if(array_safe($_POST, "t_rid") == "") $t_item->rid = null;
 		if($t_item->createItem()){
 			Page::redirect("/training/view?tid={$t_item->tid}");
 		}
 		Page::redirect("/training/");
+	}
+	
+	public function create(){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_name, r_distance, r_id
+			FROM routes
+			WHERE
+				r_uid = ?
+		");
+		$stmt->bind_param("i", User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$routes = array();
+		while($row = $stmt->fetch_assoc()){
+			$route = new Route($row);
+			$routes[$route->id] = $route;
+		}
+		$stmt->close();
+		//get training types
+		
+		$stmt = Database::getDB()->prepare("
+			SELECT t_type_id, t_type_name
+			FROM training_types
+		");
+		$stmt->execute();
+		$stmt->store_result();
+		$types = array();
+		while($row = $stmt->fetch_assoc()){
+			$types[] = array("id"=>$row["t_type_id"], "name"=>$row["t_type_name"]);
+		}
+		$stmt->close();
+		
+		RoutingEngine::getSmarty()->assign("t_types", $types);
+		RoutingEngine::getSmarty()->assign("routes_json", json_encode_null($routes));
+		RoutingEngine::getSmarty()->assign("routes", $routes);
 	}
 }
 ?>
