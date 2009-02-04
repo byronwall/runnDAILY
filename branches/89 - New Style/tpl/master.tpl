@@ -67,20 +67,12 @@ This is the master template which holds all of the main layout.
 			</ul>
 		</div>
 		<div class="clear"></div>
-		<div class="grid_12">
-			<h2 id="page-heading">Home</h2>
-		</div>
+		{{$page_content}}
+		{{include file="footer.tpl"}}
 		<div class="clear"></div>
-		<div class="grid_12">
-			<div class="box">
-				{{$page_content}}
-			</div>
-		</div>
 		<div class="grid_12" id="site_info">
-			<div class="box">
-				{{include file="footer.tpl"}}
+		
 				<p>&copy; 2008-2009 Byron and Chandler</p>
-			</div>
 		</div>
 		<div class="clear"></div>
 	</div>
