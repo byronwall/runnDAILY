@@ -19,9 +19,7 @@ This is the master template which holds all of the main layout.
     <script src="/js/site.js" type="text/javascript"></script>
     
     <!--TITLE-->
-    <title>
-        {{$page->title}}
-    </title>
+    <title>{{$page->title}}</title>
 </head>
 
 <body id="{{$body_id}}">
@@ -71,7 +69,6 @@ This is the master template which holds all of the main layout.
 		{{include file="footer.tpl"}}
 		<div class="clear"></div>
 		<div class="grid_12" id="site_info">
-		
 				<p>&copy; 2008-2009 Byron and Chandler</p>
 		</div>
 		<div class="clear"></div>
