@@ -1,4 +1,4 @@
-<div class="grid_3">
+<div class="grid_2 prefix_2">
 	<h2>Routes</h2>
 <ul>
 	<li><a href="/routes/create.php">create</a></li>
@@ -6,7 +6,7 @@
 	<li><a href="/routes/browse.php">browse</a></li>
 </ul>
 </div>
-<div class="grid_3">
+<div class="grid_2">
 
 	<h2>Training</h2>
 <ul>
@@ -15,7 +15,7 @@
 	<li><a href="/training/browse.php">browse</a></li>
 </ul>
 </div>
-<div class="grid_3">
+<div class="grid_2">
 	<h2>Community</h2>
 <ul>
 	<li><a href="/community/index.php">main</a></li>
@@ -24,7 +24,7 @@
 </ul>
 
 </div>
-<div class="grid_3">
+<div class="grid_2 suffix_2">
 
 	<h2>Run'n Daily</h2>
 <ul>

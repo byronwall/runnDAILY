@@ -2,10 +2,10 @@
 This is the template for the index page of the root folder.
 *}}
 <div class="grid_12">
-<div class="box">
-	<h2>News & Announcements</h2>
-	<ul class="news_list">
-		<li class="news_item">The site will soon be released to the public!</li>
+<div class="article">
+	<h4>News & Announcements</h4>
+	<ul>
+		<li>The site will soon be released to the public!</li>
 	</ul>
 </div>
 </div>

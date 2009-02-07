@@ -8,7 +8,7 @@ This is the master template which holds all of the main layout.
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     
     <!--SYTLE SHEETS-->
-<!--    <link href="/css/style.css"rel="stylesheet" type="text/css">-->
+	<link href="/css/reset.css" rel="stylesheet" type="tet/css">
 	<link href="/css/combine.css" rel="stylesheet" type="text/css">
     <link href="/css/thickbox.css" rel="stylesheet" type="text/css">
     
@@ -25,7 +25,7 @@ This is the master template which holds all of the main layout.
 <body id="{{$body_id}}">
 	<div class="container_12">
 		<div class="grid_12">
-			<h1>Runn Daily</h1>
+			<a href="/index.php"><img class="logo" src="/img/logo.png"></a>
 		</div>
 		<div class="clear"></div>
 		<div class="grid_12">
@@ -63,6 +63,10 @@ This is the master template which holds all of the main layout.
 				</li>
 				{{/if}}
 			</ul>
+		</div>
+		<div class="clear"></div>
+		<div class="grid_12">
+			<h2>{{$page->title}}</h2>
 		</div>
 		<div class="clear"></div>
 		{{$page_content}}
