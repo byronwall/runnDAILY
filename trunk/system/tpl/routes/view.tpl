@@ -1,35 +1,52 @@
-<h1>Viewing details of {{$route_view->name}}.</h1>
+<div class="grid_12">
+	<h2 id="page-heading">{{$route_view->name}}</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_2 suffix_9">
+	<p>By: <a href="/community/view_user.php?uid={{$route_view->uid}}">User</a></p>
+</div>
+<div class="grid_1">
+	{{$route_view->distance}} mi
+</div>
 
-<ul>
-	<h2>route details</h2>
-	<li>distance: {{$route_view->distance}}</li>
-	<li>creator: <a href="/community/view_user?uid={{$route_view->uid}}">{{$route_view->user->username}}</a></li>
-	<li>training logs: {{$route_view->getTrainingCount()}}</li>
-	{{if $route_view->getHasParent()}}
-		<li><a href="/routes/view?rid={{$route_view->rid_parent}}">view parent route</a></li>
-	{{/if}}
-	
-</ul>
+<div class="clear"></div>
 
-<div id="map_placeholder" class="large_map"></div>
+<!--<div class="grid_12">-->
+<!--	<h2>route details</h2>-->
+<!--	<ul>-->
+<!--		<li>distance: {{$route_view->distance}}</li>-->
+<!--		<li>creator: <a href="/community/view_user.php?uid={{$route_view->uid}}">{{$route_view->user->username}}</a></li>-->
+<!--		<li>training logs: {{$route_view->getTrainingCount()}}</li>-->
+<!--		{{if $route_view->getHasParent()}}-->
+<!--			<li><a href="/routes/view.php?id={{$route_view->rid_parent}}">view parent route</a></li>-->
+<!--		{{/if}}-->
+<!--	</ul>-->
+<!--</div>-->
+<!--<div class="clear"></div>-->
+
+<div class="grid_12">
+	<div id="map_placeholder" class="map large"></div>
+</div>
+<div class="clear"></div>
 
 {{if $route_view->getIsOwner($currentUser->uid)}}
 	<ul id="creator_actions">
 		<h2>creator actions</h2>
 		{{if $route_view->getCanEdit()}}
-			<li><a href="/routes/create?rid={{$route_view->id}}">edit original</a></li>
-			<li><a href="/routes/create?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
+			<li><a href="/routes/create.php?rid={{$route_view->id}}">edit original</a></li>
+			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
 			<li><a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">
 				delete route
 			</a></li>
 		{{else}}
-			<li><a href="/routes/create?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
+			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
 		{{/if}}
 	</ul>
 	
 	<div id="delete_modal" style="display:none">
 		<h2>Are you sure you want to delete this route?</h2>
-		<form method="POST" action="/routes/action_delete">
+		<form method="POST" action="/lib/action_routes.php">
+			<input type="hidden" name="action" value="delete" />
 			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />
 			<input type="submit" value="delete" />
 			<input type="button" value="cancel" onclick="tb_remove()" />
@@ -44,8 +61,9 @@
 
 <div id="route_train_modal" style="display:none">
 	<h2>enter details of entry</h2>
-	<form action="/training/action_save" method="post" id="route_train_form">
+	<form action="/lib/action_training.php" method="post" id="route_train_form">
 	<input type="hidden" name="t_rid" value="{{$route_view->id}}">
+	<input type="hidden" name="action" value="save" />
 		<ul>
 			<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>
 			<li><label>date</label><input type="text" name="t_date" value="today"></li>

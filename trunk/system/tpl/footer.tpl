@@ -1,27 +1,35 @@
-<ul>
+<div class="grid_2 prefix_2">
 	<h2>Routes</h2>
-	<li><a href="/routes/create">create</a></li>
-	<li><a href="/routes/index">view</a></li>
-	<li><a href="/routes/browse">browse</a></li>
-</ul>
-
 <ul>
+	<li><a href="/routes/create.php">Create</a></li>
+	<li><a href="/routes/index.php">View</a></li>
+	<li><a href="/routes/browse.php">Browse</a></li>
+</ul>
+</div>
+<div class="grid_2">
+
 	<h2>Training</h2>
-	<li><a href="/training/manage">create</a></li>
-	<li><a href="/training/index">view</a></li>
-	<li><a href="/training/browse">browse</a></li>
-</ul>
-
 <ul>
+	<li><a href="/training/manage.php">Create</a></li>
+	<li><a href="/training/index.php">View</a></li>
+	<li><a href="/training/browse.php">Browse</a></li>
+</ul>
+</div>
+<div class="grid_2">
 	<h2>Community</h2>
-	<li><a href="/community/index">main</a></li>
-	<li><a href="/community/users">users</a></li>
-	<li><a href="/community/friends">friends</a></li>
+<ul>
+	<li><a href="/community/index.php">Main</a></li>
+	<li><a href="/community/users.php">Users</a></li>
+	<li><a href="/community/friends.php">Friends</a></li>
 </ul>
 
-<ul>
+</div>
+<div class="grid_2 suffix_2">
+
 	<h2>Run'n Daily</h2>
-	<li><a href="/about/index">about</a></li>
-	<li><a href="/about/help">help</a></li>
-	<li><a href="/about/toc">terms and conditions</a></li>
+<ul>
+	<li><a href="/about/index.php">About</a></li>
+	<li><a href="/about/help.php">Help</a></li>
+	<li><a href="/about/toc.php">Terms and Conditions</a></li>
 </ul>
+</div>
