@@ -24,7 +24,7 @@ This is the master template which holds all of the main layout.
 
 <body id="{{$body_id}}">
 	<div class="container_12">
-		<div class="grid_12">
+		<div class="grid_2 prefix_5 suffix_5">
 			<a href="/index.php"><img class="logo" src="/img/logo.png"></a>
 		</div>
 		<div class="clear"></div>
@@ -63,10 +63,6 @@ This is the master template which holds all of the main layout.
 				</li>
 				{{/if}}
 			</ul>
-		</div>
-		<div class="clear"></div>
-		<div class="grid_12">
-			<h2>{{$page->title}}</h2>
 		</div>
 		<div class="clear"></div>
 		{{$page_content}}

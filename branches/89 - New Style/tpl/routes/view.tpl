@@ -1,17 +1,33 @@
-<h1>Viewing details of {{$route_view->name}}.</h1>
+<div class="grid_12">
+	<h2 id="page-heading">{{$route_view->name}}</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_2 suffix_9">
+	<p>By: <a href="/community/view_user.php?uid={{$route_view->uid}}">User</a></p>
+</div>
+<div class="grid_1">
+	{{$route_view->distance}} mi
+</div>
 
-<ul>
-	<h2>route details</h2>
-	<li>distance: {{$route_view->distance}}</li>
-	<li>creator: <a href="/community/view_user.php?uid={{$route_view->uid}}">{{$route_view->user->username}}</a></li>
-	<li>training logs: {{$route_view->getTrainingCount()}}</li>
-	{{if $route_view->getHasParent()}}
-		<li><a href="/routes/view.php?id={{$route_view->rid_parent}}">view parent route</a></li>
-	{{/if}}
-	
-</ul>
+<div class="clear"></div>
 
-<div id="map_placeholder" class="large_map"></div>
+<!--<div class="grid_12">-->
+<!--	<h2>route details</h2>-->
+<!--	<ul>-->
+<!--		<li>distance: {{$route_view->distance}}</li>-->
+<!--		<li>creator: <a href="/community/view_user.php?uid={{$route_view->uid}}">{{$route_view->user->username}}</a></li>-->
+<!--		<li>training logs: {{$route_view->getTrainingCount()}}</li>-->
+<!--		{{if $route_view->getHasParent()}}-->
+<!--			<li><a href="/routes/view.php?id={{$route_view->rid_parent}}">view parent route</a></li>-->
+<!--		{{/if}}-->
+<!--	</ul>-->
+<!--</div>-->
+<!--<div class="clear"></div>-->
+
+<div class="grid_12">
+	<div id="map_placeholder" class="map large"></div>
+</div>
+<div class="clear"></div>
 
 {{if $route_view->getIsOwner($currentUser->uid)}}
 	<ul id="creator_actions">
