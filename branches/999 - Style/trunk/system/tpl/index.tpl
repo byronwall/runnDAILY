@@ -1,40 +1,54 @@
 {{*
 This is the template for the index page of the root folder.
 *}}
-<div id="route_actions_con" class="actions_con">
+<div class="grid_12">
+<div class="article">
+	<h4>News & Announcements</h4>
+	<ul>
+		<li>The site will soon be released to the public!</li>
+	</ul>
+</div>
+</div>
+<div class="clear"></div>
+<div class="grid_4">
+<div class="box">
 	<h2>Home Actions</h2>
 	<ul>
-		<li><a href="/routes/create">Create a route</a></li>
+		<li><a href="/routes/create.php">Create a route</a></li>
 	</ul>
+</div>
 </div>
 
 {{if $currentUser->isAuthenticated}}
-<div id="welcome_con">
+<div class="grid_4">
+<div class="box">
 	<h2>Personal Dashboard</h2>
 	<p>{{$currentUser->username}}, welcome to your personalized dashboard! More features are comming soon!</p>
 </div>
-<div id="recent_activity_con">
+</div>
+<div class="grid_4">
+<div class="box">
 	<h2>Recent Activity</h2>
-	<ul class="recent_activity_list">
+	<ul>
 	{{foreach from=$recent_activity_list item=recent}}
-		<li class="recent_activity_item">You {{$recent->desc}} <a href="/routes/view?rid={{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
+		<li>You {{$recent->desc}} <a href="/routes/view?rid={{$recent->route->id}}">{{$recent->route->name}}</a>. {{$recent->familiar}}.</li>
 	{{foreachelse}}
-		<li class="recent_activity_item">No recent activity, do something!</li>
+		<li>No recent activity, do something!</li>
 	{{/foreach}}
 	</ul>
 </div>
-{{else}}
-There are several things you can do as a new user!
-
-<a href="/login">Login</a>
-<a href="/register">Register</a>
-<a href="/routes/create">Create a route</a>
-
-{{/if}}
-
-<div id="news_con">
-	<h2>News & Announcements</h2>
-	<ul class="news_list">
-		<li class="news_item">The site will soon be released to the public!</li>
-	</ul>
 </div>
+{{else}}
+<div class="grid_4">
+<div class="box">
+<p>There are several things you can do as a new user!</p>
+
+<ul>
+<li><a href="/login.php">Login</a></li>
+<li><a href="/register.php">Register</a></li>
+<li><a href="/routes/create.php">Create a route</a></li>
+</ul>
+</div>
+</div>
+{{/if}}
+<div class="clear"></div>
