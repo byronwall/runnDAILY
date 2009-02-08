@@ -1,8 +1,18 @@
+.container_12.white{
+	background-color: #FFFFFF;
+}
+.container_12.footer{
+	background-color: #EEEEEE;
+}
+.right{
+	text-align: right;
+}
 img.logo{
 	border: 0px none;
 }
 .map{
 	height:475px;
+	margin-bottom:10px;
 }
 /*
 	960 Grid System ~ Text CSS.
@@ -627,8 +637,8 @@ a:hover {
 /* 960 grid system container background
 ----------------------------------------------- */
 .container_12 {
-	background:#fff
 /*
+	background:#fff
   url("../img/gridlines_12_col.gif") center top repeat-y
 */
   ;
