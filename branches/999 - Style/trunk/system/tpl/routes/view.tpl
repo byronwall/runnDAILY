@@ -2,11 +2,49 @@
 	<h2 id="page-heading">{{$route_view->name}}</h2>
 </div>
 <div class="clear"></div>
-<div class="grid_2 suffix_9">
+<div class="grid_2 suffix_2">
 	<p>By: <a href="/community/view_user.php?uid={{$route_view->uid}}">User</a></p>
 </div>
+<div class="grid_7">
+{{if $route_view->getIsOwner($currentUser->uid)}}
+	<div class="right">
+	{{if $route_view->getCanEdit()}}
+		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">Record Time</a>
+		<a href="/routes/create.php?rid={{$route_view->id}}">Edit</a>
+		<a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">Copy/Edit</a>
+		<a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">Delete</a>
+	{{else}}
+		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">Record Time</a>
+		<a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">Copy/Edit</a>
+	{{/if}}
+	</div>
+	<div id="delete_modal" style="display:none">
+		<h2>Are you sure you want to delete this route?</h2>
+		<form method="POST" action="/lib/action_routes.php">
+			<input type="hidden" name="action" value="delete" />
+			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />
+			<input type="submit" value="delete" />
+			<input type="button" value="cancel" onclick="tb_remove()" />
+		</form>
+	</div>
+	<div id="route_train_modal" style="display:none">
+		<h2>enter details of entry</h2>
+		<form action="/lib/action_training.php" method="post" id="route_train_form">
+		<input type="hidden" name="t_rid" value="{{$route_view->id}}">
+		<input type="hidden" name="action" value="save" />
+			<ul>
+				<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>
+				<li><label>date</label><input type="text" name="t_date" value="today"></li>
+				<li><label>distance</label><input type="text" name="t_distance" value="{{$route_view->distance}}"></li>
+				<li><input type="submit" value="add to log"></li>
+				<li><input type="button" value="cancel" onclick="tb_remove()" />
+			</ul>
+		</form>
+	</div>
+{{/if}}
+</div>
 <div class="grid_1">
-	{{$route_view->distance}} mi
+	<p>{{$route_view->distance}} mi<p>
 </div>
 
 <div class="clear"></div>
@@ -29,52 +67,52 @@
 </div>
 <div class="clear"></div>
 
-{{if $route_view->getIsOwner($currentUser->uid)}}
-	<ul id="creator_actions">
-		<h2>creator actions</h2>
-		{{if $route_view->getCanEdit()}}
-			<li><a href="/routes/create.php?rid={{$route_view->id}}">edit original</a></li>
-			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
-			<li><a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">
-				delete route
-			</a></li>
-		{{else}}
-			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>
-		{{/if}}
-	</ul>
-	
-	<div id="delete_modal" style="display:none">
-		<h2>Are you sure you want to delete this route?</h2>
-		<form method="POST" action="/lib/action_routes.php">
-			<input type="hidden" name="action" value="delete" />
-			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />
-			<input type="submit" value="delete" />
-			<input type="button" value="cancel" onclick="tb_remove()" />
-		</form>
-	</div>
-{{/if}}
+<!--{{if $route_view->getIsOwner($currentUser->uid)}}-->
+<!--	<ul id="creator_actions">-->
+<!--		<h2>creator actions</h2>-->
+<!--		{{if $route_view->getCanEdit()}}-->
+<!--			<li><a href="/routes/create.php?rid={{$route_view->id}}">edit original</a></li>-->
+<!--			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>-->
+<!--			<li><a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">-->
+<!--				delete route-->
+<!--			</a></li>-->
+<!--		{{else}}-->
+<!--			<li><a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">coming: edit a copy</a></li>-->
+<!--		{{/if}}-->
+<!--	</ul>-->
+<!--	-->
+<!--	<div id="delete_modal" style="display:none">-->
+<!--		<h2>Are you sure you want to delete this route?</h2>-->
+<!--		<form method="POST" action="/lib/action_routes.php">-->
+<!--			<input type="hidden" name="action" value="delete" />-->
+<!--			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />-->
+<!--			<input type="submit" value="delete" />-->
+<!--			<input type="button" value="cancel" onclick="tb_remove()" />-->
+<!--		</form>-->
+<!--	</div>-->
+<!--{{/if}}-->
 
-<div id="form_time_log">
-
-<h2>route actions</h2>
-<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">record a time for this route</a>
-
-<div id="route_train_modal" style="display:none">
-	<h2>enter details of entry</h2>
-	<form action="/lib/action_training.php" method="post" id="route_train_form">
-	<input type="hidden" name="t_rid" value="{{$route_view->id}}">
-	<input type="hidden" name="action" value="save" />
-		<ul>
-			<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>
-			<li><label>date</label><input type="text" name="t_date" value="today"></li>
-			<li><label>distance</label><input type="text" name="t_distance" value="{{$route_view->distance}}"></li>
-			<li><input type="submit" value="add to log"></li>
-			<li><input type="button" value="cancel" onclick="tb_remove()" />
-		</ul>
-	</form>
-</div>
-
-</div>
+<!--<div id="form_time_log">-->
+<!---->
+<!--<h2>route actions</h2>-->
+<!--<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">record a time for this route</a>-->
+<!---->
+<!--<div id="route_train_modal" style="display:none">-->
+<!--	<h2>enter details of entry</h2>-->
+<!--	<form action="/lib/action_training.php" method="post" id="route_train_form">-->
+<!--	<input type="hidden" name="t_rid" value="{{$route_view->id}}">-->
+<!--	<input type="hidden" name="action" value="save" />-->
+<!--		<ul>-->
+<!--			<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>-->
+<!--			<li><label>date</label><input type="text" name="t_date" value="today"></li>-->
+<!--			<li><label>distance</label><input type="text" name="t_distance" value="{{$route_view->distance}}"></li>-->
+<!--			<li><input type="submit" value="add to log"></li>-->
+<!--			<li><input type="button" value="cancel" onclick="tb_remove()" />-->
+<!--		</ul>-->
+<!--	</form>-->
+<!--</div>-->
+<!---->
+<!--</div>-->
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
 <script src="/js/map.js" type="text/javascript"></script>    
