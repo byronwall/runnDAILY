@@ -1,5 +1,14 @@
-<h1>User Feedback</h1>
+<div class="grid_12">
+	<h2 id="page-heading">User Feedback</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+	</div>
+</div>
+<div class="clear"></div>
 
+<div class="grid_12">
 <div id="result"></div>
 
 <table>
@@ -24,6 +33,8 @@
 		<input type="button" value="cancel" onclick="tb_remove()" />
 	</form>
 </div>
+</div>
+<div class="clear"></div>
 
 <script type="text/javascript">
 

@@ -1,22 +1,38 @@
 {{*
 This is the template for the index page of the community folder.
 *}}
+<div class="grid_12">
+	<h2 id="page-heading">Community</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+	</div>
+</div>
+<div class="clear"></div>
 
-<h1>Community Page</h1>
+<div class="grid_3">
+	<div class="box">
+		<h2>All Users</h2>	
+		<ul>
+		{{foreach from=$users_all item=user}}
+			<li><a href="/community/view_user?uid={{$user->uid}}">{{$user->username}}</a></li>
+		{{/foreach}}
+		</ul>
+	</div>
+</div>
 
-<h2>List of users on the site</h2>
+<div class="grid_4">
+	<div class="box">
+		<h2>Friends</h2>
+		<ul>
+		{{foreach from=$users_friends item=friend}}
+			<li><a href="/community/view_user?uid{{$friend->uid}}">{{$friend->username}}</a></li>
+		{{foreachelse}}
+			No friends!
+		{{/foreach}}
+		</ul>
+	</div>
+</div>
 
-<ul>
-{{foreach from=$users_all item=user}}
-	<li><a href="/community/view_user?uid={{$user->uid}}">{{$user->username}}</a></li>
-{{/foreach}}
-</ul>
-
-<h2>List of your friends</h2>
-<ul>
-{{foreach from=$users_friends item=friend}}
-	<li><a href="/community/view_user?uid{{$friend->uid}}">{{$friend->username}}</a></li>
-{{foreachelse}}
-	No friends!
-{{/foreach}}
-</ul>
+<div class="clear"></div>

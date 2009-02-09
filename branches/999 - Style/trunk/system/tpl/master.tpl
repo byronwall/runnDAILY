@@ -43,7 +43,7 @@ This is the master template which holds all of the main layout.
 				</li>
 				<li class="secondary">
 					{{if $currentUser->isAuthenticated}}
-					<a href="#">{{$currentUser->username}}</a>
+					<a href="/community/view_user?uid={{$currentUser->uid}}">{{$currentUser->username}}</a>
 					<ul>
 						<li><a href="/settings">Settings</a></li>
 						<li><a href="/messages">Messages ({{$currentUser->msg_new}})</a></li>
