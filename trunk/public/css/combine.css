@@ -1,4 +1,7 @@
 /* Custom */
+.header{
+	background: url(../img/top.png) repeat-x top;
+}
 #footer{
 	color: #666666;
 }

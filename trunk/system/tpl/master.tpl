@@ -24,7 +24,7 @@ This is the master template which holds all of the main layout.
 
 <body id="{{$body_id}}">
 	<div class="container_12 white">
-		<div class="grid_2 prefix_5 suffix_5">
+		<div class="grid_2 prefix_5 suffix_5 header">
 			<a href="/index.php"><img class="logo" src="/img/logo.png"></a>
 		</div>
 		<div class="clear"></div>
