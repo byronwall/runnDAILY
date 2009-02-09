@@ -2,12 +2,12 @@
 	<h2 id="page-heading">{{$route_view->name}}</h2>
 </div>
 <div class="clear"></div>
-<div class="grid_2 suffix_2">
+<div class="grid_2">
 	<p>Created by: <a href="/community/view_user.php?uid={{$route_view->uid}}">User</a></p>
 </div>
-<div class="grid_7">
+<div class="grid_9">
 {{if $route_view->getIsOwner($currentUser->uid)}}
-	<div class="right">
+	<div class="actions">
 	{{if $route_view->getCanEdit()}}
 		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">Record Time</a>
 		<a href="/routes/create.php?rid={{$route_view->id}}">Edit</a>

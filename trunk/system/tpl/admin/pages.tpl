@@ -1,10 +1,20 @@
-<h1>site pages</h1>
+<div class="grid_12">
+	<h2 id="page-heading">Page Management</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+	</div>
+</div>
+<div class="clear"></div>
+
+<div class="grid_12">
 
 <div id="result" style="background-color:green"></div>
 
 <table>
 <thead>
-	<td>address</td><td>permissions</td><td>title</td><td>tab</td><td>common</td>
+	<td>Address</td><td>Permissions</td><td>Title</td><td>Tab</td><td>Common</td>
 </thead>
 {{foreach from=$pages item=p_page}}
 <form class="page_item" action="/admin/update_page" method="post" id="form_{{counter}}">
@@ -22,6 +32,8 @@
 No stats found!
 {{/foreach}}
 </table>
+</div>
+<div class="clear"></div>
 
 <script type="text/javascript">
 
