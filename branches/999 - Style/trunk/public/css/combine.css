@@ -1,5 +1,5 @@
 /* Custom */
-.header{
+.bg_top{
 	background: url(../img/top.png) repeat-x top;
 }
 #footer{
@@ -21,10 +21,11 @@
 	text-align: center;
 	margin-bottom: 0px;
 }
-.container_12.white{
+.container_12.top{
 	background-color: #FFFFFF;
+	padding-bottom:10px;
 }
-.container_12.footer{
+.container_12.bottom{
 	background-color: #EEEEEE;
 }
 .right{

@@ -23,8 +23,8 @@ This is the master template which holds all of the main layout.
 </head>
 
 <body id="{{$body_id}}">
-	<div class="container_12 white">
-		<div class="grid_2 prefix_5 suffix_5 header">
+	<div class="container_12 top">
+		<div class="grid_2 prefix_5 suffix_5 bg_top">
 			<a href="/index.php"><img class="logo" src="/img/logo.png"></a>
 		</div>
 		<div class="clear"></div>
@@ -67,7 +67,7 @@ This is the master template which holds all of the main layout.
 		<div class="clear"></div>
 		{{$page_content}}
 	</div>
-	<div id="footer" class="container_12">
+	<div id="footer" class="container_12 bottom">
 		{{include file="footer.tpl"}}
 		<div class="clear"></div>
 		<div class="grid_12" id="site_info">
