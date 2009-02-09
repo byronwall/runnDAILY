@@ -9,13 +9,13 @@
 {{if $route_view->getIsOwner($currentUser->uid)}}
 	<div class="actions">
 	{{if $route_view->getCanEdit()}}
-		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">Record Time</a>
-		<a href="/routes/create.php?rid={{$route_view->id}}">Edit</a>
-		<a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">Copy/Edit</a>
-		<a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox">Delete</a>
+		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox"><img class="icon" src="/img/icon.png" />Record Time</a>
+		<a href="/routes/create.php?rid={{$route_view->id}}"><img class="icon" src="/img/icon.png" />Edit</a>
+		<a href="/routes/create.php?rid={{$route_view->id}}&mode=copy"><img class="icon" src="/img/icon.png" />Copy/Edit</a>
+		<a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox"><img class="icon" src="/img/icon.png" />Delete</a>
 	{{else}}
-		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox">Record Time</a>
-		<a href="/routes/create.php?rid={{$route_view->id}}&mode=copy">Copy/Edit</a>
+		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox"><img class="icon" src="/img/icon.png" />Record Time</a>
+		<a href="/routes/create.php?rid={{$route_view->id}}&mode=copy"><img class="icon" src="/img/icon.png" />Copy/Edit</a>
 	{{/if}}
 	</div>
 	<div id="delete_modal" style="display:none">

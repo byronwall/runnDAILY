@@ -4,7 +4,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="/training/create">New Training Item</a>
+		<a href="/training/create"><img class="icon" src="/img/icon.png" />New Training Item</a>
 	</div>
 </div>
 <div class="clear"></div>
