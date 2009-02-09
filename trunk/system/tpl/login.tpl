@@ -1,13 +1,21 @@
 {{*
 This is the template for the login page.
 *}}
-<h1>Login to the running site</h1>
+<div class="grid_4 prefix_4 suffix_4">
+<div class="box">
+<div id="login-forms" class="block">
 <form action="/user/login" method="post">
+<fieldset class="login">
 
-<input type="text" value="username" name="username">
-<input type="password" value="password" name="password">
-<input type="checkbox" name="remember" value="1">
-<input type="submit" value="login">
+<p class="notice">Please enter your username and password.</p>
 
+<p><label>Username: </label><input type="text" name="username"></p>
+<p><label>Password: </label><input type="password" name="password"></p>
+<p><label>Cookie? </label><input type="checkbox" name="remember" value="1"></p>
+<input class="login" type="submit" value="Login">
 
+</fieldset>
 </form>
+</div>
+</div>
+</div>

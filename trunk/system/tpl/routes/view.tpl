@@ -3,7 +3,7 @@
 </div>
 <div class="clear"></div>
 <div class="grid_2 suffix_2">
-	<p>By: <a href="/community/view_user.php?uid={{$route_view->uid}}">User</a></p>
+	<p>Created by: <a href="/community/view_user.php?uid={{$route_view->uid}}">User</a></p>
 </div>
 <div class="grid_7">
 {{if $route_view->getIsOwner($currentUser->uid)}}

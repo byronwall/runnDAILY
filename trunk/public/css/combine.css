@@ -1,3 +1,23 @@
+/* Custom */
+#footer{
+	color: #666666;
+}
+#footer h2{
+	font-size: 14px;
+	border-bottom: 1px dotted #000000;
+}
+#footer ul{
+	list-style: url(none) none inside;
+	margin: 0px 0px 10px;
+	padding: 0px;
+}
+#footer li{
+	margin-left: 5px;
+}
+#footer p{
+	text-align: center;
+	margin-bottom: 0px;
+}
 .container_12.white{
 	background-color: #FFFFFF;
 }
@@ -14,6 +34,7 @@ img.logo{
 	height:475px;
 	margin-bottom:10px;
 }
+
 /*
 	960 Grid System ~ Text CSS.
 	Learn more ~ http://960.gs/
