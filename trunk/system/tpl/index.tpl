@@ -7,8 +7,8 @@ This is the template for the index page of the root folder.
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="/routes/create">New Route</a>
-		<a href="/training/create">New Training Item</a>
+		<a href="/routes/create"><img class="icon" src="/img/icon.png" />New Route</a>
+		<a href="/training/create"><img class="icon" src="/img/icon.png" />New Training Item</a>
 	</div>
 </div>
 <div class="clear"></div>
