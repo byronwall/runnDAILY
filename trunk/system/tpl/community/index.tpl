@@ -27,7 +27,7 @@ This is the template for the index page of the community folder.
 		<h2>Friends</h2>
 		<ul>
 		{{foreach from=$users_friends item=friend}}
-			<li><a href="/community/view_user?uid{{$friend->uid}}">{{$friend->username}}</a></li>
+			<li><a href="/community/view_user?uid={{$friend->uid}}">{{$friend->username}}</a></li>
 		{{foreachelse}}
 			No friends!
 		{{/foreach}}
