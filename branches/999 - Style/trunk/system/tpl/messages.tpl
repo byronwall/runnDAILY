@@ -3,12 +3,12 @@
 </div>
 <div class="clear"></div>
 
-<div class="grid_2 suffix_2">
-	<p>{{$currentUser->msg_new}} New Messages</p>
+<div class="grid_2">
+	<p>{{$currentUser->msg_new}} New Message{{if $currentUser->msg_new != 1}}s{{/if}}</p>
 </div>
 
-<div class="grid_8">
-<div class="right">
+<div class="grid_10">
+<div class="actions">
 <a href="#">New</a>
 <a href="#">Mark Read</a>
 </div>
@@ -42,7 +42,7 @@
 				<td>{{$message->date|date_format}}</td>
 				<td>Subject</td>
 			</tr>
-			<tr>
+			<tr class="odd">
 				<td />
 				<td colspan="3">{{$message->msg}}</td>
 			</tr>
@@ -87,7 +87,7 @@
 				<td>{{$message->date|date_format}}</td>
 				<td>Subject</td>
 			</tr>
-			<tr>
+			<tr class="odd">
 				<td />
 				<td colspan="3">{{$message->msg}}</td>
 			</tr>

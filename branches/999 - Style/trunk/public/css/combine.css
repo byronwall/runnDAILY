@@ -1,4 +1,12 @@
 /* Custom */
+.actions .label{
+}
+.actions .icon, .secondary .icon{
+	height: 20px;
+	width: 20px;
+	border-style: none;
+	vertical-align: middle;
+}
 .bg_top{
 	background: url(../img/top.png) repeat-x top;
 }
@@ -28,7 +36,8 @@
 .container_12.bottom{
 	background-color: #EEEEEE;
 }
-.right{
+.actions{
+	margin-bottom: 10px;
 	text-align: right;
 }
 img.logo{
