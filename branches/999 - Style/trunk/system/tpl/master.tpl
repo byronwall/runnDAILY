@@ -30,24 +30,24 @@ This is the master template which holds all of the main layout.
 		<div class="clear"></div>
 		<div class="grid_12">
 			<ul class="nav main">
-				<li><a href="/index.php">Home</a></li>
-				<li><a href="/routes/index.php">Routes</a></li>
-				<li><a href="/training/index.php">Training</a></li>
-				<li><a href="/community/index.php">Community</a></li>
+				<li><a href="/index">Home</a></li>
+				<li><a href="/routes/index">Routes</a></li>
+				<li><a href="/training/index">Training</a></li>
+				<li><a href="/community/index">Community</a></li>
 				<li>
-					<a href="#">Runn Daily</a>
+					<a href="#">runn Daily</a>
 					<ul>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Contact</a></li>
+						<li><a href="/about/index">About Us</a></li>
+						<li><a href="">Contact</a></li>
 					</ul>
 				</li>
 				<li class="secondary">
 					{{if $currentUser->isAuthenticated}}
 					<a href="#">{{$currentUser->username}}</a>
 					<ul>
-						<li><a href="/settings.php">Settings</a></li>
-						<li><a href="/messages.php">Messages ({{$currentUser->msg_new}})</a></li>
-						<li><a href="/lib/action_login.php?action=logout">Logout</a></li>
+						<li><a href="/settings">Settings</a></li>
+						<li><a href="/messages">Messages ({{$currentUser->msg_new}})</a></li>
+						<li><a href="/user/logout">Logout</a></li>
 					</ul>
 					{{else}}
 					<a href="/login.php">Login</a>
@@ -67,11 +67,13 @@ This is the master template which holds all of the main layout.
 		<div class="clear"></div>
 		{{$page_content}}
 	</div>
-	<div class="container_12 footer">
+	<div id="footer" class="container_12">
 		{{include file="footer.tpl"}}
 		<div class="clear"></div>
 		<div class="grid_12" id="site_info">
+		{{if $currentUser->checkPermissions(100, false)}}
 			<p>page generated in {{$engine->getPageTime()|string_format:"%.5f"}} seconds</p>
+		{{/if}}
 			<p>&copy; 2008-2009 Byron and Chandler</p>
 		</div>
 		<div class="clear"></div>

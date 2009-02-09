@@ -2,12 +2,15 @@
 This is the template for the index page of the root folder.
 *}}
 <div class="grid_12">
-<div class="article">
-	<h4>News & Announcements</h4>
+	<h2 id="page-heading">runn Daily</h2>
+</div>
+<div class="clear"></div>
+
+<div class="grid_12">
+	<h3>News & Announcements</h3>
 	<ul>
 		<li>The site will soon be released to the public!</li>
 	</ul>
-</div>
 </div>
 <div class="clear"></div>
 <div class="grid_4">
