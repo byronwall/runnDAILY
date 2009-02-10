@@ -28,14 +28,15 @@
 		</form>
 	</div>
 	<div id="route_train_modal" style="display:none">
-		<h2>enter details of entry</h2>
-		<form action="/lib/action_training.php" method="post" id="route_train_form">
+		<h2>New Training Item</h2>
+		<form action="/training/action_save" method="post" id="route_train_form">
 		<input type="hidden" name="t_rid" value="{{$route_view->id}}">
 		<input type="hidden" name="action" value="save" />
 			<ul>
 				<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>
 				<li><label>date</label><input type="text" name="t_date" value="today"></li>
 				<li><label>distance</label><input type="text" name="t_distance" value="{{$route_view->distance}}"></li>
+				<li><label>private?</label><input type="checkbox" name="t_private" value="1"></li>
 				<li><input type="submit" value="add to log"></li>
 				<li><input type="button" value="cancel" onclick="tb_remove()" />
 			</ul>

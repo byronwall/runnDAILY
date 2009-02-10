@@ -36,7 +36,7 @@ This is the template for the page where new routes are created.
 	    {{if $currentUser->isAuthenticated}}
 		    <div id="map_controls">
 		    	<h2>save route</h2>
-		    	<form action="/lib/action_routes.php" method="post" onsubmit="saveSubmit(this)" id="route_save_form">
+		    	<form action="/routes/action_create" method="post" onsubmit="saveSubmit(this)" id="route_save_form">
 		    	<ul>	
 		    		<li>
 		    			<label for="input_routename">route name</label>
