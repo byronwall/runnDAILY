@@ -10,17 +10,7 @@
 
 <div class="clear"></div>
 
-<div class="grid_5">
-	<div class="box">
-		<h2>This Month</h2>
-		{{
-			include file=generic/cal_small.tpl 
-			calendar=$calendar
-			day_week_template="generic/cal_day_small.tpl" 
-			day_mon_template="generic/cal_day_small.tpl"
-		}}
-	</div>
-</div>
+{{modules list=$currentUser->training_modules}}
 
 <div class="clear"></div>
 

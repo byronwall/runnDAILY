@@ -1,15 +1,7 @@
 <?php
 class training_controller{
 	public function index(){
-		$cal = new Calendar(mktime(), CAL_MONTH);
 		
-		$training_items = TrainingLog::getItemsForUser(User::$current_user->uid, $cal->getFirstDayOnCalendar(), $cal->getLastDayOnCalendar());
-		
-		foreach($training_items as $item){
-			$cal->addItemToDay($item->date, $item);
-		}
-		
-		RoutingEngine::getSmarty()->assign("calendar", $cal);
 	}
 	public function view(){
 		if(!isset($_GET["tid"])){

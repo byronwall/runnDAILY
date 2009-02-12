@@ -27,14 +27,5 @@ User::$current_user->checkPermissions($engine->page->min_permission);
 RoutingEngine::getSmarty()->assign("currentUser", User::$current_user);
 RoutingEngine::getSmarty()->assign("page", $engine->page);
 
-
 $engine->renderRequest();
-//TODO: implement some sort of selective rendering mechanism
-/*
- * $smarty->display_rss()
- * $smarty->display_ajax()
- * $smarty->display_mini_master()
- */
-
-
 ?>

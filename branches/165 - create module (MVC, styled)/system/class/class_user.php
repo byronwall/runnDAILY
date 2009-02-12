@@ -18,8 +18,16 @@ class User extends Object{
 	public $date_access;
 	public $msg_new;
 
+	public $route_modules = "routes_recent,routes_activity";
+	public $training_modules = "training_calendar,training_activity";
+	public $community_modules = "community_friends";
+	public $home_modules = "home_activity";
+	
 	public $routes = array();
 	
+	/**
+	 * @var User
+	 */
 	public static $current_user;
 	
 	function __construct($arr = null, $arr_pre = "u_"){
@@ -41,6 +49,7 @@ class User extends Object{
 			$stmt = Database::getDB()->prepare("
 				SELECT *
 				FROM users
+				LEFT JOIN users_modules USING(u_uid)
 				WHERE
 					u_uid = ? AND
 					u_cookie_hash = ?
@@ -73,7 +82,14 @@ class User extends Object{
 	 * @return boolean indicating whether or not the user is logged in
 	 */
 	public static function login($uname, $password, $remember = 0){
-		$stmt = Database::getDB()->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
+		$stmt = Database::getDB()->prepare("
+			SELECT * 
+			FROM users 
+			LEFT JOIN users_modules USING(u_uid)
+			WHERE 
+				u_username = ? AND 
+				u_password = MD5(?)
+		");
 		$stmt->bind_param('ss', $uname, $password);
 		$stmt->execute();
 		$stmt->store_result();
@@ -267,16 +283,19 @@ class User extends Object{
 	}
 	public function refreshDetails(){
 		$stmt = Database::getDB()->prepare("
-			SELECT * FROM users WHERE u_uid = ?
+			SELECT *
+			FROM users 
+			LEFT JOIN users_modules USING(u_uid)
+			WHERE u_uid = ?
 		");
 		$stmt->bind_param("i", $this->uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
 		$row = $stmt->fetch_assoc();
-		$this->__construct($row);
+		User::$current_user = new User($row);
+		User::$current_user->isAuthenticated = true;
 		$stmt->close();
-		
 	}
 	public static function getUserExists($username){
 		$stmt = Database::getDB()->prepare("

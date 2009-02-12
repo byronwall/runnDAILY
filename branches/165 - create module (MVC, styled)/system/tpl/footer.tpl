@@ -10,7 +10,7 @@
 
 	<h2>Training</h2>
 <ul>
-	<li><a href="/training/manage">Create</a></li>
+	<li><a href="/training/create">Create</a></li>
 	<li><a href="/training/index">View</a></li>
 	<li><a href="/training/browse">Browse</a></li>
 </ul>

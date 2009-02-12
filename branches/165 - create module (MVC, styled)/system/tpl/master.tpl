@@ -25,7 +25,7 @@ This is the master template which holds all of the main layout.
 <body id="{{$body_id}}">
 	<div class="container_12 top">
 		<div class="grid_2 prefix_5 suffix_5 bg_top">
-			<a href="/index.php"><img class="logo" src="/img/logo.png"></a>
+			<a href="/index"><img class="logo" src="/img/logo.png"></a>
 		</div>
 		<div class="clear"></div>
 		<div class="grid_12">
@@ -50,14 +50,14 @@ This is the master template which holds all of the main layout.
 						<li><a href="/user/logout">Logout</a></li>
 					</ul>
 					{{else}}
-					<a href="/login.php">Login</a>
+					<a href="/login">Login</a>
 					{{/if}}
 				</li>
 				{{if $currentUser->checkPermissions(100, false)}}
 				<li class="secondary">
-					<a href="/admin/index.php">Admin</a>
+					<a href="/admin/index">Admin</a>
 					<ul>
-						{{if $page->common}}<li><a href="/help/view.php?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a></li>{{/if}}
+						{{if $page->common}}<li><a href="/help/view?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a></li>{{/if}}
 						<li><a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox">Feedback</a></li>
 					</ul>
 				</li>
