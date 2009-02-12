@@ -264,7 +264,7 @@ function addPoint(latlngNew){
 	point.latlng = latlngNew;
 	point.marker = markerNew;
 	
-	route_points.push(point); 
+	route_points.push(point);
 	
 	point.marker.marker_id = route_points.length - 1;
 	
@@ -426,6 +426,7 @@ function undoLastPoint(){
  */
 function clearAllPoints(){
 	route_points = [];
+	isRouteLineInit = false;
 	map_refreshAll();
 }
 
