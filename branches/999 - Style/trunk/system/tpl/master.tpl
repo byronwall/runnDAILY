@@ -30,10 +30,10 @@ This is the master template which holds all of the main layout.
 		<div class="clear"></div>
 		<div class="grid_12">
 			<ul class="nav main">
-				<li><a href="/index">Home</a></li>
-				<li><a href="/routes/index">Routes</a></li>
-				<li><a href="/training/index">Training</a></li>
-				<li><a href="/community/index">Community</a></li>
+				<li><a href="/index"><img class="icon" src="/img/icon_home.png" />Home</a></li>
+				<li><a href="/routes/index"><img class="icon" src="/img/icon_route.png" />Routes</a></li>
+				<li><a href="/training/index"><img class="icon" src="/img/icon_training.png" />Training</a></li>
+				<li><a href="/community/index"><img class="icon" src="/img/icon_community.png" />Community</a></li>
 				<li>
 					<a href="#">runn Daily</a>
 					<ul>
@@ -43,22 +43,22 @@ This is the master template which holds all of the main layout.
 				</li>
 				<li class="secondary">
 					{{if $currentUser->isAuthenticated}}
-					<a href="/community/view_user?uid={{$currentUser->uid}}">{{$currentUser->username}}{{if $currentUser->msg_new}}<img class="icon" src="/img/alert.png" />{{/if}}</a>
+					<a href="/community/view_user?uid={{$currentUser->uid}}">{{$currentUser->username}}{{if $currentUser->msg_new}}<img class="icon" src="/img/icon_exclamation.png" />{{/if}}</a>
 					<ul>
-						<li><a href="/settings">Settings</a></li>
-						<li><a href="/messages">Messages ({{$currentUser->msg_new}})</a></li>
-						<li><a href="/user/logout">Logout</a></li>
+						<li><a href="/settings"><img class="icon" src="/img/icon_wrench_screwdriver.png" />Settings</a></li>
+						<li><a href="/messages">{{if $currentUser->msg_new}}<img class="icon" src="/img/icon_mail_open_document.png" />{{else}}<img class="icon" src="/img/icon_mail_open.png" />{{/if}}Messages ({{$currentUser->msg_new}})</a></li>
+						<li><a href="/user/logout"><img class="icon" src="/img/icon_logout.png" />Logout</a></li>
 					</ul>
 					{{else}}
-					<a href="/login.php">Login</a>
+					<a href="/login.php"><img class="icon" src="/img/icon_login.png" />Login</a>
 					{{/if}}
 				</li>
 				{{if $currentUser->checkPermissions(100, false)}}
 				<li class="secondary">
-					<a href="/admin/index.php">Admin</a>
+					<a href="/admin/index.php"><img class="icon" src="/img/icon_admin.png" />Admin</a>
 					<ul>
-						{{if $page->common}}<li><a href="/help/view.php?common={{$page->common}}&height=500&width=800" class="thickbox">Help </a></li>{{/if}}
-						<li><a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox">Feedback</a></li>
+						{{if $page->common}}<li><a href="/help/view.php?common={{$page->common}}&height=500&width=800" class="thickbox"><img class="icon" src="/img/icon_help.png" />Help </a></li>{{/if}}
+						<li><a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox"><img class="icon" src="/img/icon_feedback.png" />Feedback</a></li>
 					</ul>
 				</li>
 				{{/if}}
