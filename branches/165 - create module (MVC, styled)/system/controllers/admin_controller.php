@@ -37,7 +37,7 @@ class admin_controller{
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM users
-			WHERE 
+			WHERE
 				{$parser->getSQL()}
 		");
 		
@@ -56,7 +56,7 @@ class admin_controller{
 		if(Stats::insertStats()){
 			exit("success");
 		}
-		echo "DID NOT WORK";		
+		echo "DID NOT WORK";
 	}
 	public function update_page(){
 		$p_page = new Page($_POST, "p_");
@@ -64,6 +64,50 @@ class admin_controller{
 			exit("success");
 		}
 		exit("DID NOT UPDATE");
+	}
+	public function modules(){
+		$stmt = Database::getDB()->prepare("
+			SELECT *
+			FROM modules
+		");
+		
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$modules = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$modules[] = new Module($row);
+		}
+		
+		RoutingEngine::getSmarty()->assign("modules", $modules);
+	}
+	public function action_new_pages(){
+		foreach(RoutingEngine::$controllers as $c){
+			$methods = get_class_methods($c);
+			$c = str_replace("_controller", "", $c);
+			foreach($methods as $act){
+				$page = new Page();
+				$page->page_name = "{$c}/{$act}";
+				if($c == "admin"){
+					$page->min_permission = "100";
+				}
+				$page->createPage();
+			}
+		}
+		Page::redirect("/admin/pages");
+	}
+	public function action_new_modules(){
+		$methods = get_class_methods("module_controller");
+		foreach($methods as $act){
+			$module = new Module();
+			$module->name = "{$act}";
+			$module->createModule();
+		}
+		Page::redirect("/admin/modules");
+	}
+	public function action_hash_modules(){
+		
 	}
 }
 ?>

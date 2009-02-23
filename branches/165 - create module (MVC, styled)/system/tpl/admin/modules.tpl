@@ -1,10 +1,11 @@
 <div class="grid_12">
-	<h2 id="page-heading">Page Management</h2>
+	<h2 id="page-heading">Module Management</h2>
 </div>
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="/admin/action_new_pages">add new pages</a>
+		<a href="/admin/action_new_modules">add new modules</a>
+		<a href="/admin/action_hash_modules">recreate module has</a>
 	</div>
 </div>
 <div class="clear"></div>
@@ -15,17 +16,17 @@
 
 <table>
 <thead>
-	<td>Address</td><td>Permissions</td><td>Title</td><td>Tab</td><td>Common</td>
+	<td>Name</td>
+	<td>Code</td>
+	<td>Size</td>
 </thead>
-{{foreach from=$pages item=p_page}}
+{{foreach from=$modules item=module}}
 <form class="page_item" action="/admin/update_page" method="post" id="form_{{counter}}">
-	<input type="hidden" name="p_page_name" value="{{$p_page->page_name}}" />
+	<input type="hidden" name="m_name" value="{{$module->name}}" />
 	<tr class="{{cycle values=" , alt_row"}}">
-		<td>{{$p_page->page_name}}</td>
-		<td><input type="text" value="{{$p_page->min_permission}}" name="p_min_permission" class="number required"/></td>
-		<td><input type="text" value="{{$p_page->title}}" name="p_title" class="required"/></td>
-		<td><input type="text" value="{{$p_page->tab}}" name="p_tab" /></td>
-		<td><input type="text" value="{{$p_page->common}}" name="p_common" /></td>
+		<td><input type="text" value="{{$module->name}}" name="m_name" class="required"/></td>
+		<td><input type="text" value="{{$module->code}}" name="m_code" class="required"/></td>
+		<td><input type="text" value="{{$module->size}}" name="m_size" /></td>
 		<td><input type="submit" value="update" /></td>
 	</tr>
 </form>
@@ -34,6 +35,7 @@ No stats found!
 {{/foreach}}
 </table>
 </div>
+{{include file="modules/hash.tpl"}}
 <div class="clear"></div>
 
 <script type="text/javascript">

@@ -113,6 +113,19 @@ class Page extends Object{
 	public static function getControllerExists($controller){
 		return file_exists(SYSTEM_ROOT."/controllers/{$controller}_controller.php");
 	}
+	public function createPage(){
+		$stmt = Database::getDB()->prepare("
+			INSERT INTO permissions
+			SET
+				p_page_name = ?,
+				p_min_permission = ?
+		");
+		$stmt->bind_param("si", $this->page_name, $this->min_permission);
+		$stmt->execute();
+		$stmt->close();
+		
+		return true;
+	}
 	
 }
 ?>

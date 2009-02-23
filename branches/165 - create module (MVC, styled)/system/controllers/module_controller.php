@@ -16,10 +16,10 @@ class module_controller{
 	
 	public function routes_recent(){
 		$stmt = database::getDB()->prepare("
-			SELECT * 
-			FROM routes 
-			WHERE r_uid=? 
-			ORDER BY r_creation	DESC 
+			SELECT *
+			FROM routes
+			WHERE r_uid=?
+			ORDER BY r_creation	DESC
 			LIMIT 10
 		");
 		$stmt->bind_param("i", User::$current_user->uid);
@@ -35,21 +35,21 @@ class module_controller{
 		
 		$this->_smarty->assign("routes", $route_list);
 		
-		return new Module(
-			"routes_recent", 
-			"Recent Routes", 
-			3, 
+		return Module::fromVariables(
+			"routes_recent",
+			"Recent Routes",
+			3,
 			$this->_smarty->fetch("modules/routes/route_list.tpl")
 		);
 		
 	}
 	public function routes_recently_run(){
 		$stmt = database::getDB()->prepare("
-			SELECT routes.* 
-			FROM routes 
+			SELECT routes.*
+			FROM routes
 			JOIN training_times on t_rid = r_id
-			WHERE r_uid=? 
-			ORDER BY t_date	DESC 
+			WHERE r_uid=?
+			ORDER BY t_date	DESC
 			LIMIT 10
 		");
 		$stmt->bind_param("i", User::$current_user->uid);
@@ -65,19 +65,19 @@ class module_controller{
 		
 		$this->_smarty->assign("routes", $route_list);
 		
-		return new Module(
-			"routes_recently_run", 
-			"Routes Recently Run", 
-			3, 
+		return Module::fromVariables(
+			"routes_recently_run",
+			"Routes Recently Run",
+			3,
 			$this->_smarty->fetch("modules/routes/route_list.tpl")
-		);			
+		);
 	}
 	public function routes_parent_only(){
 		$stmt = database::getDB()->prepare("
-			SELECT routes.* 
-			FROM routes 
-			WHERE r_uid=? AND r_rid_parent IS NULL 
-			ORDER BY r_creation	DESC 
+			SELECT routes.*
+			FROM routes
+			WHERE r_uid=? AND r_rid_parent IS NULL
+			ORDER BY r_creation	DESC
 			LIMIT 10
 		");
 		$stmt->bind_param("i", User::$current_user->uid);
@@ -93,20 +93,20 @@ class module_controller{
 		
 		$this->_smarty->assign("routes", $route_list);
 		
-		return new Module(
-			"routes_parent_only", 
-			"Parent Routes Only", 
-			5, 
+		return Module::fromVariables(
+			"routes_parent_only",
+			"Parent Routes Only",
+			5,
 			$this->_smarty->fetch("modules/routes/route_list.tpl")
-		);			
+		);
 	}
 	public function routes_friends(){
 		$stmt = database::getDB()->prepare("
-			SELECT routes.* 
-			FROM routes 
+			SELECT routes.*
+			FROM routes
 			JOIN users_friends ON f_uid_2 = r_uid
-			WHERE f_uid_1=? 
-			ORDER BY r_creation DESC 
+			WHERE f_uid_1=?
+			ORDER BY r_creation DESC
 			LIMIT 10
 		");
 		$stmt->bind_param("i", User::$current_user->uid);
@@ -122,10 +122,10 @@ class module_controller{
 		
 		$this->_smarty->assign("routes", $route_list);
 		
-		return new Module(
-			"routes_friends", 
-			"Routes Created By Friends", 
-			null, 
+		return Module::fromVariables(
+			"routes_friends",
+			"Routes Created By Friends",
+			null,
 			$this->_smarty->fetch("modules/routes/route_list.tpl")
 		);
 	}
@@ -137,10 +137,10 @@ class module_controller{
 		
 		$this->_smarty->assign("activity", $activity);
 		
-		return new Module(
-			"routes_friends", 
-			$title, 
-			null, 
+		return Module::fromVariables(
+			"routes_friends",
+			$title,
+			null,
 			$this->_smarty->fetch("modules/activity/list.tpl")
 		);
 	}
@@ -152,10 +152,10 @@ class module_controller{
 		}
 		$this->_smarty->assign("calendar", $cal);
 		
-		return new Module(
-			"training_calendar", 
-			"Entries this month", 
-			5, 
+		return Module::fromVariables(
+			"training_calendar",
+			"Entries this month",
+			5,
 			$this->_smarty->fetch("modules/training/calendar.tpl")
 		);
 	}
@@ -165,10 +165,10 @@ class module_controller{
 	public function community_friends(){
 		$this->_smarty->assign("users", User::$current_user->getFriends());
 		
-		return new Module(
-			"community_friends", 
-			"your friends", 
-			null, 
+		return Module::fromVariables(
+			"community_friends",
+			"your friends",
+			null,
 			$this->_smarty->fetch("modules/community/user_list.tpl")
 		);
 	}

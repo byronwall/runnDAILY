@@ -15,6 +15,9 @@ class Database extends mysqli
 		}
 	}
 	//public create instance function to create singleton
+	/**
+	 * @return Database
+	 */
 	public function getDB()
 	{
 		if(self::$instance === null)
