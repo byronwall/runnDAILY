@@ -7,8 +7,8 @@ This is the template for the index page of the community folder.
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="#"><img class="icon" src="/img/icon.png" />Find User</a>
-		<a href="#"><img class="icon" src="/img/icon.png" />Find Group</a>
+		<a href="#"><img class="icon" src="/img/icon_user_silhouette.png" />Find User</a>
+		<a href="#"><img class="icon" src="/img/icon_binocular.png" />Find Group</a>
 	</div>
 </div>
 <div class="clear"></div>
@@ -47,7 +47,7 @@ This is the template for the index page of the community folder.
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#"><img class="icon" src="/img/icon.png" />Send PM</a>
+		<a href="#"><img class="icon" src="/img/icon_mail_plus.png" />Send PM</a>
 	</div>
 </div>
 
