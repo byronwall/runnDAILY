@@ -17,13 +17,10 @@ class User extends Object{
 	public $cookie_hash;
 	public $date_access;
 	public $msg_new;
-
-	public $route_modules = "routes_recent,routes_activity";
-	public $training_modules = "training_calendar,training_activity";
-	public $community_modules = "community_friends";
-	public $home_modules = "home_activity";
-	
-	public $routes = array();
+	public $routes_modules;
+	public $training_modules;
+	public $community_modules;
+	public $home_modules;
 	
 	/**
 	 * @var User
@@ -49,7 +46,6 @@ class User extends Object{
 			$stmt = Database::getDB()->prepare("
 				SELECT *
 				FROM users
-				LEFT JOIN users_modules USING(u_uid)
 				WHERE
 					u_uid = ? AND
 					u_cookie_hash = ?
@@ -63,7 +59,7 @@ class User extends Object{
 			$stmt->close();
 
 			if($rows == 1){
-				$valid_user = new User($row, "u_");
+				$valid_user = new User($row);
 				$valid_user->isAuthenticated = true;
 				$valid_user->updateAccessTime();
 				Log::insertItem($valid_user->uid, 203, null, null, null, null);
@@ -85,7 +81,6 @@ class User extends Object{
 		$stmt = Database::getDB()->prepare("
 			SELECT * 
 			FROM users 
-			LEFT JOIN users_modules USING(u_uid)
 			WHERE 
 				u_username = ? AND 
 				u_password = MD5(?)
@@ -285,7 +280,6 @@ class User extends Object{
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM users 
-			LEFT JOIN users_modules USING(u_uid)
 			WHERE u_uid = ?
 		");
 		$stmt->bind_param("i", $this->uid);

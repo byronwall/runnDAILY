@@ -66,21 +66,7 @@ class admin_controller{
 		exit("DID NOT UPDATE");
 	}
 	public function modules(){
-		$stmt = Database::getDB()->prepare("
-			SELECT *
-			FROM modules
-		");
-		
-		$stmt->execute();
-		$stmt->store_result();
-		
-		$modules = array();
-		
-		while($row = $stmt->fetch_assoc()){
-			$modules[] = new Module($row);
-		}
-		
-		RoutingEngine::getSmarty()->assign("modules", $modules);
+		RoutingEngine::getSmarty()->assign("modules", Module::getAllModules());
 	}
 	public function action_new_pages(){
 		foreach(RoutingEngine::$controllers as $c){
@@ -90,7 +76,7 @@ class admin_controller{
 				$page = new Page();
 				$page->page_name = "{$c}/{$act}";
 				if($c == "admin"){
-					$page->min_permission = "100";
+					$page->min_permission = 100;
 				}
 				$page->createPage();
 			}
@@ -100,6 +86,7 @@ class admin_controller{
 	public function action_new_modules(){
 		$methods = get_class_methods("module_controller");
 		foreach($methods as $act){
+			if($act = "__construct") continue;
 			$module = new Module();
 			$module->name = "{$act}";
 			$module->createModule();
@@ -107,7 +94,25 @@ class admin_controller{
 		Page::redirect("/admin/modules");
 	}
 	public function action_hash_modules(){
+		$modules = Module::getAllModules();		
 		
+		$contents = "<?php Module::\$hash = array(";
+		
+		$i = 0;
+		foreach($modules as $module){
+			if($i == 0) $i++;
+			else $contents .= ",";
+			$contents .= $module->code."=>\"".$module->name."\"";
+		}
+		
+		$contents .= ") ?>";
+		
+		$filename = CLASS_ROOT."/hash_module.php";
+		$handle = fopen($filename, "w");
+		fwrite($handle, $contents);
+		fclose($handle);
+		
+		Page::redirect("/admin/modules");		
 	}
 }
 ?>

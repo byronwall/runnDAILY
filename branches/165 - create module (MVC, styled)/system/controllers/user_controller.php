@@ -85,5 +85,28 @@ class user_controller{
 			exit;
 		}
 	}
+	public function action_update_modules(){
+		$modules = $_POST["modules"];
+		User::$current_user->routes_modules = implode(",", $modules["routes"]);
+		User::$current_user->home_modules = implode(",", $modules["home"]);
+		User::$current_user->training_modules = implode(",", $modules["training"]);
+		User::$current_user->community_modules = implode(",", $modules["community"]);
+		$stmt = Database::getDB()->prepare("
+			UPDATE users
+			SET
+				u_routes_modules = ?,
+				u_home_modules = ?,
+				u_training_modules = ?,
+				u_community_modules = ?
+			WHERE
+				u_uid = ?
+		");
+		$stmt->bind_param("ssssi",User::$current_user->routes_modules,User::$current_user->home_modules,User::$current_user->training_modules,User::$current_user->community_modules,User::$current_user->uid);
+		$stmt->execute();
+		
+		$stmt->close();
+		
+		Page::redirect("/modules");
+	}
 }
 ?>

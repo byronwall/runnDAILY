@@ -1,12 +1,14 @@
 <?php
-//require_once(CLASS_ROOT."\hash_module.php");
-
 class Module extends Object{
 	public $content;
 	public $id;
 	public $title;
 	public $size;
+	
 	public $name;
+	public $code;
+	
+	public static $hash;
 	
 	function __construct($arr = null, $arr_pre = "m_"){
 		parent::__construct($arr, $arr_pre);
@@ -40,6 +42,28 @@ class Module extends Object{
 		$stmt->close();
 		
 		return true;
+	}
+	/**
+	 * @return array, Module
+	 */
+	public static function getAllModules(){
+		$stmt = Database::getDB()->prepare("
+			SELECT *
+			FROM modules
+		");
+		
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$modules = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$mod = new Module($row);
+			$modules[$mod->code] = $mod;
+		}
+		$stmt->close();
+		
+		return $modules;
 	}
 }
 ?>

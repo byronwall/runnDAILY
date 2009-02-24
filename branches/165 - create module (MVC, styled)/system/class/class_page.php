@@ -54,6 +54,9 @@ class Page extends Object{
 		return new Page($row);
 	}
 	public static function redirect($page = "/"){
+		if(substr($page, 0,1)!= "/"){
+			$page = "/".$page;
+		}
 		header("location: http://{$_SERVER["SERVER_NAME"]}{$page}");
 		exit;
 	}

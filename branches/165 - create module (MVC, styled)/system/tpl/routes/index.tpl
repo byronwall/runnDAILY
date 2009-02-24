@@ -9,7 +9,7 @@
 </div>
 <div class="clear"></div>
 
-{{modules list=$currentUser->route_modules}}
+{{modules list=$currentUser->routes_modules}}
 
 <div class="clear"></div>
 
