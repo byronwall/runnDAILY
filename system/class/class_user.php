@@ -12,6 +12,7 @@ class User extends Object{
 	public $location_lng;
 	public $location_lat;
 	public $username;
+	public $password;
 	public $email;
 	public $type = 400;
 	public $cookie_hash;
@@ -21,6 +22,11 @@ class User extends Object{
 	public $training_modules;
 	public $community_modules;
 	public $home_modules;
+	public $gender = 0;
+	public $birthday;
+	public $height;
+	public $weight;
+	public $real_name;
 	
 	/**
 	 * @var User
@@ -46,6 +52,7 @@ class User extends Object{
 			$stmt = Database::getDB()->prepare("
 				SELECT *
 				FROM users
+				LEFT JOIN users_settings USING(u_uid)
 				WHERE
 					u_uid = ? AND
 					u_cookie_hash = ?
@@ -81,6 +88,7 @@ class User extends Object{
 		$stmt = Database::getDB()->prepare("
 			SELECT * 
 			FROM users 
+			LEFT JOIN users_settings USING(u_uid)
 			WHERE 
 				u_username = ? AND 
 				u_password = MD5(?)
@@ -147,6 +155,62 @@ class User extends Object{
 			return true;
 		}
 		return false;
+	}
+	
+	public function create(){
+		
+		$stmt = Database::getDB()->prepare("
+			INSERT INTO users
+			SET
+				u_username = ?,
+				u_password = ?,
+				u_cookie_hash = ?,
+				u_email = ?
+		");
+		$stmt->bind_param("ssss",
+			$this->username,$this->password,$this->cookie_hash,
+			$this->email
+		);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$id = $stmt->insert_id;
+		$stmt->close();
+		
+		var_dump($id);
+		
+		if($id){
+			echo "settings settings";		
+			$this->uid = $id;
+			
+			$stmt = Database::getDB()->prepare("
+				INSERT INTO users_settings
+				SET
+					u_uid = ?,
+					u_location_lat = ?,
+					u_location_lng = ?,
+					u_gender = ?,
+					u_birthday = ?,
+					u_height = ?,
+					u_weight = ?,
+					u_real_name = ?
+			");
+			$stmt->bind_param("iddisiis",
+				$this->uid, $this->location_lat,$this->location_lng,
+				$this->gender,$this->birthday,$this->height,
+				$this->weight,$this->real_name		
+			);
+			$stmt->execute();
+			$stmt->store_result();
+			
+			$rows = $stmt->affected_rows;
+			echo "here";
+			var_dump($rows);
+			var_dump($stmt->error);
+			$stmt->close();
+			
+		}		
+		return $rows == 1;
 	}
 
 	public static function sendActivationEmail($uid){
@@ -280,6 +344,7 @@ class User extends Object{
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM users 
+			LEFT JOIN users_settings USING(u_uid)
 			WHERE u_uid = ?
 		");
 		$stmt->bind_param("i", $this->uid);

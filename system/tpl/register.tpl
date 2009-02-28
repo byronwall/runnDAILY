@@ -6,22 +6,22 @@
 	</ul>
 </div>
 <form action="/user/register" method="post" id="form_register">
-	<input type="hidden" name="u_start_lat" value="" />
-	<input type="hidden" name="u_start_lng" value="" />
+	<input type="hidden" name="u_location_lat" value="" />
+	<input type="hidden" name="u_location_lng" value="" />
 <div id="reg_ctain">
 <div id="reg_in_ctain">
 <h2>user details</h2>
 <ul>
-	<li><label for="input_email">email</label><input id="input_email" type="text" name="email"></li>
-	<li><label for="input_username">username</label><input id="input_username" type="text" name="username"></li>
-	<li><label for="input_password">password</label><input id="input_password" type="password" name="password"></li>
-	<li><label for="input_password2">password</label><input id="input_password2" type="password" name="password_confirm"></li>
+	<li><label for="input_email">email</label><input id="input_email" type="text" name="u_email"></li>
+	<li><label for="input_username">username</label><input id="input_username" type="text" name="u_username"></li>
+	<li><label for="input_password">password</label><input id="input_password" type="password" name="u_password"></li>
+	<li><label for="input_password2">password</label><input id="input_password2" type="password" name="u_password_confirm"></li>
 	<li><a id="a_checkname" href="#" onclick="return false;">check availability</a></li>
 </ul>
 <h2>personal information</h2>
 <ul>
-	<li><label for="input_realname">real name</label><input type="text" id="input_realname" name="real_name"></li>
-	<li><label for="input_birthday">birthday</label><input type="text" id="input_birthday" name="birthday"></li>
+	<li><label for="input_realname">real name</label><input type="text" id="input_realname" name="u_real_name"></li>
+	<li><label for="input_birthday">birthday</label><input type="text" id="input_birthday" name="u_birthday"></li>
 </ul>
 <div id="reg_loc_sub">
 	<input type="submit" value="register">
@@ -66,7 +66,7 @@ $(document).ready(
 				birthday: {
 					date: true
 				},
-				u_start_lat:{
+				u_location_lat:{
 					required: true
 				}				
 			},
@@ -96,6 +96,12 @@ $(document).ready(
 					required: "Select your location on the map"
 				}
 			},
+			submitHandler: function(form){
+				$("input[type=text]").each( function(){
+					if($(this).val() == "") $(this).attr("disabled", true);
+				});
+				form.submit();
+			},
 			errorLabelContainer: "#errors ul",
 			wrapper: "li"
 		});
@@ -106,8 +112,8 @@ document.body.onunload = GUnload();
 function register_click(overlay, latlng){
 	if(latlng){
 		map.clearOverlays();
-		$("[name=u_start_lat]").val(latlng.lat());
-		$("[name=u_start_lng]").val(latlng.lng());
+		$("[name=u_location_lat]").val(latlng.lat());
+		$("[name=u_location_lng]").val(latlng.lng());
 
 		map.addOverlay(new GMarker(latlng));
 	}

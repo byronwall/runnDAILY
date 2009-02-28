@@ -22,13 +22,18 @@ class user_controller{
 		Page::redirect("/");
 	}
 	public function register(){
-		$username = $_POST["username"];
-		$password = $_POST["password"];
+		$user = new User($_POST);
 
-		if(User::createUser($username, $password)){
+		$user->password = md5($user->password);
+		
+		if($user->create()){
+			$_SESSION["userData"] = $user;
 			Page::redirect("/");
 		}
 		else{
+			var_dump($GLOBALS);
+			var_dump($user);
+			die;
 			Page::redirect("/register");
 		}
 	}
