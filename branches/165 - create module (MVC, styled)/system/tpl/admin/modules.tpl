@@ -18,18 +18,29 @@
 <thead>
 	<td>Code</td>
 	<td>Name</td>
+	<td>Title</td>
+	<td>Description</td>
+	<td>Location</td>
 </thead>
+<tbody>
 {{foreach from=$modules item=module}}
-<form class="page_item" action="/admin/update_page" method="post" id="form_{{counter}}">
-	<input type="hidden" name="m_name" value="{{$module->name}}" />
-	<tr class="{{cycle values=" , alt_row"}}">
-		<td>{{$module->code}}</td>
-		<td>{{$module->name}}</td>
+	<tr class='{{cycle values=" ,odd"}}'>
+		<form class="page_item" action="/admin/update_module" method="post" id="form_{{counter}}">
+			<input type="hidden" name="m_code" value="{{$module->code}}" />
+			<td>{{$module->code}}</td>
+			<td>{{$module->name}}</td>
+			<td><input type="text" value="{{$module->title}}" name="m_title"></td>
+			<td><input type="text" value="{{$module->desc}}" name="m_desc"></td>
+			<td>
+			{{html_options name="m_loc" output=$module_types values=$module_types selected=$module->loc}}
+			</td>
+			<td><input type="submit" value="save"></td>
+		</form>
 	</tr>
-</form>
 {{foreachelse}}
 No stats found!
 {{/foreach}}
+</tbody>
 </table>
 </div>
 <div class="clear"></div>

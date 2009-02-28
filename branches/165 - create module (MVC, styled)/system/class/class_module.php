@@ -7,6 +7,8 @@ class Module extends Object{
 	
 	public $name;
 	public $code;
+	public $desc;
+	public $loc;
 	
 	public static $hash;
 	
@@ -46,24 +48,40 @@ class Module extends Object{
 	/**
 	 * @return array, Module
 	 */
-	public static function getAllModules(){
-		$stmt = Database::getDB()->prepare("
+	public static function getAllModules($page = null){
+		$page_cond = (is_null($page))?"true":"m_loc = \"{$page}\"";
+		
+		$result = Database::getDB()->query("
 			SELECT *
 			FROM modules
+			WHERE {$page_cond}
 		");
-		
-		$stmt->execute();
-		$stmt->store_result();
-		
 		$modules = array();
-		
-		while($row = $stmt->fetch_assoc()){
+		while($row = $result->fetch_assoc()){
 			$mod = new Module($row);
 			$modules[$mod->code] = $mod;
 		}
-		$stmt->close();
+		$result->close();
 		
 		return $modules;
+	}
+	public function update(){
+		$stmt = Database::getDB()->prepare("
+			UPDATE modules
+			SET
+				m_title = ?,
+				m_desc = ?,
+				m_loc = ?
+			WHERE
+				m_code = ?
+		");
+		$stmt->bind_param("sssi", $this->title, $this->desc, $this->loc, $this->code);
+		$stmt->execute();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows == 1;
+		
 	}
 }
 ?>

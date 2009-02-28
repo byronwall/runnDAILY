@@ -17,12 +17,15 @@
 <thead>
 	<td>Address</td><td>Permissions</td><td>Title</td><td>Tab</td><td>Common</td>
 </thead>
+<tbody>
 {{foreach from=$pages item=p_page}}
 <form class="page_item" action="/admin/update_page" method="post" id="form_{{counter}}">
 	<input type="hidden" name="p_page_name" value="{{$p_page->page_name}}" />
-	<tr class="{{cycle values=" , alt_row"}}">
+	<tr class='{{cycle values=" , odd"}}'>
 		<td>{{$p_page->page_name}}</td>
-		<td><input type="text" value="{{$p_page->min_permission}}" name="p_min_permission" class="number required"/></td>
+		<td>
+		{{html_options name="p_min_permission" output=$page_perms values=$page_perms selected=$p_page->min_permission}}
+		</td>
 		<td><input type="text" value="{{$p_page->title}}" name="p_title" class="required"/></td>
 		<td><input type="text" value="{{$p_page->tab}}" name="p_tab" /></td>
 		<td><input type="text" value="{{$p_page->common}}" name="p_common" /></td>
@@ -30,8 +33,11 @@
 	</tr>
 </form>
 {{foreachelse}}
-No stats found!
+<tr>
+	<td>No stats found!</td>
+</tr>
 {{/foreach}}
+<tbody>
 </table>
 </div>
 <div class="clear"></div>

@@ -20,7 +20,9 @@
 			</thead>
 			{{foreach from=$modules item=module key=code}}
 				<tr>
-					<td>{{$module->name}}</td>
+					<td>
+						{{$module->title}}					
+					</td>
 					<td><input type="checkbox" name="modules[home][]" value="{{$module->code}}" {{if $user_modules.home[$code]}}checked{{/if}}></td>
 					<td><input type="checkbox" name="modules[routes][]" value="{{$module->code}}" {{if $user_modules.routes[$code]}}checked{{/if}}></td>
 					<td><input type="checkbox" name="modules[training][]" value="{{$module->code}}" {{if $user_modules.training[$code]}}checked{{/if}}></td>

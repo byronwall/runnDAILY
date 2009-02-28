@@ -24,5 +24,24 @@ class home_controller{
 	public function settings(){
 		
 	}
+<<<<<<< .mine
+	public function modules(){
+		$modules = array();
+		
+		$sel_type=array_safe($_GET, "loc", null);
+		
+		$types = array("home","routes", "training", "community");
+		
+		foreach($types as $type){
+			$var = $type."_modules";
+			$temp = explode(",", User::$current_user->$var);
+			foreach($temp as $item){ $modules[$type][$item] = true; }
+		}
+		
+		RoutingEngine::getSmarty()->assign("user_modules", $modules);
+		RoutingEngine::getSmarty()->assign("modules", Module::getAllModules($sel_type));
+	}
+=======
+>>>>>>> .r315
 }
 ?>

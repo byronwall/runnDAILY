@@ -20,6 +20,9 @@ class admin_controller{
 		
 	}
 	public function pages(){
+		$perms = array(100,300,301,400);
+		
+		RoutingEngine::getSmarty()->assign("page_perms", $perms);
 		RoutingEngine::getSmarty()->assign("pages", Page::getAllPages());
 	}
 	public function stats(){
@@ -65,5 +68,67 @@ class admin_controller{
 		}
 		exit("DID NOT UPDATE");
 	}
+<<<<<<< .mine
+	public function update_module(){
+		$module = new Module($_POST);
+		if($module->update()){
+			exit("success");
+		}
+		exit("DID NOT UPDATE");
+	}
+	public function modules(){
+		$types = array("home","routes", "training", "community");
+		
+		RoutingEngine::getSmarty()->assign("module_types", $types);
+		RoutingEngine::getSmarty()->assign("modules", Module::getAllModules());
+	}
+	public function action_new_pages(){
+		foreach(RoutingEngine::$controllers as $c){
+			$methods = get_class_methods($c);
+			$c = str_replace("_controller", "", $c);
+			foreach($methods as $act){
+				$page = new Page();
+				$page->page_name = "{$c}/{$act}";
+				if($c == "admin"){
+					$page->min_permission = 100;
+				}
+				$page->createPage();
+			}
+		}
+		Page::redirect("/admin/pages");
+	}
+	public function action_new_modules(){
+		$methods = get_class_methods("module_controller");
+		foreach($methods as $act){
+			if($act == "__construct") continue;
+			$module = new Module();
+			$module->name = "{$act}";
+			$module->createModule();
+		}
+		Page::redirect("/admin/modules");
+	}
+	public function action_hash_modules(){
+		$modules = Module::getAllModules();		
+		
+		$contents = "<?php Module::\$hash = array(";
+		
+		$i = 0;
+		foreach($modules as $module){
+			if($i == 0) $i++;
+			else $contents .= ",";
+			$contents .= $module->code."=>\"".$module->name."\"";
+		}
+		
+		$contents .= ") ?>";
+		
+		$filename = CLASS_ROOT."/hash_module.php";
+		$handle = fopen($filename, "w");
+		fwrite($handle, $contents);
+		fclose($handle);
+		
+		Page::redirect("/admin/modules");		
+	}
+=======
+>>>>>>> .r315
 }
 ?>

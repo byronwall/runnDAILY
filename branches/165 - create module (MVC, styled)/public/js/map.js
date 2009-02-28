@@ -335,6 +335,15 @@ function updateMileMarkers(shouldUpdateAll){
 	}
 }
 
+var mile_marker_icon = new GIcon();
+mile_marker_icon.image = "/img/mile-marker.png";
+mile_marker_icon.shadow = "";
+mile_marker_icon.iconSize = new GSize(28, 35);
+mile_marker_icon.shadowSize = new GSize(0, 0);
+mile_marker_icon.iconAnchor = new GPoint(0, 35);
+mile_marker_icon.infoWindowAnchor = new GPoint(0, 35);
+var mile_marker_options = {icon: mile_marker_icon, clickable: false};
+
 /*
  * addMileMarker
  * 
@@ -346,17 +355,8 @@ function updateMileMarkers(shouldUpdateAll){
  * not be called from any place other than the updateMileMarker function.
  */
 function addMileMarker(lat, lng){
-	var markerIcon = new GIcon();
-	markerIcon.image = "/img/mile-marker.png";
-	markerIcon.shadow = "";
-	markerIcon.iconSize = new GSize(28, 35);
-	markerIcon.shadowSize = new GSize(0, 0);
-	markerIcon.iconAnchor = new GPoint(0, 35);
-	markerIcon.infoWindowAnchor = new GPoint(0, 35);
-	var options = {icon: markerIcon, clickable: false};
-	
 	var latlng = new GLatLng(lat, lng);
-	var marker = new GMarker(latlng, options);
+	var marker = new GMarker(latlng, mile_marker_options);
 	
 	var point = new routePoint();
 	point.latlng = latlng;
@@ -373,7 +373,7 @@ function addMileMarker(lat, lng){
  var circle_poly;
  var circle_show = false;
  var circle_init = false;
- var circle_points = 36;
+ var circle_points = 18;
  
  function drawMileCircle(){
  	if(circle_show){

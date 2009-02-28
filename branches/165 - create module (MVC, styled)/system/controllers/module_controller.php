@@ -175,5 +175,12 @@ class module_controller{
 	public function home_activity(){
 		return $this->_activity(array(300,302,100, 102), "All activity");
 	}
+	public function training_chart_distance(){
+		$module = new Module();
+		$module->content = $this->_smarty->fetch("modules/training/chart.tpl");
+		$module->title = "Distances logged";
+		
+		return $module;
+	}
 }
 ?>
