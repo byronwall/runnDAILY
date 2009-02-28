@@ -130,35 +130,11 @@ class User extends Object{
 		
 		return true;
 	}
-	/**
-	 * Creates a new user.
-	 *
-	 * @param string $uname
-	 * @param string $password
-	 * @return boolean indicating whether or not the creation and subsequent login were successful.
-	 */
-	public static function createUser($uname, $password){
-		$stmt = Database::getDB()->prepare("
-			INSERT INTO users(u_username, u_password, u_cookie_hash) VALUES (?, MD5(?), MD5(NOW()))
-		");
-		$stmt->bind_param("ss", $uname, $password);
-		$stmt->execute();
-
-		$rows = $stmt->affected_rows;
-		$uid = $stmt->insert_id;
-
-		$stmt->close();
-
-		if($rows == 1){
-			User::sendActivationEmail($uid);
-			User::loginSystem(User::fromUid($uid));
-			return true;
-		}
-		return false;
-	}
 	
+	/**
+	 * @return bool	Whether or not the user was created.
+	 */
 	public function create(){
-		
 		$stmt = Database::getDB()->prepare("
 			INSERT INTO users
 			SET
@@ -177,10 +153,7 @@ class User extends Object{
 		$id = $stmt->insert_id;
 		$stmt->close();
 		
-		var_dump($id);
-		
 		if($id){
-			echo "settings settings";		
 			$this->uid = $id;
 			
 			$stmt = Database::getDB()->prepare("
@@ -204,11 +177,7 @@ class User extends Object{
 			$stmt->store_result();
 			
 			$rows = $stmt->affected_rows;
-			echo "here";
-			var_dump($rows);
-			var_dump($stmt->error);
 			$stmt->close();
-			
 		}		
 		return $rows == 1;
 	}
