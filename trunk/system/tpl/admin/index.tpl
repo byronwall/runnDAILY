@@ -1,13 +1,18 @@
-<h1>Admin Control Panel</h1>
-
-<h2>Actions</h2>
-<ul>
-	<li><a href="/admin/update_stats" class="post">Update Stats (this really does update them)</a></li>
-	<li><a href="/admin/pages">Manage Pages</a></li>
-	<li><a href="/admin/users">Manage Users</a></li>
-	<li><a href="/admin/feedback">See User Feedback</a></li>
-	<li><a href="/admin/stats">Site Stats</a></li>
-</ul>
+<div class="grid_12">
+	<h2 id="page-heading">Administrative Control Panel</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+		<a href="/admin/update_stats"><img class="icon" src="/img/icon.png" />Update Stats</a>
+		<a href="/admin/pages"><img class="icon" src="/img/icon.png" />Manage Pages</a>
+		<a href="/admin/users"><img class="icon" src="/img/icon.png" />Manage Users</a>
+		<a href="/admin/modules"><img class="icon" src="/img/icon.png" />Manage Modules</a>
+		<a href="/admin/feedback"><img class="icon" src="/img/icon.png" />See User Feedback</a>
+		<a href="/admin/stats"><img class="icon" src="/img/icon.png" />Site Stats</a>
+	</div>
+</div>
+<div class="clear"></div>
 
 <script type="text/javascript">
 

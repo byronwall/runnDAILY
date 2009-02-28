@@ -1,13 +1,7 @@
 <?php
 class routes_controller{
 	public function index(){
-		$recent_routes = Route::getRoutesForUser(User::$current_user->uid, 6);
-		$recent_activity = Log::getRouteActivityForUser(User::$current_user->uid);
-		$more_routes = Route::getRoutesForUser(User::$current_user->uid, 50);
-		
-		RoutingEngine::getSmarty()->assign("recent_route_list", $recent_routes);
-		RoutingEngine::getSmarty()->assign("recent_activity_list", $recent_activity);
-		RoutingEngine::getSmarty()->assign("all_route_list", $more_routes);
+
 	}
 	public function view(){
 		if(!isset($_GET["rid"])){
@@ -67,7 +61,7 @@ class routes_controller{
 	public function action_create(){
 		$route = new Route($_POST);
 		if($route->createRoute()){
-			Page::redirect("/routes/view.php?id={$route->id}");
+			Page::redirect("/routes/view?rid={$route->id}");
 		}
 	}
 	public function action_delete(){
@@ -77,12 +71,12 @@ class routes_controller{
 		if(Route::deleteRouteSecure($rid, $uid)){
 			Page::redirect("/routes/");
 		}
-		Page::redirect("/routes/view.php?id={$rid}");
+		Page::redirect("/routes/view?rid={$rid}");
 	}
 	public function action_edit(){
 		$route = new Route($_POST);
 		if($route->updateRoute()){
-			Page::redirect("/routes/view.php?id={$route->id}");
+			Page::redirect("/routes/view?rid={$route->id}");
 		}
 		die("error updating?");
 	}
