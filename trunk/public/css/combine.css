@@ -1,16 +1,35 @@
 /* Custom */
+ul.nav.header{
+	background: url(../img/trans_white_25.png) repeat top;
+	margin-top: -2.5em;
+}
+ul.nav.header li,
+ul.nav.header li ul,
+ul.nav.header li a{
+	background: none;
+}
+ul.nav.header li a{
+	color: #444;
+	vertical-align: bottom;
+}
 .actions .label{
 }
-a .icon{
+a.icon img{
 	height: 16px;
 	width: 16px;
 	border-style: none;
 	vertical-align: middle;
-	margin-right: 2px;
-	margin-left: 2px;
+	margin-right: 3px;
+	margin-left: 3px;
+}
+a.icon span{
+	color: blue;
+	margin: 0px;
+	padding: 0px;
 }
 .bg_top{
 	background: url(../img/top.png) repeat-x top;
+	height: 140px;
 }
 #footer{
 	color: #666666;
@@ -44,6 +63,7 @@ a .icon{
 }
 img.logo{
 	border: 0px none;
+	margin-top: 5px;
 }
 .map{
 	height:475px;
@@ -1228,7 +1248,7 @@ ul.nav li a:focus {color:#000; background:#ccc;}
 ul.nav li a:active {color:#666; background:#fff;}
 ul.nav li:hover ul {left:0;z-index:10}
 ul.nav li ul,
-ul.nav li {background:#ccc !important}
+ul.nav li {background:#ccc /*!important*/}
 ul.nav li:hover ul li a {color:#444;}
 ul.nav li:hover ul li a:hover {color:#000; background:#fff;}
 ul.nav li:hover ul li a:active {color:#666; background:#fff;}
@@ -1236,7 +1256,7 @@ ul.nav li:hover ul li a:active {color:#666; background:#fff;}
 ul.nav li.current a {color:#666; background:#fff; cursor:default; font-weight:bold;}
 ul.nav li.current ul {left:0;z-index:5}
 ul.nav li.current ul,
-ul.nav li.current {background:#ccc !important}
+ul.nav li.current {background:#ccc /*!important*/}
 ul.nav li.current ul li a {color:#444; background:#ccc; font-weight:normal;}
 ul.nav li.current ul li a:hover {color:#000; background:#fff;}
 ul.nav li ul li.current a,
