@@ -4,8 +4,8 @@
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="#TB_inline?&height=300&width=300&inlineId=message_modal&modal=true" class="thickbox">Send a Message</a>
-		<a href="#addFriend" id="a_addfriend" rel="{{$user->uid}}">Add as Friend</a>
+		<a href="#TB_inline?&height=300&width=300&inlineId=message_modal&modal=true" class="thickbox icon"><img src="/img/icon_mail_plus.png" />Send a Message</a>
+		<a href="#addFriend" id="a_addfriend" rel="{{$user->uid}}" class="icon"><img src="/img/icon_user_plus.png" />Add as Friend</a>
 	</div>
 </div>
 <div class="clear"></div>

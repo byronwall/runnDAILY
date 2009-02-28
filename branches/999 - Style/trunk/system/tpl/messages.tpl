@@ -8,10 +8,10 @@
 </div>
 
 <div class="grid_10">
-<div class="actions">
-<a href="#">New</a>
-<a href="#">Mark Read</a>
-</div>
+	<div class="actions">
+		<a href="#" class="icon"><img src="/img/icon_mail_plus.png" />New Message</a>
+		<a href="#" class="icon"><img src="/img/icon_inbox_exclamation.png" />Mark Read</a>
+	</div>
 </div>
 
 <div class="clear"></div>
