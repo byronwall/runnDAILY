@@ -36,7 +36,7 @@ This is the template for the page where new routes are created.
 	    {{if $currentUser->isAuthenticated}}
 		    <div id="map_controls">
 		    	<h2>save route</h2>
-		    	<form action="/routes/action_create" method="post" id="route_save_form">
+		    	<form action="/routes/action_create" method="post" onsubmit="saveSubmit(this)" id="route_save_form">
 		    	<ul>	
 		    		<li>
 		    			<label for="input_routename">route name</label>
@@ -72,9 +72,12 @@ This is the template for the page where new routes are created.
 	<a href="#" onclick="toggleSize();return false;">full screen map</a>
 </div>
 
+<div class="grid_12">
 <div id="map_container_right">
-	<div id="map_placeholder" class="fullscreen"></div>
+	<div id="map_placeholder" class="map large fullscreen"></div>
 </div>
+</div>
+<div class="clear"></div>
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
 <script src="/js/map.js" type="text/javascript"></script>

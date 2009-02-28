@@ -68,7 +68,6 @@ class admin_controller{
 		}
 		exit("DID NOT UPDATE");
 	}
-<<<<<<< .mine
 	public function update_module(){
 		$module = new Module($_POST);
 		if($module->update()){
@@ -128,7 +127,5 @@ class admin_controller{
 		
 		Page::redirect("/admin/modules");		
 	}
-=======
->>>>>>> .r315
 }
 ?>

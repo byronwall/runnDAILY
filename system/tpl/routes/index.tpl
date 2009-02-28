@@ -1,19 +1,10 @@
-<div class="grid_12">
-	<h2 id="page-heading">Routes</h2>
-</div>
-<div class="clear"></div>
-<div class="grid_12">
-	<div class="actions">
-		<a href="/routes/create"><img class="icon" src="/img/icon.png" />New Route</a>
-	</div>
-</div>
+<div class="grid_12">	<h2 id="page-heading">Routes</h2></div>
+<div class="clear"></div><div class="grid_12">	<div class="actions">		<a href="/routes/create" class="icon"><img src="/img/icon_route_plus.png" />New Route</a>	</div></div>
 <div class="clear"></div>
 
-{{modules list=$currentUser->routes_modules}}
+{{modules list=$currentUser->routes_modules}}<div class="clear"></div>
 
-<div class="clear"></div>
-
-<div style="display:none" id="preview_map">
+<div class="clear"></div><div style="display:none" id="preview_map">
 	<div id="map_placeholder" class="map large"></div>
 </div>
 
