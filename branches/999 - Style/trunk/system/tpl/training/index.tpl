@@ -4,7 +4,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="/training/create"><img class="icon" src="/img/icon_training_plus.png" />New Training Item</a>
+		<a href="/training/create" class="icon"><img src="/img/icon_training_plus.png" />New Training Item</a>
 	</div>
 </div>
 
@@ -32,7 +32,7 @@
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#"><img class="icon" src="/img/icon_trophy_plus.png" />New Goal</a>
+		<a href="#" class="icon"><img src="/img/icon_trophy_plus.png" />New Goal</a>
 	</div>
 </div>
 
