@@ -1,7 +1,14 @@
-<h1>Manage Users</h1>
+<div class="grid_12">
+	<h2 id="page-heading">User Management</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+	</div>
+</div>
+<div class="clear"></div>
 
-<form id="users_form" action="/admin/users" method="get">
-	<ul>
+<div class="grid_12"><form id="users_form" action="/admin/users" method="get">	<ul>
 		<li>username: <input type="text" name="u_username" value="{{$smarty.get.u_username}}"/></li>
 		<li>email: <input type="text" name="u_email" value="{{$smarty.get.u_email}}"/></li>
 		<li>uid: <input type="text" name="u_uid" value="{{$smarty.get.u_uid}}"/></li>
@@ -39,6 +46,8 @@
 No stats found!
 {{/foreach}}
 </table>
+</div>
+<div class="clear"></div>
 
 <div id="delete_modal" style="display:none">
 	<form action="/user/delete" method="post" id="form_delete">

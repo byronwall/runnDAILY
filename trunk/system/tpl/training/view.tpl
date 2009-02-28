@@ -1,30 +1,51 @@
-<h1>viewing details</h1>
+<div class="grid_12">
+	<h2 id="page-heading">Detail for Activity on {{$item->date|date_format}}</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+	{{if $item->getIsOwnedBy($currentUser->uid)}}
+		<a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox icon"><img src="/img/icon.png" />Edit</a>
+		<a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox icon"><img src="/img/icon.png" />Delete</a>
+	{{/if}}
+	</div>
+</div>
+<div class="clear"></div>
 
-<h2>general info</h2>
-<div>distance: {{$item->distance}} mi</div>
-<div>time: {{$item->time|time_format}}</div>
-<div>pace: {{$item->pace}} mph</div>
-<div>date: {{$item->date|date_format}}</div>
-<a href="/routes/view?rid={{$item->route->id}}">view {{$item->route->name}}</a>
+<div class="grid_3">
+	<div class="box">
+		<h2>General Info</h2>
+		<p>Distance: {{$item->distance}} mi</p>
+		<p>Total Time: {{$item->time|time_format}}</p>
+		<p>Pace: {{$item->pace}} mph</p>
+		<a href="/routes/view?rid={{$item->route->id}}">View {{$item->route->name}}</a>
+	</div>
+</div>
 
-<h2>better info</h2>
-<h3>other logs for the user that week</h3>
-{{
-	include file=generic/calendar.tpl 
-	calendar=$calendar 
-	day_week_template="generic/cal_day.tpl" 
-	day_mon_template="generic/cal_day.tpl"
-}}
+<div class="grid_9">
+	<div class="box">
+		<h2>Week at a Glance</h2>
+		{{
+			include file=generic/calendar.tpl 
+			calendar=$calendar 
+			day_week_template="generic/cal_day.tpl" 
+			day_mon_template="generic/cal_day.tpl"
+		}}
+	</div>
+</div>
+
+<div class="clear"></div>
+
 {{if $item->getIsOwnedBy($currentUser->uid)}}
-	<ul id="training_manage">
-		<h2>manage the log</h2>
-		<li><a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox">
-			edit
-		</a></li>
-		<li><a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox">
-			delete
-		</a></li>
-	</ul>
+<!--	<ul id="training_manage">-->
+<!--		<h2>manage the log</h2>-->
+<!--		<li><a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox">-->
+<!--			edit-->
+<!--		</a></li>-->
+<!--		<li><a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox">-->
+<!--			delete-->
+<!--		</a></li>-->
+<!--	</ul>-->
 	
 	<div id="training_edit_modal" style="display:none">
 		<h2>edit this entry</h2>
@@ -49,23 +70,41 @@
 		</form>
 	</div>
 {{/if}}
-<h3>coming soon</h3>
-<h4>general info</h4>
-pace<br>
-distance<br>
-date run<br>
-calories burned<br>
-<h4>more detailed info</h4>
-line charts of this log versus others (pace vs min/max)<br>
-calendar for the week of the event<br>
-milestones affected by the log<br>
-links to schedule the same event at a later date<br>
-<h4>community</h4>
-links to send the log to a friend<br>
-preview of the route run<br>
-graph of the elevation<br>
-charts of how this log affects overall stats<br>
-graph of this time to other runs<br>
+
+<div class="grid_12">
+	<h2 id="page-heading">Coming Soon</h2>
+</div>
+<div class="clear"></div>
+
+<div class="grid_3">
+	<div class="box">
+		<h2>General Info</h2>
+		<p>Calories burned</p>
+	</div>
+</div>
+
+<div class="grid_5">
+	<div class="box">
+		<h2>Detailed Info</h2>
+		<p>line charts of this log versus others (pace vs min/max)</p>
+		<p>calendar for the week of the event</p>
+		<p>milestones affected by the log</p>
+		<p>links to schedule the same event at a later date</p>
+	</div>
+</div>
+
+<div class="grid_4">
+	<div class="box">
+		<h2>Community</h2>
+		<p>links to send the log to a friend</p>
+		<p>preview of the route run</p>
+		<p>graph of the elevation</p>
+		<p>charts of how this log affects overall stats</p>
+		<p>graph of this time to other runs</p>
+	</div>
+</div>
+
+<div class="clear"></div>
 
 <script type="text/javascript">
 
