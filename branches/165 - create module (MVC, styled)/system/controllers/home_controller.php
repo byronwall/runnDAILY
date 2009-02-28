@@ -28,22 +28,16 @@ class home_controller{
 		$modules = array();
 		
 		$home = explode(",", User::$current_user->home_modules);
-		foreach($home as $item){
-			$modules["home"][$item] = true;
-		}
-		$routes = explode(",", User::$current_user->routes_modules);
-		foreach($routes as $item){
-			$modules["routes"][$item] = true;
-		}
-		$training = explode(",", User::$current_user->training_modules);
-		foreach($training as $item){
-			$modules["training"][$item] = true;
-		}
-		$community = explode(",", User::$current_user->community_modules);
-		foreach($community as $item){
-			$modules["community"][$item] = true;
-		}
+		foreach($home as $item){ $modules["home"][$item] = true; }
 		
+		$routes = explode(",", User::$current_user->routes_modules);
+		foreach($routes as $item){$modules["routes"][$item] = true;}
+		
+		$training = explode(",", User::$current_user->training_modules);
+		foreach($training as $item){$modules["training"][$item] = true;}
+		
+		$community = explode(",", User::$current_user->community_modules);
+		foreach($community as $item){$modules["community"][$item] = true;}
 		
 		RoutingEngine::getSmarty()->assign("user_modules", $modules);
 		RoutingEngine::getSmarty()->assign("modules", Module::getAllModules());
