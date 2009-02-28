@@ -22,7 +22,7 @@ This is the master template which holds all of the main layout.
     <title>{{$page->title}}</title>
 </head>
 
-<body id="{{$body_id}}">
+<body id="{{$page->common}}">
 	<div class="container_12 top">
 			<div class="grid_2 prefix_5 suffix_5 bg_top">
 						<a href="/index"><img class="logo" src="/img/logo.png"></a>
