@@ -24,7 +24,6 @@ class home_controller{
 	public function settings(){
 		
 	}
-<<<<<<< .mine
 	public function modules(){
 		$modules = array();
 		
@@ -41,7 +40,5 @@ class home_controller{
 		RoutingEngine::getSmarty()->assign("user_modules", $modules);
 		RoutingEngine::getSmarty()->assign("modules", Module::getAllModules($sel_type));
 	}
-=======
->>>>>>> .r315
 }
 ?>

@@ -13,6 +13,7 @@ class Log extends Object{
 	public $rid;
 	public $tid;
 	public $gid;
+	public $cid;
 	public $datetime;
 	
 	public $familiar;
@@ -202,6 +203,8 @@ class Log extends Object{
 			WHERE
 				l.l_aid IN({$in_str}) AND
 				l.l_uid = {$uid}
+			ORDER BY
+				l_datetime DESC
 		";
 		
 		$result = Database::getDB()->query($query);
@@ -225,7 +228,10 @@ class Log extends Object{
 		if(count($cids) == 0){
 			return false;
 		}
-		$in_str = implode(",", $cids);
+		$in_str = $cids;
+		if(is_array($cids)){
+			$in_str = implode(",", $cids);
+		}
 		
 		$query = "
 			SELECT *

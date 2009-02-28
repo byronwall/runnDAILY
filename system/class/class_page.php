@@ -54,6 +54,9 @@ class Page extends Object{
 		return new Page($row);
 	}
 	public static function redirect($page = "/"){
+		if(substr($page, 0,1)!= "/"){
+			$page = "/".$page;
+		}
 		header("location: http://{$_SERVER["SERVER_NAME"]}{$page}");
 		exit;
 	}
@@ -112,6 +115,19 @@ class Page extends Object{
 	 */
 	public static function getControllerExists($controller){
 		return file_exists(SYSTEM_ROOT."/controllers/{$controller}_controller.php");
+	}
+	public function createPage(){
+		$stmt = Database::getDB()->prepare("
+			INSERT INTO permissions
+			SET
+				p_page_name = ?,
+				p_min_permission = ?
+		");
+		$stmt->bind_param("si", $this->page_name, $this->min_permission);
+		$stmt->execute();
+		$stmt->close();
+		
+		return true;
 	}
 	
 }

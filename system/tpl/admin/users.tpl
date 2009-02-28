@@ -1,6 +1,6 @@
 <h1>Manage Users</h1>
 
-<form id="users_form" action="/admin/users.php" method="get">
+<form id="users_form" action="/admin/users" method="get">
 	<ul>
 		<li>username: <input type="text" name="u_username" value="{{$smarty.get.u_username}}"/></li>
 		<li>email: <input type="text" name="u_email" value="{{$smarty.get.u_email}}"/></li>

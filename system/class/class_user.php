@@ -17,9 +17,14 @@ class User extends Object{
 	public $cookie_hash;
 	public $date_access;
 	public $msg_new;
-
-	public $routes = array();
+	public $routes_modules;
+	public $training_modules;
+	public $community_modules;
+	public $home_modules;
 	
+	/**
+	 * @var User
+	 */
 	public static $current_user;
 	
 	function __construct($arr = null, $arr_pre = "u_"){
@@ -54,7 +59,7 @@ class User extends Object{
 			$stmt->close();
 
 			if($rows == 1){
-				$valid_user = new User($row, "u_");
+				$valid_user = new User($row);
 				$valid_user->isAuthenticated = true;
 				$valid_user->updateAccessTime();
 				Log::insertItem($valid_user->uid, 203, null, null, null, null);
@@ -73,7 +78,13 @@ class User extends Object{
 	 * @return boolean indicating whether or not the user is logged in
 	 */
 	public static function login($uname, $password, $remember = 0){
-		$stmt = Database::getDB()->prepare("SELECT * FROM users WHERE u_username=? AND u_password=MD5(?)");
+		$stmt = Database::getDB()->prepare("
+			SELECT * 
+			FROM users 
+			WHERE 
+				u_username = ? AND 
+				u_password = MD5(?)
+		");
 		$stmt->bind_param('ss', $uname, $password);
 		$stmt->execute();
 		$stmt->store_result();
@@ -267,16 +278,18 @@ class User extends Object{
 	}
 	public function refreshDetails(){
 		$stmt = Database::getDB()->prepare("
-			SELECT * FROM users WHERE u_uid = ?
+			SELECT *
+			FROM users 
+			WHERE u_uid = ?
 		");
 		$stmt->bind_param("i", $this->uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
 		$row = $stmt->fetch_assoc();
-		$this->__construct($row);
+		User::$current_user = new User($row);
+		User::$current_user->isAuthenticated = true;
 		$stmt->close();
-		
 	}
 	public static function getUserExists($username){
 		$stmt = Database::getDB()->prepare("

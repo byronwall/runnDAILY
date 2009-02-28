@@ -2,7 +2,7 @@
 
 <ul id="errors"></ul>
 
-<form id="route_browse_form" action="/routes/browse.php" method="get">
+<form id="route_browse_form" action="/routes/browse" method="get">
 	<ul>
 		<li>username: <input type="text" name="u_username" value="{{$smarty.get.u_username}}"/></li>
 		<li>distance: 
