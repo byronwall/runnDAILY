@@ -1,7 +1,7 @@
 <?php
 class Page extends Object{
 	public $page_name;
-	public $min_permission = 400;
+	public $min_permission = 100;
 	public $tab = "home";
 	public $title = "Runn Daily";
 	public $common;
