@@ -4,7 +4,7 @@
  * @package Smarty
  * @subpackage plugins
  */
-require_once(CLASS_ROOT."\hash_module.php");
+require_once(CLASS_ROOT."/hash_module.php");
 function smarty_function_modules($params, &$smarty)
 {
 	$mod_con = new module_controller($params, RoutingEngine::getSmarty());
