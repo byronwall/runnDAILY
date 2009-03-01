@@ -3,15 +3,40 @@ ul.nav.header{
 	background: url(../img/trans_white_25.png) repeat top;
 	margin-top: -2.5em;
 }
+ul.nav.header li.secondary:hover a {
+	color:#000;
+	background:yellow;
+}
+ul.nav.header li.secondary:hover a:hover {
+	background:url(../img/trans_white_25.png);
+}
+ul.nav li.secondary:hover a:active {background:#444;}
 ul.nav.header li,
 ul.nav.header li ul,
-ul.nav.header li a{
+ul.nav.header li a,
+ul.nav.header li.secondary,
+ul.nav.header li.secondary ul,
+ul.nav.header li.secondary a{
 	background: none;
 }
-ul.nav.header li a{
-	color: #444;
-	vertical-align: bottom;
+ul.nav.header li ul li,
+ul.nav.header li.secondary ul li{
+	background: #eee;
 }
+ul.nav.header li a,
+ul.nav.header li.secondary a{
+	color: #444;
+}
+ul.nav.header li:hover a,
+ul.nav.header li a:hover,
+ul.nav.header li a:focus,
+ul.nav.header li:hover.secondary a,
+ul.nav.header li.secondary a:hover,
+ul.nav.header li.secondary a:focus {
+	color:#000;
+	background:url(../img/trans_white_25.png);
+}
+ul.nav.header li a:active {color:#666; background:#ddd;}
 .actions .label{
 }
 a.icon img{
