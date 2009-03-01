@@ -9,8 +9,8 @@ This is the template for the page where new routes are created.
 {{/if}}
 </div>
 <div class="grid_4">
-	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;">
-		<input type="text" id="txt_address" value="Purdue University">
+	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;" class="search">
+		<input type="text" id="txt_address" value="Purdue University" class="field">
 		<input type="submit" value="Re-center">
 	</form>
 </div>
@@ -23,10 +23,10 @@ This is the template for the page where new routes are created.
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#" onclick="clearAllPoints();return false;">clear all</a>
-		<a href="#" onclick="undoLastPoint();return false;">undo</a>
-		<a href="#" onclick="outAndBack()">out and back</a>
-		<a href="#" onclick="toggleSize();return false;">full screen map</a>
+		<a href="#" onclick="clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
+		<a href="#" onclick="undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
+		<a href="#" onclick="outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
+		<a href="#" onclick="toggleSize();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>
 	</div>
 </div>
 <div class="clear"></div>

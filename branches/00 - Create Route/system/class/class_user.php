@@ -316,7 +316,7 @@ class User extends Object{
 			LEFT JOIN users_settings USING(u_uid)
 			WHERE u_uid = ?
 		");
-		$stmt->bind_param("i", $this->uid);
+		$stmt->bind_param("i", $this->uid) or die($stmt->error);
 		$stmt->execute();
 		$stmt->store_result();
 		

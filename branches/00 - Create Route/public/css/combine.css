@@ -1,4 +1,9 @@
 /* Create Route */
+#route_create .search .field{
+	height: 2em;
+	margin-top: auto;
+	margin-bottom: auto;
+}
 #route_create .container_12,
 #route_create .container_16
 {
