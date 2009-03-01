@@ -6,12 +6,12 @@ var meters_to_miles = 0.000621371192;
 var isRouteLineInit = true;
 
 var tinyIcon = new GIcon();
-tinyIcon.image = "/img/marker.png";
+tinyIcon.image = "/img/dot.png";
 tinyIcon.shadow = "";
-tinyIcon.iconSize = new GSize(7, 7);
+tinyIcon.iconSize = new GSize(14, 14);
 tinyIcon.shadowSize = new GSize(0, 0);
-tinyIcon.iconAnchor = new GPoint(4, 4);
-tinyIcon.infoWindowAnchor = new GPoint(5, 1);
+tinyIcon.iconAnchor = new GPoint(7, 7);
+tinyIcon.infoWindowAnchor = new GPoint(7, 7);
 
 var map_options = new Object();
 map_options.draggable = true;
@@ -103,11 +103,11 @@ function map_click(overlay, latlng, overlaylatlng){
  * by a more universal refresh function.
  */
 function updateRouteDistanceDisp(){
+	//var route_length = (route_line.getLength()*meters_to_miles).toFixed(2);
 	$("#r_distance_disp").text(total_distance.toFixed(2) + " mi");
 }
 
 var geocoder = new GClientGeocoder();
-
 
 /*
  * show_address
@@ -189,8 +189,8 @@ function saveSubmit(form){
  * The this reference is the marker that triggered the event.
  * 
  */
-function _markerDragEnd(latlng){
-	route_points[this.marker_id].latlng = latlng;
+function _markerDragEnd(latlng_new){
+	route_points[this.marker_id + 1].latlng = latlng_new;
 	
 	map_refreshAll();
 }
@@ -224,10 +224,11 @@ function map_refreshAll(){
 		3
 	);
 	map.addOverlay(route_line);
+	total_distance = route_line.getLength() * meters_to_miles;
 	
 	updateMileMarkers(true);
-	updateRouteDistanceDisp();
 	drawMileCircle();
+	updateRouteDistanceDisp();
 }
 
 /*
@@ -250,13 +251,11 @@ function addPoint(latlng_new){
 	}
 	
 	if(!isRouteLineInit){
+		var i = route_points.length;
 		route_line.insertVertex(route_points.length, latlng_new);
-		var i = route_points.length - 1;
 		if (i > 0){
-			total_distance += route_points[i].latlng.distanceFrom(latlng_new) * meters_to_miles;
-		}
-		else{
-			total_distance = 0;
+			total_distance += route_points[i-1].latlng.distanceFrom(latlng_new) * meters_to_miles;
+			updateRouteDistanceDisp();
 		}
 	}
 	else{
@@ -264,15 +263,13 @@ function addPoint(latlng_new){
 		map.addOverlay(route_line);
 		isRouteLineInit = false;
 	}
-	updateRouteDistanceDisp();
 	
 	var point = new routePoint();
 	point.latlng = latlng_new;
 	point.marker = marker_new;
 	
-	route_points.push(point);
-	
 	point.marker.marker_id = route_points.length - 1;
+	route_points.push(point);
 	
 	updateMileMarkers(false);
 	drawMileCircle();
@@ -341,12 +338,12 @@ function updateMileMarkers(shouldUpdateAll){
 }
 
 var mile_marker_icon = new GIcon();
-mile_marker_icon.image = "/img/mile-marker.png";
+mile_marker_icon.image = "/img/flag.png";
 mile_marker_icon.shadow = "";
-mile_marker_icon.iconSize = new GSize(28, 35);
+mile_marker_icon.iconSize = new GSize(16, 16);
 mile_marker_icon.shadowSize = new GSize(0, 0);
-mile_marker_icon.iconAnchor = new GPoint(0, 35);
-mile_marker_icon.infoWindowAnchor = new GPoint(0, 35);
+mile_marker_icon.iconAnchor = new GPoint(0, 14);
+mile_marker_icon.infoWindowAnchor = new GPoint(0, 14);
 var mile_marker_options = {icon: mile_marker_icon, clickable: false};
 
 /*

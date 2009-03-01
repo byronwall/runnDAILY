@@ -9,13 +9,13 @@
 {{if $route_view->getIsOwner($currentUser->uid)}}
 	<div class="actions">
 	{{if $route_view->getCanEdit()}}
-		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox icon"><img src="/img/icon.png" />Record Time</a>
-		<a href="/routes/create?rid={{$route_view->id}}" class="icon"><img src="/img/icon.png" />Edit</a>
-		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon.png" />Copy/Edit</a>
-		<a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox icon"><img src="/img/icon.png" />Delete</a>
+		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
+		<a href="/routes/create?rid={{$route_view->id}}" class="icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
+		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon_maps_pencil.png" />Copy/Edit</a>
+		<a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox icon"><img src="/img/icon_delete.png" />Delete</a>
 	{{else}}
-		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox icon"><img src="/img/icon.png" />Record Time</a>
-		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon.png" />Copy/Edit</a>
+		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
+		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon_pencil_plus.png" />Copy/Edit</a>
 	{{/if}}
 	</div>
 	<div id="delete_modal" style="display:none">
