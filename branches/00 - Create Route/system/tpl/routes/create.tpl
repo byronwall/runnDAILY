@@ -48,7 +48,7 @@ This is the template for the page where new routes are created.
 		<p class="notice">Go ahead and name your route!.. describe it too</p>
 		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}"/></p>
 		<p><label>Description</label></p>
-		<p><textarea rows="3" cols="30" name="r_description">{{$route_edit->description}}</textarea></p>
+		<p><textarea rows="3" cols="25" name="r_description">{{$route_edit->description}}</textarea></p>
 		<input type="hidden" name="r_distance" value=""/>
 		<input type="hidden" name="r_points" value=""/>
 		<input type="hidden" name="r_start_lat" value=""/>
