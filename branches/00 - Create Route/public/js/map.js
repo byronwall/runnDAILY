@@ -4,14 +4,15 @@ var route_line;
 var total_distance = 0;
 var meters_to_miles = 0.000621371192;
 var isRouteLineInit = true;
+var line_color = "#000000";
 
 var tinyIcon = new GIcon();
 tinyIcon.image = "/img/dot.png";
 tinyIcon.shadow = "";
-tinyIcon.iconSize = new GSize(14, 14);
+tinyIcon.iconSize = new GSize(12, 12);
 tinyIcon.shadowSize = new GSize(0, 0);
-tinyIcon.iconAnchor = new GPoint(7, 7);
-tinyIcon.infoWindowAnchor = new GPoint(7, 7);
+tinyIcon.iconAnchor = new GPoint(6, 6);
+tinyIcon.infoWindowAnchor = new GPoint(6, 6);
 
 var map_options = new Object();
 map_options.draggable = true;
@@ -220,7 +221,7 @@ function map_refreshAll(){
 				return route_point.latlng;
 			}
 		),
-		"#ff0000",
+		line_color,
 		3
 	);
 	map.addOverlay(route_line);
@@ -259,7 +260,7 @@ function addPoint(latlng_new){
 		}
 	}
 	else{
-		route_line = new GPolyline([latlng_new],"#ff0000", 3);
+		route_line = new GPolyline([latlng_new], line_color, 3, .5);
 		map.addOverlay(route_line);
 		isRouteLineInit = false;
 	}
