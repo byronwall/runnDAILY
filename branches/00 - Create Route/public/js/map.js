@@ -131,10 +131,17 @@ function show_address(address) {
  * been determined, this function recenters the map.
  */
 function show_address_callback(point){
+	var location_msg = $("#location_msg");
 	if (!point) {
-        alert("not found");
+		location_msg.text("The location you entered could not be found.");
+		location_msg.removeClass("success");
+		location_msg.addClass("error");
+		
       } 
 	else {
+		location_msg.text("The map has been re-centered.");
+		location_msg.removeClass("error");
+		location_msg.addClass("success");
         map.setCenter(point, 13);
     }
 }
