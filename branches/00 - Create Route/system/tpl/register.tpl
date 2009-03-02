@@ -1,40 +1,45 @@
 {{* This is the template for the registration of a new user. *}}
-<h1>Register a new account on the running site</h1>
+<div class="grid_12">
+<h2 id="page-heading">Register a New Account</h2>
+</div>
+<div class="clear"></div>
+
+<div class="grid_12">
 <div id="errors">
-	<ul>
-	
+	<ul>	
 	</ul>
 </div>
+</div>
+<div class="clear"></div>
+
 <form action="/user/register" method="post" id="form_register">
+<div class="grid_6">
+	<h4>Required Information</h4>
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
-<div id="reg_ctain">
-<div id="reg_in_ctain">
-<h2>user details</h2>
-<ul>
-	<li><label for="input_email">email</label><input id="input_email" type="text" name="u_email"></li>
-	<li><label for="input_username">username</label><input id="input_username" type="text" name="u_username"></li>
-	<li><label for="input_password">password</label><input id="input_password" type="password" name="u_password"></li>
-	<li><label for="input_password2">password</label><input id="input_password2" type="password" name="u_password_confirm"></li>
-	<li><a id="a_checkname" href="#" onclick="return false;">check availability</a></li>
-</ul>
-<h2>personal information</h2>
-<ul>
-	<li><label for="input_realname">real name</label><input type="text" id="input_realname" name="u_real_name"></li>
-	<li><label for="input_birthday">birthday</label><input type="text" id="input_birthday" name="u_birthday"></li>
-</ul>
-<div id="reg_loc_sub">
-	<input type="submit" value="register">
+	<p><label for="input_email">Email</label><input id="input_email" type="text" name="u_email"></p>
+	<p><label for="input_username">Username</label><input id="input_username" type="text" name="u_username"></p>
+	<p><label for="input_password">Password</label><input id="input_password" type="password" name="u_password"></p>
+	<p><label for="input_password2">Confirm</label><input id="input_password2" type="password" name="u_password_confirm"></p>
+	<p><a id="a_checkname" href="#" onclick="return false;">Check availability.</a></p>
 </div>
+
+<div class="grid_6">
+	<h4>Optional Information</h4>
+	<p><label for="input_realname">Real Name</label><input type="text" id="input_realname" name="u_real_name"/></p>
+	<p><label for="input_birthday">Birthday</label><input type="text" id="input_birthday" name="u_birthday"/></p>
+	<p><input type="submit" value="Register"/></p>
 </div>
-<div id="reg_loc_ctain">
-<h2>geographic details</h2>
-	<label for="input_location">home location</label><input type="text" id="input_location" name="location">
+<div class="clear"></div>
+
+<div class="grid_12">
+<h2>Home Location</h2>
+	<label for="input_location">Location: </label><input type="text" id="input_location" name="location">
 	<input type="button" onclick="show_address($('[name=location]').val())" value="center map" />
-	<div id="map_placeholder" class="small_map"></div>
-</div>
+	<div id="map_placeholder" class="map"></div>
 </div>
 </form>
+<div class="clear"></div>
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
 <script src="/js/map.js" type="text/javascript"></script>
@@ -115,7 +120,18 @@ function register_click(overlay, latlng){
 		$("[name=u_location_lat]").val(latlng.lat());
 		$("[name=u_location_lng]").val(latlng.lng());
 
-		map.addOverlay(new GMarker(latlng));
+		var icon_home = new GIcon();
+		icon_home.image = "/img/icon_home.png";
+		icon_home.shadow = "";
+		icon_home.iconSize = new GSize(16, 16);
+		icon_home.shadowSize = new GSize(0, 0);
+		icon_home.iconAnchor = new GPoint(8, 8);
+		icon_home.infoWindowAnchor = new GPoint(16, 16);
+		var icon_home_options = {icon: icon_home, clickable: false};
+
+		var markerOptions = { icon:icon_home, draggable:map_options.draggable };
+
+		map.addOverlay(new GMarker(latlng, markerOptions));
 	}
 }
 
