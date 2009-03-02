@@ -48,7 +48,7 @@ This is the master template which holds all of the main layout.
 			{{/if}}
 			{{$currentUser->username}}
 			{{if $currentUser->msg_new}}
-			<img class="notification" src="/img/icon_exclamation.png" />
+			<img class="notification" src="/img/icon_mail_exclamation.png" />
 			{{/if}}</a>
 		<ul>
 				<li><a href="/settings" class="icon"><img src="/img/icon_wrench_screwdriver.png" />Settings</a></li>

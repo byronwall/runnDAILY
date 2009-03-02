@@ -12,6 +12,7 @@
 <form action="/user/register" method="post" id="form_register">
 <div class="grid_6">
 	<h4>Account Information</h4>
+	<p class="notice">Please select a username and enter a valid email address.</p>
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
 	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"> <img src="/img/icon_exclamation_small.png"/></p>
@@ -23,8 +24,13 @@
 
 <div class="grid_6">
 	<h4>Personal Information</h4>
+	<p class="notice">Personal information will be used to personalize your site experience.</p>
 	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_real_name"/></p>
 	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_birthday"/></p>
+	<h4>Physical Information</h4>
+	<p class="notice">Physical information will be used for calorie estimation and other quantitative purposes.</p>
+	<p><label>Height (in): </label><input type="text" id="input_height" name="u_height"/></p>
+	<p><label>Weight (lb): </label><input type="text" id="input_weight" name="u_weight"/></p>
 	<p><input type="submit" value="Register"/></p>
 </div>
 <div class="clear"></div>
