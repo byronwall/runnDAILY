@@ -5,37 +5,35 @@
 <div class="clear"></div>
 
 <div class="grid_12">
-<div id="errors">
-	<ul>	
-	</ul>
-</div>
+	<p class="icon"><img src="/img/icon_exclamation_small.png"/>Required field.</p>
 </div>
 <div class="clear"></div>
 
 <form action="/user/register" method="post" id="form_register">
 <div class="grid_6">
-	<h4>Required Information</h4>
+	<h4>Account Information</h4>
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
-	<p><label for="input_email">Email</label><input id="input_email" type="text" name="u_email"></p>
-	<p><label for="input_username">Username</label><input id="input_username" type="text" name="u_username"></p>
-	<p><label for="input_password">Password</label><input id="input_password" type="password" name="u_password"></p>
-	<p><label for="input_password2">Confirm</label><input id="input_password2" type="password" name="u_password_confirm"></p>
-	<p><a id="a_checkname" href="#" onclick="return false;">Check availability.</a></p>
+	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"> <img src="/img/icon_exclamation_small.png"/></p>
+	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"> <img src="/img/icon_exclamation_small.png"/></p>
+	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"> <img src="/img/icon_exclamation_small.png"/></p>
+	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"> <img src="/img/icon_exclamation_small.png"/></p>
+	<p><a id="a_checkname" href="#" onclick="return false;">Check username availability.</a></p>
 </div>
 
 <div class="grid_6">
-	<h4>Optional Information</h4>
-	<p><label for="input_realname">Real Name</label><input type="text" id="input_realname" name="u_real_name"/></p>
-	<p><label for="input_birthday">Birthday</label><input type="text" id="input_birthday" name="u_birthday"/></p>
+	<h4>Personal Information</h4>
+	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_real_name"/></p>
+	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_birthday"/></p>
 	<p><input type="submit" value="Register"/></p>
 </div>
 <div class="clear"></div>
 
 <div class="grid_12">
-<h2>Home Location</h2>
-	<label for="input_location">Location: </label><input type="text" id="input_location" name="location">
-	<input type="button" onclick="show_address($('[name=location]').val())" value="center map" />
+<h4>Home Location for Routes</h4>
+	<p><label for="input_location">Location: </label><input type="text" id="input_location" name="location">
+	<input type="button" onclick="show_address($('[name=location]').val())" value="Re-center" /></p>
+	<p id="location_msg" class=""></p>
 	<div id="map_placeholder" class="map"></div>
 </div>
 </form>

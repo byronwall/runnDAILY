@@ -26,6 +26,7 @@ This is the template for the page where new routes are created.
 		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
 		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
 		<p><input type="submit" value="Re-center"></p>
+		<p id="location_msg" class=""></p>
 	</form>
 </div>
 <div class="grid_3" id="route_options">
