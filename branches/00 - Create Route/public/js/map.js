@@ -339,7 +339,7 @@ function updateMileMarkers(shouldUpdateAll){
 }
 
 var mile_marker_icon = new GIcon();
-mile_marker_icon.image = "/img/flag.png";
+mile_marker_icon.image = "/img/pin.png";
 mile_marker_icon.shadow = "";
 mile_marker_icon.iconSize = new GSize(16, 16);
 mile_marker_icon.shadowSize = new GSize(0, 0);
