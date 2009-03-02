@@ -24,6 +24,7 @@ img .notification{
 	text-align: center;
 }
 #route_create .search .field{
+	width: 85%;
 }
 #route_create .container_12,
 #route_create .container_16
