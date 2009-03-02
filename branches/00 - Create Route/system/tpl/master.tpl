@@ -59,15 +59,12 @@ This is the master template which holds all of the main layout.
 		<li class="secondary"><a href="/login" class="icon"><img src="/img/icon_login.png" />Login</a></li>
 		<li class="secondary"><a href="/register" class="icon"><img src="/img/icon_register.png" />Register</a></li>
 		{{/if}} {{if $currentUser->checkPermissions(100, false)}}
-		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_admin.png" />Admin</a>
-		<ul>
-				{{if $page->common}}
-				<li><a href="/help/view?common={{$page->common}}&height=500&width=800" class="thickbox"><img class="icon" src="/img/icon_help.png" />Help </a></li>
-				{{/if}}
-				<li><a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox icon"><img src="/img/icon_feedback.png" />Feedback</a></li>
-		</ul>
-		</li>
+		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
+		{{if $page->common}}
+		<li class="secondary"><a href="/help/view?common={{$page->common}}&height=500&width=800" class="thickbox icon"><img src="/img/icon_help.png" /></a></li>
+		{{/if}}
+		<li class="secondary"><a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox icon"><img src="/img/icon_feedback.png" /></a></li>
 </ul>
 </div>
 <div class="clear"></div>
