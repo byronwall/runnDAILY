@@ -105,7 +105,7 @@ function map_click(overlay, latlng, overlaylatlng){
  */
 function updateRouteDistanceDisp(){
 	//var route_length = (route_line.getLength()*meters_to_miles).toFixed(2);
-	$("#r_distance_disp").text(total_distance.toFixed(2) + " mi");
+	$("#r_distance_disp").text(total_distance.toFixed(2));
 }
 
 var geocoder = new GClientGeocoder();

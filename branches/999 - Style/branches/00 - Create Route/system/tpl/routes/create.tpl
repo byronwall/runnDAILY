@@ -20,17 +20,35 @@ This is the template for the page where new routes are created.
 </div>
 <div class="clear"></div>
 
-<div class="grid_4" id="route_name_desc">
-<div class="box">
-<h2>Route Name & Description</h2>
+<div class="grid_3" id="route_re_center">
+	<h4>Re-center the Map</h4>
 	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;" class="search">
-		<p class="notice">Center the map using ZIP, city, or state.</p>
-		<p><input type="text" id="txt_address" value="Purdue University" class="field"><input type="submit" value="Center the Map"></p>
+		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
+		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
+		<p><input type="submit" value="Re-center"></p>
 	</form>
+</div>
+<div class="grid_3" id="route_options">
+	<div class="delete_box">
+		<h4>Additional Map Options</h4>
+
+		<form id="r_form_settings">
+			<p class="notice">Set a few options for the map!</p>
+			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
+			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
+			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
+			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
+		</form>
+	</div>
+</div>
+<div class="grid_3" id="route_name_desc">
+<div class="delete_box">
+<h4>Route Name & Description</h4>
 	<form action="/routes/action_create" method="post" onsubmit="saveSubmit(this)" id="r_form_save">
 		<p class="notice">Go ahead and name your route!.. describe it too</p>
 		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}"/></p>
-		<p><label>Description: </label><input type="text" name="r_description" value="{{$route_edit->description}}"/></p>
+		<p><label>Description</label></p>
+		<p><textarea rows="3" cols="30" name="r_description">{{$route_edit->description}}</textarea></p>
 		<input type="hidden" name="r_distance" value=""/>
 		<input type="hidden" name="r_points" value=""/>
 		<input type="hidden" name="r_start_lat" value=""/>
@@ -54,20 +72,11 @@ This is the template for the page where new routes are created.
 	</form>
 </div>
 </div>
-<div class="grid_4" id="route_options">
-	<div class="box">
-		<h2>Route Options</h2>
-		<form id="r_form_settings">
-			<p class="notice">Set a few options for the map!</p>
-			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
-			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
-			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
-			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
-		</form>
-	</div>
-</div>
-<div class="grid_4" id="route_distance">
-	<p id="r_distance_disp">0.00 mi</p>
+
+
+<div class="grid_3" id="route_distance">
+	<p id="r_distance_disp">0.00</p>
+	<p class="units">miles</p>
 </div>
 <div class="clear"></div>
 
