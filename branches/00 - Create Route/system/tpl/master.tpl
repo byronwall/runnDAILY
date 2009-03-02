@@ -32,13 +32,24 @@ This is the master template which holds all of the main layout.
 		<li><a href="/routes/index" class="icon"><img src="/img/icon_route.png" />Routes</a></li>
 		<li><a href="/training/index" class="icon"><img src="/img/icon_training.png" />Training</a></li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon_community.png" />Community</a></li>
-		<li><a href="#">runn Daily</a>
+		<li><a href="#" class="icon"><img src="/img/icon_about.png"/>runn Daily</a>
 		<ul>
 				<li><a href="/about/index">About Us</a></li>
 				<li><a href="">Contact</a></li>
 		</ul>
 		</li>
-		<li class="secondary">{{if $currentUser->isAuthenticated}} <a href="/community/view_user?uid={{$currentUser->uid}}" class="icon">{{$currentUser->username}}{{if $currentUser->msg_new}}<img src="/img/icon_exclamation.png" />{{/if}}</a>
+		<li class="secondary">
+		{{if $currentUser->isAuthenticated}}
+			<a href="/community/view_user?uid={{$currentUser->uid}}" class="icon">
+			{{if !($currentUser->gender)}}
+				<img src="/img/icon_user_male.png"/>
+			{{else}}
+				<img src="/img/icon_user_female.png"/>
+			{{/if}}
+			{{$currentUser->username}}
+			{{if $currentUser->msg_new}}
+			<img class="notification" src="/img/icon_exclamation.png" />
+			{{/if}}</a>
 		<ul>
 				<li><a href="/settings" class="icon"><img src="/img/icon_wrench_screwdriver.png" />Settings</a></li>
 				<li><a href="/messages" class="icon">{{if $currentUser->msg_new}}<img src="/img/icon_mail_open_document.png" />{{else}}<img src="/img/icon_mail_open.png" />{{/if}}Messages ({{$currentUser->msg_new}})</a></li>
