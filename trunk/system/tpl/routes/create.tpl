@@ -1,81 +1,88 @@
 {{*
 This is the template for the page where new routes are created.
 *}}
-
-<div id="map_container_left">
-	<div id="other_content">
-		{{if $is_edit}}
-			<h1>editing {{$route_edit->name}}</h1>
-		{{else}}	
-			<h1>create a new route</h1>
-		{{/if}}
-		<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;">
-	    	<input type="text" id="txt_address" value="purdue university">
-	    	<input type="submit" value="center map">
-		</form>
-		<div id="map_distance_holder">
-			Distance: 0.0 miles
-		</div>
-	    
-	    <ul id="map_control_panel">
-	    	<li><a href="#" onclick="clearAllPoints();return false;">clear all</a></li>
-	    	<li><a href="#" onclick="undoLastPoint();return false;">undo</a></li>
-	    	<li><a href="#" onclick="outAndBack()">out and back</a></li>
-	   	</ul>
-	   	<form id="form_settings">
-	   	
-	   	<ul>
-	   		<li>mile marker distance: <input type="text" id="u_mile_marker" class="number" value="1.0"/></li>
-	   		<li>
-	   			distance circle: <input type="text" id="u_circle_dist" class="number" value="5.0"/>
-	   			show: <input type="checkbox" id="input_circle_show"/>
-	   		</li>
-	   	</ul>
-	   	</form>
-	   	
-	    {{if $currentUser->isAuthenticated}}
-		    <div id="map_controls">
-		    	<h2>save route</h2>
-		    	<form action="/routes/action_create" method="post" onsubmit="saveSubmit(this)" id="route_save_form">
-		    	<ul>	
-		    		<li>
-		    			<label for="input_routename">route name</label>
-		    			<input id="input_routename" type="text" name="r_name" value="{{$route_edit->name}}">
-		    		</li>
-		    		<li>
-		    			<label for="input_desc">description</label>
-		    			<input id="input_desc" type="text" name="r_description" value="{{$route_edit->description}}">
-		    		</li>		    
-		    		<input type="hidden" name="r_distance">
-		    		<input type="hidden" name="r_points">
-		    		<input type="hidden" name="r_start_lat">
-		    		<input type="hidden" name="r_start_lng">
-		    		{{if $is_edit}}
-		    			<input type="hidden" name="r_id" value="{{$route_edit->id}}" />
-		    			{{if $isCopy}}
-		    				<input type="hidden" name="r_rid_parent" value="{{$route_edit->id}}" />
-		    				<input type="hidden" name="action" value="save" />
-			    			<input type="submit" value="create">
-		    			{{else}}
-			    			<input type="submit" value="update">
-		    				<input type="hidden" name="action" value="edit" />
-		    			{{/if}}		    			
-		    		{{else}}
-		    			<input type="hidden" name="action" value="save" />
-		    			<input type="submit" value="create">
-		    		{{/if}}
-		    	</ul>
-		   		</form>
-			</div>
-    	{{/if}}   	
-	</div>
-	<a href="#" onclick="toggleSize();return false;">full screen map</a>
+<div class="grid_12">
+{{if $is_edit}}
+<h2 id="page-heading">Editing {{$route_edit->name}}</h2>
+{{else}}
+<h2 id="page-heading">Create a New Route</h2>
+{{/if}}
 </div>
+<div class="clear"></div>
 
 <div class="grid_12">
-<div id="map_container_right">
-	<div id="map_placeholder" class="map large fullscreen"></div>
+	<div class="actions">
+		<a href="#" onclick="clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
+		<a href="#" onclick="undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
+		<a href="#" onclick="outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
+		<a href="#" onclick="toggleSize();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>
+	</div>
 </div>
+<div class="clear"></div>
+
+<div class="grid_3" id="route_re_center">
+	<h4>Re-center the Map</h4>
+	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;" class="search">
+		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
+		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
+		<p><input type="submit" value="Re-center"></p>
+		<p id="location_msg" class=""></p>
+	</form>
+</div>
+<div class="grid_3" id="route_options">
+	<div class="delete_box">
+		<h4>Additional Map Options</h4>
+
+		<form id="r_form_settings">
+			<p class="notice">Set a few options for the map!</p>
+			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
+			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
+			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
+			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
+		</form>
+	</div>
+</div>
+<div class="grid_3" id="route_name_desc">
+<div class="delete_box">
+<h4>Route Name & Description</h4>
+	<form action="/routes/action_create" method="post" onsubmit="saveSubmit(this)" id="r_form_save">
+		<p class="notice">Go ahead and name your route!.. describe it too</p>
+		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}"/></p>
+		<p><label>Description</label></p>
+		<p><textarea rows="3" cols="25" name="r_description">{{$route_edit->description}}</textarea></p>
+		<input type="hidden" name="r_distance" value=""/>
+		<input type="hidden" name="r_points" value=""/>
+		<input type="hidden" name="r_start_lat" value=""/>
+		<input type="hidden" name="r_start_lng" value=""/>
+		{{if $currentUser->isAuthenticated}}
+			{{if $is_edit}}
+				<input type="hidden" name="r_id" value="{{$route_edit->id}}"/>
+				{{if $isCopy}}
+					<input type="hidden" name="r_rid_parent" value="{{$route_edit->id}}"/>
+					<input type="hidden" name="action" value="save"/>
+					<p><input type="submit" value="Create Route"/></p>
+				{{else}}
+					<input type="hidden" name="action" value="update"/>
+					<p><input type="submit" value="Edit Route"/></p>
+				{{/if}}
+			{{else}}
+				<input type="hidden" name="action" value="save"/>
+				<p><input type="submit" value="Create Route"/></p>
+			{{/if}}
+		{{/if}}
+	</form>
+</div>
+</div>
+
+
+<div class="grid_3" id="route_distance">
+	<p id="r_distance_disp">0.00</p>
+	<p class="units">miles</p>
+</div>
+<div class="clear"></div>
+
+<div class="grid_12">
+	<div id="r_map" class="map large"></div>
 </div>
 <div class="clear"></div>
 
@@ -85,19 +92,19 @@ This is the template for the page where new routes are created.
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load("map_placeholder", map_click);
+	load("r_map", map_click);
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
 		user_options.latlng_start = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
 		map.setCenter(user_options.latlng_start, 13);
 	{{/if}}
 
-	updateHeight();
+	//updateHeight();
 	{{if $is_edit}}
 		loadRouteFromDB({{$route_edit->points}}, true);
 	{{/if}}
 
-	var validator = $("#route_save_form").validate({
+	var validator = $("#r_form_save").validate({
 		rules: {
 			r_name: {required: true}
 		},
@@ -122,19 +129,15 @@ $(document).ready( function(){
 		circle_distance = $("#u_circle_dist").val();
 		map_refreshAll();
 	});
-		
 });
 
-
 $(window).resize( 
-	updateHeight
+	//updateHeight
 );
 
 document.body.onunload = GUnload;
 
 var sidebarVisible = true;
-
-
 
 function toggleSize(){
 	if(sidebarVisible){
@@ -154,5 +157,3 @@ function updateHeight(){
 }
 
 </script>
-
-

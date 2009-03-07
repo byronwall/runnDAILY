@@ -1,3 +1,247 @@
+p.success{
+	color: green;
+}
+p.error{
+	color: red;
+}
+img .notification{
+	height: 10px;
+	width: 10px;
+}
+
+/* Create Route */
+#route_create .map{
+	height: 600px;
+}
+#route_distance p{
+	text-align: center;
+	font-size: 72px;
+	width: 100%;
+	color: #444;
+	margin-top: 50px;
+	margin-bottom: 0px;
+	padding: 0px;
+	line-height: normal;
+}
+#route_distance .units{
+	font-size: 24px;
+	margin-top: -10px;
+	text-align: center;
+}
+#route_create .search .field{
+	width: 85%;
+}
+#route_create .container_12,
+#route_create .container_16
+{
+	width: 94%;
+	margin-left: 3%;
+	margin-right: 3%;
+}
+
+#route_create .grid_1,
+#route_create .grid_2,
+#route_create .grid_3,
+#route_create .grid_4,
+#route_create .grid_5,
+#route_create .grid_6,
+#route_create .grid_7,
+#route_create .grid_8,
+#route_create .grid_9,
+#route_create .grid_10,
+#route_create .grid_11,
+#route_create .grid_12,
+#route_create .grid_13,
+#route_create .grid_14,
+#route_create .grid_15,
+#route_create .grid_16
+{
+	display: inline;
+	float: left;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+
+#route_create .container_12 .grid_3,
+#route_create .container_16 .grid_4
+{
+	width: 23%;
+}
+
+#route_create .container_12 .grid_6,
+#route_create .container_16 .grid_8
+{
+	width: 48%;
+}
+
+#route_create .container_12 .grid_9,
+#route_create .container_16 .grid_12
+{
+	width: 73%;
+}
+
+#route_create .container_12 .grid_12,
+#route_create .container_16 .grid_16
+{
+	width: 98%;
+}
+
+#route_create .container_12 .grid_1
+{
+	width: 6.333%;
+}
+
+#route_create .container_12 .grid_2
+{
+	width: 14.666%;
+}
+
+#route_create .container_12 .grid_4
+{
+	width: 31.333%;
+}
+
+#route_create .container_12 .grid_5
+{
+	width: 39.666%;
+}
+
+#route_create .container_12 .grid_7
+{
+	width: 56.333%;
+}
+
+#route_create .container_12 .grid_8
+{
+	width: 64.666%;
+}
+
+#route_create .container_12 .grid_10
+{
+	width: 81.333%;
+}
+
+#route_create .container_12 .grid_11
+{
+	width: 89.666%;
+}
+
+#route_create .container_12 .prefix_3,
+#route_create .container_16 .prefix_4
+{
+	padding-left: 25%;
+}
+
+#route_create .container_12 .prefix_6,
+#route_create .container_16 .prefix_8
+{
+	padding-left: 50%;
+}
+
+#route_create .container_12 .prefix_9,
+#route_create .container_16 .prefix_12
+{
+	padding-left: 75%;
+}
+
+#route_create .container_12 .prefix_1
+{
+	padding-left: 8.333%;
+}
+
+#route_create .container_12 .prefix_2
+{
+	padding-left: 16.666%;
+}
+
+#route_create .container_12 .prefix_4
+{
+	padding-left: 33.333%;
+}
+
+#route_create .container_12 .prefix_5
+{
+	padding-left: 41.666%;
+}
+
+#route_create .container_12 .prefix_7
+{
+	padding-left: 58.333%;
+}
+
+#route_create .container_12 .prefix_8
+{
+	padding-left: 66.666%;
+}
+
+#route_create .container_12 .prefix_10
+{
+	padding-left: 83.333%;
+}
+
+#route_create .container_12 .prefix_11
+{
+	padding-left: 91.666%;
+}
+
+#route_create .container_12 .suffix_3,
+#route_create .container_16 .suffix_4
+{
+	padding-right: 25%;
+}
+
+#route_create .container_12 .suffix_6,
+#route_create .container_16 .suffix_8
+{
+	padding-right: 50%;
+}
+
+#route_create .container_12 .suffix_9,
+#route_create .container_16 .suffix_12
+{
+	padding-right: 75%;
+}
+
+#route_create .container_12 .suffix_1
+{
+	padding-right: 8.333%;
+}
+
+#route_create .container_12 .suffix_2
+{
+	padding-right: 16.666%;
+}
+
+#route_create .container_12 .suffix_4
+{
+	padding-right: 33.333%;
+}
+
+#route_create .container_12 .suffix_5
+{
+	padding-right: 41.666%;
+}
+
+#route_create .container_12 .suffix_7
+{
+	padding-right: 58.333%;
+}
+
+#route_create .container_12 .suffix_8
+{
+	padding-right: 66.666%;
+}
+
+#route_create .container_12 .suffix_10
+{
+	padding-right: 83.333%;
+}
+
+#route_create .container_12 .suffix_11
+{
+	padding-right: 91.666%;
+}
+
 /* Custom */
 ul.nav.header{
 	background: url(../img/trans_white_25.png) repeat top;
@@ -39,7 +283,7 @@ ul.nav.header li.secondary a:focus {
 ul.nav.header li a:active {color:#666; background:#ddd;}
 .actions .label{
 }
-a.icon img{
+a.icon img, p.icon img{
 	height: 16px;
 	width: 16px;
 	border-style: none;

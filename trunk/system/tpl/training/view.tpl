@@ -5,8 +5,8 @@
 <div class="grid_12">
 	<div class="actions">
 	{{if $item->getIsOwnedBy($currentUser->uid)}}
-		<a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox icon"><img src="/img/icon.png" />Edit</a>
-		<a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox icon"><img src="/img/icon.png" />Delete</a>
+		<a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
+		<a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox icon"><img src="/img/icon_delete.png" />Delete</a>
 	{{/if}}
 	</div>
 </div>
