@@ -3,14 +3,16 @@ var route_points =[];
 var route_line;
 var total_distance = 0;
 var meters_to_miles = 0.000621371192;
+var isRouteLineInit = true;
+var line_color = "#000000";
 
 var tinyIcon = new GIcon();
-tinyIcon.image = "/img/marker.png";
+tinyIcon.image = "/img/dot.png";
 tinyIcon.shadow = "";
-tinyIcon.iconSize = new GSize(7, 7);
+tinyIcon.iconSize = new GSize(12, 12);
 tinyIcon.shadowSize = new GSize(0, 0);
-tinyIcon.iconAnchor = new GPoint(4, 4);
-tinyIcon.infoWindowAnchor = new GPoint(5, 1);
+tinyIcon.iconAnchor = new GPoint(6, 6);
+tinyIcon.infoWindowAnchor = new GPoint(6, 6);
 
 var map_options = new Object();
 map_options.draggable = true;
@@ -101,13 +103,12 @@ function map_click(overlay, latlng, overlaylatlng){
  * contains the total distance.  This function will soon be deprecated
  * by a more universal refresh function.
  */
-function update_distance(){
-	var route_length = (route_line.getLength()*meters_to_miles).toFixed(2);
-	$("#map_distance_holder").text("Distance: " + route_length + " miles");
+function updateRouteDistanceDisp(){
+	//var route_length = (route_line.getLength()*meters_to_miles).toFixed(2);
+	$("#r_distance_disp").text(total_distance.toFixed(2));
 }
 
 var geocoder = new GClientGeocoder();
-
 
 /*
  * show_address
@@ -130,10 +131,17 @@ function show_address(address) {
  * been determined, this function recenters the map.
  */
 function show_address_callback(point){
+	var location_msg = $("#location_msg");
 	if (!point) {
-        alert("not found");
+		location_msg.text("The location you entered could not be found.");
+		location_msg.removeClass("success");
+		location_msg.addClass("error");
+		
       } 
 	else {
+		location_msg.text("The map has been re-centered.");
+		location_msg.removeClass("error");
+		location_msg.addClass("success");
         map.setCenter(point, 13);
     }
 }
@@ -169,11 +177,11 @@ function convertToPolyline(){
  * to populate the hidden fields that correspond to the route data that
  * needs to be sent to the save route page.
  */
-function saveSubmit(submitForm){
-	submitForm.r_distance.value = (route_line.getLength()*meters_to_miles).toFixed(2);
-	submitForm.r_points.value = convertToPolyline();
-	submitForm.r_start_lat.value = route_points[0].latlng.lat();
-	submitForm.r_start_lng.value = route_points[0].latlng.lng();
+function saveSubmit(form){
+	form.r_points.value = convertToPolyline();
+	form.r_start_lat.value = route_points[0].latlng.lat();
+	form.r_start_lng.value = route_points[0].latlng.lng();
+	form.r_distance.value = total_distance.toFixed(2);
 
 	return true;
 }
@@ -189,8 +197,8 @@ function saveSubmit(submitForm){
  * The this reference is the marker that triggered the event.
  * 
  */
-function _markerDragEnd(latlng){
-	route_points[this.marker_id].latlng = latlng;
+function _markerDragEnd(latlng_new){
+	route_points[this.marker_id + 1].latlng = latlng_new;
 	
 	map_refreshAll();
 }
@@ -220,14 +228,15 @@ function map_refreshAll(){
 				return route_point.latlng;
 			}
 		),
-		"#ff0000",
+		line_color,
 		3
 	);
 	map.addOverlay(route_line);
+	total_distance = route_line.getLength() * meters_to_miles;
 	
 	updateMileMarkers(true);
-	update_distance();
 	drawMileCircle();
+	updateRouteDistanceDisp();
 }
 
 /*
@@ -240,33 +249,35 @@ function map_refreshAll(){
  * from the click event handler and also the out and back function.  It
  * can be called from anywhere that needs to add a point to the route.
  */
-function addPoint(latlngNew){
+function addPoint(latlng_new){
 	var markerOptions = { icon:tinyIcon, draggable:map_options.draggable };
-	var markerNew = new GMarker(latlngNew, markerOptions);
-	map.addOverlay(markerNew);
+	var marker_new = new GMarker(latlng_new, markerOptions);
+	map.addOverlay(marker_new);
 	
 	if(markerOptions.draggable){
-		GEvent.addListener(markerNew, "dragend", _markerDragEnd);
+		GEvent.addListener(marker_new, "dragend", _markerDragEnd);
 	}
 	
 	if(!isRouteLineInit){
-		route_line = new GPolyline([latlngNew],"#ff0000", 3);
-		map.addOverlay(route_line);
-		isRouteLineInit = true;
+		var i = route_points.length;
+		route_line.insertVertex(route_points.length, latlng_new);
+		if (i > 0){
+			total_distance += route_points[i-1].latlng.distanceFrom(latlng_new) * meters_to_miles;
+			updateRouteDistanceDisp();
+		}
 	}
 	else{
-		route_line.insertVertex(route_points.length, latlngNew);
-		total_distance += route_points[route_points.length-1].latlng.distanceFrom(latlngNew) * meters_to_miles;
-		update_distance();
+		route_line = new GPolyline([latlng_new], line_color, 3, .5);
+		map.addOverlay(route_line);
+		isRouteLineInit = false;
 	}
 	
 	var point = new routePoint();
-	point.latlng = latlngNew;
-	point.marker = markerNew;
-	
-	route_points.push(point);
+	point.latlng = latlng_new;
+	point.marker = marker_new;
 	
 	point.marker.marker_id = route_points.length - 1;
+	route_points.push(point);
 	
 	updateMileMarkers(false);
 	drawMileCircle();
@@ -279,7 +290,6 @@ var previousDistance = 0;
 var mileDistance = 1.0;
 var shouldUpdateAll;
 var previousMarkerDistance =0;
-var isRouteLineInit = false;
 var mileMarkers = [];
 
 /*
@@ -336,12 +346,12 @@ function updateMileMarkers(shouldUpdateAll){
 }
 
 var mile_marker_icon = new GIcon();
-mile_marker_icon.image = "/img/mile-marker.png";
+mile_marker_icon.image = "/img/pin.png";
 mile_marker_icon.shadow = "";
-mile_marker_icon.iconSize = new GSize(28, 35);
+mile_marker_icon.iconSize = new GSize(16, 16);
 mile_marker_icon.shadowSize = new GSize(0, 0);
-mile_marker_icon.iconAnchor = new GPoint(0, 35);
-mile_marker_icon.infoWindowAnchor = new GPoint(0, 35);
+mile_marker_icon.iconAnchor = new GPoint(0, 14);
+mile_marker_icon.infoWindowAnchor = new GPoint(0, 14);
 var mile_marker_options = {icon: mile_marker_icon, clickable: false};
 
 /*
@@ -426,7 +436,7 @@ function undoLastPoint(){
  */
 function clearAllPoints(){
 	route_points = [];
-	isRouteLineInit = false;
+	isRouteLineInit = true;
 	map_refreshAll();
 }
 
