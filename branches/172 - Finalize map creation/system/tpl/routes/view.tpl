@@ -20,7 +20,7 @@
 	</div>
 	<div id="delete_modal" style="display:none">
 		<h2>Are you sure you want to delete this route?</h2>
-		<form method="POST" action="/lib/action_routes.php">
+		<form method="POST" action="/routes/action_delete">
 			<input type="hidden" name="action" value="delete" />
 			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />
 			<input type="submit" value="delete" />
@@ -120,8 +120,8 @@
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load("map_placeholder", null);
-	loadRouteFromDB({{$route_view->points}}, false);
+	Map.load("map_placeholder", null);
+	MapData.loadRoute({{$route_view->points}}, false);
 
 	var validator = $("#route_train_form").validate({
 		rules: {

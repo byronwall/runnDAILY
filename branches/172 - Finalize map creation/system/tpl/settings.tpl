@@ -46,25 +46,25 @@ width:300px;
 
 
 $(document).ready( function(){
-	load("map_home_location", map_settings_click);
+	Map.load("map_home_location", map_settings_click);
 	
 	{{if !$currentUser->location_lat|@is_null}}
-		user_options.latlng_start = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
-		map.setCenter(user_options.latlng_start);
-		var home_marker = new GMarker(user_options.latlng_start);
-		map.addOverlay(home_marker);
+		Settings.LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
+		Map.instance.setCenter(Settings.LatLngCenter);
+		var home_marker = new GMarker(Settings.LatLngCenter);
+		Map.instance.addOverlay(home_marker);
 	{{/if}}
 });
 
 document.body.onunload = GUnload();
 
-var home_marker = new GMarker(user_options.latlng_start);
+var home_marker = new GMarker(Settings.LatLngCenter);
 
 function map_settings_click(overlay, latlng){
 	if(latlng){
-		map.clearOverlays();
+		Map.instance.clearOverlays();
 		home_marker = new GMarker(latlng);
-		map.addOverlay(home_marker);
+		Map.instance.addOverlay(home_marker);
 		
 		document.settings_form.user_home_lat.value = latlng.lat();
 		document.settings_form.user_home_lng.value = latlng.lng();

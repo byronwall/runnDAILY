@@ -25,12 +25,12 @@ var init = false;
 $(document).ready(function(){
 	$("a.preview").click( function(){
 		if(!init){
-			load("map_placeholder", null);
+			Map.load("map_placeholder", null);
 			init = !init;
 		}			
 		tb_show(this.title, this.href, false);
-		map.checkResize();
-		loadRouteFromDB($.parseJSON(this.rel));
+		Map.instance.checkResize();
+		MapData.loadRoute($.parseJSON(this.rel));
 		
 		return false;
 	});

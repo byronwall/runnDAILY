@@ -12,9 +12,9 @@ This is the template for the page where new routes are created.
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#" onclick="clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
-		<a href="#" onclick="undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
-		<a href="#" onclick="outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
+		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
+		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
+		<a href="#" onclick="MapActions.outAndBack();return false;" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
 		<a href="#" onclick="toggleSize();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>
 	</div>
 </div>
@@ -22,7 +22,7 @@ This is the template for the page where new routes are created.
 
 <div class="grid_3" id="route_re_center">
 	<h4>Re-center the Map</h4>
-	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;" class="search">
+	<form action="#" method="get" onsubmit="Geocoder.showAddress('#txt_address');return false;" class="search">
 		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
 		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
 		<p><input type="submit" value="Re-center"></p>
@@ -38,6 +38,7 @@ This is the template for the page where new routes are created.
 			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
 			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
 			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
+			<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
 			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
 		</form>
 	</div>
@@ -45,7 +46,7 @@ This is the template for the page where new routes are created.
 <div class="grid_3" id="route_name_desc">
 <div class="delete_box">
 <h4>Route Name & Description</h4>
-	<form action="/routes/action_create" method="post" onsubmit="saveSubmit(this)" id="r_form_save">
+	<form action="/routes/action_create" method="post" id="r_form_save">
 		<p class="notice">Go ahead and name your route!.. describe it too</p>
 		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}"/></p>
 		<p><label>Description</label></p>
@@ -86,22 +87,22 @@ This is the template for the page where new routes are created.
 </div>
 <div class="clear"></div>
 
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
-<script src="/js/map.js" type="text/javascript"></script>
-<script src="/js/PolylineEncoder.pack.js" type="text/javascript"></script>
+<div id="results" style="display:none"></div>
+
+{{include file="routes/parts/script.tpl"}}
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load("r_map", map_click);
+	Map.load("r_map", Map.event_click);
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
-		user_options.latlng_start = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
-		map.setCenter(user_options.latlng_start, 13);
+		Settings.LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
+		Map.instance.setCenter(Settings.LatLngCenter, 13);
 	{{/if}}
 
 	//updateHeight();
 	{{if $is_edit}}
-		loadRouteFromDB({{$route_edit->points}}, true);
+		MapData.loadRoute({{$route_edit->points}}, true);
 	{{/if}}
 
 	var validator = $("#r_form_save").validate({
@@ -112,22 +113,24 @@ $(document).ready( function(){
 			r_name: {required: "Enter a name"}
 		},
 		submitHandler: function(form){
-			saveSubmit($(form));
-			
+			MapSave.submitHandler(form);
 			form.submit();
 		}
 	});
 	$("#u_mile_marker").blur(function(){
 		mileDistance = $("#u_mile_marker").val();
-		map_refreshAll();
+		Map.refresh();
 	});
 	$("#input_circle_show").click(function(){
-		circle_show = $(this).attr("checked");
-		map_refreshAll();
+		Settings.DistanceCircle.enable = $(this).attr("checked");
+		Map.refresh();
+	});
+	$("#input_follow_roads").click(function(){
+		Settings.Directions.enable = $(this).attr("checked");
 	});
 	$("#u_circle_dist").blur(function(){
-		circle_distance = $("#u_circle_dist").val();
-		map_refreshAll();
+		Settings.DistanceCircle.radius = $("#u_circle_dist").val();
+		Map.refresh();
 	});
 });
 
@@ -153,7 +156,7 @@ function toggleSize(){
 }
 function updateHeight(){
 	$("#content_container").height($(window).height() - $("#header_ctain").height());
-	map.checkResize();	
+	Map.instance.checkResize();	
 }
 
 </script>
