@@ -340,7 +340,6 @@ var Directions = {
 	isSearching: false,
 	instance: null,
 	polyline: null,
-	route: null,
 	options: {
 		getPolyline: true,
 		travelMode: G_TRAVEL_MODE_WALKING,

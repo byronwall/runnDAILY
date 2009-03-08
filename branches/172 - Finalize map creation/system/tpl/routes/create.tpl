@@ -94,6 +94,11 @@ This is the template for the page where new routes are created.
 
 $(document).ready( function(){
 	Map.load("r_map", Map.event_click);
+	GEvent.addListener(Map.instance, "singlerightclick",
+		function(point, src, overlay){
+			Directions.click(null, Map.instance.fromContainerPixelToLatLng(point), null);
+		}
+	);
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
 		Settings.LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
