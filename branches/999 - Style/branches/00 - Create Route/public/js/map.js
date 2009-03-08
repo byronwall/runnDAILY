@@ -348,10 +348,10 @@ function updateMileMarkers(shouldUpdateAll){
 var mile_marker_icon = new GIcon();
 mile_marker_icon.image = "/img/dot_mile.png";
 mile_marker_icon.shadow = "";
-mile_marker_icon.iconSize = new GSize(24, 24);
+mile_marker_icon.iconSize = new GSize(18, 18);
 mile_marker_icon.shadowSize = new GSize(0, 0);
-mile_marker_icon.iconAnchor = new GPoint(12, 12);
-mile_marker_icon.infoWindowAnchor = new GPoint(12, 12);
+mile_marker_icon.iconAnchor = new GPoint(9, 9);
+mile_marker_icon.infoWindowAnchor = new GPoint(9, 9);
 var mile_marker_options = {icon: mile_marker_icon, clickable: false};
 
 /*
