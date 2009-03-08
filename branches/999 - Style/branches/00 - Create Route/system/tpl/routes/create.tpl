@@ -25,28 +25,6 @@ This is the template for the page where new routes are created.
 	<p class="units">miles</p>
 </div>
 <hr>
-<div class="" id="route_re_center">
-	<h4>Re-center the Map</h4>
-	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;" class="search">
-		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
-		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
-		<p><input type="submit" value="Re-center"></p>
-		<p id="location_msg" class=""></p>
-	</form>
-</div>
-<div class="" id="route_options">
-	<div class="delete_box">
-		<h4>Additional Map Options</h4>
-
-		<form id="r_form_settings">
-			<p class="notice">Set a few options for the map!</p>
-			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
-			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
-			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
-			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
-		</form>
-	</div>
-</div>
 <div class="" id="route_name_desc">
 <div class="delete_box">
 <h4>Route Name & Description</h4>
@@ -78,6 +56,29 @@ This is the template for the page where new routes are created.
 	</form>
 </div>
 </div>
+<div class="" id="route_re_center">
+	<h4>Re-center the Map</h4>
+	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;" class="search">
+		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
+		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
+		<p><input type="submit" value="Re-center"></p>
+		<p id="location_msg" class=""></p>
+	</form>
+</div>
+<div class="" id="route_options">
+	<div class="delete_box">
+		<h4>Additional Map Options</h4>
+
+		<form id="r_form_settings">
+			<p class="notice">Set a few options for the map!</p>
+			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
+			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
+			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
+			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
+		</form>
+	</div>
+</div>
+
 </div>
 
 <div class="grid_10">
