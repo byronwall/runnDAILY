@@ -151,6 +151,9 @@ class routes_controller{
 		
 		exit;
 	}
+	public function road_test(){
+		
+	}
 }
 function getBoundingBox($points){
 	$point_max["x"] = max($points["x"]);
