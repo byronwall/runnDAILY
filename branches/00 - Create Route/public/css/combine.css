@@ -18,17 +18,16 @@ img .notification{
 	font-size: 72px;
 	width: 100%;
 	color: #444;
-	margin-top: 50px;
-	margin-bottom: 0px;
 	padding: 0px;
-	line-height: normal;
+	margin: 0px;
 }
 #route_distance .units{
 	font-size: 24px;
-	margin-top: -10px;
+	margin-top: -15px;
+	margin-bottom: 5px;
 	text-align: center;
 }
-#route_create .search .field{
+#route_create .search .field, #route_create textarea {
 	width: 85%;
 }
 #route_create .container_12,
