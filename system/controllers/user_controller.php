@@ -111,7 +111,7 @@ class user_controller{
 		
 		$stmt->close();
 		
-		Page::redirect("/modules");
+		Page::redirect("/");
 	}
 }
 ?>
