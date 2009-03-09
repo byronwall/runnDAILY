@@ -170,7 +170,7 @@ class User extends Object{
 			");
 			$stmt->bind_param("iddisiis",
 				$this->uid, $this->location_lat,$this->location_lng,
-				$this->gender,$this->birthday,$this->height,
+				$this->gender,date("Y-m-d",strtotime($this->birthday)),$this->height,
 				$this->weight,$this->real_name		
 			);
 			$stmt->execute();

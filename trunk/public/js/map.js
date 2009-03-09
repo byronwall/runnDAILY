@@ -9,10 +9,10 @@ var line_color = "#000000";
 var tinyIcon = new GIcon();
 tinyIcon.image = "/img/dot.png";
 tinyIcon.shadow = "";
-tinyIcon.iconSize = new GSize(12, 12);
+tinyIcon.iconSize = new GSize(8, 8);
 tinyIcon.shadowSize = new GSize(0, 0);
-tinyIcon.iconAnchor = new GPoint(6, 6);
-tinyIcon.infoWindowAnchor = new GPoint(6, 6);
+tinyIcon.iconAnchor = new GPoint(5, 5);
+tinyIcon.infoWindowAnchor = new GPoint(5, 5);
 
 var map_options = new Object();
 map_options.draggable = true;
@@ -346,12 +346,12 @@ function updateMileMarkers(shouldUpdateAll){
 }
 
 var mile_marker_icon = new GIcon();
-mile_marker_icon.image = "/img/pin.png";
+mile_marker_icon.image = "/img/dot_mile.png";
 mile_marker_icon.shadow = "";
-mile_marker_icon.iconSize = new GSize(16, 16);
+mile_marker_icon.iconSize = new GSize(18, 18);
 mile_marker_icon.shadowSize = new GSize(0, 0);
-mile_marker_icon.iconAnchor = new GPoint(0, 14);
-mile_marker_icon.infoWindowAnchor = new GPoint(0, 14);
+mile_marker_icon.iconAnchor = new GPoint(9, 9);
+mile_marker_icon.infoWindowAnchor = new GPoint(9, 9);
 var mile_marker_options = {icon: mile_marker_icon, clickable: false};
 
 /*
