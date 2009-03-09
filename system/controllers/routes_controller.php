@@ -84,14 +84,14 @@ class routes_controller{
 		$encoded = (isset($_GET["encoded"]))? $_GET["encoded"]: die();
 		$distance = (isset($_GET["distance"]))? $_GET["distance"]: die();
 		
-		$im_width = 40;
-		$im_height = 40;
+		$im_width = 100;
+		$im_height = 100;
 		
 		$padding = 0.85;
 		
 		$point_arr = decodePolylineToArray($encoded);
 		
-		$bg = imagecreatefrompng(PUBLIC_ROOT."/img/route_bg.png");
+		$bg = imagecreatefrompng(PUBLIC_ROOT."/img/earth.png");
 		
 		$im = imagecreatetruecolor($im_width, $im_height) or die('Cannot Initialize new GD image stream');
 		
@@ -138,13 +138,21 @@ class routes_controller{
 			imageline($im, $normal_scaled[$i-1]["x"], $normal_scaled[$i-1]["y"], $normal_scaled[$i]["x"], $normal_scaled[$i]["y"],$line_color);
 		}
 		
-		imagestring($im, 2, 50, 85, $distance." mi", $black);
+		//imagestring($im, 3, $im_width * 0.3, $im_height * 0.75, $distance." mi", $black);
 		
-		//imagecopy($bg, $im, 5, 5, 0, 0, $im_width, $im_height);
+		// The text to draw
+		//$text = 'Testing...';
+		// Replace path by your own font path
+		$font = '../public/font/arial.ttf';
+		
+		// Add some shadow to the text
+		imagettftext($im, 11, 0, $im_width * 0.02, $im_height * 0.95, $black, $font, $distance." mi");
+		
+		imagecopy($bg, $im, 0, 0, 0, 0, $im_width, $im_height);
 		//imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
 		
 		header ("Content-type: image/png");
-		imagepng($im);
+		imagepng($bg);
 		//imagedestroy($shadow);
 		imagedestroy($im);
 		imagedestroy($bg);

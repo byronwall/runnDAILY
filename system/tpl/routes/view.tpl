@@ -1,8 +1,10 @@
 <div class="grid_12">
-	<h2 id="page-heading">{{$route_view->name}}</h2>
+	<h2 class="heading float_left">{{$route_view->name}}</h2>
+	<h2 class="align_right heading float_right">{{$route_view->distance}} mi</h2>
+	<hr class="heading">
 </div>
 <div class="clear"></div>
-<div class="grid_2">
+<div class="grid_3">
 	<p>Created by: <a href="/community/view_user.php?uid={{$route_view->uid}}">User</a></p>
 </div>
 <div class="grid_9">
@@ -44,10 +46,6 @@
 	</div>
 {{/if}}
 </div>
-<div class="grid_1">
-	<p>{{$route_view->distance}} mi<p>
-</div>
-
 <div class="clear"></div>
 
 <!--<div class="grid_12">-->
