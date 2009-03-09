@@ -9,6 +9,21 @@ class routes_controller{
 		}
 		$id = $_GET["rid"];
 		$route = Route::fromRouteIdentifier($id);
+		//get training types for create new training modal
+		
+		$stmt = Database::getDB()->prepare("
+			SELECT t_type_id, t_type_name
+			FROM training_types
+		");
+		$stmt->execute();
+		$stmt->store_result();
+		$types = array();
+		while($row = $stmt->fetch_assoc()){
+			$types[] = array("id"=>$row["t_type_id"], "name"=>$row["t_type_name"]);
+		}
+		$stmt->close();
+		
+		RoutingEngine::getSmarty()->assign("t_types", $types);
 		RoutingEngine::getSmarty()->assign("route_view", $route);
 	}
 	public function browse(){

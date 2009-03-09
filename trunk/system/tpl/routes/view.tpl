@@ -30,18 +30,25 @@
 		</form>
 	</div>
 	<div id="route_train_modal" style="display:none">
-		<h2>New Training Item</h2>
+		<h2>Record a Time</h2>
 		<form action="/training/action_save" method="post" id="route_train_form">
-		<input type="hidden" name="t_rid" value="{{$route_view->id}}">
-		<input type="hidden" name="action" value="save" />
-			<ul>
-				<li><label>time</label><input type="text" name="t_time" value="12:52.6"></li>
-				<li><label>date</label><input type="text" name="t_date" value="today"></li>
-				<li><label>distance</label><input type="text" name="t_distance" value="{{$route_view->distance}}"></li>
-				<li><label>private?</label><input type="checkbox" name="t_private" value="1"></li>
-				<li><input type="submit" value="add to log"></li>
-				<li><input type="button" value="cancel" onclick="tb_remove()" />
-			</ul>
+			<input type="hidden" name="t_rid" value="{{$route_view->id}}">
+			<input type="hidden" name="action" value="save" />
+			<p><label>Time: </label><input type="text" name="t_time" value="00:00:00"></p>
+			<p><label>Activity Type: </label>
+				<select name="t_type" id="training_type">
+				{{foreach from=$t_types item=type}}
+					<option value="{{$type.id}}">{{$type.name}}</option>
+				{{/foreach}}
+				</select>
+			</p>
+			<p><label>Date: </label><input type="text" name="t_date" value="Today"></p>
+			<p><label>Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}"></p>
+			<p><label>Private? </label><input type="checkbox" name="t_private" value="1"></p>
+			<p>
+				<input type="submit" value="Create">
+				<input type="button" value="Cancel" onclick="tb_remove()" />
+			</p>
 		</form>
 	</div>
 {{/if}}
