@@ -28,7 +28,7 @@ This is the template for the page where new routes are created.
 <div class="" id="route_name_desc">
 <div class="delete_box">
 <h4>Route Name & Description</h4>
-	<form action="/routes/action_create" method="post" onsubmit="saveSubmit(this)" id="r_form_save">
+	<form action="/routes/action_create" method="post" id="r_form_save">
 		<p class="notice">Go ahead and name your route!.. describe it too</p>
 		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}"/></p>
 		<p><label>Description</label></p>
@@ -119,7 +119,7 @@ $(document).ready( function(){
 			r_name: {required: "Enter a name"}
 		},
 		submitHandler: function(form){
-			saveSubmit($(form));
+			MapSave.submitHandler(form);
 			
 			form.submit();
 		}
