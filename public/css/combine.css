@@ -1,16 +1,95 @@
-.float_left{
+/* CUSTOM */
+ul.nav.header {
+	margin-top: -2.5em;
+}
+
+.actions .label {
+	
+}
+
+a.icon img,p.icon img {
+	height: 16px;
+	width: 16px;
+	border-style: none;
+	vertical-align: middle;
+	margin-right: 3px;
+	margin-left: 3px;
+}
+
+a.icon span {
+	color: blue;
+	margin: 0px;
+	padding: 0px;
+}
+
+.bg_top {
+	background: url(../img/top.png) repeat-x top;
+	height: 140px;
+}
+
+#footer {
+	color: #666666;
+}
+
+#footer h2 {
+	font-size: 14px;
+	border-bottom: 1px dotted #000000;
+}
+
+#footer ul {
+	list-style: url(none) none inside;
+	margin: 0px 0px 10px;
+	padding: 0px;
+}
+
+#footer li {
+	margin-left: 5px;
+}
+
+#footer p {
+	text-align: center;
+	margin-bottom: 0px;
+}
+
+.container_12.top {
+	background-color: #FFFFFF;
+	padding-bottom: 10px;
+}
+
+.container_12.bottom {
+	background-color: #EEEEEE;
+}
+
+.actions {
+	margin-bottom: 10px;
+	text-align: right;
+}
+
+img.logo {
+	border: 0px none;
+	margin-top: 5px;
+}
+
+.map {
+	height: 475px;
+	margin-bottom: 10px;
+}
+
+.float_left {
 	float: left;
 }
-.float_right{
+
+.float_right {
 	float: right;
 }
+
 h2.heading {
 	font-weight: normal;
 	margin: 0px;
 	padding: 0.5em;
 }
 
-hr.heading{
+hr.heading {
 	margin-bottom: 10px;
 }
 
@@ -232,122 +311,6 @@ img .notification {
 
 #route_create .container_12 .suffix_11 {
 	padding-right: 91.666%;
-}
-
-/* Custom */
-ul.nav.header {
-	background: url(../img/trans_white_25.png) repeat top;
-	margin-top: -2.5em;
-}
-
-ul.nav.header li.secondary:hover a {
-	color: #000;
-	background: yellow;
-}
-
-ul.nav.header li.secondary:hover a:hover {
-	background: url(../img/trans_white_25.png);
-}
-
-ul.nav li.secondary:hover a:active {
-	background: #444;
-}
-
-ul.nav.header li,ul.nav.header li ul,ul.nav.header li a,ul.nav.header li.secondary,ul.nav.header li.secondary ul,ul.nav.header li.secondary a
-	{
-	background: none;
-}
-
-ul.nav.header li ul li,ul.nav.header li.secondary ul li {
-	background: #eee;
-}
-
-ul.nav.header li a,ul.nav.header li.secondary a {
-	color: #444;
-}
-
-ul.nav.header li:hover a,ul.nav.header li a:hover,ul.nav.header li a:focus,ul.nav.header li:hover
-	.secondary a,ul.nav.header li.secondary a:hover,ul.nav.header li.secondary a:focus
-	{
-	color: #000;
-	background: url(../img/trans_white_25.png);
-}
-
-ul.nav.header li a:active {
-	color: #666;
-	background: #ddd;
-}
-
-.actions .label {
-	
-}
-
-a.icon img,p.icon img {
-	height: 16px;
-	width: 16px;
-	border-style: none;
-	vertical-align: middle;
-	margin-right: 3px;
-	margin-left: 3px;
-}
-
-a.icon span {
-	color: blue;
-	margin: 0px;
-	padding: 0px;
-}
-
-.bg_top {
-	background: url(../img/top.png) repeat-x top;
-	height: 140px;
-}
-
-#footer {
-	color: #666666;
-}
-
-#footer h2 {
-	font-size: 14px;
-	border-bottom: 1px dotted #000000;
-}
-
-#footer ul {
-	list-style: url(none) none inside;
-	margin: 0px 0px 10px;
-	padding: 0px;
-}
-
-#footer li {
-	margin-left: 5px;
-}
-
-#footer p {
-	text-align: center;
-	margin-bottom: 0px;
-}
-
-.container_12.top {
-	background-color: #FFFFFF;
-	padding-bottom: 10px;
-}
-
-.container_12.bottom {
-	background-color: #EEEEEE;
-}
-
-.actions {
-	margin-bottom: 10px;
-	text-align: right;
-}
-
-img.logo {
-	border: 0px none;
-	margin-top: 5px;
-}
-
-.map {
-	height: 475px;
-	margin-bottom: 10px;
 }
 
 /*
@@ -1418,11 +1381,12 @@ ul.nav li ul li {
 	border: none;
 	width: auto;
 	max-width: none;
+	background: #eee;
 }
 
 ul.nav li a {
-	color: #fff;
-	background: #666;
+	color: #333;
+	background: none;
 	font-weight: bold;
 	text-decoration: none;
 	display: block;
@@ -1439,18 +1403,18 @@ ul.nav li ul li a {
 	line-height: 2em;
 	height: 2em;
 	font-weight: normal;
-	color: #666;
+	color: #333;
 	background-position: 0 50% !important;
 }
 
 ul.nav li:hover a,ul.nav li a:hover,ul.nav li a:focus {
 	color: #000;
-	background: #ccc;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.nav li a:active {
-	color: #666;
-	background: #fff;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.nav li:hover ul {
@@ -1459,26 +1423,30 @@ ul.nav li:hover ul {
 }
 
 ul.nav li ul,ul.nav li {
-	background: #ccc /*!important*/
+	background: none /*!important*/
+}
+
+ul.nav li:hover ul li:hover {
+	background: #ddd;
 }
 
 ul.nav li:hover ul li a {
-	color: #444;
+	color: #000;
 }
 
 ul.nav li:hover ul li a:hover {
 	color: #000;
-	background: #fff;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.nav li:hover ul li a:active {
-	color: #666;
-	background: #fff;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.nav li.current a {
-	color: #666;
-	background: #fff;
+	color: #444;
+	background: none;
 	cursor: default;
 	font-weight: bold;
 }
@@ -1489,30 +1457,30 @@ ul.nav li.current ul {
 }
 
 ul.nav li.current ul,ul.nav li.current {
-	background: #ccc /*!important*/
+	background: none /*!important*/
 }
 
 ul.nav li.current ul li a {
-	color: #444;
-	background: #ccc;
+	color: #333;
+	background: none;
 	font-weight: normal;
 }
 
 ul.nav li.current ul li a:hover {
 	color: #000;
-	background: #fff;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.nav li ul li.current a,ul.nav li ul li.current a:hover,ul.nav li.current:hover ul li a:active
 	{
-	color: #666;
-	background: #fff;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 /* navigation (vertical subnavigation)
 ----------------------------------------------- */
 ul.nav {
-	background: #666;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.main li {
@@ -1533,8 +1501,8 @@ ul.main li a {
 	height: 2.5em;
 	line-height: 2.5em;
 	border: 0;
-	color: #fff;
-	background: #666;
+	color: #333;
+	background: none;
 }
 
 ul.main li ul li a {
@@ -1542,49 +1510,49 @@ ul.main li ul li a {
 	line-height: 2em;
 	height: 2em;
 	text-align: left;
-	color: #fff;
-	border-top: 1px solid #444;
-	background: #444;
+	color: #333;
+	border-top: 1px solid #ccc;
+	background: none;
 }
 
 ul.main li a:focus {
-	color: #fff;
-	background: #666;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.main li ul li a:hover {
-	color: #fff;
-	background: #555;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.main li:hover a {
-	color: #fff;
-	background: #555;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.main li:hover ul li a {
-	color: #fff;
+	color: #000;
 }
 
 ul.main li:hover ul li a:hover {
-	color: #fff;
-	background: #444;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.main li:hover a:active {
-	background: #444;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.main li:hover ul li a:active {
-	color: #fff;
-	background: #222;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 /* secondary list
 ----------------------------------------------- */
 ul.nav li.secondary {
 	float: right;
-	color: #cde;
+	color: #333;
 	background: transparent !important;
 }
 
@@ -1602,7 +1570,7 @@ ul.nav li.secondary span.status a {
 	padding: 0;
 	height: auto;
 	line-height: auto;
-	color: #cde;
+	color: #333;
 	background: transparent;
 }
 
@@ -1616,14 +1584,14 @@ ul.nav li.secondary span.status span {
 }
 
 ul.nav li.secondary:hover a {
-	color: #fff;
-	background: #666;
+	color: #000;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.nav li.secondary:hover a:hover {
-	background: #555;
+	background: url("../img/trans_white_25.png");
 }
 
 ul.nav li.secondary:hover a:active {
-	background: #444;
+	background: url("../img/trans_white_25.png");
 }

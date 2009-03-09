@@ -27,7 +27,7 @@ This is the master template which holds all of the main layout.
 <div class="grid_2 prefix_5 suffix_5 bg_top"><a href="/index"><img class="logo" src="/img/logo.png"></a></div>
 <div class="clear"></div>
 <div class="grid_12">
-<ul class="nav main header">
+<ul class="header nav main">
 		<li><a href="/index" class="icon"><img src="/img/icon_home.png" />Home</a></li>
 		<li><a href="/routes/index" class="icon"><img src="/img/icon_route.png" />Routes</a></li>
 		<li><a href="/training/index" class="icon"><img src="/img/icon_training.png" />Training</a></li>
