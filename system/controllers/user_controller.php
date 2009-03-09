@@ -97,7 +97,7 @@ class user_controller{
 		User::$current_user->training_modules = implode(",", $modules["training"]);
 		User::$current_user->community_modules = implode(",", $modules["community"]);
 		$stmt = Database::getDB()->prepare("
-			UPDATE users
+			UPDATE users_settings
 			SET
 				u_routes_modules = ?,
 				u_home_modules = ?,
@@ -111,7 +111,7 @@ class user_controller{
 		
 		$stmt->close();
 		
-		Page::redirect("/");
+		Page::redirect("/modules");
 	}
 }
 ?>
