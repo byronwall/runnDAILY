@@ -58,7 +58,7 @@ This is the template for the page where new routes are created.
 </div>
 <div class="" id="route_re_center">
 	<h4>Re-center the Map</h4>
-	<form action="#" method="get" onsubmit="show_address($('#txt_address').val());return false;" class="search">
+	<form action="#" method="get" onsubmit="Geocoder.showAddress('#txt_address');return false;" class="search">
 		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
 		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
 		<p><input type="submit" value="Re-center"></p>
