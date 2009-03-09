@@ -15,7 +15,7 @@
 <div class="grid_12">
 <h3>News & Announcements</h3>
 <ul>
-		<li>The site will soon be released to the public!</li>
+		<li>Routes may now be created by following road paths.</li>
 </ul>
 </div>
 <div class="clear"></div>

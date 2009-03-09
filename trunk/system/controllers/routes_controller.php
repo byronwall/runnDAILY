@@ -146,7 +146,7 @@ class routes_controller{
 		$font = '../public/font/arial.ttf';
 		
 		// Add some shadow to the text
-		imagettftext($im, 11, 0, $im_width * 0.02, $im_height * 0.95, $black, $font, $distance." mi");
+		imagettftext($im, 10, 0, $im_width * 0.05, $im_height * 0.95, $black, $font, $distance." mi");
 		
 		imagecopy($bg, $im, 0, 0, 0, 0, $im_width, $im_height);
 		//imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
