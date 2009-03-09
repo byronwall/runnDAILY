@@ -12,9 +12,9 @@ This is the template for the page where new routes are created.
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#" onclick="clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
-		<a href="#" onclick="undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
-		<a href="#" onclick="outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
+		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
+		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
+		<a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
 		<a href="#" onclick="toggleSize();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>
 	</div>
 </div>
@@ -74,6 +74,7 @@ This is the template for the page where new routes are created.
 			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
 			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
 			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
+			<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
 			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
 		</form>
 	</div>
@@ -84,6 +85,7 @@ This is the template for the page where new routes are created.
 <div class="grid_10">
 	<div id="r_map" class="map large"></div>
 </div>
+<div id="results" style="display:none"></div>
 <div class="clear"></div>
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
@@ -92,11 +94,16 @@ This is the template for the page where new routes are created.
 <script type="text/javascript">
 
 $(document).ready( function(){
-	load("r_map", map_click);
+	Map.load("r_map", Map.event_click);
+	GEvent.addListener(Map.instance, "singlerightclick",
+		function(point, src, overlay){
+			Directions.click(null, Map.instance.fromContainerPixelToLatLng(point), null);
+		}
+	);
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
-		user_options.latlng_start = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
-		map.setCenter(user_options.latlng_start, 13);
+		Settings.LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
+		Map.instance.setCenter(Settings.LatLngCenter, 13);
 	{{/if}}
 
 	//updateHeight();
@@ -118,16 +125,19 @@ $(document).ready( function(){
 		}
 	});
 	$("#u_mile_marker").blur(function(){
-		mileDistance = $("#u_mile_marker").val();
-		map_refreshAll();
+		Settings.MileMarkers.distance = $("#u_mile_marker").val();
+		Map.refresh();
 	});
 	$("#input_circle_show").click(function(){
-		circle_show = $(this).attr("checked");
-		map_refreshAll();
+		Settings.DistanceCircle.enable = $(this).attr("checked");
+		Map.refresh();
+	});
+	$("#input_follow_roads").click(function(){
+		Settings.Directions.enable = $(this).attr("checked");
 	});
 	$("#u_circle_dist").blur(function(){
-		circle_distance = $("#u_circle_dist").val();
-		map_refreshAll();
+		Settings.DistanceCircle.radius = $("#u_circle_dist").val();
+		Map.refresh();
 	});
 });
 
@@ -153,7 +163,7 @@ function toggleSize(){
 }
 function updateHeight(){
 	$("#content_container").height($(window).height() - $("#header_ctain").height());
-	map.checkResize();	
+	Map.instance.checkResize();	
 }
 
 </script>

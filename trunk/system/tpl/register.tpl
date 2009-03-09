@@ -54,7 +54,7 @@
 
 $(document).ready(
 	function(){
-		load("map_placeholder", register_click);
+		Map.load("map_placeholder", register_click);
 		var validator = $("#form_register").validate({
 			rules: {
 			u_username: {
@@ -120,7 +120,7 @@ document.body.onunload = GUnload();
 
 function register_click(overlay, latlng){
 	if(latlng){
-		map.clearOverlays();
+		Map.instance.clearOverlays();
 		$("[name=u_location_lat]").val(latlng.lat());
 		$("[name=u_location_lng]").val(latlng.lng());
 
@@ -135,7 +135,7 @@ function register_click(overlay, latlng){
 
 		var markerOptions = { icon:icon_home, draggable:map_options.draggable };
 
-		map.addOverlay(new GMarker(latlng, markerOptions));
+		Map.instance.addOverlay(new GMarker(latlng, markerOptions));
 	}
 }
 
