@@ -64,6 +64,11 @@ a.icon span {
 	margin-bottom: 10px;
 	text-align: right;
 }
+.module_actions{
+	margin-bottom: 5px;
+	margin-top: 5px;
+	text-align: right;
+}
 
 img.logo {
 	border: 0px none;
@@ -101,14 +106,21 @@ hr.heading {
 	float: left;
 	width: 110px;
 	padding: 5px;
+	margin-bottom: 5px;
 }
 
 .route_icon:hover {
-	background: url("/img/trans_50.png");
+	background: url("/img/trans_white_25.png");
 }
 
 .route_icon img {
-	
+	border: none;
+}
+
+.route_icon img.map_icon {
+	border-color: #444;
+	border-style: solid;
+	border-width: 2px;
 }
 
 .route_icon p {
@@ -149,7 +161,7 @@ img .notification {
 	text-align: center;
 }
 
-#route_create .search .field,#route_create textarea {
+#route_create input.field, #route_create textarea.field {
 	width: 85%;
 }
 

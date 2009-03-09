@@ -1,26 +1,30 @@
-<h1>Browse Routes on Runn Daily</h1>
+<div class="grid_12">
+<h2 id="page-heading">Browse All Routes</h2>
+</div>
+<div class="clear"></div>
 
+<div class="grid_12">
 <ul id="errors"></ul>
-
 <form id="route_browse_form" action="/routes/browse" method="get">
-	<ul>
-		<li>username: <input type="text" name="u_username" value="{{$smarty.get.u_username}}"/></li>
-		<li>distance: 
-			<input type="text" name="r_distance[0]" value="{{$smarty.get.r_distance[0]}}"/>
-			<input type="text" name="r_distance[1]" value="{{$smarty.get.r_distance[1]}}" />
-		</li>
-		<li>route name: <input type="text" name="r_name" value="{{$smarty.get.r_name}}"/></li>
-		<li>date created: 
-			<input type="text" name="r_creation[0]" value="{{$smarty.get.r_creation[0]}}"/>
-			<input type="text" name="r_creation[1]" value="{{$smarty.get.r_creation[1]}}"/>
-		</li>
-		<li><input type="submit" value="search"/></li>
-	</ul>
+		<p><label>Username: </label><input type="text" name="u_username" value="{{$smarty.get.u_username}}"/></p>
+		<p>
+			<label>Distance: </lablel>
+			<input type="text" name="r_distance[0]" value="{{$smarty.get.r_distance[0]}}"/> to <input type="text" name="r_distance[1]" value="{{$smarty.get.r_distance[1]}}" /> miles
+		</p>
+		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$smarty.get.r_name}}"/></p>
+		<p>
+			<label>Date Created: </label>
+			<input type="text" name="r_creation[0]" value="{{$smarty.get.r_creation[0]}}"/> to <input type="text" name="r_creation[1]" value="{{$smarty.get.r_creation[1]}}"/>
+		</p>
+		<p><input type="submit" value="Browse"/></p>
 </form>
+</div>
+<div class="clear"></div>
 
-<ul>
+<div class="grid_12">
 	{{include file="routes/parts/route_list.tpl" routes=$routes query=$query }}
-</ul>
+</div>
+<div class="clear"></div>
 
 <script type="text/javascript">
 
