@@ -9,6 +9,9 @@
 </div>
 <div class="clear"></div>
 
+<div id="errors" class="grid_12"></div>
+<div class="clear"></div>
+
 <form action="/user/register" method="post" id="form_register">
 <div class="grid_6">
 	<h4>Account Information</h4>
@@ -54,25 +57,25 @@ $(document).ready(
 		load("map_placeholder", register_click);
 		var validator = $("#form_register").validate({
 			rules: {
-				username: {
+			u_username: {
 					required: true,
 					minlength: 2,
-					remote: "/user/check_exists"
+					//remote: "/user/check_exists"
 				},
-				password: {
+				u_password: {
 					required: true,
 					minlength: 5
 				},
-				password_confirm: {
+				u_password_confirm: {
 					required: true,
 					minlength: 5,
 					equalTo: "#input_password"
 				},
-				email: {
+				u_email: {
 					required: true,
 					email: true
 				},
-				birthday: {
+				u_birthday: {
 					date: true
 				},
 				u_location_lat:{
@@ -80,28 +83,25 @@ $(document).ready(
 				}				
 			},
 			messages: {
-				username: {
-					required: "Enter a username",
+				u_username: {
+					required: "Enter a username.",
 					minlength: jQuery.format("Enter at least {0} characters"),
-					remote: "Username taken."
+					//remote: "Username is unavailable. Enter a new username."
 				},
-				password: {
-					required: "Provide a password",
-					rangelength: jQuery.format("Enter at least {0} characters")
+				u_password: {
+					required: "Enter a password.",
+					rangelength: jQuery.format("Password must be at least {0} characters")
 				},
-				password_confirm: {
-					required: "Repeat the password to confirm",
+				u_password_confirm: {
+					required: "Confirm your password.",
 					minlength: jQuery.format("Enter at least {0} characters"),
-					equalTo: "Enter the same password as above"
+					equalTo: "Passwords do not match."
 				},
-				email: {
-					required: "Please enter a valid email address",
-					minlength: "Please enter a valid email address"
+				u_email: {
+					required: "Enter a valid email address.",
+					minlength: "Enter a valid email address."
 				},
-				birthday: {
-					date: "Enter mm/dd/yyyy"
-				},
-				u_start_lat: {
+				u_location_lat: {
 					required: "Select your location on the map"
 				}
 			},
@@ -111,8 +111,8 @@ $(document).ready(
 				});
 				form.submit();
 			},
-			errorLabelContainer: "#errors ul",
-			wrapper: "li"
+			errorLabelContainer: "#errors",
+			wrapper: "p"
 		});
 	}
 );
