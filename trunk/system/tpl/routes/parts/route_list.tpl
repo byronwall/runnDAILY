@@ -1,11 +1,12 @@
 {{foreach from=$routes item=route}}
-	<p>
 	<a href="/routes/view?rid={{$route->id}}">
-		<img src="/routes/image?encoded={{$route->getEncodedString()}}&distance={{$route->distance|@round:2}}" />
-		{{$route->name}} ({{$route->distance}})
+	<div class="route_icon">
+		<p><img src="/routes/image?encoded={{$route->getEncodedString()}}&distance={{$route->distance|@round:2}}" /></p>
+		<p>{{$route->name}}</p>
+	</div>
 	</a>
-	</p>
 {{/foreach}}
+<div class="clear"></div>
 {{$more}}
 {{if count($routes)}}
 	<li class="route_recent_list">
