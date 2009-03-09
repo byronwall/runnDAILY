@@ -49,7 +49,7 @@
 
 $(document).ready(
 	function(){
-		Map.load("map_placeholder", register_click, {{$currentUser->location_lat}}, {{$currentUser->location_lng}});
+		Map.load("map_placeholder", register_click, {{if $currentUser->location_lat}}{{$currentUser->location_lat}}{{else}}null{{/if}}, {{if $currentUser->location_lng}}{{$currentUser->location_lng}}{{else}}null{{/if}});
 		var validator = $("#form_register").validate({
 			rules: {
 			u_username: {
