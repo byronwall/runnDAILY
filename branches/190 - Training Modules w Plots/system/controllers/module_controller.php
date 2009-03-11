@@ -176,6 +176,10 @@ class module_controller{
 		return $this->_activity(array(300,302,100, 102), "All activity");
 	}
 	public function training_chart_distance(){
+		echo(date("Y-m"));
+		$training_item_list = TrainingLog::getItemsByMonth(date("Y-m"));
+		var_dump($training_item_list);
+		
 		$module = new Module();
 		$module->content = $this->_smarty->fetch("modules/training/chart.tpl");
 		$module->title = "Distances logged";

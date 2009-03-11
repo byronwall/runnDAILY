@@ -201,5 +201,27 @@ class TrainingLog extends Object{
 		}
 		return false;
 	}
+	
+	public function getItemsByMonth($year_month)
+	{
+		$stmt = Database::getDB()->prepare("
+			SELECT * FROM training_times
+			WHERE t_date >= ?
+				AND t_date <= LAST_DAY(?)
+				AND t_uid = ?
+		");
+		$mysql_date = date("Y-m-d", strtotime($year_month."-01"));
+		$stmt->bind_param("ssi", $mysql_date, $mysql_date, User::$current_user->uid);
+		$stmt->execute() or die($stmt->error);
+		$items = array();
+
+		while ($row = $stmt->fetch_assoc()) {
+			$items[] = new TrainingLog($row);
+		}
+
+		$stmt->close();
+		
+		return $items;
+	}
 }
 ?>
