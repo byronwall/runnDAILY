@@ -181,10 +181,12 @@ class module_controller{
 		foreach ($training_item_list as $list_item)
 		{
 			$day_num = (int) date("j", $list_item->date);
-			$plot_data[$day_num] += $list_item->distance;
+			$distance_data[$day_num] += $list_item->distance;
+			$pace_data[$day_num] += $list_item->pace;
 		}
 		
-		$this->_smarty->assign("training_plot_data", $plot_data);
+		$this->_smarty->assign("training_plot_distance_data", $distance_data);
+		$this->_smarty->assign("training_plot_pace_data", $pace_data);
 		
 		$module = new Module();
 		$module->content = $this->_smarty->fetch("modules/training/chart.tpl");
