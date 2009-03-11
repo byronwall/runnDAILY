@@ -1,4 +1,4 @@
-<ul class="recent_activity_list">
+<ul class="recent_activity">
 	{{foreach from=$activity item=recent}}
 		{{include file="modules/activity/item.tpl" item=$recent}}
 	{{foreachelse}}
