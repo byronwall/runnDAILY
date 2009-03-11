@@ -37,7 +37,7 @@ class module_controller{
 		
 		return Module::fromVariables(
 			"routes_recent",
-			"Recent Routes",
+			"Recently Created Routes",
 			3,
 			$this->_smarty->fetch("modules/routes/route_list.tpl")
 		);
@@ -130,7 +130,7 @@ class module_controller{
 		);
 	}
 	public function routes_activity(){
-		return $this->_activity(array(100,102));
+		return $this->_activity(array(100,102), "Route Activity");
 	}
 	private function _activity($aids, $title = "Activity"){
 		$activity = Log::getActivityForUserByAid(User::$current_user->uid, $aids);
@@ -154,26 +154,26 @@ class module_controller{
 		
 		return Module::fromVariables(
 			"training_calendar",
-			"Entries this month",
+			"Training Calendar",
 			5,
 			$this->_smarty->fetch("modules/training/calendar.tpl")
 		);
 	}
 	public function training_activity(){
-		return $this->_activity(array(300,302), "Training activity");
+		return $this->_activity(array(300,302), "Training Activity");
 	}
 	public function community_friends(){
 		$this->_smarty->assign("users", User::$current_user->getFriends());
 		
 		return Module::fromVariables(
 			"community_friends",
-			"your friends",
+			"Friends",
 			null,
 			$this->_smarty->fetch("modules/community/user_list.tpl")
 		);
 	}
 	public function home_activity(){
-		return $this->_activity(array(300,302,100, 102), "All activity");
+		return $this->_activity(array(300,302,100, 102), "All Activity");
 	}
 	public function training_chart_distance(){		
 		$training_item_list = TrainingLog::getItemsByMonth(date("Y-m"));
@@ -190,7 +190,7 @@ class module_controller{
 		
 		$module = new Module();
 		$module->content = $this->_smarty->fetch("modules/training/chart.tpl");
-		$module->title = "Distances logged";
+		$module->title = "Distance and Pace Chart";
 		
 		return $module;
 	}
