@@ -1,5 +1,5 @@
 {{*
-This is the master template which holds all of the main layout.
+This is the master template which holds the main layout components.
 *}}
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -32,7 +32,7 @@ This is the master template which holds all of the main layout.
 		<li><a href="/routes/index" class="icon"><img src="/img/icon_route.png" />Routes</a></li>
 		<li><a href="/training/index" class="icon"><img src="/img/icon_training.png" />Training</a></li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon_community.png" />Community</a></li>
-		<li><a href="#" class="icon"><img src="/img/icon_about.png"/>runn Daily</a>
+		<li><a href="#" class="icon"><img src="/img/icon_runndaily.png"/>runn Daily</a>
 		<ul>
 				<li><a href="/about/index">About Us</a></li>
 				<li><a href="">Contact</a></li>
