@@ -17,6 +17,8 @@ This is the master template which holds the main layout components.
     
     <!--JAVASCRIPT-->
     <script src="/js/site.js" type="text/javascript"></script>
+    <script src="/js/flot/jquery.flot.pack.js" type="text/javascript"></script>
+    <script src="/js/flot/excanvas.pack.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>{{$page->title}}</title>

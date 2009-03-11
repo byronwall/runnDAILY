@@ -175,10 +175,16 @@ class module_controller{
 	public function home_activity(){
 		return $this->_activity(array(300,302,100, 102), "All activity");
 	}
-	public function training_chart_distance(){
-		echo(date("Y-m"));
+	public function training_chart_distance(){		
 		$training_item_list = TrainingLog::getItemsByMonth(date("Y-m"));
-		var_dump($training_item_list);
+		
+		foreach ($training_item_list as $list_item)
+		{
+			$day_num = (int) date("j", $list_item->date);
+			$plot_data[$day_num] += $list_item->distance;
+		}
+		
+		$this->_smarty->assign("training_plot_data", $plot_data);
 		
 		$module = new Module();
 		$module->content = $this->_smarty->fetch("modules/training/chart.tpl");
