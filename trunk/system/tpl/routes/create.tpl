@@ -30,9 +30,9 @@ This is the template for the page where new routes are created.
 <h4>Route Name & Description</h4>
 	<form action="/routes/action_create" method="post" id="r_form_save">
 		<p class="notice">Go ahead and name your route!.. describe it too</p>
-		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}"/></p>
+		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}" class="field"/></p>
 		<p><label>Description</label></p>
-		<p><textarea rows="3" name="r_description">{{$route_edit->description}}</textarea></p>
+		<p><textarea rows="3" name="r_description" class="field">{{$route_edit->description}}</textarea></p>
 		<input type="hidden" name="r_distance" value=""/>
 		<input type="hidden" name="r_points" value=""/>
 		<input type="hidden" name="r_start_lat" value=""/>
@@ -71,8 +71,8 @@ This is the template for the page where new routes are created.
 
 		<form id="r_form_settings">
 			<p class="notice">Set a few options for the map!</p>
-			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
-			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
+			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number field" value="1.0"/></p>
+			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number field" value="5.0"/></p>
 			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
 			<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
 			<p><input type="submit" disabled="disabled" value="Set Default" /></p>

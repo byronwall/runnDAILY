@@ -1,31 +1,38 @@
-<h1>Browse Training Logs on Runn Daily</h1>
+<div class="grid_12">
+<h2 id="page-heading">Browse All Training Entries</h2>
+</div>
+<div class="clear"></div>
 
+<div class="grid_12">
 <ul id="errors"></ul>
 
 <form id="training_browse_form" action="/training/browse" method="get">
-	<ul>
-		<li>username: <input type="text" name="u_username" value="{{$smarty.get.u_username}}"/></li>
-		<li>distance: 
-			<input type="text" name="t_distance[0]" value="{{$smarty.get.t_distance[0]}}"/>
-			<input type="text" name="t_distance[1]" value="{{$smarty.get.t_distance[1]}}" />
-		</li>
-		<li>time: 
-			<input type="text" name="t_time[0]" value="{{$smarty.get.t_time[0]}}"/>
-			<input type="text" name="t_time[1]" value="{{$smarty.get.t_time[1]}}"/>
-		</li>
-		<li>date created: 
-			<input type="text" name="t_date[0]" value="{{$smarty.get.t_date[0]}}"/>
-			<input type="text" name="t_date[1]" value="{{$smarty.get.t_date[1]}}"/>
-		</li>
-		<li><input type="submit" value="search"/></li>
-		<li><input type="button" class="cancel" value="reset to start"/></li>
-		<li><input type="button" class="reset" value="clear all"/></li>
-	</ul>
+		<p><label>Username: </label><input type="text" name="u_username" value="{{$smarty.get.u_username}}"/></p>
+		<p>
+			<label>Distance: </label> 
+			<input type="text" name="t_distance[0]" value="{{$smarty.get.t_distance[0]}}"/> to <input type="text" name="t_distance[1]" value="{{$smarty.get.t_distance[1]}}" /> miles
+		</p>
+		<p>
+			<label>Time: </label>
+			<input type="text" name="t_time[0]" value="{{$smarty.get.t_time[0]}}"/> to <input type="text" name="t_time[1]" value="{{$smarty.get.t_time[1]}}"/>
+		</p>
+		<p>
+			<label>Date Created: </label>
+			<input type="text" name="t_date[0]" value="{{$smarty.get.t_date[0]}}"/> to <input type="text" name="t_date[1]" value="{{$smarty.get.t_date[1]}}"/>
+		</p>
+		<p>
+			<input type="submit" value="Browse"/>
+			<input type="button" class="cancel" value="Cancel"/>
+			<input type="button" class="reset" value="Clear All"/>
+		</p>
 </form>
+</div>
+<div class="clear"></div>
 
-<ul>
+<div class="grid_12">
 	{{include file="training/parts/item_list.tpl"}}
-</ul>
+</div>
+<div class="clear"></div>
 
 <script type="text/javascript">
 

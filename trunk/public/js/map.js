@@ -57,10 +57,15 @@ var Map = {
 			draggable : Map.config.draggable
 		}
 	},
-	load: function(map_holder_id, click_callback) {
+	load: function(map_holder_id, click_callback, location_lat, location_lng) {
 		if (GBrowserIsCompatible()) {
+			if (location_lat == null || location_lng == null)
+			{
+				location_lat = 38.4242126;
+				location_lng = -86.930522;
+			}
 			Map.instance = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
-			Map.instance.setCenter(new GLatLng(38.4242126,-86.930522), 13);
+			Map.instance.setCenter(new GLatLng(location_lat,location_lng), 13);
 			
 			if(click_callback != null){
 				GEvent.addListener(Map.instance,"click", click_callback);
