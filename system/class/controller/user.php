@@ -1,5 +1,5 @@
 <?php
-class user_controller{
+class Controller_User{
 	public function login(){
 		$username = $_POST["username"];
 		$password = $_POST["password"];

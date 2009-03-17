@@ -1,5 +1,5 @@
 <?php
-class training_controller{
+class Controller_Training{
 	public function index(){
 		
 	}
@@ -18,24 +18,24 @@ class training_controller{
 		}
 		
 		RoutingEngine::getSmarty()->assign("item", $training_item);
-		RoutingEngine::getSmarty()->assign("calendar", $cal_week);		
+		RoutingEngine::getSmarty()->assign("calendar", $cal_week);
 	}
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 	
-		$parser = new SqlParser(true, 5, 0);
-		$parser->addCondition(new SqlRangeCondition("t_distance"));
-		$parser->addCondition(new SqlRangeCondition("t_date", "FROM_UNIXTIME", "strtotime"));
-		$parser->addCondition(new SqlRangeCondition("t_time", "", "TrainingLog::getSecondsFromFormat"));
-		$parser->addCondition(new SqlLikeCondition("u_username"));
-		$parser->addCondition(new SqlEqualCondition("u_uid"));
+		$parser = new Sql_Parser(true, 5, 0);
+		$parser->addCondition(new Sql_RangeCondition("t_distance"));
+		$parser->addCondition(new Sql_RangeCondition("t_date", "FROM_UNIXTIME", "strtotime"));
+		$parser->addCondition(new Sql_RangeCondition("t_time", "", "TrainingLog::getSecondsFromFormat"));
+		$parser->addCondition(new Sql_LikeCondition("u_username"));
+		$parser->addCondition(new Sql_EqualCondition("u_uid"));
 		$parser->setData($_GET);
 		
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM training_times
 			JOIN users ON u_uid = t_uid
-			WHERE 
+			WHERE
 				{$parser->getSQL()}
 		");
 		

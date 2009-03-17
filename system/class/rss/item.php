@@ -1,5 +1,5 @@
 <?php
-class RssItem{
+class Rss_Item{
 	public $title;
 	public $guid;
 	public $link;

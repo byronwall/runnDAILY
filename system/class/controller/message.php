@@ -1,5 +1,5 @@
 <?php
-class message_controller{
+class Controller_Message{
 	public function create(){
 		$msg = new Message($_POST);
 		if($msg->createOrUpdateMessage()){

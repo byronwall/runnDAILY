@@ -1,5 +1,5 @@
 <?php
-class feedback_controller{
+class Controller_Feedback{
 	public function create(){
 		$message = new Message($_POST);
 
@@ -10,7 +10,7 @@ class feedback_controller{
 		}
 	}
 	public function delete(){
-		$message = new Message($_POST);		
+		$message = new Message($_POST);
 		exit(json_encode($message->deleteMessage()));
 	}
 }
