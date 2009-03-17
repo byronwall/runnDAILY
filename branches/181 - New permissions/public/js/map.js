@@ -384,6 +384,7 @@ var Display = {
 			$("body").css("overflow","hidden");
 			$("#map_overlay").show();
 			Display.fullscreen = true;
+			Map.instance.checkResize();
 		}
 		else{
 			$("#r_map").removeClass("map_full").addClass("map");
@@ -391,6 +392,7 @@ var Display = {
 			$("body").css("overflow","auto");
 			$("#map_overlay").hide();
 			Display.fullscreen = false;
+			Map.instance.checkResize();
 		}
 	}
 }
