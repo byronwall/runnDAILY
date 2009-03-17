@@ -1,5 +1,5 @@
 <?php
-class log_controller{
+class Controller_Log{
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 		

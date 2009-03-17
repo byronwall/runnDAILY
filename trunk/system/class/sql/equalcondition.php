@@ -1,5 +1,5 @@
 <?php
-class SqlEqualCondition extends SqlCondition{
+class Sql_EqualCondition extends Sql_Condition{
 
 	function setData($data){
 		$this->sql = "{$this->field} = ?";

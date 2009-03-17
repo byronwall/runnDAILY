@@ -1,5 +1,5 @@
 <?php
-class RssFeed{
+class Rss_Feed{
 	public $title = "runndaily feed";
 	public $link = "http://runndaily.com";
 	public $description = "runndaily feed desc";

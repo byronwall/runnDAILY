@@ -1,5 +1,5 @@
 <?php
-class community_controller{
+class Controller_Community{
 	public function index(){
 		RoutingEngine::getSmarty()->assign("users_all", User::getListOfUsers());
 		
@@ -17,9 +17,9 @@ class community_controller{
 		
 		RoutingEngine::getSmarty()->assign("r_query", "u_uid={$uid}&page=1&count=5");
 		RoutingEngine::getSmarty()->assign("t_query", "u_uid={$uid}&page=1&count=5");
-		RoutingEngine::getSmarty()->assign("user_routes", $routes); 
-		RoutingEngine::getSmarty()->assign("user_training", $t_items); 
-		RoutingEngine::getSmarty()->assign("user_log", $l_items); 
+		RoutingEngine::getSmarty()->assign("user_routes", $routes);
+		RoutingEngine::getSmarty()->assign("user_training", $t_items);
+		RoutingEngine::getSmarty()->assign("user_log", $l_items);
 		RoutingEngine::getSmarty()->assign("user",User::fromUid($uid));
 	}
 	public function add_friend(){

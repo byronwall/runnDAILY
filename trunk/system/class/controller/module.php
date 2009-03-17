@@ -1,14 +1,14 @@
 <?php
-class module_controller{
+class Controller_Module{
 	/**
-	 * @var Smarty_Ext
+	 * @var SmartyExt
 	 */
 	private $_smarty;
 	private $params;
 	
 	function __construct($params = null, $_smarty = null){
 		if(is_null($smarty)){
-			$smarty = new Smarty_Ext();
+			$smarty = new SmartyExt();
 		}
 		$this->_smarty = $smarty;
 		$this->params = $params;

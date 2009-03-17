@@ -13,11 +13,11 @@ class Page extends Object{
 	}
 	
 	/**
-	 * @return Smarty_Ext
+	 * @return SmartyExt
 	 */
 	public static function getSmarty(){
 		if(is_null(self::$_smarty)){
-			self::$_smarty = new Smarty_Ext();
+			self::$_smarty = new SmartyExt();
 		}
 		return self::$_smarty;
 	}

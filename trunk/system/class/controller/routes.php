@@ -1,5 +1,5 @@
 <?php
-class routes_controller{
+class Controller_Routes{
 	public function index(){
 
 	}
@@ -29,19 +29,19 @@ class routes_controller{
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 	
-		$parser = new SqlParser(true, 10, 0);
-		$parser->addCondition(new SqlRangeCondition("r_distance"));
-		$parser->addCondition(new SqlRangeCondition("r_creation", "FROM_UNIXTIME", "strtotime"));
-		$parser->addCondition(new SqlLikeCondition("u_username"));
-		$parser->addCondition(new SqlLikeCondition("r_name"));
-		$parser->addCondition(new SqlEqualCondition("u_uid"));
+		$parser = new Sql_Parser(true, 10, 0);
+		$parser->addCondition(new Sql_RangeCondition("r_distance"));
+		$parser->addCondition(new Sql_RangeCondition("r_creation", "FROM_UNIXTIME", "strtotime"));
+		$parser->addCondition(new Sql_LikeCondition("u_username"));
+		$parser->addCondition(new Sql_LikeCondition("r_name"));
+		$parser->addCondition(new Sql_EqualCondition("u_uid"));
 		$parser->setData($_GET);
 		
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM routes
 			JOIN users ON u_uid = r_uid
-			WHERE 
+			WHERE
 				{$parser->getSQL()}
 		");
 		

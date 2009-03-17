@@ -1,5 +1,5 @@
 <?php
-class RssImage{
+class Rss_Image{
 	public $title;
 	public $link;
 	public $url;

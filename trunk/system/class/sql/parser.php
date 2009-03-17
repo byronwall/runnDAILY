@@ -1,5 +1,5 @@
 <?php
-class SqlParser{
+class Sql_Parser{
 	private $_conditions = array();
 	private $_data_set = false;
 	private $_active_conditions = 0;

@@ -1,11 +1,11 @@
 <?php
-class Smarty_Ext extends Smarty{
+class SmartyExt extends Smarty{
 	
 	function __construct(){
 		$this->template_dir = SYSTEM_ROOT."/tpl";
-		$this->compile_dir = SYSTEM_ROOT."/_smarty/templates_c";
-		$this->cache_dir = SYSTEM_ROOT."/_smarty/cache";
-		$this->config_dir = SYSTEM_ROOT."/_smarty/configs";
+		$this->compile_dir = CLASS_ROOT."/smarty/templates_c";
+		$this->cache_dir = CLASS_ROOT."/smarty/cache";
+		$this->config_dir = CLASS_ROOT."/smarty/configs";
 		$this->left_delimiter = "{{";
 		$this->right_delimiter = "}}";
 	}
