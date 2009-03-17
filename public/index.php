@@ -24,7 +24,7 @@ if(!isset(User::$current_user->permissions)){
 $request = explode("?", $_SERVER["REQUEST_URI"]);
 
 $engine = RoutingEngine::getInstance()->initialize($request[0]);
-
-
 $engine->renderRequest();
+
+RoutingEngine::getInstance()->persistUserData();
 ?>

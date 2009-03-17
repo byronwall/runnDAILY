@@ -150,5 +150,10 @@ class RoutingEngine{
 		
 		return $allow;
 	}
+	public function persistUserData(){
+		$_SESSION["userData"] = User::$current_user;
+		
+		return true;
+	}
 }
 ?>
