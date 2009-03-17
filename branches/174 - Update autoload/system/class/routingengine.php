@@ -2,7 +2,7 @@
 class RoutingEngine{
 	private $_request_path;
 	public $controller = "home";
-	private $controller_full = "home_controller";
+	private $controller_full = "controller_home";
 	public $action = "index";
 	private $start_time;
 	
@@ -14,7 +14,20 @@ class RoutingEngine{
 	private static $_instance = null;
 	private static $_smarty = null;
 	
-	public static $controllers = array();
+	public static $controllers = array(
+		"about",
+		"admin",
+		"community",
+		"feedback",
+		"help",
+		"home",
+		"log",
+		"message",
+		"routes",
+		"rss",
+		"training",
+		"user"
+	);
 	
 	private function __construct(){
 		
@@ -35,14 +48,14 @@ class RoutingEngine{
 	 * @return RoutingEngine
 	 */
 	public function initialize($request){
-		
+		$request = strtolower($request);
 		$request = preg_replace("/(\/)?(.*)/", "$2", $request);
 		$this->_request_path = $request;
 		
 		$paths = explode("/", $this->_request_path);
-		if(in_array($paths[0]."_controller", self::$controllers)){
+		if(in_array($paths[0], self::$controllers)){
 			$this->controller = $paths[0];
-			$this->controller_full = $paths[0]."_controller";
+			$this->controller_full = "Controller_".$paths[0];
 			if(!empty($paths[1]) && $this->_checkAction($paths[1])){
 				$this->action = $paths[1];
 			}
@@ -54,7 +67,7 @@ class RoutingEngine{
 		}
 		else{
 			$this->controller = "home";
-			$this->controller_full = "home_controller";
+			$this->controller_full = "Controller_Home";
 			if(!empty($paths[0]) && $this->_checkAction($paths[0])){
 				$this->action = $paths[0];
 				$this->_request_path = "home/{$this->action}";
@@ -107,11 +120,11 @@ class RoutingEngine{
 	}
 	
 	/**
-	 * @return Smarty_Ext
+	 * @return SmartyExt
 	 */
 	public static function getSmarty(){
 		if(is_null(self::$_smarty)){
-			self::$_smarty = new Smarty_Ext();
+			self::$_smarty = new SmartyExt();
 		}
 		return self::$_smarty;
 	}

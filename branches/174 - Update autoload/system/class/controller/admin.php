@@ -1,5 +1,5 @@
 <?php
-class admin_controller{
+class Controller_Admin{
 	public function feedback(){
 		$result = Database::getDB()->query("
 			SELECT * FROM messages as m
@@ -29,12 +29,12 @@ class admin_controller{
 		RoutingEngine::getSmarty()->assign("stats",Stats::getRecentStats());
 	}
 	public function users(){
-		$parser = new SqlParser(true, 10, 0);
-		$parser->addCondition(new SqlRangeCondition("u_date_access", "FROM_UNIXTIME", "strtotime"));
-		$parser->addCondition(new SqlLikeCondition("u_username"));
-		$parser->addCondition(new SqlLikeCondition("u_email"));
-		$parser->addCondition(new SqlEqualCondition("u_uid"));
-		$parser->addCondition(new SqlRangeCondition("u_type"));
+		$parser = new Sql_Parser(true, 10, 0);
+		$parser->addCondition(new Sql_RangeCondition("u_date_access", "FROM_UNIXTIME", "strtotime"));
+		$parser->addCondition(new Sql_LikeCondition("u_username"));
+		$parser->addCondition(new Sql_LikeCondition("u_email"));
+		$parser->addCondition(new Sql_EqualCondition("u_uid"));
+		$parser->addCondition(new Sql_RangeCondition("u_type"));
 		$parser->setData($_GET);
 		
 		$stmt = Database::getDB()->prepare("
@@ -84,7 +84,7 @@ class admin_controller{
 	public function action_new_pages(){
 		foreach(RoutingEngine::$controllers as $c){
 			$methods = get_class_methods($c);
-			$c = str_replace("_controller", "", $c);
+			$c = str_replace("Controller_", "", $c);
 			foreach($methods as $act){
 				$page = new Page();
 				$page->page_name = "{$c}/{$act}";
@@ -100,7 +100,7 @@ class admin_controller{
 		Page::redirect("/admin/pages");
 	}
 	public function action_new_modules(){
-		$methods = get_class_methods("module_controller");
+		$methods = get_class_methods("Controller_Module");
 		foreach($methods as $act){
 			if($act == "__construct") continue;
 			$module = new Module();

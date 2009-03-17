@@ -1,5 +1,5 @@
 <?php
-class SqlLikeCondition extends SqlCondition{
+class Sql_LikeCondition extends Sql_Condition{
 
 	function setData($data){
 		$this->sql = "{$this->field} LIKE ?";

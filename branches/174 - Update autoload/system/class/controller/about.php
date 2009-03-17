@@ -1,5 +1,5 @@
 <?php
-class about_controller{
+class Controller_About{
 	public function index(){
 		
 	}

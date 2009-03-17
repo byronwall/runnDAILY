@@ -1,6 +1,6 @@
 <?php
 
-class SqlRangeCondition extends SqlCondition{
+class Sql_RangeCondition extends Sql_Condition{
 	private $ph = "?";
 	private $func = false;
 	private $func_call;

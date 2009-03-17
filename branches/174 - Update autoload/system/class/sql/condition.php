@@ -1,5 +1,5 @@
 <?php
-abstract class SqlCondition{
+abstract class Sql_Condition{
 	public $field;
 	public $active = false;
 

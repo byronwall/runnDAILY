@@ -7,7 +7,7 @@
 require_once(CLASS_ROOT."/hash_module.php");
 function smarty_function_modules($params, &$smarty)
 {
-	$mod_con = new module_controller($params, RoutingEngine::getSmarty());
+	$mod_con = new Controller_Module($params, RoutingEngine::getSmarty());
 	$mod_names = array_safe($params, "list");
 	$mod_list = explode(",", $mod_names);
 
@@ -20,7 +20,7 @@ function smarty_function_modules($params, &$smarty)
 		if(!method_exists($mod_con, $mod_name))continue;
 		$module = $mod_con->{$mod_name}();
 		if($module->size){
-			$modules[$module->size][] = $module; 
+			$modules[$module->size][] = $module;
 			$counts[$module->size]++;
 		}
 		else{

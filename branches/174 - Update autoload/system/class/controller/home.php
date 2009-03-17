@@ -1,5 +1,5 @@
 <?php
-class home_controller{
+class Controller_Home{
 	public function index(){
 		if(User::$current_user->uid){
 			$recent_activity = Log::getAllActivityForUser(User::$current_user->uid);

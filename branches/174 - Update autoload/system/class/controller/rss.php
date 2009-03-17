@@ -1,5 +1,5 @@
 <?php
-class rss_controller{
+class Controller_Rss{
 	public function activity(){
 		if(!isset($_GET["username"])){
 			exit;
@@ -7,12 +7,12 @@ class rss_controller{
 		
 		$user = User::fromUsername($_GET["username"]);
 		$a_items = Log::getActivityForUserByAid($user->uid, array(300,102,100,302));
-		$feed = new RssFeed("Activity entries for {$user->username}", "http://{$_SERVER["SERVER_NAME"]}", "Includes the activity for a given user.");
+		$feed = new Rss_Feed("Activity entries for {$user->username}", "http://{$_SERVER["SERVER_NAME"]}", "Includes the activity for a given user.");
 		$feed->pubDate = date(DATE_RSS);
-		$feed->defineImageForFeed(new RssImage("running logo", "http://{$_SERVER["SERVER_NAME"]}", "http://{$_SERVER["SERVER_NAME"]}/img/logo.png"));
+		$feed->defineImageForFeed(new Rss_Image("running logo", "http://{$_SERVER["SERVER_NAME"]}", "http://{$_SERVER["SERVER_NAME"]}/img/logo.png"));
 		
 		foreach($a_items as $item){
-			$rss_item = new RssItem();
+			$rss_item = new Rss_Item();
 			$rss_item->guid = "activity_{$item->id}";
 			$rss_item->link = "http://{$_SERVER["SERVER_NAME"]}/community/view_user/{$item->uid}";
 			$rss_item->description = "{$user->username} {$item->desc} {$item->route->name} on {$item->datetime}";
@@ -39,12 +39,12 @@ class rss_controller{
 		
 		$t_items = TrainingLog::getItemsForUser($user->uid);
 		
-		$feed = new RssFeed("Training entries for {$user->username}", "http://{$_SERVER["SERVER_NAME"]}", "Includes the training data for a given user.");
+		$feed = new Rss_Feed("Training entries for {$user->username}", "http://{$_SERVER["SERVER_NAME"]}", "Includes the training data for a given user.");
 		$feed->pubDate = date(DATE_RSS);
-		$feed->defineImageForFeed(new RssImage("running logo", "http://byroni.us", "http://runndaily.com/img/logo.png"));
+		$feed->defineImageForFeed(new Rss_Image("running logo", "http://byroni.us", "http://runndaily.com/img/logo.png"));
 		
 		foreach($t_items as $item){
-			$rss_item = new RssItem();
+			$rss_item = new Rss_Item();
 			$rss_item->guid = "http://{$_SERVER["SERVER_NAME"]}/training/view/{$item->tid}";
 			$rss_item->link = "http://{$_SERVER["SERVER_NAME"]}/training/view/{$item->tid}";
 			$rss_item->description = "{$item->date} : {$item->distance} miles";

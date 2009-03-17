@@ -1,5 +1,5 @@
 <?php
-class help_controller{
+class Controller_Help{
 	public function index(){
 		
 	}
