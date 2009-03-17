@@ -148,7 +148,7 @@ var Map = {
 		Map.updateDistanceDisplay();
 	},
 	updateDistanceDisplay: function(){
-		$("#r_distance_disp").text(Map.totalDistance.toFixed(2));
+		$(".r_distance_disp").text(Map.totalDistance.toFixed(2));
 	},
 	event_dragend: function(latlng_new){
 		Map.points[this.marker_id + 1].latlng = latlng_new;
@@ -378,6 +378,27 @@ var Directions = {
 		Directions.isSearching = false;
 	},
 	error_event: function(){
+	}
+}
+var Display = {
+	fullscreen: false,
+	toggle_fullscreen: function(){
+		if(!Display.fullscreen){
+			$("#r_map").removeClass("map").addClass("map_full");
+			$("#r_map").css("position", "fixed");
+			$("body").css("overflow","hidden");
+			$("#map_overlay").show();
+			Display.fullscreen = true;
+			Map.instance.checkResize();
+		}
+		else{
+			$("#r_map").removeClass("map_full").addClass("map");
+			$("#r_map").css("position", "relative");
+			$("body").css("overflow","auto");
+			$("#map_overlay").hide();
+			Display.fullscreen = false;
+			Map.instance.checkResize();
+		}
 	}
 }
 

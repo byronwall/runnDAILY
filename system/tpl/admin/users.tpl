@@ -55,7 +55,7 @@ No stats found!
 		<input type="hidden" name="action" value="delete" />
 		<input type="hidden" name="u_uid" value="-1" />		
 		<input type="submit" value="yes, delete" />
-		<input type="button" value="cancel" onclick="tb_remove()" />
+		<input type="button" value="cancel" onclick="$.facebox.close()" />
 	</form>
 </div>
 
@@ -89,7 +89,7 @@ $(document).ready(	function(){
 			$(form).ajaxSubmit({
 				target: "#result"
 			});
-			tb_remove();
+			$.facebox.close();
 		}
 	});
 });

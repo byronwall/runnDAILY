@@ -5,9 +5,12 @@ class help_controller{
 	}
 	public function view(){
 		if(!isset($_GET["common"])){
-			exit;
+			die;
 		}
-		RoutingEngine::getSmarty()->assign("content", RoutingEngine::getSmarty()->fetch("help/_pages/{$_GET["common"]}.tpl"));
+		$output = RoutingEngine::getSmarty()->fetch("help/_pages/{$_GET["common"]}.tpl");
+		
+		echo $output;
+		die;
 	}
 }
 ?>
