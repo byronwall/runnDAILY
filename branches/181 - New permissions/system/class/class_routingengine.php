@@ -67,7 +67,7 @@ class RoutingEngine{
 		
 		$this->page = Page::getPage($this->_request_path);
 		
-		$this->requirePermission($this->page->perm_code);
+		$this->requirePermission($this->page->perm_code, null, true);
 		$this->getSmarty()->assign("page", $this->page);
 		$this->getSmarty()->assign("currentUser", User::$current_user);
 		
@@ -130,20 +130,24 @@ class RoutingEngine{
 		return method_exists($this->controller_full, $action);
 	}
 	public function requirePermission($perm_code, $gid = null, $redir = false){
-		$code = explode("__", $perm_code);
-		$group = (isset($gid))?$gid:"site";
-		
-		if(isset(User::$current_user->permissions[$group][$code[0]])){
-			$allow = User::$current_user->permissions[$group][$code[0]] <= $code[1];
-		}
+		if(!isset($perm_code)) $allow = false;
 		else{
-			$allow = false;
+			$code = explode("__", $perm_code);
+			$group = (isset($gid))?$gid:"site";
+			
+			if(isset(User::$current_user->permissions[$group][$code[0]])){
+				$allow = User::$current_user->permissions[$group][$code[0]] <= $code[1];
+			}
+			else{
+				$allow = false;
+			}
 		}
 		
 		if(!$allow && $redir){
 			$_SESSION["login_redirect"] = $this->_request_path;
 			Page::redirect("/home/login");
 		}
+		
 		return $allow;
 	}
 }

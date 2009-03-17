@@ -5,8 +5,8 @@
 <div class="grid_12">
 	<div class="actions">
 	{{if $item->getIsOwnedBy($currentUser->uid)}}
-		<a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
-		<a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox icon"><img src="/img/icon_delete.png" />Delete</a>
+		<a href="#training_edit_modal" class="facebox icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
+		<a href="#training_delete_modal" class="facebox icon"><img src="/img/icon_delete.png" />Delete</a>
 	{{/if}}
 	</div>
 </div>
@@ -37,16 +37,6 @@
 <div class="clear"></div>
 
 {{if $item->getIsOwnedBy($currentUser->uid)}}
-<!--	<ul id="training_manage">-->
-<!--		<h2>manage the log</h2>-->
-<!--		<li><a href="#TB_inline?&height=150&width=300&inlineId=training_edit_modal&modal=true" class="thickbox">-->
-<!--			edit-->
-<!--		</a></li>-->
-<!--		<li><a href="#TB_inline?&height=100&width=400&inlineId=training_delete_modal&modal=true" class="thickbox">-->
-<!--			delete-->
-<!--		</a></li>-->
-<!--	</ul>-->
-	
 	<div id="training_edit_modal" style="display:none">
 		<h2>edit this entry</h2>
 		<form action="/training/action_edit" method="post" id="training_edit_form">
@@ -56,7 +46,7 @@
 				<li><label>date</label><input type="text" name="t_date" value="{{$item->date|date_format}}" /></li>
 				<li><label>distance</label><input type="text" name="t_distance" value="{{$item->distance}}" /></li>
 				<li><input type="submit" value="edit" /></li>
-				<li><input type="button" value="cancel" onclick="tb_remove()" /></li>
+				<li><input type="button" value="cancel" onclick="$.facebox.close()" /></li>
 			</ul>
 		</form>
 	</div>
@@ -66,7 +56,7 @@
 		<form method="POST" action="/training/action_delete">
 			<input type="hidden" name="t_tid" value="{{$item->tid}}" />
 			<input type="submit" value="delete" />
-			<input type="button" value="cancel" onclick="tb_remove()" />
+			<input type="button" value="cancel" onclick="$.facebox.close()" />
 		</form>
 	</div>
 {{/if}}

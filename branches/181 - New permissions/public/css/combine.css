@@ -134,7 +134,7 @@ img .notification {
 	height: 600px;
 }
 
-#route_distance p {
+.route_distance p {
 	text-align: center;
 	font-size: 58px;
 	color: #444;
@@ -142,7 +142,7 @@ img .notification {
 	margin: 0px;
 }
 
-#route_distance .units {
+.route_distance .units {
 	font-size: 24px;
 	margin-top: -15px;
 	margin-bottom: 5px;
@@ -1594,4 +1594,21 @@ ul.nav li.secondary:hover a:hover {
 
 ul.nav li.secondary:hover a:active {
 	background: url("../img/trans_white_25.png");
+}
+
+.map_full{
+	position:fixed;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;
+}
+#map_overlay{
+	position:fixed;
+	top:20px;
+	left:50px;
+	height:500px;
+	width:200px;
+	background-color:#fff;
+	opacity:0.8;
 }

@@ -7,6 +7,7 @@ RoutingEngine::$controllers = array(
 	"community_controller",
 	"error_controller",
 	"feedback_controller",
+	"help_controller",
 	"home_controller",
 	"log_controller",
 	"message_controller",

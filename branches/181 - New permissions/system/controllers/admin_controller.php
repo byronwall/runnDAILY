@@ -20,7 +20,7 @@ class admin_controller{
 		
 	}
 	public function pages(){
-		$perms = array(100,300,301,400);
+		$perms = array("PV__100","PV__300","PV__400");
 		
 		RoutingEngine::getSmarty()->assign("page_perms", $perms);
 		RoutingEngine::getSmarty()->assign("pages", Page::getAllPages());
@@ -40,7 +40,7 @@ class admin_controller{
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM users
-			WHERE 
+			WHERE
 				{$parser->getSQL()}
 		");
 		
@@ -59,7 +59,7 @@ class admin_controller{
 		if(Stats::insertStats()){
 			exit("success");
 		}
-		echo "DID NOT WORK";		
+		echo "DID NOT WORK";
 	}
 	public function update_page(){
 		$p_page = new Page($_POST, "p_");
@@ -89,7 +89,10 @@ class admin_controller{
 				$page = new Page();
 				$page->page_name = "{$c}/{$act}";
 				if($c == "admin"){
-					$page->min_permission = 100;
+					$page->perm_code = "PV__100";
+				}
+				else{
+					$page->perm_code = "PV__300";
 				}
 				$page->createPage();
 			}
@@ -107,7 +110,7 @@ class admin_controller{
 		Page::redirect("/admin/modules");
 	}
 	public function action_hash_modules(){
-		$modules = Module::getAllModules();		
+		$modules = Module::getAllModules();
 		
 		$contents = "<?php Module::\$hash = array(";
 		
@@ -125,7 +128,7 @@ class admin_controller{
 		fwrite($handle, $contents);
 		fclose($handle);
 		
-		Page::redirect("/admin/modules");		
+		Page::redirect("/admin/modules");
 	}
 }
 ?>

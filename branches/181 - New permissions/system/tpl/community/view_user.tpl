@@ -4,7 +4,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="#TB_inline?&height=300&width=300&inlineId=message_modal&modal=true" class="thickbox icon"><img src="/img/icon_mail_plus.png" />Send a Message</a>
+		<a href="#message_modal" class="facebox icon"><img src="/img/icon_mail_plus.png" />Send a Message</a>
 		<a href="#addFriend" id="a_addfriend" rel="{{$user->uid}}" class="icon"><img src="/img/icon_user_plus.png" />Add as Friend</a>
 	</div>
 </div>
@@ -56,7 +56,7 @@
 	<form action="/message/create" method="POST" name="user_message">
 		<textarea name="m_msg">Message text.</textarea>
 		<input type="submit" value="Send" />
-		<input type="button" value="Cancel" onclick="tb_remove()" />
+		<input type="button" value="Cancel" onclick="$.facebox.close()" />
 		<input type="hidden" name="m_uid_to" value="{{$user->uid}}" />
 		<input type="hidden" name="m_uid_from" value="{{$currentUser->uid}}" />
 	</form>

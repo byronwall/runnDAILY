@@ -15,13 +15,13 @@ This is the template for the page where new routes are created.
 		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
 		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
 		<a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
-		<a href="#" onclick="toggleSize();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>
+		<a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>
 	</div>
 </div>
 <div class="clear"></div>
 <div class="grid_2">
-<div class="" id="route_distance">
-	<p id="r_distance_disp">0.00</p>
+<div class="route_distance">
+	<p class="r_distance_disp">0.00</p>
 	<p class="units">miles</p>
 </div>
 <hr>
@@ -67,16 +67,7 @@ This is the template for the page where new routes are created.
 </div>
 <div class="" id="route_options">
 	<div class="delete_box">
-		<h4>Additional Map Options</h4>
-
-		<form id="r_form_settings">
-			<p class="notice">Set a few options for the map!</p>
-			<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
-			<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
-			<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
-			<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
-			<p><input type="submit" disabled="disabled" value="Set Default" /></p>
-		</form>
+		<a href="#settings" class="facebox icon">Settings</a>
 	</div>
 </div>
 
@@ -86,7 +77,36 @@ This is the template for the page where new routes are created.
 	<div id="r_map" class="map large"></div>
 </div>
 <div id="results" style="display:none"></div>
+<div id="map_overlay" style="display:none">
+	<img src="/img/logo.png">
+	<ul>
+		<li><a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a></li>
+		<li><a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a></li>
+		<li><a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a></li>
+		<li><a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Close Full Screen</a></li>
+		<li><a href="#settings" class="facebox icon">Settings</a></li>
+		<li><a href="#route_name_desc" class="facebox icon">Save</a></li>
+	</ul>
+	
+	<div class="route_distance">
+		<p class="r_distance_disp">0.00</p>
+		<p class="units">miles</p>
+	</div>
+</div>
 <div class="clear"></div>
+
+<div id="settings" style="display:none">
+	<h4>Additional Map Options</h4>
+
+	<form id="r_form_settings">
+		<p class="notice">Set a few options for the map!</p>
+		<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
+		<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
+		<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
+		<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
+		<p><input type="submit" disabled="disabled" value="Set Default" /></p>
+	</form>
+</div>
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
 <script src="/js/map.js" type="text/javascript"></script>
