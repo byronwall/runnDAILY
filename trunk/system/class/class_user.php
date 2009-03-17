@@ -28,7 +28,7 @@ class User extends Object{
 	public $weight;
 	public $real_name;
 	
-	public $permissions;
+	public $permissions = array("site"=>array("PV"=>400));
 	
 	/**
 	 * @var User
