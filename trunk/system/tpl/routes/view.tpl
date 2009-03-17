@@ -11,12 +11,12 @@
 {{if $route_view->getIsOwner($currentUser->uid)}}
 	<div class="actions">
 	{{if $route_view->getCanEdit()}}
-		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
+		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
 		<a href="/routes/create?rid={{$route_view->id}}" class="icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
 		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon_maps_pencil.png" />Copy/Edit</a>
-		<a href="#TB_inline?&height=100&width=300&inlineId=delete_modal&modal=true" class="thickbox icon"><img src="/img/icon_delete.png" />Delete</a>
+		<a href="#delete_modal" class="facebox icon"><img src="/img/icon_delete.png" />Delete</a>
 	{{else}}
-		<a href="#TB_inline?&height=300&width=300&inlineId=route_train_modal&modal=true" class="thickbox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
+		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
 		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon_pencil_plus.png" />Copy/Edit</a>
 	{{/if}}
 	</div>
@@ -26,7 +26,7 @@
 			<input type="hidden" name="action" value="delete" />
 			<input type="hidden" name="r_rid" value="{{$route_view->id}}" />
 			<input type="submit" value="delete" />
-			<input type="button" value="cancel" onclick="tb_remove()" />
+			<input type="button" value="cancel" onclick="$.facebox.close()" />
 		</form>
 	</div>
 	<div id="route_train_modal" style="display:none">
@@ -47,7 +47,7 @@
 			<p><label>Private? </label><input type="checkbox" name="t_private" value="1"></p>
 			<p>
 				<input type="submit" value="Create">
-				<input type="button" value="Cancel" onclick="tb_remove()" />
+				<input type="button" value="Cancel" onclick="$.facebox.close()" />
 			</p>
 		</form>
 	</div>

@@ -24,7 +24,7 @@
 	<tr class='{{cycle values=" , odd"}}'>
 		<td>{{$p_page->page_name}}</td>
 		<td>
-		{{html_options name="p_min_permission" output=$page_perms values=$page_perms selected=$p_page->min_permission}}
+		{{html_options name="p_perm_code" output=$page_perms values=$page_perms selected=$p_page->perm_code}}
 		</td>
 		<td><input type="text" value="{{$p_page->title}}" name="p_title" class="required"/></td>
 		<td><input type="text" value="{{$p_page->tab}}" name="p_tab" /></td>

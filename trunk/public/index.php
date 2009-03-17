@@ -17,6 +17,10 @@ else{
 	$_SESSION["userData"] = User::cookieLogin();
 	User::$current_user = $_SESSION["userData"];
 }
+if(!isset(User::$current_user->permissions)){
+	User::$current_user->getPermissions();
+}
+
 $request = explode("?", $_SERVER["REQUEST_URI"]);
 
 $engine = RoutingEngine::getInstance()->initialize($request[0]);

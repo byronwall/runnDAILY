@@ -10,13 +10,14 @@ This is the master template which holds the main layout components.
     <!--SYTLE SHEETS-->
 	<link href="/css/reset.css" rel="stylesheet" type="tet/css">
 	<link href="/css/combine.css" rel="stylesheet" type="text/css">
-    <link href="/css/thickbox.css" rel="stylesheet" type="text/css">
+    <link href="/css/facebox.css" rel="stylesheet" type="text/css">
     
     <!--FAVORITE ICON-->
     <link rel="icon" type="image/png" href="/img/favico.png">
     
     <!--JAVASCRIPT-->
     <script src="/js/site.js" type="text/javascript"></script>
+    <script src="/js/facebox.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>{{$page->title}}</title>
@@ -62,16 +63,15 @@ This is the master template which holds the main layout components.
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
 		{{if $page->common}}
-		<li class="secondary"><a href="/help/view?common={{$page->common}}&height=500&width=800" class="thickbox icon"><img src="/img/icon_help.png" /></a></li>
+		<li class="secondary"><a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon_help.png" /></a></li>
 		{{/if}}
-		<li class="secondary"><a href="#TB_inline?&inlineId=feedback_modal&modal=true" class="thickbox icon"><img src="/img/icon_feedback.png" /></a></li>
+		<li class="secondary"><a href="#feedback_modal" class="facebox icon"><img src="/img/icon_feedback.png" /></a></li>
 </ul>
 </div>
 <div class="clear"></div>
 
 {{$page_content}}
 </div>
-
 <div id="footer" class="container_12 bottom">{{include file="footer.tpl"}}
 <div class="clear"></div>
 	<div class="grid_12" id="site_info">{{if $currentUser->checkPermissions(100, false)}}
@@ -86,7 +86,7 @@ This is the master template which holds the main layout components.
 	<form action="/feedback/create" method="post" id="form_feedback">
 		<h2>Let us know what you think:</h2>
 		<p><textarea name="m_msg" class="required"></textarea></p>
-		<p><input type="submit" value="Submit" /> <input type="button" value="Cancel" onclick="tb_remove()" /></p>
+		<p><input type="submit" value="Submit" /> <input type="button" value="Cancel" onclick="$.facebox.close()" /></p>
 		<input type="hidden" name="action" value="create" />
 	</form>
 </div>
@@ -94,10 +94,8 @@ This is the master template which holds the main layout components.
 <script type="text/javascript">
 	$(document).ready(
 		function(){
-			$("#tab_{{$page->tab}}").removeClass("tab_inactive");
-			$("#tab_{{$page->tab}}").addClass("tab_active");
 			$("#form_feedback").validate({
-				submitHandler : function(form){$(form).ajaxSubmit();$(form).clearForm();tb_remove();}
+				submitHandler : function(form){$(form).ajaxSubmit();$(form).clearForm();$.facebox.close();}
 			});
 		}
 	);

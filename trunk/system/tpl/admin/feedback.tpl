@@ -30,7 +30,7 @@
 		<h1>Are you sure you want to delete that message?</h1>
 		<input type="hidden" name="m_mid" value="-1" />		
 		<input type="submit" value="yes, delete" />
-		<input type="button" value="cancel" onclick="tb_remove()" />
+		<input type="button" value="cancel" onclick="$.facebox.close()" />
 	</form>
 </div>
 </div>

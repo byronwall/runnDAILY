@@ -1,10 +1,10 @@
 <?php
 class Page extends Object{
 	public $page_name;
-	public $min_permission = 100;
 	public $tab = "home";
 	public $title = "Runn Daily";
 	public $common;
+	public $perm_code;
 	
 	private static $_smarty = null;
 	
@@ -83,15 +83,14 @@ class Page extends Object{
 		$stmt = Database::getDB()->prepare("
 			UPDATE permissions
 			SET
-				p_min_permission = ?,
+				p_perm_code = ?,
 				p_title = ?,
-				p_new_flag = FALSE,
 				p_tab = ?,
 				p_common = ?
 			WHERE
 				p_page_name = ?
 		");
-		$stmt->bind_param("issss", $this->min_permission, $this->title, $this->tab, $this->common,$this->page_name);
+		$stmt->bind_param("sssss", $this->perm_code, $this->title, $this->tab, $this->common,$this->page_name);
 		$stmt->execute() or die("error:{$stmt->error}");
 		$stmt->store_result();
 		
@@ -121,10 +120,11 @@ class Page extends Object{
 			INSERT INTO permissions
 			SET
 				p_page_name = ?,
-				p_min_permission = ?
+				p_perm_code = ?
 		");
-		$stmt->bind_param("si", $this->page_name, $this->min_permission);
+		$stmt->bind_param("ss", $this->page_name, $this->perm_code);
 		$stmt->execute();
+		
 		$stmt->close();
 		
 		return true;

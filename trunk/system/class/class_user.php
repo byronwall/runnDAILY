@@ -28,6 +28,8 @@ class User extends Object{
 	public $weight;
 	public $real_name;
 	
+	public $permissions;
+	
 	/**
 	 * @var User
 	 */
@@ -37,7 +39,56 @@ class User extends Object{
 		parent::__construct($arr, $arr_pre);
 		$this->date_access = strtotime($this->date_access);
 	}
-	
+	function getPermissions(){
+		$this->permissions = array();
+		//get the groups table first
+		$stmt = Database::getDB()->prepare("
+			SELECT pr_code, g_gid, pgr_allow
+			FROM users_permission_groups
+			LEFT JOIN permission_groups_roles USING(pg_id)
+			WHERE
+				u_uid = ?
+		");
+		$stmt->bind_param("i", User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		while($row = $stmt->fetch_assoc()){
+			$code = explode("__", $row["pr_code"]);
+			if(isset($row["g_gid"])){
+				$this->permissions[$row["g_gid"]][$code[0]] = $code[1];
+			}
+			else{
+				$this->permissions["site"][$code[0]] = $code[1];
+			}
+		}
+		$stmt->close();
+		
+		//get the user individual ones
+		$stmt = Database::getDB()->prepare("
+			SELECT pr_code, g_gid, ur_allow
+			FROM users_roles
+			WHERE
+				u_uid = ?
+		");
+		$stmt->bind_param("i", User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		while($row = $stmt->fetch_assoc()){
+			$code = explode("__", $row["pr_code"]);
+			if(isset($row["g_gid"])){
+				$this->permissions[$row["g_gid"]][$code[0]] = $code[1];
+			}
+			else{
+				$this->permissions["site"][$code[0]] = $code[1];
+			}
+		}
+		$stmt->close();
+		
+		//var_dump($this->permissions);
+		//die;
+	}
 	/**
 	 * Function is called to determine if the user is currently logged in.
 	 * This check is first done using the session variables.  If those are
@@ -86,11 +137,11 @@ class User extends Object{
 	 */
 	public static function login($uname, $password, $remember = 0){
 		$stmt = Database::getDB()->prepare("
-			SELECT * 
-			FROM users 
+			SELECT *
+			FROM users
 			LEFT JOIN users_settings USING(u_uid)
-			WHERE 
-				u_username = ? AND 
+			WHERE
+				u_username = ? AND
 				u_password = MD5(?)
 		");
 		$stmt->bind_param('ss', $uname, $password);
@@ -171,14 +222,14 @@ class User extends Object{
 			$stmt->bind_param("iddisiis",
 				$this->uid, $this->location_lat,$this->location_lng,
 				$this->gender,date("Y-m-d",strtotime($this->birthday)),$this->height,
-				$this->weight,$this->real_name		
+				$this->weight,$this->real_name
 			);
 			$stmt->execute();
 			$stmt->store_result();
 			
 			$rows = $stmt->affected_rows;
 			$stmt->close();
-		}		
+		}
 		return $rows == 1;
 	}
 
@@ -312,7 +363,7 @@ class User extends Object{
 	public function refreshDetails(){
 		$stmt = Database::getDB()->prepare("
 			SELECT *
-			FROM users 
+			FROM users
 			LEFT JOIN users_settings USING(u_uid)
 			WHERE u_uid = ?
 		");
