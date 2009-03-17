@@ -155,5 +155,18 @@ class RoutingEngine{
 		
 		return true;
 	}
+	public function authenticateUser(){
+		if(isset($_SESSION["userData"]) && $_SESSION["userData"]->uid){
+			User::$current_user = $_SESSION["userData"];
+			User::$current_user->refreshDetails();
+		}
+		else{
+			$_SESSION["userData"] = User::cookieLogin();
+			User::$current_user = $_SESSION["userData"];
+		}
+		if(!isset(User::$current_user->permissions)){
+			User::$current_user->getPermissions();
+		}
+	}
 }
 ?>
