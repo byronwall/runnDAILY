@@ -173,7 +173,7 @@ class module_controller{
 		);
 	}
 	public function home_activity(){
-		return $this->_activity(array(300,302,100, 102), "All activity");
+		return $this->_activity(array(300,302,100,102,400), "All activity");
 	}
 	public function training_chart_distance(){
 		$module = new Module();

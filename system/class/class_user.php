@@ -359,7 +359,10 @@ class User extends Object{
 		$affected_rows = $stmt->affected_rows;
 		$stmt->close();
 		
-		return $affected_rows;
+		if($affected_rows == 1){
+			Log::insertItem(User::$current_user->uid, 400, $friend_uid, null, null, null);
+			return $affected_rows;
+		}
 	}
 	/**
 	 * Function returns an array of the user's friends.
