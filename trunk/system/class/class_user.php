@@ -14,7 +14,7 @@ class User extends Object{
 	public $username;
 	public $password;
 	public $email;
-	public $type = 400;
+	public $page_perm = "PV__400";
 	public $cookie_hash;
 	public $date_access;
 	public $msg_new;
@@ -28,7 +28,7 @@ class User extends Object{
 	public $weight;
 	public $real_name;
 	
-	public $permissions = array("site"=>array("PV"=>400));
+	public $permissions;
 	
 	/**
 	 * @var User
@@ -39,8 +39,23 @@ class User extends Object{
 		parent::__construct($arr, $arr_pre);
 		$this->date_access = strtotime($this->date_access);
 	}
+	private function _addPermission($perm_code, $gid = null){
+		if(!isset($perm_code)) return false;
+		
+		$code = explode("__", $perm_code);
+		if(isset($row["g_gid"])){
+			$this->permissions[$gid][$code[0]] = $code[1];
+		}
+		else{
+			$this->permissions["site"][$code[0]] = $code[1];
+		}
+		return true;
+	}
 	function getPermissions(){
 		$this->permissions = array();
+		
+		$this->_addPermission($this->page_perm);
+		
 		//get the groups table first
 		$stmt = Database::getDB()->prepare("
 			SELECT pr_code, g_gid, pgr_allow
@@ -54,13 +69,7 @@ class User extends Object{
 		$stmt->store_result();
 		
 		while($row = $stmt->fetch_assoc()){
-			$code = explode("__", $row["pr_code"]);
-			if(isset($row["g_gid"])){
-				$this->permissions[$row["g_gid"]][$code[0]] = $code[1];
-			}
-			else{
-				$this->permissions["site"][$code[0]] = $code[1];
-			}
+			$this->_addPermission($row["pr_code"], array_safe($row, "g_gid"));
 		}
 		$stmt->close();
 		
@@ -76,13 +85,7 @@ class User extends Object{
 		$stmt->store_result();
 		
 		while($row = $stmt->fetch_assoc()){
-			$code = explode("__", $row["pr_code"]);
-			if(isset($row["g_gid"])){
-				$this->permissions[$row["g_gid"]][$code[0]] = $code[1];
-			}
-			else{
-				$this->permissions["site"][$code[0]] = $code[1];
-			}
+			$this->_addPermission($row["pr_code"], array_safe($row, "g_gid"));
 		}
 		$stmt->close();
 		
@@ -372,8 +375,7 @@ class User extends Object{
 		$stmt->store_result();
 		
 		$row = $stmt->fetch_assoc();
-		User::$current_user = new User($row);
-		User::$current_user->isAuthenticated = true;
+		$this->__construct($row);
 		$stmt->close();
 	}
 	public static function getUserExists($username){
