@@ -126,8 +126,8 @@ $(document).ready( function(){
 	Settings = {{$currentUser->settings.map_settings}};
 	{{/if}}
 	
-	{{if !$is_edit and !$currentUser->settings.location_lat|@is_null}}
-		Settings.LatLngCenter = new GLatLng({{$currentUser->settings.location_lat}}, {{$currentUser->settings.location_lng}});
+	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
+		Settings.LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
 		Map.instance.setCenter(Settings.LatLngCenter, 13);
 	{{/if}}
 

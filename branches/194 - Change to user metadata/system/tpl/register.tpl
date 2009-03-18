@@ -16,8 +16,8 @@
 <div class="grid_6">
 	<h4>Account Information</h4>
 	<p class="notice">Please select a username and enter a valid email address.</p>
-	<input type="hidden" name="u_settings[location_lat]" value="" />
-	<input type="hidden" name="u_settings[location_lng]" value="" />
+	<input type="hidden" name="u_location_lat" value="" />
+	<input type="hidden" name="u_location_lng" value="" />
 	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"> <img src="/img/icon_exclamation_small.png"/></p>
@@ -121,8 +121,8 @@ document.body.onunload = GUnload();
 function register_click(overlay, latlng){
 	if(latlng){
 		Map.instance.clearOverlays();
-		$("[name=u_settings\[location_lat\]]").val(latlng.lat());
-		$("[name=u_settings\[location_lng\]]").val(latlng.lng());
+		$("[name=u_location_lat]").val(latlng.lat());
+		$("[name=u_location_lng]").val(latlng.lng());
 
 		var icon_home = new GIcon();
 		icon_home.image = "/img/icon_home.png";
