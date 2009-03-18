@@ -11,7 +11,7 @@
 </div>
 <div class="clear"></div>
 
-{{modules list=$currentUser->training_modules}}
+{{modules list=$currentUser->settings.training_modules}}
 <div class="clear"></div>
 
 <div class="grid_12">

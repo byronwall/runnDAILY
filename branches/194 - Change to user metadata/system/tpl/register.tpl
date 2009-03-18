@@ -16,8 +16,8 @@
 <div class="grid_6">
 	<h4>Account Information</h4>
 	<p class="notice">Please select a username and enter a valid email address.</p>
-	<input type="hidden" name="u_location_lat" value="" />
-	<input type="hidden" name="u_location_lng" value="" />
+	<input type="hidden" name="u_settings[location_lat]" value="" />
+	<input type="hidden" name="u_settings[location_lng]" value="" />
 	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"> <img src="/img/icon_exclamation_small.png"/></p>
@@ -28,12 +28,12 @@
 <div class="grid_6">
 	<h4>Personal Information</h4>
 	<p class="notice">Personal information will be used to personalize your site experience.</p>
-	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_real_name"/></p>
-	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_birthday"/></p>
+	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_settings[real_name]"/></p>
+	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_settings[birthday]"/></p>
 	<h4>Physical Information</h4>
 	<p class="notice">Physical information will be used for calorie estimation and other quantitative purposes.</p>
-	<p><label>Height (in): </label><input type="text" id="input_height" name="u_height"/></p>
-	<p><label>Weight (lb): </label><input type="text" id="input_weight" name="u_weight"/></p>
+	<p><label>Height (in): </label><input type="text" id="input_height" name="u_settings[height]"/></p>
+	<p><label>Weight (lb): </label><input type="text" id="input_weight" name="u_settings[weight]"/></p>
 	<p><input type="submit" value="Register"/></p>
 </div>
 <div class="clear"></div>
@@ -121,8 +121,8 @@ document.body.onunload = GUnload();
 function register_click(overlay, latlng){
 	if(latlng){
 		Map.instance.clearOverlays();
-		$("[name=u_location_lat]").val(latlng.lat());
-		$("[name=u_location_lng]").val(latlng.lng());
+		$("[name=u_settings\[location_lat\]]").val(latlng.lat());
+		$("[name=u_settings\[location_lng\]]").val(latlng.lng());
 
 		var icon_home = new GIcon();
 		icon_home.image = "/img/icon_home.png";
@@ -133,7 +133,7 @@ function register_click(overlay, latlng){
 		icon_home.infoWindowAnchor = new GPoint(16, 16);
 		var icon_home_options = {icon: icon_home, clickable: false};
 
-		var markerOptions = { icon:icon_home, draggable:map_options.draggable };
+		var markerOptions = { icon:icon_home, draggable:Map.config.draggable};
 
 		Map.instance.addOverlay(new GMarker(latlng, markerOptions));
 	}

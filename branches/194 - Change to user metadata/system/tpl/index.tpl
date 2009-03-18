@@ -22,7 +22,7 @@
 
 <div class="grid_3"></div>
 
-{{if $currentUser->isAuthenticated}} {{modules list=$currentUser->home_modules}}{{else}}
+{{if $currentUser->isAuthenticated}} {{modules list=$currentUser->settings.home_modules}}{{else}}
 <div class="grid_5">
 <div class="box">
 <p>There are several things you can do as a new user!</p>

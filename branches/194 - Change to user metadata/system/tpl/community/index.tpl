@@ -10,7 +10,7 @@
 </div>
 </div>
 <div class="clear"></div>
-{{modules list=$currentUser->community_modules}}
+{{modules list=$currentUser->settings.community_modules}}
 <div class="clear"></div>
 
 <div class="grid_12">

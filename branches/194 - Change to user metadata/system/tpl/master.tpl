@@ -83,8 +83,8 @@ This is the master template which holds the main layout components.
 </div>
 
 <div id="feedback_modal" style="display: none">
+	<h2>Let us know what you think:</h2>
 	<form action="/feedback/create" method="post" id="form_feedback">
-		<h2>Let us know what you think:</h2>
 		<p><textarea name="m_msg" class="required"></textarea></p>
 		<p><input type="submit" value="Submit" /> <input type="button" value="Cancel" onclick="$.facebox.close()" /></p>
 		<input type="hidden" name="action" value="create" />
@@ -95,7 +95,11 @@ This is the master template which holds the main layout components.
 	$(document).ready(
 		function(){
 			$("#form_feedback").validate({
-				submitHandler : function(form){$(form).ajaxSubmit();$(form).clearForm();$.facebox.close();}
+				submitHandler : function(form){
+					$(form).ajaxSubmit();
+					$(form).clearForm();
+					$.facebox.close();
+				}
 			});
 		}
 	);

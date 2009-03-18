@@ -77,6 +77,8 @@
 
   $.extend($.facebox, {
     settings: {
+    	dom_data: null,
+    	dom: null,
     	modal: false,
       opacity      : .50,
       overlay      : true,
@@ -220,7 +222,9 @@
     if (href.match(/#/)) {
       var url    = window.location.href.split('#')[0]
       var target = href.replace(url,'')
-      $.facebox.reveal($(target).clone().show(), klass)
+      $.facebox.settings.dom = target;
+      $.facebox.settings.dom_data = $(target).children();
+      $.facebox.reveal($(target).children().show(), klass)
 
     // image
     } else if (href.match($.facebox.settings.imageTypesRegexp)) {
@@ -281,12 +285,19 @@
    */
 
   $(document).bind('close.facebox', function() {
-    $(document).unbind('keydown.facebox')
+    $(document).unbind('keydown.facebox');
     $('#facebox').fadeOut(function() {
-      $('#facebox .content').removeClass().addClass('content')
-      hideOverlay()
-      $('#facebox .loading').remove()
-    })
+      $('#facebox .content').removeClass().addClass('content');
+      hideOverlay();
+      $('#facebox .loading').remove();
+      if($.facebox.settings.dom){
+  		$($.facebox.settings.dom).append($.facebox.settings.dom_data);
+  		
+  		$.facebox.settings.dom = null;
+  		$.facebox.settings.dom_data = null;
+  	}
+    });
+  	
   })
 
 })(jQuery);
