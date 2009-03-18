@@ -83,8 +83,8 @@ class Controller_Admin{
 	}
 	public function action_new_pages(){
 		foreach(RoutingEngine::$controllers as $c){
-			$methods = get_class_methods($c);
-			$c = str_replace("Controller_", "", $c);
+			$methods = get_class_methods("Controller_" . $c);
+			//$c = str_replace("Controller_", "", $c);
 			foreach($methods as $act){
 				$page = new Page();
 				$page->page_name = "{$c}/{$act}";

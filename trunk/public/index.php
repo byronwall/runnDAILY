@@ -10,7 +10,6 @@ require(SYSTEM_ROOT."/config.php");
 session_start();
 
 RoutingEngine::getInstance()->authenticateUser();
-
 $request = explode("?", $_SERVER["REQUEST_URI"]);
 
 $engine = RoutingEngine::getInstance()->initialize($request[0]);

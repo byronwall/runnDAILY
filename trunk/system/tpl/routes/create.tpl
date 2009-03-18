@@ -95,16 +95,17 @@ This is the template for the page where new routes are created.
 </div>
 <div class="clear"></div>
 
-<div id="settings" style="display:none">
+<div id="settings" style="display: none">
 	<h4>Additional Map Options</h4>
 
-	<form id="r_form_settings">
+	<form action="/user/action_map_settings" method="post" id="r_form_settings">
 		<p class="notice">Set a few options for the map!</p>
 		<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
 		<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
 		<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
 		<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
-		<p><input type="submit" disabled="disabled" value="Set Default" /></p>
+		<p><input type="submit" value="Set Default" /></p>
+		<input type="hidden" name="u_settings[map_settings]" value="test" >
 	</form>
 </div>
 
@@ -120,6 +121,10 @@ $(document).ready( function(){
 			Directions.click(null, Map.instance.fromContainerPixelToLatLng(point), null);
 		}
 	);
+
+	{{if $currentUser->isAuthenticated}}
+	Settings = {{$currentUser->settings.map_settings}};
+	{{/if}}
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
 		Settings.LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
@@ -144,6 +149,15 @@ $(document).ready( function(){
 			form.submit();
 		}
 	});
+	$("#r_form_settings").validate({
+		submitHandler : function(form){
+			$("[name=u_settings\[map_settings\]]").val($.toJSON(Settings));
+
+			$(form).ajaxSubmit();
+			$.facebox.close();
+		}
+	});
+	
 	$("#u_mile_marker").blur(function(){
 		Settings.MileMarkers.distance = $("#u_mile_marker").val();
 		Map.refresh();
