@@ -28,12 +28,12 @@
 <div class="grid_6">
 	<h4>Personal Information</h4>
 	<p class="notice">Personal information will be used to personalize your site experience.</p>
-	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_real_name"/></p>
-	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_birthday"/></p>
+	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_settings[real_name]"/></p>
+	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_settings[birthday]"/></p>
 	<h4>Physical Information</h4>
 	<p class="notice">Physical information will be used for calorie estimation and other quantitative purposes.</p>
-	<p><label>Height (in): </label><input type="text" id="input_height" name="u_height"/></p>
-	<p><label>Weight (lb): </label><input type="text" id="input_weight" name="u_weight"/></p>
+	<p><label>Height (in): </label><input type="text" id="input_height" name="u_settings[height]"/></p>
+	<p><label>Weight (lb): </label><input type="text" id="input_weight" name="u_settings[weight]"/></p>
 	<p><input type="submit" value="Register"/></p>
 </div>
 <div class="clear"></div>
@@ -133,7 +133,7 @@ function register_click(overlay, latlng){
 		icon_home.infoWindowAnchor = new GPoint(16, 16);
 		var icon_home_options = {icon: icon_home, clickable: false};
 
-		var markerOptions = { icon:icon_home, draggable:map_options.draggable };
+		var markerOptions = { icon:icon_home, draggable:Map.config.draggable};
 
 		Map.instance.addOverlay(new GMarker(latlng, markerOptions));
 	}

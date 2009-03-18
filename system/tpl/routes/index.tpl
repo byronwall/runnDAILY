@@ -10,7 +10,7 @@
 </div>
 <div class="clear"></div>
 
-{{modules list=$currentUser->routes_modules}}
+{{modules list=$currentUser->settings.routes_modules}}
 <div class="clear"></div>
 
 <div class="clear"></div>

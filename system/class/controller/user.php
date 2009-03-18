@@ -25,15 +25,13 @@ class Controller_User{
 		$user = new User($_POST);
 
 		$user->password = md5($user->password);
+		$user->cookie_hash = md5(time());
 		
 		if($user->create()){
 			$_SESSION["userData"] = $user;
 			Page::redirect("/");
 		}
 		else{
-			var_dump($GLOBALS);
-			var_dump($user);
-			die;
 			Page::redirect("/register");
 		}
 	}
@@ -110,6 +108,12 @@ class Controller_User{
 		$stmt->close();
 		
 		Page::redirect("/modules");
+	}
+	function action_map_settings(){
+		User::$current_user->refreshDetails($_POST);
+		User::$current_user->saveSetting("map_settings");
+		
+		exit;
 	}
 }
 ?>

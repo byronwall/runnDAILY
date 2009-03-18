@@ -18,17 +18,9 @@ class User extends Object{
 	public $cookie_hash;
 	public $date_access;
 	public $msg_new;
-	public $routes_modules;
-	public $training_modules;
-	public $community_modules;
-	public $home_modules;
-	public $gender = 0;
-	public $birthday;
-	public $height;
-	public $weight;
-	public $real_name;
 	
 	public $permissions;
+	public $settings;
 	
 	/**
 	 * @var User
@@ -39,6 +31,26 @@ class User extends Object{
 		parent::__construct($arr, $arr_pre);
 		$this->date_access = strtotime($this->date_access);
 	}
+	/*
+	function initSettings(){
+		$uid = array(1,4,5,6,7,18,19);
+		foreach($uid as $id){
+			$user = User::fromUid($id);
+			var_dump($user);
+			foreach(array_keys(get_class_vars(get_class($user))) as $k){
+				if(!isset($user->$k)) continue;
+				$result = Database::getDB()->query("
+					INSERT INTO users_metadata
+					SET
+						u_uid = {$user->uid},
+						um_key = \"{$k}\",
+						um_value = \"{$user->$k}\"
+				");
+			}
+		}
+		die;
+	}
+	*/
 	private function _addPermission($perm_code, $gid = null){
 		if(!isset($perm_code)) return false;
 		
@@ -106,7 +118,6 @@ class User extends Object{
 			$stmt = Database::getDB()->prepare("
 				SELECT *
 				FROM users
-				LEFT JOIN users_settings USING(u_uid)
 				WHERE
 					u_uid = ? AND
 					u_cookie_hash = ?
@@ -142,7 +153,6 @@ class User extends Object{
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM users
-			LEFT JOIN users_settings USING(u_uid)
 			WHERE
 				u_username = ? AND
 				u_password = MD5(?)
@@ -209,30 +219,27 @@ class User extends Object{
 		
 		if($id){
 			$this->uid = $id;
-			
-			$stmt = Database::getDB()->prepare("
-				INSERT INTO users_settings
-				SET
-					u_uid = ?,
-					u_location_lat = ?,
-					u_location_lng = ?,
-					u_gender = ?,
-					u_birthday = ?,
-					u_height = ?,
-					u_weight = ?,
-					u_real_name = ?
-			");
-			$stmt->bind_param("iddisiis",
-				$this->uid, $this->location_lat,$this->location_lng,
-				$this->gender,date("Y-m-d",strtotime($this->birthday)),$this->height,
-				$this->weight,$this->real_name
-			);
-			$stmt->execute();
-			$stmt->store_result();
-			
-			$rows = $stmt->affected_rows;
-			$stmt->close();
+			foreach($this->settings as $key=>$value){
+				$this->saveSetting($key);
+			}
 		}
+		return;
+	}
+	function saveSetting($key){
+		$stmt = Database::getDB()->prepare("
+			REPLACE INTO users_metadata
+			SET
+				u_uid = ?,
+				um_key = ?,
+				um_value = ?
+		");
+		$stmt->bind_param("iss", $this->uid, $key, $this->settings[$key]);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
 		return $rows == 1;
 	}
 
@@ -363,20 +370,40 @@ class User extends Object{
 		}
 		return false;
 	}
-	public function refreshDetails(){
+	public function refreshSettings(){
 		$stmt = Database::getDB()->prepare("
-			SELECT *
-			FROM users
-			LEFT JOIN users_settings USING(u_uid)
-			WHERE u_uid = ?
+			SELECT um_key as hash, um_value as value
+			FROM users_metadata
+			WHERE
+				u_uid = ?
 		");
-		$stmt->bind_param("i", $this->uid) or die($stmt->error);
-		$stmt->execute();
+		$stmt->bind_param("i", $this->uid);
+		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
-		$row = $stmt->fetch_assoc();
-		$this->__construct($row);
+		while($row = $stmt->fetch_assoc()){
+			$this->settings[$row["hash"]] = $row["value"];
+		}
+		
 		$stmt->close();
+
+		return;
+	}
+	public function refreshDetails($row = null){
+		if(!isset($row)){
+			$stmt = Database::getDB()->prepare("
+				SELECT *
+				FROM users
+				WHERE u_uid = ?
+			");
+			$stmt->bind_param("i", $this->uid) or die($stmt->error);
+			$stmt->execute();
+			$stmt->store_result();
+			
+			$row = $stmt->fetch_assoc();
+			$stmt->close();
+		}
+		$this->__construct($row);
 	}
 	public static function getUserExists($username){
 		$stmt = Database::getDB()->prepare("

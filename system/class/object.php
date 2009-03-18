@@ -11,5 +11,9 @@ class Object{
 			}
 		}
 	}
+	function __toString(){
+		var_dump($this);
+		return "__toString() not defined";
+	}
 }
 ?>
