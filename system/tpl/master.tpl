@@ -8,7 +8,7 @@ This is the master template which holds the main layout components.
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     
     <!--SYTLE SHEETS-->
-	<link href="/css/reset.css" rel="stylesheet" type="tet/css">
+	<link href="/css/reset.css" rel="stylesheet" type="text/css">
 	<link href="/css/combine.css" rel="stylesheet" type="text/css">
     <link href="/css/facebox.css" rel="stylesheet" type="text/css">
     
