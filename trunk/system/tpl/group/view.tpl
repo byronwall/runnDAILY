@@ -18,10 +18,10 @@
 	<img src="/img/group/{{$group_view->imgsrc}}" class="fillx"/>
 	<div class="box">
 		<h2>Details</h2>
-		<p>Established: 2009</p>
-		<p>Active Group Since: March 31, 2009</p>
-		<p>Total Members: 1</p>
-		<p>Total Routes: 0</p>
+		<p>Established: 2009*</p>
+		<p>Active Group Since: {{$group_view->join}}</p>
+		<p>Total Members: 1*</p>
+		<p>Total Routes: 0*</p>
 	</div>
 	<div class="box">
 		<h2>Description</h2>
