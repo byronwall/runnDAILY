@@ -19,6 +19,7 @@ class RoutingEngine{
 		"admin",
 		"community",
 		"feedback",
+		"group",
 		"help",
 		"home",
 		"log",
