@@ -68,5 +68,24 @@ class Group extends Object{
 			return true;
 		}
 	}
+	
+	public function getGroupList(){
+		$stmt = Database::getDB()->prepare("
+			SELECT *
+			FROM groups
+		");
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$group_list = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$group_list[] = new Group($row);
+		}
+		
+		$stmt->close();
+		
+		return $group_list;
+	}
 }
 ?>
