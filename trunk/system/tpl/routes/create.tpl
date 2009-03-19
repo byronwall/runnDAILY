@@ -122,8 +122,8 @@ $(document).ready( function(){
 		}
 	);
 
-	{{if $currentUser->isAuthenticated}}
-	Settings = {{$currentUser->settings.map_settings}};
+	{{if $currentUser->isAuthenticated && $currentUser->settings.map_settings}}
+		Settings = {{$currentUser->settings.map_settings}};
 	{{/if}}
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
