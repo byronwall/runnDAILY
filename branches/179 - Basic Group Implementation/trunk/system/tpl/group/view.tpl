@@ -5,6 +5,7 @@
 
 <div class="grid_12">
 	<div class="actions">
+		<a href="#" class="icon"><img src="/img/icon.png" />Edit Group</a>
 		<a href="#" class="icon"><img src="/img/icon.png" />Join Group</a>
 		<a href="#" class="icon"><img src="/img/icon.png" />Request to Join Group</a>
 		<a href="#" class="icon"><img src="/img/icon.png" />Leave Group</a>
@@ -21,6 +22,10 @@
 		<p>Active Group Since: March 31, 2009</p>
 		<p>Total Members: 1</p>
 		<p>Total Routes: 0</p>
+	</div>
+	<div class="box">
+		<h2>Description</h2>
+		<p>{{$group_view->desc}}</p>
 	</div>
 </div>
 <div class="grid_5">

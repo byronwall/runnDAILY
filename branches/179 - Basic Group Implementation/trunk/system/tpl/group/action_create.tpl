@@ -1,5 +1,5 @@
 <div class="grid_12">
-	<h2 id="page-heading">{{$engine->controller}} / {{$engine->action}}</h2>
+	<h2 id="page-heading">group / action_create</h2>
 </div>
 <div class="clear"></div>
 
