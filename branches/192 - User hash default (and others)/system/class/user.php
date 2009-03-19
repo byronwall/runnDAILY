@@ -31,26 +31,14 @@ class User extends Object{
 		parent::__construct($arr, $arr_pre);
 		$this->date_access = strtotime($this->date_access);
 	}
-	/*
-	function initSettings(){
-		$uid = array(1,4,5,6,7,18,19);
-		foreach($uid as $id){
-			$user = User::fromUid($id);
-			var_dump($user);
-			foreach(array_keys(get_class_vars(get_class($user))) as $k){
-				if(!isset($user->$k)) continue;
-				$result = Database::getDB()->query("
-					INSERT INTO users_metadata
-					SET
-						u_uid = {$user->uid},
-						um_key = \"{$k}\",
-						um_value = \"{$user->$k}\"
-				");
-			}
-		}
-		die;
-	}
-	*/
+	/**
+	 * Internal function to add a given permission to the array.
+	 * This is used mainly to handle hierarchy issues.
+	 *
+	 * @param string $perm_code
+	 * @param int $gid
+	 * @return bool
+	 */
 	private function _addPermission($perm_code, $gid = null){
 		if(!isset($perm_code)) return false;
 		
@@ -63,6 +51,15 @@ class User extends Object{
 		}
 		return true;
 	}
+	/**
+	 * Gets the permissions for the current user.
+	 * This searches the page perm code first.
+	 * Then it search for permission groups.
+	 * Finally it gets things from the user_roles table.
+	 * It does not handle do_not_allow yet.
+	 *
+	 * @return array
+	 */
 	function getPermissions(){
 		$this->permissions = array();
 		
@@ -101,14 +98,14 @@ class User extends Object{
 		}
 		$stmt->close();
 		
-		//var_dump($this->permissions);
-		//die;
+		return $this->permissions;
 	}
+
 	/**
-	 * Function is called to determine if the user is currently logged in.
-	 * This check is first done using the session variables.  If those are
-	 * not successful then the cookies are checked.
+	 * Looks through the cookies to see if a user can be authenticated.
+	 * Returns the correct user or a default one.
 	 *
+	 * @return User
 	 */
 	public static function cookieLogin(){
 		if(isset($_COOKIE[COOKIE_NAME])){
