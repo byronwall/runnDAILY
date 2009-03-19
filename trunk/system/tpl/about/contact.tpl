@@ -1,5 +1,5 @@
 <div class="grid_12">
-	<h2 id="page-heading">Terms and Conditions</h2>
+	<h2 id="page-heading">Contact runn Daily</h2>
 </div>
 <div class="clear"></div>
 

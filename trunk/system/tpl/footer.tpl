@@ -26,7 +26,7 @@
 	<h2>runn Daily</h2>
 <ul>
 	<li><a href="/about/index">About</a></li>
-	<li><a href="/help/index">Help</a></li>
+	<li><a href="/about/contact">Contact</a></li>
 	<li><a href="/about/toc">Terms and Conditions</a></li>
 </ul>
 </div>
