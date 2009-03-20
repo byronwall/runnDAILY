@@ -6,7 +6,7 @@
 <div class="grid_12">
 <div class="actions">
 	{{if $currentUser->isAuthenticated}}
-	<a href="/routes/create" class="icon"><img src="/img/icon_route_plus.png" />New Route</a>
+	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />New Route</a>
 	<a href="/training/create" class="icon"><img src="/img/icon_training_plus.png" />New Training Item</a>
 	{{/if}}
 </div>
