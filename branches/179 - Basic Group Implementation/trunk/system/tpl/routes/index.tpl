@@ -4,7 +4,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 <div class="actions">
-	<a href="/routes/create" class="icon"><img src="/img/icon_route_plus.png"/>New Route</a>
+	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png"/>New Route</a>
 	<a href="/routes/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Browse Routes</a>
 </div>
 </div>

@@ -5,10 +5,10 @@
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="/group/create" class="icon"><img src="/img/icon.png" />Create Group</a>
+		<a href="/group/create" class="icon"><img src="/img/icon/users_plus.png" />Create Group</a>
 		<a href="/admin/update_stats" class="icon"><img	src="/img/icon.png" />Update Stats</a>
-		<a href="/admin/pages" class="icon"><img src="/img/icon.png" />Manage Pages</a>
-		<a href="/admin/users" class="icon"><img src="/img/icon.png" />Manage Users</a>
+		<a href="/admin/pages" class="icon"><img src="/img/icon/reports_pencil.png" />Manage Pages</a>
+		<a href="/admin/users" class="icon"><img src="/img/icon/users_pencil.png" />Manage Users</a>
 		<a href="/admin/feedback" class="icon"><img src="/img/icon.png" />See User Feedback</a>
 		<a	href="/admin/stats" class="icon"><img src="/img/icon.png" />Site Stats</a>
 	</div>
