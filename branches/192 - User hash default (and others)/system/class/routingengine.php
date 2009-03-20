@@ -44,7 +44,9 @@ class RoutingEngine{
 	}
 	
 	/**
-	 * @param string $request
+	 * Function is called to load the requested page, check permissions and set up global Smarty variables.
+	 *
+	 * @param string $request	p_page_name to find in database
 	 * @return RoutingEngine
 	 */
 	public function initialize($request){
@@ -62,7 +64,6 @@ class RoutingEngine{
 			else{
 				$this->action = "index";
 				$this->_request_path = $paths[0]."/index";
-				//Page::redirect("/{$this->controller}/index");
 			}
 		}
 		else{
@@ -83,8 +84,10 @@ class RoutingEngine{
 		$this->requirePermission($this->page->perm_code, null, true);
 		$this->getSmarty()->assign("page", $this->page);
 		$this->getSmarty()->assign("currentUser", User::$current_user);
-		
 		$this->getSmarty()->assign("engine", $this);
+		$this->getSmarty()->assign("notifications", new Notification());
+		
+		
 		$this->start_time = $_SERVER["TIME_START"];
 		
 		return $this;
@@ -105,7 +108,6 @@ class RoutingEngine{
 			fwrite($handle, $this->getSmarty()->fetch("generic/default.tpl"));
 			fclose($handle);
 		}
-		
 		self::getSmarty()->display_master($this->getTemplateName());
 		return true;
 	}
@@ -142,6 +144,14 @@ class RoutingEngine{
 	private function _checkAction($action){
 		return method_exists($this->controller_full, $action);
 	}
+	/**
+	 * Function checks whether or not a user has the requested permission.
+	 *
+	 * @param string $perm_code	Permission code
+	 * @param int $gid			Group id if applicable
+	 * @param bool $redir		Whether or not to redirect on a failed permission
+	 * @return bool				Whether or not the user has the required permission
+	 */
 	public function requirePermission($perm_code, $gid = null, $redir = false){
 		if(!isset($perm_code)) $allow = false;
 		else{
@@ -158,16 +168,30 @@ class RoutingEngine{
 		
 		if(!$allow && $redir){
 			$_SESSION["login_redirect"] = $this->_request_path;
+			Notification::add("You do not have the authentication level to view that page.");
+			Notification::add("Once you login, you will be returned to:". $this->_request_path);
 			Page::redirect("/home/login");
 		}
 		
 		return $allow;
 	}
+	/**
+	 * Function saves the current user to the session data.
+	 * Called at the end of every page to persist and changes.
+	 *
+	 * @return bool
+	 */
 	public function persistUserData(){
 		$_SESSION["userData"] = User::$current_user;
 		
 		return true;
 	}
+	/**
+	 * Function is called to set-up the current user before all other calls.
+	 * For an authentic user, settings and details are updated.
+	 *
+	 * @return bool
+	 */
 	public function authenticateUser(){
 		if(isset($_SESSION["userData"]) && $_SESSION["userData"]->uid){
 			User::$current_user = $_SESSION["userData"];
@@ -181,6 +205,29 @@ class RoutingEngine{
 		if(!isset(User::$current_user->permissions)){
 			User::$current_user->getPermissions();
 		}
+		return true;
+	}
+	/**
+	 * @param mixed $output
+	 * @param bool $json Wheter or not to json_encode the output
+	 * @return bool
+	 */
+	public static function returnAjax($output, $json = true){
+		if($json){
+			echo json_encode($output);
+			exit;
+		}
+		echo $output;
+		exit;
+	}
+	
+	/**
+	 * Function to get the current page name.  Used mainly for google tracking.
+	 *
+	 * @return string	Name of the current page
+	 */
+	public function getPageName(){
+		return $this->_request_path;
 	}
 }
 ?>

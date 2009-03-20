@@ -105,7 +105,7 @@ This is the template for the page where new routes are created.
 		<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
 		<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
 		<p><input type="submit" value="Set Default" /></p>
-		<input type="hidden" name="u_settings[map_settings]" value="test" >
+		<input type="hidden" name="u_settings[map_settings]" >
 	</form>
 </div>
 
@@ -123,20 +123,19 @@ $(document).ready( function(){
 	);
 
 	{{if $currentUser->isAuthenticated && $currentUser->settings.map_settings}}
-		Settings = {{$currentUser->settings.map_settings}};
+		MapSettings = {{$currentUser->settings.map_settings}};
 	{{/if}}
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
-		Settings.LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
-		Map.instance.setCenter(Settings.LatLngCenter, 13);
+		var LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
+		Map.instance.setCenter(LatLngCenter, 13);
 	{{/if}}
 
-	//updateHeight();
 	{{if $is_edit}}
 		loadRouteFromDB({{$route_edit->points}}, true);
 	{{/if}}
 
-	var validator = $("#r_form_save").validate({
+	$("#r_form_save").validate({
 		rules: {
 			r_name: {required: true}
 		},
@@ -149,55 +148,31 @@ $(document).ready( function(){
 			form.submit();
 		}
 	});
+
 	$("#r_form_settings").validate({
 		submitHandler : function(form){
-			$("[name=u_settings\[map_settings\]]").val($.toJSON(Settings));
-
+			$("[name=u_settings\[map_settings\]]").val($.toJSON(MapSettings));
 			$(form).ajaxSubmit();
 			$.facebox.close();
 		}
 	});
 	
 	$("#u_mile_marker").blur(function(){
-		Settings.MileMarkers.distance = $("#u_mile_marker").val();
+		MapSettings.MileMarkers.distance = $("#u_mile_marker").val();
 		Map.refresh();
 	});
 	$("#input_circle_show").click(function(){
-		Settings.DistanceCircle.enable = $(this).attr("checked");
+		MapSettings.DistanceCircle.enable = $(this).attr("checked");
 		Map.refresh();
 	});
 	$("#input_follow_roads").click(function(){
-		Settings.Directions.enable = $(this).attr("checked");
+		MapSettings.Directions.enable = $(this).attr("checked");
 	});
 	$("#u_circle_dist").blur(function(){
-		Settings.DistanceCircle.radius = $("#u_circle_dist").val();
+		MapSettings.DistanceCircle.radius = $("#u_circle_dist").val();
 		Map.refresh();
 	});
 });
 
-$(window).resize( 
-	//updateHeight
-);
-
 document.body.onunload = GUnload;
-
-var sidebarVisible = true;
-
-function toggleSize(){
-	if(sidebarVisible){
-		$("#map_container_left").width(30);
-		$("#map_container_right").css("margin-left", "30px");
-	}
-	else{
-		$("#map_container_left").width(300);
-		$("#map_container_right").css("margin-left", "300px");
-	}
-	$("#other_content").toggle();
-	sidebarVisible = !sidebarVisible;	
-}
-function updateHeight(){
-	$("#content_container").height($(window).height() - $("#header_ctain").height());
-	Map.instance.checkResize();	
-}
-
 </script>

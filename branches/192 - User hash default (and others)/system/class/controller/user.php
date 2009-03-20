@@ -11,14 +11,17 @@ class Controller_User{
 				$refer = $_SESSION["login_redirect"];
 				unset($_SESSION["login_redirect"]);
 			}
+			Notification::add("You are logged in now.");
 			Page::redirect($refer);
 		}
 		else{
+			Notification::add("We were not able to log you in.");
 			Page::redirect("/login");
 		}
 	}
 	public function logout(){
 		User::logout();
+		Notification::add("You are now logged out.");
 		Page::redirect("/");
 	}
 	public function register(){
@@ -65,14 +68,19 @@ class Controller_User{
 		Page::redirect("/admin/user");
 	}
 	public function action_settings(){
-		$user = new User($_POST);
+		User::$current_user->refreshDetails($_POST);
 		
-		if($user->updateUserDetails()){
-			Page::redirect("/");
+		if(isset($_POST["u_password"])){
+			User::$current_user->password = md5(User::$current_user->password);
+		}
+		
+		if(User::$current_user->updateUserDetails() || User::$current_user->saveAllSettings()){
+			Notification::add("Your settings have been updated.");
 		}
 		else{
-			Page::redirect("/settings");
+			Notification::add("There was an error.  Please try again.");
 		}
+		Page::redirect("/settings");
 	}
 	public function check_exists(){
 		$username = $_GET["username"];
@@ -114,6 +122,14 @@ class Controller_User{
 		User::$current_user->saveSetting("map_settings");
 		
 		exit;
+	}
+	function ajax_remove_notification(){
+		if(!isset($_POST["id"])) return false;
+		
+		$id = $_POST["id"];
+		Notification::remove($id);
+		RoutingEngine::getInstance()->persistUserData();
+		RoutingEngine::returnAjax(true);
 	}
 }
 ?>

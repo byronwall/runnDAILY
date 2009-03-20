@@ -13,16 +13,6 @@ class Page extends Object{
 	}
 	
 	/**
-	 * @return SmartyExt
-	 */
-	public static function getSmarty(){
-		if(is_null(self::$_smarty)){
-			self::$_smarty = new SmartyExt();
-		}
-		return self::$_smarty;
-	}
-	
-	/**
 	 * @param string $script_name
 	 * @return Page
 	 */
@@ -41,16 +31,6 @@ class Page extends Object{
 		$rows = $stmt->affected_rows;
 		$stmt->close();
 		
-		if($rows != 1){
-			$add_stmt = Database::getDB()->prepare("
-				INSERT INTO permissions(p_page_name) VALUES(?)
-			");
-			$add_stmt->bind_param("s", $script_name);
-			$add_stmt->execute();
-			$add_stmt->close();
-			
-			return new Page();
-		}
 		return new Page($row);
 	}
 	public static function redirect($page = "/"){
@@ -107,13 +87,6 @@ class Page extends Object{
 	 */
 	public function getTemplateName(){
 		return preg_replace("/\/(.*)(\.php)?/", "$1.tpl", $this->page_name);
-	}
-	/**
-	 * @param string $controller
-	 * @return bool	Whether or not a controller exists
-	 */
-	public static function getControllerExists($controller){
-		return file_exists(SYSTEM_ROOT."/controllers/{$controller}_controller.php");
 	}
 	public function createPage(){
 		$stmt = Database::getDB()->prepare("

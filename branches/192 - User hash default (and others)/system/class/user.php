@@ -22,6 +22,8 @@ class User extends Object{
 	public $permissions;
 	public $settings;
 	
+	public $friends;
+	
 	/**
 	 * @var User
 	 */
@@ -30,6 +32,25 @@ class User extends Object{
 	function __construct($arr = null, $arr_pre = "u_"){
 		parent::__construct($arr, $arr_pre);
 		$this->date_access = strtotime($this->date_access);
+	}
+	function removeFriend($f_uid){
+		$stmt = Database::getDB()->prepare("
+			DELETE FROM users_friends
+			WHERE
+				f_uid_1 = ? AND
+				f_uid_2 = ?
+		");
+		$stmt->bind_param("ii", $this->uid, $f_uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		
+		if($rows == 1){
+			unset($this->friends[$f_uid]);
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Internal function to add a given permission to the array.
@@ -222,7 +243,16 @@ class User extends Object{
 		}
 		return;
 	}
+	function saveAllSettings(){
+		foreach($this->settings as $key=>$value){
+			$this->saveSetting($key);
+		}
+		
+		return true;
+	}
 	function saveSetting($key){
+		if(!isset($key) || !isset($this->settings[$key])) return false;
+		
 		$stmt = Database::getDB()->prepare("
 			REPLACE INTO users_metadata
 			SET
@@ -248,8 +278,17 @@ class User extends Object{
 	 * This function would be used to update user preferences from some sort of profile page.
 	 * */
 	function updateUserDetails(){
-		$stmt = Database::getDB()->prepare("UPDATE users SET u_location_lat = ?, u_location_lng = ?, u_email = ? WHERE u_uid = ?");
-		$stmt->bind_param("ddsi", $this->location_lat, $this->location_lng, $this->email, $this->uid);
+		$stmt = Database::getDB()->prepare("
+			UPDATE users
+			SET
+				u_location_lat = ?,
+				u_location_lng = ?,
+				u_email = ?,
+				u_password = ?
+			WHERE
+				u_uid = ?
+		");
+		$stmt->bind_param("ddssi", $this->location_lat, $this->location_lng, $this->email, $this->password, $this->uid);
 		$stmt->execute();
 
 		$isSuccess = $stmt->affected_rows == 1;
@@ -276,6 +315,7 @@ class User extends Object{
 	 */
 	public static function logout(){
 		Log::insertItem(User::$current_user->uid, 202, null, null, null, null);
+		session_unset();
 		session_destroy();
 		setcookie(COOKIE_NAME, "", mktime()-3600, "/");
 		return true;
@@ -426,20 +466,23 @@ class User extends Object{
 	 * @return int: int giving the number of rows changed (success/fail)
 	 */
 	public function addFriend($friend_uid){
-		if($this->uid == $friend_uid) return 0;
+		if($this->uid == $friend_uid) return false;
 		
 		$stmt = Database::getDB()->prepare("INSERT INTO users_friends(f_uid_1, f_uid_2, f_date_start) VALUES(?,?, NOW())");
 		$stmt->bind_param("ii", $this->uid, $friend_uid);
-		$stmt->execute();
+		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
 		$affected_rows = $stmt->affected_rows;
 		$stmt->close();
 		
 		if($affected_rows == 1){
+			$this->friends[$friend_uid] = true;
 			Log::insertItem(User::$current_user->uid, 400, $friend_uid, null, null, null);
 			return $affected_rows;
 		}
+		
+		return false;
 	}
 	/**
 	 * Function returns an array of the user's friends.
@@ -447,6 +490,9 @@ class User extends Object{
 	 * @return array: an array of User objects
 	 */
 	public function getFriends(){
+		unset($this->friends);
+		if(isset($this->friends)) return $this->friends;
+		
 		$stmt = Database::getDB()->prepare("
 			SELECT users.* FROM users_friends
 			INNER JOIN users
@@ -460,7 +506,9 @@ class User extends Object{
 		$users = array();
 		
 		while($row = $stmt->fetch_assoc()){
-			$users[] = new User($row);
+			$user = new User($row);
+			$users[] = $user;
+			$this->friends[$user->uid] = true;
 		}
 		
 		return $users;
@@ -499,6 +547,9 @@ class User extends Object{
 		$stmt->close();
 		
 		return $rows == 1;
+	}
+	public function checkFriendsWith($f_uid){
+		return isset($this->friends[$f_uid]);
 	}
 }
 ?>

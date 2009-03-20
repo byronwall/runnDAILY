@@ -15,7 +15,7 @@ var MapActions = {
 		
 	}
 }
-var Settings = {
+var MapSettings = {
 	DistanceCircle : {
 		enable: false,
 		radius: 5
@@ -24,7 +24,6 @@ var Settings = {
 		enable: true,
 		distance: 1.0
 	},
-	LatLngCenter: null,
 	Directions: {
 		enable: false
 	}
@@ -57,15 +56,10 @@ var Map = {
 			draggable : Map.config.draggable
 		}
 	},
-	load: function(map_holder_id, click_callback, location_lat, location_lng) {
+	load: function(map_holder_id, click_callback) {
 		if (GBrowserIsCompatible()) {
-			if (location_lat == null || location_lng == null)
-			{
-				location_lat = 38.4242126;
-				location_lng = -86.930522;
-			}
 			Map.instance = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
-			Map.instance.setCenter(new GLatLng(location_lat,location_lng), 13);
+			Map.instance.setCenter(new GLatLng(38.424212,-86.930522), 13);
 			
 			if(click_callback != null){
 				GEvent.addListener(Map.instance,"click", click_callback);
@@ -78,7 +72,7 @@ var Map = {
 		}
 	},
 	event_click: function(overlay, latlng, overlaylatlng){
-		if(Settings.Directions.enable){
+		if(MapSettings.Directions.enable){
 			Directions.click(overlay, latlng, overlaylatlng);
 		}
 		else{
@@ -276,11 +270,11 @@ var MileMarkers = {
 			
 			temp_total += prevLatLng.distanceFrom(curLatLng) * meters_to_miles;
 			
-			var distIntoSec = MileMarkers.prevDistance - Math.floor(MileMarkers.prevDistance / Settings.MileMarkers.distance) * Settings.MileMarkers.distance; 
+			var distIntoSec = MileMarkers.prevDistance - Math.floor(MileMarkers.prevDistance / MapSettings.MileMarkers.distance) * MapSettings.MileMarkers.distance; 
 		
-			for(var i =1; i< (temp_total - MileMarkers.prevMarkerDistance) / Settings.MileMarkers.distance;i++){	
+			for(var i =1; i< (temp_total - MileMarkers.prevMarkerDistance) / MapSettings.MileMarkers.distance;i++){	
 				
-				var scale = (Settings.MileMarkers.distance * i - distIntoSec) / (temp_total - MileMarkers.prevDistance); 
+				var scale = (MapSettings.MileMarkers.distance * i - distIntoSec) / (temp_total - MileMarkers.prevDistance); 
 				
 				var lat = prevLatLng.lat() + scale * (curLatLng.lat() - prevLatLng.lat());
 				var lng = prevLatLng.lng() + scale * (curLatLng.lng() - prevLatLng.lng());
@@ -288,7 +282,7 @@ var MileMarkers = {
 				MileMarkers.add(lat, lng);			
 			}
 			
-			MileMarkers.prevMarkerDistance =  Math.floor(temp_total / Settings.MileMarkers.distance) * Settings.MileMarkers.distance;
+			MileMarkers.prevMarkerDistance =  Math.floor(temp_total / MapSettings.MileMarkers.distance) * MapSettings.MileMarkers.distance;
 			MileMarkers.prevDistance = temp_total;	
 		}
 	}
@@ -299,11 +293,11 @@ var DistanceCircle = {
 	points : 18,
 	
 	draw : function(){
-		if(Settings.DistanceCircle.enable){
+		if(MapSettings.DistanceCircle.enable){
 	 		if(DistanceCircle.polyline != null){
 	 			Map.instance.removeOverlay(DistanceCircle.polyline);
 	 		}
-	 		var circle_rad = Settings.DistanceCircle.radius - Map.totalDistance;
+	 		var circle_rad = MapSettings.DistanceCircle.radius - Map.totalDistance;
 		 	if(circle_rad > 0 && Map.points.length > 0){
 		 		var center = Map.points[Map.points.length - 1].latlng;
 		 		var latConv = center.distanceFrom(new GLatLng(center.lat()+0.1,center.lng()))/160.939;
@@ -328,6 +322,8 @@ var MapData = {
 	loadRoute: function(polyline_options, is_edit){
 		MapActions.clearAllPoints();
 		Map.config.draggable = is_edit;
+		Map.init();
+		
 		polyline_options.zoomFactor = 2;
 		polyline_options.numLevels=18;
 		var polyline = new GPolyline.fromEncoded(polyline_options);
