@@ -55,7 +55,7 @@ class User extends Object{
 		if(!isset($perm_code)) return false;
 		
 		$code = explode("__", $perm_code);
-		if(isset($row["g_gid"])){
+		if(isset($gid)){
 			$this->permissions[$gid][$code[0]] = $code[1];
 		}
 		else{

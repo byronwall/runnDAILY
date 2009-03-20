@@ -11,11 +11,10 @@ class Controller_Group{
 		$gid = $_GET["gid"];
 		$group = Group::fromGroupID($gid);
 		RoutingEngine::getSmarty()->assign("group_view", $group);
-		RoutingEngine::getSmarty()->assign("user_is_member", Group::isMember($gid));
-		$anoun = Group::getAnnouncement($gid);
-		if($anoun){
-			RoutingEngine::getSmarty()->assign("group_view_anoun", $anoun);
-		}
+		RoutingEngine::getSmarty()->assign("user_is_member", Group::userIsMember($gid));
+		RoutingEngine::getSmarty()->assign("user_can_edit", Group::userCanEdit($gid));
+		RoutingEngine::getSmarty()->assign("group_view_anoun", Group::getAnnouncement($gid));
+		RoutingEngine::getSmarty()->assign("group_view_member_list", Group::getMembers($gid));		
 	}
 
 	public function create(){
@@ -39,17 +38,26 @@ class Controller_Group{
 	}
 	
 	public function action_new_announcement(){
-		Group::createAnnouncement();
+		$anoun = Group::createAnnouncement();
+		
+		echo json_encode($anoun);
+		exit;
 	}
 	
 	public function join(){
 		$gid = $_POST["gid"];
-		Group::joinGroup($gid);
+		$result = Group::joinGroup($gid);
+		
+		echo json_encode($result);
+		exit;
 	}
 	
 	public function leave(){
 		$gid = $_POST["gid"];
-		Group::leaveGroup($gid);
+		$result = Group::leaveGroup($gid);
+		
+		echo json_encode($result);
+		exit;
 	}
 }
 ?>

@@ -5,15 +5,20 @@
 
 <div class="grid_12">
 	<div class="actions">
+		{{if $user_can_edit}}
 		<a href="#new_event_modal" class="facebox icon"><img src="/img/icon.png" />New Event</a>
 		<a href="#new_announcement_modal" class="facebox icon"><img src="/img/icon.png" />New Announement</a>
+		<a href="/routes/create?gid={{$group_view->gid}}" class="icon"><img src="/img/icon.png" />New Route</a>
 		<a href="#" class="icon"><img src="/img/icon.png" />Edit Group</a>
-		{{if $user_is_member}}
-		<a href="#leave_group_modal" class="facebox icon"><img src="/img/icon.png" />Leave Group</a>
-		{{elseif $group_view->private}}
-		<a href="#" class="icon"><img src="/img/icon.png" />Request to Join Group</a>
-		{{else}}
-		<a href="#join_group_modal" class="facebox icon"><img src="/img/icon.png" />Join Group</a>
+		{{/if}}
+		{{if !($user_can_edit)}}
+			{{if $user_is_member}}
+			<a id="a_leave" href="#leave_group_modal" class="facebox icon"><img src="/img/icon.png" />Leave Group</a>
+			{{elseif $group_view->private}}
+			<a href="#" class="icon"><img src="/img/icon.png" />Request to Join Group</a>
+			{{else}}
+			<a id="a_join" href="#join_group_modal" class="facebox icon"><img src="/img/icon.png" />Join Group</a>
+			{{/if}}
 		{{/if}}
 	</div>
 </div>
@@ -24,8 +29,8 @@
 	<div class="box">
 		<h2>Details</h2>
 		<p>Established: 2009*</p>
-		<p>Active Group Since: {{$group_view->join}}</p>
-		<p>Total Members: 1*</p>
+		<p>Active Group Since: {{$group_view->join|date_format}}</p>
+		<p>Total Members: {{$group_view_member_list|@count}}</p>
 		<p>Total Routes: 0*</p>
 	</div>
 	<div class="box">
@@ -36,10 +41,7 @@
 <div class="grid_5">
 	<div class="box">
 		<h2>Announcements</h2>
-		{{if $group_view_anoun}}
-		<p>On {{$group_view_anoun.anoun_date|date_format}}</p>
-		<p>{{$group_view_anoun.anoun}}</p>
-		{{/if}}
+		<p id="anoun">{{$group_view_anoun|nl2br}}</p>
 	</div>
 	<div class="box">
 		<h2>Events</h2>
@@ -49,6 +51,11 @@
 	</div>
 	<div class="box">
 		<h2>Members</h2>
+		{{foreach from=$group_view_member_list item=member}}
+		<p><a href="/community/view_user?uid={{$member.uid}}" class="icon"><img src="/img/icon.png" />{{$member.username}}</a></p>
+		{{foreachelse}}
+		<p>There are currently no members.</p>
+		{{/foreach}}
 	</div>
 </div>
 <div class="grid_4">
@@ -60,13 +67,12 @@
 
 <div id="new_announcement_modal" style="display:none">
 	<h2>New Announcement</h2>
-	<form action="/group/action_new_announcement" method="post" id="group_announcement_form">
+	<form action="/group/action_new_announcement" method="post" id="group_anoun_form">
 		<input type="hidden" name="gid" value="{{$group_view->gid}}">
 		<input type="hidden" name="action" value="new_announcement" />
-		
-		<p><label>Announcement: </label></p>
-		<p><textarea rows="5" cols="35" name="gm_anoun"></textarea></p>
-		
+		<p>
+			<textarea rows="5" cols="35" name="gm_anoun" >{{$smarty.now|date_format}}:&#10{{$group_view_anoun}}</textarea>
+		</p>		
 		<p>
 			<input type="submit" value="Create">
 			<input type="button" value="Cancel" onclick="$.facebox.close()" />
@@ -105,7 +111,7 @@
 </div>
 <div id="leave_group_modal" style="display:none">
 	<h2>Are you sure you want to leave {{$group_view->name}}</h2>
-	<form action="/group/leave" method="post" id="group_join_form">
+	<form action="/group/leave" method="post" id="group_leave_form">
 		<input type="hidden" name="gid" value="{{$group_view->gid}}">
 		<p>
 			<input type="submit" value="Yes">
@@ -113,3 +119,45 @@
 		</p>
 	</form>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(
+		function(){
+			$("#group_join_form").validate({
+				submitHandler : function(form){
+					$.facebox.close();
+					$(form).ajaxSubmit({ 
+					    success:    function(data) {
+				    		if(data){
+					    		$("#a_join").replaceWith('<a id="a_leave" href="#leave_group_modal" class="facebox icon"><img src="/img/icon.png" />Leave Group</a>');
+					    	} 
+						} 
+					});
+				}
+			});
+			$("#leave_leave_form").validate({
+				submitHandler : function(form){
+					$.facebox.close();
+					$(form).ajaxSubmit({ 
+					    success:    function(data) {
+			    			if(data){
+					    		$("#a_leave").replaceWith('<a id="a_join" href="#join_group_modal" class="facebox icon"><img src="/img/icon.png" />Join Group</a>');
+					    	} 
+						} 
+					});
+				}
+			});
+			$("#group_anoun_form").validate({
+				submitHandler : function(form){
+					$.facebox.close();
+					$(form).ajaxSubmit({
+						dataType: "json",
+					    success:    function(data) {
+				    		$("#anoun").text(data);
+						} 
+					});
+				}
+			});
+		}
+	);
+</script>

@@ -93,8 +93,9 @@ class Group extends Object{
 	public function createAnnouncement(){
 		$gid = $_POST["gid"];
 		$anoun = $_POST["gm_anoun"];
-		Group::insertMetadata($gid, "anoun", $anoun);
-		Group::insertMetadata($gid, "anoun_date", date("Y-m-d"));
+		if(Group::insertMetadata($gid, "anoun", $anoun) && Group::insertMetadata($gid, "anoun_date", date("Y-m-d"))){
+			return $anoun;
+		}
 	}
 	
 	public function insertMetadata($gid, $gm_key, $gm_value){
@@ -120,18 +121,21 @@ class Group extends Object{
 			FROM groups_metadata
 			WHERE
 				gm_gid = ? AND
-				gm_key = 'anoun' OR
-				gm_key = 'anoun_date'
+				gm_key = 'anoun'
 		");
 		$stmt->bind_param("i", $gid);
 		$stmt->execute();
 		$stmt->store_result();
 		
-		while($row = $stmt->fetch_assoc()){
-			$anoun[$row["gm_key"]] = $row["gm_value"];
+		if($stmt->affected_rows > 0){
+			$row = $stmt->fetch_assoc();
+			$anoun = $row["gm_value"];
+		}else{
+			$anoun = "There are currently no announcements.";
 		}
+		
 		$stmt->close();
-
+		
 		return $anoun;
 	}
 	
@@ -150,10 +154,10 @@ class Group extends Object{
 		$rows = $stmt->affected_rows;
 		$stmt->close();
 		
-		return $rows;
+		return ($rows == 1);
 	}
 	
-	public function isMember($gid){
+	public function userIsMember($gid){
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM groups_members
@@ -170,6 +174,10 @@ class Group extends Object{
 		return $rows;
 	}
 	
+	public function userCanEdit($gid){
+		return RoutingEngine::getInstance()->requirePermission("GP__100", $gid);
+	}
+	
 	public function leaveGroup($gid){
 		$stmt = Database::getDB()->prepare("
 			DELETE
@@ -184,8 +192,31 @@ class Group extends Object{
 		
 		$rows = $stmt->affected_rows;
 		$stmt->close();
+
+		return ($rows > 0);
+	}
+	
+	public function getMembers($gid){
+		$stmt = Database::getDB()->prepare("
+			SELECT
+				gmem_uid AS uid,
+				users.u_username AS username
+			FROM groups_members
+			LEFT JOIN users ON users.u_uid = gmem_uid
+			WHERE
+				gmem_gid = ?
+		");
+		$stmt->bind_param("i", $gid);
+		$stmt->execute();
+		$stmt->store_result();
 		
-		return $rows;
+		$member_list = array();
+		while($row = $stmt->fetch_assoc()){
+			$member_list[] = $row;
+		}
+		$stmt->close();
+		
+		return $member_list;
 	}
 }
 ?>

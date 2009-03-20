@@ -8,7 +8,7 @@
 
 <td class="activeMonth">
 	<div class="day_header">
-		{{$day->timestamp|date_format:"%d"}}
+		{{$day->timestamp|date_format:"j"}}
 	</div>
 	
 	{{foreach from=$day->items item=item}}
