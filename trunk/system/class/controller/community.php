@@ -8,12 +8,13 @@ class Controller_Community{
 		if(!isset($_GET["uid"])){
 			Page::redirect("/community");
 		}
-		
 		$uid = $_GET["uid"];
 		
 		$routes = Route::getRoutesForUser($uid, 5);
 		$t_items = TrainingLog::getItemsForUserPaged($uid, 4);
 		$l_items = Log::getAllActivityForUserPaged($uid, 5);
+		
+		User::$current_user->getFriends();
 		
 		RoutingEngine::getSmarty()->assign("r_query", "u_uid={$uid}&page=1&count=5");
 		RoutingEngine::getSmarty()->assign("t_query", "u_uid={$uid}&page=1&count=5");
@@ -24,11 +25,21 @@ class Controller_Community{
 	}
 	public function add_friend(){
 		if(!isset($_POST["f_uid"])){
-			echo 0;
-			exit;
+			RoutingEngine::returnAjax(false);
 		}
 		$friend_uid = $_POST["f_uid"];
-		echo User::$current_user->addFriend($friend_uid);
+		$added = User::$current_user->addFriend($friend_uid);
+		RoutingEngine::getInstance()->persistUserData();
+		RoutingEngine::returnAjax($added);
+	}
+	public function ajax_remove_friend(){
+		if(!isset($_POST["f_uid"])){
+			RoutingEngine::returnAjax(false);
+		}
+		$friend_uid = $_POST["f_uid"];
+		$removed = User::$current_user->removeFriend($friend_uid);
+		RoutingEngine::getInstance()->persistUserData();
+		RoutingEngine::returnAjax($removed);
 	}
 }
 ?>

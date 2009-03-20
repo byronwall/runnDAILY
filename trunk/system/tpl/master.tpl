@@ -1,6 +1,3 @@
-{{*
-This is the master template which holds the main layout components.
-*}}
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
@@ -59,7 +56,7 @@ This is the master template which holds the main layout components.
 		{{else}}
 		<li class="secondary"><a href="/login" class="icon"><img src="/img/icon_login.png" />Login</a></li>
 		<li class="secondary"><a href="/register" class="icon"><img src="/img/icon_register.png" />Register</a></li>
-		{{/if}} {{if $currentUser->checkPermissions(100, false)}}
+		{{/if}} {{if $engine->requirePermission("PV__100")}}
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
 		{{if $page->common}}
@@ -69,6 +66,8 @@ This is the master template which holds the main layout components.
 </ul>
 </div>
 <div class="clear"></div>
+
+{{include file="notifications.tpl"}}
 
 {{$page_content}}
 </div>
@@ -100,6 +99,18 @@ This is the master template which holds the main layout components.
 					$(form).clearForm();
 					$.facebox.close();
 				}
+			});
+
+			$("a.notify").click(function(){
+				var a = $(this);
+				$.post(
+					"/user/ajax_remove_notification",
+					{id:this.rel},
+					function(data){
+						a.closest(".notification").remove();
+					}
+				);
+				return false;
 			});
 		}
 	);

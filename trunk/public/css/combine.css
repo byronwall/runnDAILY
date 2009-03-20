@@ -37,7 +37,7 @@ a.icon span {
 }
 
 #footer ul {
-	list-style: url(none) none inside;
+	list-style: none inside;
 	margin: 0px 0px 10px;
 	padding: 0px;
 }
@@ -1623,4 +1623,7 @@ ul.nav li.secondary:hover a:active {
 	width:200px;
 	background-color:#fff;
 	opacity:0.8;
+}
+.notification{
+	background-color: yellow;
 }
