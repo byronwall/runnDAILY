@@ -133,30 +133,15 @@
     close: function() {
       $(document).trigger('close.facebox')
       return false
-    }
+    },
+    clickHandler: function(settings) {
+    	init(settings);
+        $.facebox.loading(true);
+
+        fillFaceboxFromHref(this.href, null);
+        return false;
+      }
   })
-
-  /*
-   * Public, $.fn methods
-   */
-
-  $.fn.facebox = function(settings) {
-    init(settings)
-
-    function clickHandler() {
-      $.facebox.loading(true)
-
-      // support for rel="facebox.inline_popup" syntax, to add a class
-      // also supports deprecated "facebox[.inline_popup]" syntax
-      var klass = this.rel.match(/facebox\[?\.(\w+)\]?/)
-      if (klass) klass = klass[1]
-
-      fillFaceboxFromHref(this.href, klass)
-      return false
-    }
-
-    return this.click(clickHandler)
-  }
 
   /*
    * Private methods
@@ -303,5 +288,5 @@
 })(jQuery);
 
 jQuery(document).ready(function($) {
-  $('a[class*=facebox]').facebox()
+  $('a[class*=facebox]').live("click", $.facebox.clickHandler);
 }) 
