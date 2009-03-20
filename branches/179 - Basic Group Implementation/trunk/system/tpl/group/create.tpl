@@ -22,6 +22,8 @@
 		<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 		<p><input type="file" name="img_up"></p>
 		
+		<p><label>Private Group? </label><input type="checkbox" name="g_private" value="1" />
+		
 		<p><input type="submit" value="Create" /></p>
 	</form>
 </div>

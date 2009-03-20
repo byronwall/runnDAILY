@@ -8,10 +8,14 @@ class Controller_Group{
 		if(!isset($_GET["gid"])){
 			Page::redirect("/community/");
 		}
-		$id = $_GET["gid"];
-		$group = Group::fromGroupID($id);
-
+		$gid = $_GET["gid"];
+		$group = Group::fromGroupID($gid);
 		RoutingEngine::getSmarty()->assign("group_view", $group);
+		RoutingEngine::getSmarty()->assign("user_is_member", Group::isMember($gid));
+		$anoun = Group::getAnnouncement($gid);
+		if($anoun){
+			RoutingEngine::getSmarty()->assign("group_view_anoun", $anoun);
+		}
 	}
 
 	public function create(){
@@ -32,6 +36,20 @@ class Controller_Group{
 				}
 			}
 		}
+	}
+	
+	public function action_new_announcement(){
+		Group::createAnnouncement();
+	}
+	
+	public function join(){
+		$gid = $_POST["gid"];
+		Group::joinGroup($gid);
+	}
+	
+	public function leave(){
+		$gid = $_POST["gid"];
+		Group::leaveGroup($gid);
 	}
 }
 ?>

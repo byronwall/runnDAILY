@@ -5,6 +5,7 @@ class Group extends Object{
 	public $desc;
 	public $join;
 	public $imgsrc;
+	public $private;
 	
 	function __construct($arr = null, $arr_pre = "g_"){
 		parent::__construct($arr, $arr_pre);
@@ -32,9 +33,10 @@ class Group extends Object{
 			SET
 				g_name = ?,
 				g_desc = ?,
-				g_join = CURDATE()
+				g_join = CURDATE(),
+				g_private = ?
 		");
-		$stmt->bind_param("ss", $this->name, $this->desc);
+		$stmt->bind_param("ssi", $this->name, $this->desc, $this->private);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		$rows = $stmt->affected_rows;
@@ -86,6 +88,104 @@ class Group extends Object{
 		$stmt->close();
 		
 		return $group_list;
+	}
+	
+	public function createAnnouncement(){
+		$gid = $_POST["gid"];
+		$anoun = $_POST["gm_anoun"];
+		Group::insertMetadata($gid, "anoun", $anoun);
+		Group::insertMetadata($gid, "anoun_date", date("Y-m-d"));
+	}
+	
+	public function insertMetadata($gid, $gm_key, $gm_value){
+		$stmt = Database::getDB()->prepare("
+			REPLACE INTO groups_metadata
+			SET
+				gm_gid = ?,
+				gm_key = ?,
+				gm_value = ?
+		");
+		$stmt->bind_param("iss", $gid, $gm_key, $gm_value);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return ($rows);
+	}
+	
+	public function getAnnouncement($gid){
+		$stmt = Database::getDB()->prepare("
+			SELECT *
+			FROM groups_metadata
+			WHERE
+				gm_gid = ? AND
+				gm_key = 'anoun' OR
+				gm_key = 'anoun_date'
+		");
+		$stmt->bind_param("i", $gid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		while($row = $stmt->fetch_assoc()){
+			$anoun[$row["gm_key"]] = $row["gm_value"];
+		}
+		$stmt->close();
+
+		return $anoun;
+	}
+	
+	public function joinGroup($gid){
+		$stmt = Database::getDB()->prepare("
+			INSERT INTO groups_members
+			SET
+				gmem_gid = ?,
+				gmem_uid = ?,
+				gmem_join = NOW()
+		");
+		$stmt->bind_param("ii", $gid, User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
+	}
+	
+	public function isMember($gid){
+		$stmt = Database::getDB()->prepare("
+			SELECT *
+			FROM groups_members
+			WHERE
+				gmem_gid = ? AND
+				gmem_uid = ?
+		");
+		$stmt->bind_param("ii", $gid, User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
+	}
+	
+	public function leaveGroup($gid){
+		$stmt = Database::getDB()->prepare("
+			DELETE
+			FROM groups_members
+			WHERE
+				gmem_gid = ? AND
+				gmem_uid = ?
+		");
+		$stmt->bind_param("ii", $gid, User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
 	}
 }
 ?>
