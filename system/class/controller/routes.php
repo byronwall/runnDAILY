@@ -84,6 +84,7 @@ class Controller_Routes{
 		$uid = User::$current_user->uid;
 
 		if(Route::deleteRouteSecure($rid, $uid)){
+		Notification::add("Route was deleted.", true);
 			Page::redirect("/routes/");
 		}
 		Page::redirect("/routes/view?rid={$rid}");

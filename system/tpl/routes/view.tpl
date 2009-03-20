@@ -109,23 +109,6 @@ $(document).ready( function(){
 		}
 	});	
 });
+
 document.body.onunload = GUnload;
-
-function sub(){
-	regex = /^(?:(?:(\d+):)?(\d+):)?(\d+(?:\.\d+))$/;
-	
-	var time_input = $("input[name='time']").val();
-	
-	seconds_match = regex.exec(time_input);
-	
-	hours = seconds_match[1]||0;
-	minutes = seconds_match[2]||0;
-	seconds = seconds_match[3];
-	
-	seconds = hours * 3600 + minutes * 60 + seconds * 1;
-	
-	$("input[name='time']").val(seconds);
-	return true;
-}
-
 </script>

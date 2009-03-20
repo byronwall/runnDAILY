@@ -5,7 +5,11 @@
 <div class="grid_12">
 	<div class="actions">
 		<a href="#message_modal" class="facebox icon"><img src="/img/icon_mail_plus.png" />Send a Message</a>
-		<a href="#addFriend" id="a_addfriend" rel="{{$user->uid}}" class="icon"><img src="/img/icon_user_plus.png" />Add as Friend</a>
+		{{if !$currentUser->checkFriendsWith($user->uid)}}
+		<a href="#addFriend" id="a_addfriend" class="icon"><img src="/img/icon_user_plus.png" />Add as Friend</a>
+		{{else}}
+		<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon_user_plus.png" />Remove Friend</a>
+		{{/if}}
 	</div>
 </div>
 <div class="clear"></div>
@@ -63,50 +67,50 @@
 </div>
 
 <script type="text/javascript">
-var anchorCall;
-$(document).ready( function(){
-	prep_ajax($("a.ajax"));
-});
+var f_uid = {{$user->uid}};
 
-function prep_ajax(DOM){
-	DOM.click( function(){
-		anchorCall = $(this).parent().before("<li><img src='/img/loadingAnimation.gif' /></li>");
-		anchorCall.fadeOut("slow");
- 		$.get(this.href, function(data){
-			anchorCall.prev("li").remove();
-			anchorCall.before(data);
-			prep_ajax(anchorCall.prev().find("a.ajax"));
-			anchorCall.remove();
-		}, "html");
-		return false;
-	});
+$("#a_addfriend").live("click", function(){
+	var a = $(this);
+	a.text("adding friend...");
 	
-}
-
-$("#a_addfriend").bind("click", click_addFriend);
-
-function click_addFriend(){
-	var friend_uid = this.rel;
-	$(this).text("adding friend...");
 	$.post(
 		"/community/add_friend",
-		{f_uid:friend_uid},
+		{f_uid:f_uid},
 		function(data){
-			if(data > 0){
-				alert(data);
-				$("#a_addfriend").text("friend added");
-				$("#a_addfriend").unbind("click", click_addFriend);
-				$("#a_addfriend").bind("click", function(){ return false; });
+			if(data){
+				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon_user_plus.png" />Remove Friend</a>');
 			}
 			else{
-				$("#a_addfriend").text("try adding again");
-				$("#a_addfriend").hide();
-				$("#a_addfriend").fadeIn("slow");
+				a.text("Try To Add Again");
+				a.hide();
+				a.fadeIn("slow");
 			}
 		},
 		"text"
 	);
-	return false;
-}
+	return false;	
+});
+
+$("#a_removefriend").live("click", function(){
+	var a = $(this);
+	a.text("removing friend...");
+	
+	$.post(
+		"/community/ajax_remove_friend",
+		{f_uid:f_uid},
+		function(data){
+			if(data){
+				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon_user_plus.png" />Add as Friend</a>');
+			}
+			else{
+				a.text("Try To Remove Again");
+				a.hide();
+				a.fadeIn("slow");
+			}
+		},
+		"text"
+	);
+	return false;	
+});
 
 </script>
