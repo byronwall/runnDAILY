@@ -97,6 +97,7 @@ class Controller_Admin{
 				$page->createPage();
 			}
 		}
+		Notification::add("Pages were added.");
 		Page::redirect("/admin/pages");
 	}
 	public function action_new_modules(){
