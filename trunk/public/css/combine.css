@@ -1,4 +1,7 @@
 /* CUSTOM */
+img.fillx{
+	width: 100%;
+}
 ul.nav.header {
 	margin-top: -2.5em;
 }

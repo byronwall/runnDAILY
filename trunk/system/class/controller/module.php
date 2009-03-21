@@ -182,5 +182,14 @@ class Controller_Module{
 		
 		return $module;
 	}
+	
+	public function group_list(){
+		$this->_smarty->assign("group_list", Group::getGroupList());
+		$module = new Module();
+		$module->content = $this->_smarty->fetch("modules/community/group_list.tpl");
+		$module->title = "Groups";
+		
+		return $module;
+	}
 }
 ?>

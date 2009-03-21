@@ -38,7 +38,7 @@
 		<li><a href="#" class="icon"><img src="/img/icon_runndaily.png"/>runn Daily</a>
 		<ul>
 				<li><a href="/about/index">About Us</a></li>
-				<li><a href="">Contact</a></li>
+				<li><a href="/about/contact">Contact</a></li>
 		</ul>
 		</li>
 		<li class="secondary">
@@ -54,9 +54,9 @@
 			<img class="notification" src="/img/icon_mail_exclamation.png" />
 			{{/if}}</a>
 		<ul>
-				<li><a href="/settings" class="icon"><img src="/img/icon_wrench_screwdriver.png" />Settings</a></li>
-				<li><a href="/messages" class="icon">{{if $currentUser->msg_new}}<img src="/img/icon_mail_open_document.png" />{{else}}<img src="/img/icon_mail_open.png" />{{/if}}Messages ({{$currentUser->msg_new}})</a></li>
-				<li><a href="/user/logout" class="icon"><img src="/img/icon_logout.png" />Logout</a></li>
+				<li><a href="/settings" class="icon">Settings</a></li>
+				<li><a href="/messages" class="icon">Messages ({{$currentUser->msg_new}})</a></li>
+				<li><a href="/user/logout" class="icon">Logout</a></li>
 		</ul>
 		{{else}}
 		<li class="secondary"><a href="/login" class="icon"><img src="/img/icon_login.png" />Login</a></li>
