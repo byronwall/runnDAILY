@@ -94,7 +94,7 @@ class Group extends Object{
 		$gid = $_POST["gid"];
 		$anoun = $_POST["gm_anoun"];
 		if(Group::insertMetadata($gid, "anoun", $anoun) && Group::insertMetadata($gid, "anoun_date", date("Y-m-d"))){
-			return $anoun;
+			return nl2br($anoun);
 		}
 	}
 	

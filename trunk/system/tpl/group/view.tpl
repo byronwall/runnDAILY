@@ -111,7 +111,7 @@ $user_is_member}} <a id="a_join" href="#leave_group_modal" class="facebox icon">
 					$(form).ajaxSubmit({
 						dataType: "json",
 					    success:    function(data) {
-				    		$("#anoun").text(data);
+				    		$("#anoun").html(data);
 						} 
 					});
 				}

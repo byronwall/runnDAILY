@@ -1,7 +1,7 @@
 <?php
 class Controller_Group{
 	public function index(){
-		Page::redirect("/community/");
+
 	}
 
 	public function view(){
