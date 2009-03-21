@@ -29,7 +29,12 @@
 		<li><a href="/index" class="icon"><img src="/img/icon_home.png" />Home</a></li>
 		<li><a href="/routes/index" class="icon"><img src="/img/icon_route.png" />Routes</a></li>
 		<li><a href="/training/index" class="icon"><img src="/img/icon_training.png" />Training</a></li>
-		<li><a href="/community/index" class="icon"><img src="/img/icon_community.png" />Community</a></li>
+		<li><a href="/community/index" class="icon"><img src="/img/icon_community.png" />Community</a>
+		<ul>
+				<li><a href="/events">Events</a></li>
+		</ul>
+		</li>
+		
 		<li><a href="#" class="icon"><img src="/img/icon_runndaily.png"/>runn Daily</a>
 		<ul>
 				<li><a href="/about/index">About Us</a></li>

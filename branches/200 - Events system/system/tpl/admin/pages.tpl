@@ -22,7 +22,7 @@
 <form class="page_item" action="/admin/update_page" method="post" id="form_{{counter}}">
 	<input type="hidden" name="p_page_name" value="{{$p_page->page_name}}" />
 	<tr class='{{cycle values=" , odd"}}'>
-		<td>{{$p_page->page_name}}</td>
+		<td><a href="/{{$p_page->page_name}}">{{$p_page->page_name}}</a></td>
 		<td>
 		{{html_options name="p_perm_code" output=$page_perms values=$page_perms selected=$p_page->perm_code}}
 		</td>
