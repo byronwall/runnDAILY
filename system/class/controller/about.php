@@ -6,5 +6,8 @@ class Controller_About{
 	public function toc(){
 		
 	}
+	public function contact(){
+		
+	}
 }
 ?>

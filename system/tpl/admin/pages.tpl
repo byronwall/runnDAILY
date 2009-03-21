@@ -4,7 +4,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		<a href="/admin/action_new_pages">add new pages</a>
+		<a href="/admin/action_new_pages" class="icon"><img src="/img/icon/reports_plus.png" />Add New Pages</a>
 	</div>
 </div>
 <div class="clear"></div>
