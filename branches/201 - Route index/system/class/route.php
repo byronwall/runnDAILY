@@ -31,11 +31,29 @@ class Route extends Object{
 		return $encoded->points;
 	}
 
+	static function getPolyline($rid){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_points
+			FROM routes
+			WHERE r_id = ?
+		");
+		$stmt->bind_param("i", $rid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$row = $stmt->fetch_assoc();
+		$stmt->close();
+		
+		return $row["r_points"];
+	}
+	
 	/**
-	 * Returns the routes that were created by a specific user
+	 * Finds the rotues for a given user.  Has parameters for a paged result.
 	 *
-	 * @param User $user : the user in question
-	 * @return array of Route objects
+	 * @param int $uid		uid for user in search
+	 * @param $count		number of results to return (max)
+	 * @param $page			number of page of results (0 indexed)
+	 * @return array		array containing Route objects
 	 */
 	public static function getRoutesForUser($uid, $count = 10, $page = 0){
 		$limit_lower = $page * $count;
@@ -240,6 +258,33 @@ class Route extends Object{
 	}
 	public function getIsOwner($uid){
 		return $this->uid = $uid;
+	}
+	/**
+	 * @param $uid
+	 * @param $count
+	 * @return unknown_type
+	 */
+	static function getRoutesForUserInArray($uid, $count = 50){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_id, r_name, r_start_lat, r_start_lng, r_distance, r_creation
+			FROM routes
+			WHERE
+				r_uid = ?
+			ORDER BY
+				r_creation DESC
+			LIMIT ?
+		");
+		$stmt->bind_param("ii", $uid, $count);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$results = array();
+		while($row = $stmt->fetch_assoc()){
+			$results[$row["r_id"]] = $row;
+		}
+		
+		$stmt->close();
+		return $results;
 	}
 }
 ?>
