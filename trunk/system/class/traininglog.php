@@ -232,9 +232,9 @@ class TrainingLog extends Object{
 		$data["distance"] = array();
 		$data["max_dis"] = 0;
 		$data["min_date"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
-		$data["max_date"] = date("U", strtotime($items[0]["t_date"])) * 1000.2;
+		$data["max_date"] = (date("U") + (24 * 60 * 60)) * 1000;
 		foreach($items as $item){
-			$data["distance"][] = array(date("U", strtotime($item["t_date"])) * 1000, $item["t_distance"] + 0);
+			$data["distance"][] = array((date("U", strtotime($item["t_date"])) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
 			if ($item["t_distance"] > $data["max_dis"]){
 				$data["max_dis"] = $item["t_distance"];
 			}

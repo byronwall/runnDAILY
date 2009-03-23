@@ -77,7 +77,7 @@
 			bars:	{
 						show: true,
 						//barWidth: (24 * 60 * 60 * 1000),
-						align: "center"
+						//align: "left"
 					},
 			selection:	{
 							mode: "x"
