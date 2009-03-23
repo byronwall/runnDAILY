@@ -41,6 +41,7 @@
 		<h2>edit this entry</h2>
 		<form action="/training/action_edit" method="post" id="training_edit_form">
 			<input type="hidden" name="t_tid" value="{{$item->tid}}" />
+			<input type="hidden" name="t_rid" value="{{$item->rid}}" />
 			<ul>
 				<li><label>time</label><input type="text" name="t_time" value="{{$item->time|time_format}}" /></li>
 				<li><label>date</label><input type="text" name="t_date" value="{{$item->date|date_format}}" /></li>

@@ -6,7 +6,7 @@ class Controller_Rss{
 		}
 		
 		$user = User::fromUsername($_GET["username"]);
-		$a_items = Log::getActivityForUserByAid($user->uid, array(300,102,100,302));
+		$a_items = Log::getActivityByAid($user->uid, null, array(300,102,100,302));
 		$feed = new Rss_Feed("Activity entries for {$user->username}", "http://{$_SERVER["SERVER_NAME"]}", "Includes the activity for a given user.");
 		$feed->pubDate = date(DATE_RSS);
 		$feed->defineImageForFeed(new Rss_Image("running logo", "http://{$_SERVER["SERVER_NAME"]}", "http://{$_SERVER["SERVER_NAME"]}/img/logo.png"));

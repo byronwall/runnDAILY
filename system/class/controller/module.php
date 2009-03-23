@@ -133,7 +133,7 @@ class Controller_Module{
 		return $this->_activity(array(100,102));
 	}
 	private function _activity($aids, $title = "Activity"){
-		$activity = Log::getActivityForUserByAid(User::$current_user->uid, $aids);
+		$activity = Log::getActivityByAid(User::$current_user->uid, null, $aids);
 		
 		$this->_smarty->assign("activity", $activity);
 		
