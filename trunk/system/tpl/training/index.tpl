@@ -39,51 +39,64 @@
 	var max_h = encoded.max_dis;
 	var min_date = encoded.min_date;
 	var max_date = encoded.max_date;
-	var plot = $.plot($("#chart_placeholder"), [dis],
-			{
-				xaxis:	{
-							mode: "time",
-							timeformat: "%b %d",
-							//tickSize: [1, "day"],
-							minTickSize: [1, "day"],
-							//min: min_date
-						},
-				yaxis:	{
-							max: max_h,
-							min: 0
-						},
-				bars:	{
-							show: true,
-							barWidth: (24 * 60 * 60 * 1000),
-							align: "center"
+	var plot_options = {
+			xaxis:	{
+						mode: "time",
+						timeformat: "%b %d",
+						//tickSize: [1, "day"],
+						minTickSize: [1, "day"],
+						min: (max_date - (7 * (24 * 60 * 60 * 1000))),
+						max: max_date
+					},
+			yaxis:	{
+						max: max_h,
+						min: 0
+					},
+			bars:	{
+						show: true,
+						barWidth: (24 * 60 * 60 * 1000),
+						align: "center"
+					}
+		}
+	var plot = $.plot($("#chart_placeholder"), [dis], plot_options);
+
+	var overview_options = {
+			xaxis:	{
+						mode: "time",
+						timeformat: "%b %d",
+						//tickSize: [1, "day"],
+						minTickSize: [.5, "month"],
+						min: min_date,
+						max: max_date
+					},
+			yaxis:	{
+						ticks: null,
+						min: 0,
+						max: max_h
+					},
+			bars:	{
+						show: true,
+						//barWidth: (24 * 60 * 60 * 1000),
+						align: "center"
+					},
+			selection:	{
+							mode: "x"
 						}
-			}
-	);
-	var overview = $.plot($("#chart_overview"), [dis],
-			{
-				xaxis:	{
-							mode: "time",
-							timeformat: "%b %d",
-							//tickSize: [1, "day"],
-							minTickSize: [.5, "month"],
-							min: min_date,
-							max: max_date
-						},
-				yaxis:	{
-							ticks: null,
-							min: 0,
-							max: max_h
-						},
-				bars:	{
-							show: true,
-							//barWidth: (24 * 60 * 60 * 1000),
-							align: "center"
-						},
-				selection:	{
-								mode: "x"
-							}
-			}
-	);
+		}
+	var overview = $.plot($("#chart_overview"), [dis], overview_options);
+	overview.setSelection({ xaxis: { from: (max_date - (7 * (24 * 60 * 60 * 1000))), to: max_date } });
+  $("#chart_placeholder").bind("plotselected", function(event, ranges) {
+	  plot = $.plot($("#chart_placeholder"), [dis],
+              $.extend(true, {}, plot_options, {
+                  xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
+              }));
+      overview.setSelection(ranges, true);
+  });
+  
+  $("#chart_overview").bind("plotselected", function (event, ranges) {
+      plot.setSelection(ranges);
+  });
+
 </script>
 <!--CONTENT GOES HERE-->
 <!--<div class="grid_12">-->
