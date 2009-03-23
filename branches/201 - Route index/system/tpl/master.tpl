@@ -15,6 +15,7 @@
     <!--JAVASCRIPT-->
     <script src="/js/site.js" type="text/javascript"></script>
     <script src="/js/facebox.js" type="text/javascript"></script>
+    <script src="/js/byron.sort.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>{{$page->title}}</title>

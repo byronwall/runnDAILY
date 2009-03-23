@@ -16,6 +16,8 @@ class Route extends Object{
 
 	function __construct($arr = null, $arr_pre = "r_"){
 		parent::__construct($arr, $arr_pre);
+		
+		$this->creation = strtotime($this->creation);
 	}
 
 	/**

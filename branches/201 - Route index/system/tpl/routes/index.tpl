@@ -12,12 +12,12 @@
 
 <div class="grid_4">
 	<div id="route_list">
-		<table>
+		<table class="sortable">
 			<thead>
 				<tr>
-					<th>Date</th>
-					<th>Name</th>
-					<th>Distance</th>
+					<th class="sort-date">Date</th>
+					<th class="sort-alpha">Name</th>
+					<th class="sort-numeric">Distance</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -160,8 +160,10 @@ var RouteIndex = {
 		});
 		Map.instance.setCenter(RouteIndex.init_location);
 		$("#route_list").height($("#route_map").height()).css("overflow", "auto");
-		
-		
+		$("table.sortable").sortTable({
+			sort_field: "Date",
+			sort_desc: -1
+		});
 	}
 }
 var routes = {{$routes_js}};
