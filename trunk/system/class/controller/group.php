@@ -14,7 +14,8 @@ class Controller_Group{
 		RoutingEngine::getSmarty()->assign("user_is_member", Group::userIsMember($gid));
 		RoutingEngine::getSmarty()->assign("user_can_edit", Group::userCanEdit($gid));
 		RoutingEngine::getSmarty()->assign("group_view_anoun", Group::getAnnouncement($gid));
-		RoutingEngine::getSmarty()->assign("group_view_member_list", Group::getMembers($gid));		
+		RoutingEngine::getSmarty()->assign("group_view_member_list", Group::getMembers($gid));
+		RoutingEngine::getSmarty()->assign("group_view_activity", Log::getActivityByAid(null, $gid, array(500)));
 	}
 
 	public function create(){

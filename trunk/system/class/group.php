@@ -45,6 +45,7 @@ class Group extends Object{
 		
 		if($rows == 1){
 			$this->gid = $ins_id;
+			Log::insertItem(User::$current_user->uid, 500, null, null, null, $ins_id);
 			return true;
 		}
 		return false;

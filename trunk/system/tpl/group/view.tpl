@@ -6,8 +6,8 @@
 <div class="grid_12">
 	<div class="actions">
 		{{if $user_can_edit}}
-			<a href="#new_event_modal" class="facebox icon"><img src="/img/icon/calendar_plus.png" />New Event</a>
-			<a href="#new_announcement_modal" class="facebox icon"><img src="/img/icon/balloon_plus.png" />New Announement</a>
+			<a href="/events/create" class="icon"><img src="/img/icon/calendar_plus.png" />New Event</a>
+			<a href="#new_announcement_modal" class="facebox icon"><img src="/img/icon/balloon_pencil.png" />Edit Announements</a>
 			<a href="/routes/create?gid={{$group_view->gid}}" class="icon"><img src="/img/icon/route_plus.png" />New Route</a>
 			<a href="#" class="icon"><img src="/img/icon/users_pencil.png" />Edit Group</a>
 		{{/if}}
@@ -61,6 +61,7 @@
 <div class="grid_4">
 	<div class="box">
 		<h2>Recent Activity</h2>
+		{{include activity=$group_view_activity file="modules/activity/list.tpl"}}		 
 	</div>
 </div>
 <div class="clear"></div>
@@ -72,28 +73,6 @@
 		<input type="hidden" name="action" value="new_announcement" />
 		<p><textarea rows="5" cols="35" name="gm_anoun">{{$smarty.now|date_format}}:&#10{{$group_view_anoun}}</textarea></p>
 		<p><input type="submit" value="Create"> <input type="button" value="Cancel" onclick="$.facebox.close()" /></p>
-	</form>
-</div>
-
-<div id="new_event_modal" style="display: none">
-	<h2>New Event</h2>
-	<form action="/group/action_new_event" method="post" id="group_event_form">
-		<input type="hidden" name="g_id" value="{{$group_view->gid}}">
-		<input type="hidden" name="action" value="new_event" />
-		
-		<p><label>Title: </label></p>
-		<p><input type="text" name="e_title"></p>
-		
-		<p><label>Date: </label></p>
-		<p><input type="text" name="e_date"></p>
-		
-		<p><label>Description: </label></p>
-		<p><textarea rows="5" cols="35" name="e_desc"></textarea></p>
-		
-		<p>
-			<input type="submit" value="Create">
-			<input type="button" value="Cancel" onclick="$.facebox.close()" />
-		</p>
 	</form>
 </div>
 

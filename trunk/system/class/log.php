@@ -21,6 +21,8 @@ class Log extends Object{
 	
 	/*optional parameters*/
 	public $route;
+	public $group;
+	public $user;
 	
 	public function __construct($arr = null, $arr_pre = "l_"){
 		parent::__construct($arr, $arr_pre);
@@ -47,16 +49,16 @@ class Log extends Object{
 	
 	public static function getRouteActivityForUser($uid, $limit = 20){
 		$stmt = Database::getDB()->prepare("
-			SELECT *
-			FROM logs as l
-			JOIN logs_actions as la ON l.l_aid = la.l_aid
-			JOIN routes as r ON l.l_rid = r.r_id
-			WHERE
-				l.l_uid = ? AND
-				la.l_cid = 1
-			ORDER BY
-				l.l_datetime DESC
-			LIMIT
+		SELECT u.u_uid, u.u_username, g_gid, g_name, r_id, r_name, xu.u_uid AS x_uid, xu.u_username AS x_username, l.l_aid
+		FROM logs AS l
+		JOIN logs_actions AS la ON l.l_aid = la.l_aid
+		LEFT JOIN routes AS r ON l.l_rid = r.r_id
+		LEFT JOIN groups AS g ON l_gid = g_gid
+		LEFT JOIN users AS u ON l_uid = u.u_uid
+		LEFT JOIN users AS xu ON xu.u_uid = l_xid
+		WHERE 
+			l.l_uid = ?	
+		LIMIT
 				?
 		");
 		$stmt->bind_param("ii", $uid, $limit) or die ($stmt->error);
@@ -66,7 +68,7 @@ class Log extends Object{
 		$recent_list = array();
 		
 		while ($row = $stmt->fetch_assoc()){
-			$recent_list[] = new Log($row);
+			$recent_list[] = $row;
 		}
 		
 		$stmt->close();
@@ -189,20 +191,31 @@ class Log extends Object{
 	 * @param $aids: array containing the l_aid to match (eg: "200,201,202")
 	 * @return arrar(Log)
 	 */
-	public static function getActivityForUserByAid($uid, $aids){
+	public static function getActivityByAid($uid, $gid, $aids){
+		if($uid){
+			$field = "uid";
+			$id = $uid;
+		}else{
+			$field = "gid";
+			$id = $gid;
+		}
 		if(count($aids) == 0){
 			return false;
 		}
 		$in_str = implode(",", $aids);
 		
 		$query = "
-			SELECT *
-			FROM logs as l
-			JOIN logs_actions as la USING(l_aid)
-			LEFT JOIN routes as r ON l.l_rid = r.r_id
+			SELECT u.u_uid, u.u_username, g_gid, g_name, r_id, r_name, xu.u_uid AS x_uid, xu.u_username AS x_username, l.l_aid, la.l_cid, l.l_datetime, la.l_desc, tt.t_tid
+			FROM LOGS AS l
+			JOIN logs_actions AS la ON l.l_aid = la.l_aid
+			LEFT JOIN routes AS r ON l.l_rid = r.r_id
+			LEFT JOIN groups AS g ON l.l_gid = g_gid
+			LEFT JOIN users AS u ON l.l_uid = u.u_uid
+			LEFT JOIN users AS xu ON xu.u_uid = l.l_xid
+			LEFT JOIN training_times AS tt ON l.l_tid = tt.t_tid
 			WHERE
 				l.l_aid IN({$in_str}) AND
-				l.l_uid = {$uid}
+				l.l_{$field} = {$id}
 			ORDER BY
 				l_datetime DESC
 		";
@@ -212,7 +225,8 @@ class Log extends Object{
 		$items = array();
 		
 		while($row = $result->fetch_assoc()){
-			$items[] = new Log($row);
+			$row["familiar"] = Log::reckonDate($row["l_datetime"]);
+			$items[] = $row;
 		}
 		$result->close();
 		
@@ -224,7 +238,14 @@ class Log extends Object{
 	 * @param $aids: array containing the l_cid to match (eg: "1,2")
 	 * @return arrar(Log)
 	 */
-	public static function getActivityForUserByCid($uid, $cids){
+	public static function getActivityByCid($uid, $gid, $cids){
+		if($uid){
+			$field = "uid";
+			$id = $uid;
+		}else{
+			$field = "gid";
+			$id = $gid;
+		}
 		if(count($cids) == 0){
 			return false;
 		}
@@ -240,7 +261,7 @@ class Log extends Object{
 			LEFT JOIN routes as r ON l.l_rid = r.r_id
 			WHERE
 				la.l_cid IN({$in_str}) AND
-				l.l_uid = {$uid}
+				l.l_{$field} = {$id}
 		";
 		
 		$result = Database::getDB()->query($query);
