@@ -3,17 +3,8 @@
 </div>
 <div class="clear"></div>
 
-<div class="grid_12">
-	<div class="actions">
-		<a href="/training/create" class="icon"><img src="/img/icon_training_plus.png"/>New Training Item</a>
-		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Browse Training Items</a>
-	</div>
-</div>
-<div class="clear"></div>
-
 <div class="grid_3">
 	<div id="sort_options" class="align_right">
-		<form>
 			<label>Sort by: </label>
 			<select id="sort_select">
 				<option value="t_date">Date</option>
@@ -23,16 +14,31 @@
 				<option value="t_name">Route Name</option>
 				<option value="t_time">Time</option>
 			</select>
-		</form>
+			<a href="#" id="reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
 	</div>
+</div>
+<div class="grid_9">
+	<div class="actions">
+		<a href="/training/create" class="icon"><img src="/img/icon_training_plus.png"/>New Training Item</a>
+		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Browse Training Items</a>
+	</div>
+</div>
+<div class="clear"></div>
+
+<div class="grid_3">
 	<div id="training_items_list">
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
 		<div id="item_{{counter}}" class="training_item">
-			<p><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name">{{$training_item.r_name}}</a> (<span class="t_dist dist-mi">{{$training_item.t_distance}} mi</span>.)</p>
-			<p><span class="t_time">{{$training_item.t_time}}</span> / <span class="t_pace">{{$training_item.t_pace}}</span> / Cal</p>
-			<p class="t_date">{{$training_item.t_date|date_format}}</p>
-			<p><a href="/training/view?tid={{$training_item.t_tid}}">View in Detail</a></p>
+			{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
+				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-mi">{{$training_item.t_distance}} mi</span></div>
+				<div class="icon float_right"><span class="t_time">{{$training_item.t_time|time_format}}</span> <img src="/img/icon/clock.png" /></div>
+			<div class="clear"></div>
+				<div class="icon float_left"><img src="/img/icon/clipboard_text.png" /><span class="t_pace">{{$training_item.t_pace}} mi/h</span></div>
+				<div class="t_cal icon float_right">Calories <img src="/img/icon/heart.png" /></div>
+			<div class="clear"></div>
+			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$training_item.t_date|date_format}}</div>
+			<div class="align_right"><a href="/training/view?tid={{$training_item.t_tid}} class="icon"><img src="/img/icon/training.png" />View in Detail</a></div>
 		</div>
 		{{foreachelse}}
 		<div>
@@ -53,7 +59,11 @@
 		</form>
 	</div>
 	<div id="chart_placeholder"></div>
-	<div id="chart_overview"></div>
+	<div class="training_overview">
+		<p class="notice bold align_center mar_top_10 mar_bot_0">Overview</p>
+		<div id="chart_overview"></div>
+		<p class="notice bold align_center">Drag above in order to zoom / change the timeframe.</p>
+	</div>
 </div>
 <div class="clear"></div>
 
@@ -116,6 +126,9 @@ $(document).ready(function(){
 						//barWidth: (24 * 60 * 60 * 1000),
 						align: "center"
 					},
+			grid:	{
+						backgroundColor: "#ffffff"
+					},
 			selection:	{
 							mode: "x"
 						}
@@ -130,15 +143,17 @@ $(document).ready(function(){
 			if(this[0] > ranges.xaxis.from && this[0] < ranges.xaxis.to && this[1] > max_dist){
 				max_dist = Math.ceil(this[1]);
 			}
-	      if (active[i]){
-              plot.highlight(0, i);
-          }
       });
 	  plot = $.plot($("#chart_placeholder"), [dis],
               $.extend(true, {}, distance_plot_options, {
                   xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
                   yaxis: { min: 0, max: max_dist }
               }));
+      $.each(dis, function(i){
+	      if (active[i]){
+              plot.highlight(0, i);
+          }
+      });
       
   });
   
@@ -147,34 +162,17 @@ $(document).ready(function(){
   });
 
   $("#chart_placeholder").bind("plotclick", function (event, pos, item) {
-      //console.log("You clicked at " + item.dataIndex);
-      // secondary axis coordinates if present are in pos.x2, pos.y2,
-      // if you need global screen coordinates, they are pos.pageX, pos.pageY
-     // console.log("#item_" + item.dataIndex);
-      //$("#item_" + item.dataIndex).addClass("active_row");
       if (item) {
-        plot.highlight(item.series, item.datapoint);
-        //console.log("#item_");
-        if (!active[item.dataIndex]){
-        active[item.dataIndex] = 1;
-        $("#item_" + item.dataIndex).addClass("active_row");
-        }else{
+        if ($("#item_" + item.dataIndex).hasClass("active_row")){
             plot.unhighlight(item.series, item.datapoint);
         	$("#item_" + item.dataIndex).removeClass("active_row");
             active[item.dataIndex] = 0;
+        }else{
+	        plot.highlight(item.series, item.datapoint);
+        	$("#item_" + item.dataIndex).addClass("active_row");
+        	active[item.dataIndex] = 1;
         }
-        //alert(item.dataIndex);
       }
-    	//else{
- //         $("div[id*='item']").removeClass("active_row");
-  //        for(i = 0; i < dis.length; i++){
- //             if (active[i]){
-  //                plot.unhighlight(0, i);
-  //                active[i] = 0;
- //             }
-    //      };
-   // $("input[name*='man']").val("has man in it!");
-      //console.log(active);
   });
   });
 
@@ -182,13 +180,6 @@ sorter = {
 	sort: function(key){
 		if(!sorter.settings.classes[key]) return false;
 
-		if(sorter.settings.sort_key == key){
-			sorter.settings.sort_desc = -sorter.settings.sort_desc;
-		}
-		else{
-			sorter.settings.sort_desc = 1;
-			sorter.settings.sort_key = key;
-		}
 		var items = $(sorter.settings.item, sorter.settings.parent).get();
 		items.sort(function(a, b) {
 			var a_val = $(a).find("."+key).eq(0).text();
@@ -212,6 +203,7 @@ sorter = {
 		});
 	},
 	reverse: function(){
+		sorter.settings.sort_desc = -sorter.settings.sort_desc;
 		sorter.sort(sorter.settings.sort_key);
 	}
 };
@@ -226,13 +218,25 @@ sorter.settings = {
 		},
 		parent: "#training_items_list",
 		item: ".training_item",
-		sort_desc: 1,
-		sort_key: null
+		sort_desc: -1,
+		sort_key: "t_date"
 };
 
 $(document).ready(function(){
 	$("#sort_select").change(function(){
 		sorter.sort($(this).val());
+	});
+	$("#reverse_sort").click(function(){
+		sorter.reverse();
+		if($(this).hasClass("sort_asc")){
+			$(this).html('<img src="/img/icon/sort_desc.png" /> DESC</a>');
+			$(this).addClass("sort_desc");
+			$(this).removeClass("sort_asc");
+		}else{
+			$(this).html('<img src="/img/icon/sort_asc.png" /> ASC</a>');
+			$(this).addClass("sort_asc");
+			$(this).removeClass("sort_desc");
+		}
 	});
 });
 
