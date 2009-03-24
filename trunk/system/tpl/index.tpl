@@ -1,6 +1,6 @@
 {{*This is the template for the index page of the root folder.*}}
 <div class="grid_12">
-<h2 id="page-heading">runn Daily</h2>
+<h2 id="page-heading">Welcome to runnDAILY</h2>
 </div>
 <div class="clear"></div>
 <div class="grid_12">
@@ -8,6 +8,15 @@
 	{{if $currentUser->isAuthenticated}}
 	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />New Route</a>
 	<a href="/training/create" class="icon"><img src="/img/icon_training_plus.png" />New Training Item</a>
+	{{else}}
+	<form action="/user/login" method="post">
+		<p>
+			<label for="u_username">Username: </label><input type="text" name="username" />
+			<label for="u_password">Password: </label><input type="password" name="password" />
+			<label>Cookie? </label><input type="checkbox" name="remember" value="1">
+			<input type="submit" value="Login" />
+		</p>
+	</form>
 	{{/if}}
 </div>
 </div>
