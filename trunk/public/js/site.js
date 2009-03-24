@@ -68,3 +68,74 @@
 		});
 	});
 };
+
+$.fn.heightEqual = function(DOM){
+	$(this).height($(DOM).height());
+}
+$.fn.heightBrowser = function(options){
+	var settings = $.extend({}, {scale:0.95}, options);
+
+	$(this).height($(window).height() * settings.scale);
+
+	if(settings.callback){
+		settings.callback();
+	}
+}
+$.debug = function(message){
+	if(window.console){
+		console.log(message);
+	}
+}
+var	Units = {
+	convert: 1.6,
+	is_mile: true,
+	unit_value: "mi",
+	unit_class: ".dist-unit",
+	dist_class: ".dist-num",
+	combined_class: ".dist-val",
+	callback: null,
+	
+	init: function(options){
+		Units = $.extend({}, Units, options);
+		$(Units.unit_class +":not(:text), "+ Units.dist_class+":not(:text)").live("click", function(){
+			if(Units.is_mile){
+				Units.unit_value = "km";
+				Units.convert = 1.609344;
+			}
+			else{
+				Units.unit_value = "mi";
+				Units.convert = 0.6214;
+			}
+			Units.is_mile = !Units.is_mile;
+
+			$(Units.unit_class).text(Units.unit_value);
+			$(Units.dist_class).each(function(){
+				if($(this).is(":text")){
+				var dist = parseFloat($(this).val()) * Units.convert
+					$(this).val(dist.toFixed(2));
+				}
+				else{
+				var dist = parseFloat($(this).text()) * Units.convert
+					$(this).text(dist.toFixed(2));
+				}
+			});
+			$(Units.combined_class).each(function(){
+				var dist = parseFloat($(this).text().replace(/^[^\d.]*/, '')) * Units.convert;
+				$(this).text(dist.toFixed(2) + " " + Units.unit_value);
+			});
+			if(Units.callback){
+				Units.callback();
+			}
+		})
+		
+	},
+	textWithUnits: function(options){
+		opts = $.extend({}, {from_miles:true, add_units: false}, options);
+		
+		if(!Units.is_mile){
+			opts.dist *= Units.convert;
+		}
+
+		$(opts.target).text(opts.dist.toFixed(2)).addClass(Units.dist_class.replace(".",""));
+	}
+};

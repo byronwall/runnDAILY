@@ -21,8 +21,7 @@ This is the template for the page where new routes are created.
 <div class="clear"></div>
 <div class="grid_2">
 <div class="route_distance">
-	<p class="r_distance_disp dist-mi">0.00 mi</p>
-</div>
+	<p class="r_distance_disp dist-num">0.00</p>	<p class="units dist-unit">miles</p></div>
 <hr>
 <div class="" id="route_name_desc">
 <div class="delete_box">
@@ -98,8 +97,8 @@ This is the template for the page where new routes are created.
 
 	<form action="/user/action_map_settings" method="post" id="r_form_settings">
 		<p class="notice">Set a few options for the map!</p>
-		<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/></p>
-		<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/></p>
+		<p><label>Mile Marker Distance: </label><input type="text" id="u_mile_marker" class="number" value="1.0"/><span class="dist-unit">mi</span></p>
+		<p><label>Circular Radius: </label><input type="text" id="u_circle_dist" class="number" value="5.0"/><span class="dist-unit">mi</span></p>
 		<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
 		<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
 		<p><input type="submit" value="Set Default" /></p>
@@ -113,7 +112,7 @@ This is the template for the page where new routes are created.
 <script type="text/javascript">
 
 $(document).ready( function(){
-	Map.load("r_map", Map.event_click);
+	Map.load("r_map", Map.event_click, {full_height:true});
 	GEvent.addListener(Map.instance, "singlerightclick",
 		function(point, src, overlay){
 			Directions.click(null, Map.instance.fromContainerPixelToLatLng(point), null);
@@ -121,12 +120,11 @@ $(document).ready( function(){
 	);
 
 	{{if $currentUser->isAuthenticated && $currentUser->settings.map_settings}}
-		MapSettings = {{$currentUser->settings.map_settings}};
+		MapSettings = $.extend({}, MapSettings, {{$currentUser->settings.map_settings}});
 	{{/if}}
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
-		var LatLngCenter = new GLatLng({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
-		Map.instance.setCenter(LatLngCenter, 13);
+		Map.setHomeLocation({{$currentUser->location_lat}}, {{$currentUser->location_lng}});
 	{{/if}}
 
 	{{if $is_edit}}
@@ -155,7 +153,7 @@ $(document).ready( function(){
 		}
 	});
 	
-	$("#u_mile_marker").blur(function(){
+	$("#u_mile_marker").change(function(){
 		MapSettings.MileMarkers.distance = $("#u_mile_marker").val();
 		Map.refresh();
 	});
@@ -166,9 +164,36 @@ $(document).ready( function(){
 	$("#input_follow_roads").click(function(){
 		MapSettings.Directions.enable = $(this).attr("checked");
 	});
-	$("#u_circle_dist").blur(function(){
+	$("#u_circle_dist").change(function(){
 		MapSettings.DistanceCircle.radius = $("#u_circle_dist").val();
 		Map.refresh();
+	});
+
+	var form_init = {
+		"#input_circle_show": MapSettings.DistanceCircle.enable,
+		"#input_follow_roads": MapSettings.Directions.enable,
+		"#u_circle_dist": MapSettings.DistanceCircle.radius,
+		"#u_mile_marker": MapSettings.MileMarkers.distance
+	}
+
+	$.each(form_init, function(key){
+		if($(key).is(":checkbox")){
+			if(this == true){
+				$(key).attr("checked", true);
+			}
+			else{
+				$(key).removeAttr("checked");
+			}
+		}
+		else if($(key).is(":text")){
+			$(key).val(this);
+		}
+	});
+
+	Units.init({
+		callback:function(){
+			Map.refresh();
+		}
 	});
 });
 
