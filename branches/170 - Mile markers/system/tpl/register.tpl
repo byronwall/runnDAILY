@@ -49,8 +49,7 @@
 </form>
 <div class="clear"></div>
 
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
-<script src="/js/map.js" type="text/javascript"></script>
+{{include file="routes/parts/script.tpl"}}
 <script type="text/javascript">
 
 $(document).ready(
@@ -58,7 +57,7 @@ $(document).ready(
 		Map.load("map_placeholder", register_click);
 		var validator = $("#form_register").validate({
 			rules: {
-			u_username: {
+				u_username: {
 					required: true,
 					minlength: 2,
 					//remote: "/user/check_exists"
@@ -126,7 +125,7 @@ function register_click(overlay, latlng){
 		$("[name=u_location_lng]").val(latlng.lng());
 
 		var icon_home = new GIcon();
-		icon_home.image = "/img/icon_home.png";
+		icon_home.image = "/img/icon/home.png";
 		icon_home.shadow = "";
 		icon_home.iconSize = new GSize(16, 16);
 		icon_home.shadowSize = new GSize(0, 0);

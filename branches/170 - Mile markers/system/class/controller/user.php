@@ -32,9 +32,11 @@ class Controller_User{
 		
 		if($user->create()){
 			$_SESSION["userData"] = $user;
+			Notification::add("Your account has been created.");
 			Page::redirect("/");
 		}
 		else{
+			Notification::add("There was an error creating your account.  Try again please.");
 			Page::redirect("/register");
 		}
 	}

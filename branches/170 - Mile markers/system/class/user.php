@@ -18,6 +18,7 @@ class User extends Object{
 	public $cookie_hash;
 	public $date_access;
 	public $msg_new;
+	public $join;
 	
 	public $permissions;
 	public $settings;
@@ -32,6 +33,7 @@ class User extends Object{
 	function __construct($arr = null, $arr_pre = "u_"){
 		parent::__construct($arr, $arr_pre);
 		$this->date_access = strtotime($this->date_access);
+		$this->join = strtotime($this->join);
 	}
 	function removeFriend($f_uid){
 		$stmt = Database::getDB()->prepare("
@@ -223,14 +225,22 @@ class User extends Object{
 				u_username = ?,
 				u_password = ?,
 				u_cookie_hash = ?,
-				u_email = ?
+				u_email = ?,
+				u_location_lat = ?,
+				u_location_lng = ?,
+				u_join = NOW()
 		");
-		$stmt->bind_param("ssss",
+		$stmt->bind_param("ssssdd",
 			$this->username,$this->password,$this->cookie_hash,
-			$this->email
+			$this->email, $this->location_lat, $this->location_lng
 		);
-		$stmt->execute();
+		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
+		
+		if($stmt->error){
+			$stmt->close();
+			return false;
+		}
 		
 		$id = $stmt->insert_id;
 		$stmt->close();
@@ -241,7 +251,7 @@ class User extends Object{
 				$this->saveSetting($key);
 			}
 		}
-		return;
+		return true;
 	}
 	function saveAllSettings(){
 		foreach($this->settings as $key=>$value){
