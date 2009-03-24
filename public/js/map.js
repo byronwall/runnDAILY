@@ -59,7 +59,7 @@ var Map = {
 	load: function(map_holder_id, click_callback, options) {
 		if (GBrowserIsCompatible()) {
 			if(options && options.full_height){
-				$("#"+map_holder_id).height($(window).height()*0.95);
+				$("#"+map_holder_id).heightBrowser();
 			}
 			Map.instance = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
 			Map.instance.setCenter(new GLatLng(38.424212,-86.930522), 13);
@@ -70,6 +70,8 @@ var Map = {
 			Map.instance.addControl(new GSmallMapControl());
 			Map.instance.addControl(new GMapTypeControl());
 			Map.instance.enableScrollWheelZoom();
+			
+			Map.instance.savePosition();
 			
 			MileMarkers.init();
 		}
@@ -145,12 +147,15 @@ var Map = {
 		Map.updateDistanceDisplay();
 	},
 	updateDistanceDisplay: function(){
-		$(".r_distance_disp").text(Map.totalDistance.toFixed(2) + " mi");
-	},
+		Units.textWithUnits({			dist: Map.totalDistance,			target: ".r_distance_disp"		});	},
 	event_dragend: function(latlng_new){
 		Map.points[this.marker_id + 1].latlng = latlng_new;
 		
 		Map.refresh();
+	},
+	setHomeLocation: function(lat, lng){
+		Map.instance.setCenter(new GLatLng(lat, lng), 12);
+		Map.instance.savePosition();
 	}
 }
 
@@ -179,6 +184,10 @@ var Geocoder = {
 	
 	showAddress: function(DOM){
 		var address = $(DOM).val();
+		if(address.toLowerCase() == "home"){
+			Map.instance.returnToSavedPosition();
+			return;
+		}
 		Geocoder.instance.getLatLng(address, Geocoder.showAddressCallback);		
 	},
 	showAddressCallback: function(point){
@@ -271,7 +280,12 @@ var MileMarkers = {
 			var curLatLng = Map.points[j].latlng;
 			var prevLatLng = Map.points[j - 1].latlng;
 			
-			temp_total += prevLatLng.distanceFrom(curLatLng) * meters_to_miles;
+			var new_dist = prevLatLng.distanceFrom(curLatLng) * meters_to_miles;
+			if(!Units.is_mile){
+				new_dist *= Units.convert;
+			}
+			
+			temp_total += new_dist;
 			
 			var distIntoSec = MileMarkers.prevDistance - Math.floor(MileMarkers.prevDistance / MapSettings.MileMarkers.distance) * MapSettings.MileMarkers.distance; 
 		
