@@ -1,4 +1,21 @@
 /* CUSTOM */
+#training_items_list{
+	max-height: 600px;
+	overflow: scroll;
+}
+.active_row{
+	background-color: #fff5c5;
+}
+#chart_placeholder{
+	height: 450px;
+	width: 100%;
+}
+#chart_overview{
+	height: 100px;
+	width: 85%;
+	margin-left: auto;
+	margin-right: auto;
+}
 img.fillx{
 	width: 100%;
 }
@@ -57,6 +74,9 @@ a.icon span {
 .container_12.top {
 	background-color: #FFFFFF;
 	padding-bottom: 10px;
+	border-bottom: 2px solid #ddd;
+	border-left: 2px solid #ddd;
+	border-right: 2px solid #ddd;
 }
 
 .container_12.bottom {
@@ -771,9 +791,9 @@ html body * span.clear,html body * div.clear,html body * li.clear,html body * dd
 Grey Box Method - Layout CSS
 ----------------------------------------------- */
 body {
-	background: #eee;
+	background: #ededed;
 	/*	border-top: 5px solid #000; */
-	color: #333;
+	color: #444;
 	font-size: 11px;
 	padding: 0 0 40px;
 }
@@ -1257,101 +1277,6 @@ input.search.button {
 
 .block {
 	padding-bottom: 1px;
-}
-
-/* Accordian
------------------------------------------------ */
-.toggler {
-	color: #222;
-	margin: 0;
-	padding: 2px 5px;
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-top: 1px solid #f5f5f5;
-	border-left: 1px solid #f5f5f5;
-	font-size: 1.1em;
-	font-weight: normal;
-}
-
-.element h4 {
-	margin: 0;
-	padding: 4px;
-	line-height: 1.2em;
-}
-
-.element p {
-	margin: 0;
-	padding: 4px;
-}
-
-.float-right {
-	padding: 10px 20px;
-	float: right;
-}
-
-#accordian-block {
-	padding-bottom: 10px;
-}
-
-/* Mootools Kwicks
------------------------------------------------ */
-#kwick-box {
-	padding: 0;
-	overflow: hidden;
-}
-
-#kwick-box h2 {
-	margin: 0;
-}
-
-#kwick {
-	position: relative;
-}
-
-#kwick .kwicks {
-	display: block;
-	background: #999;
-	height: 120px;
-	list-style: none;
-	margin: 0;
-	overflow: hidden;
-}
-
-#kwick li {
-	float: left;
-	margin: 0;
-	padding: 0;
-}
-
-#kwick .kwick {
-	display: block;
-	cursor: pointer;
-	overflow: hidden;
-	height: 100px;
-	width: 215px;
-	padding: 10px;
-	background: #fff;
-}
-
-#kwick .kwick span {
-	color: #fff;
-}
-
-#kwick .one {
-	background: #666;
-}
-
-#kwick .two {
-	background: #777;
-}
-
-#kwick .three {
-	background: #888;
-}
-
-#kwick .four {
-	background: #999;
 }
 
 /* nav.css */ /*
