@@ -29,7 +29,7 @@
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
 		<div id="item_{{counter}}" class="training_item">
-			<p><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name">{{$training_item.r_name}}</a> (<span class="t_dist">{{$training_item.t_distance}}</span> mi.)</p>
+			<p><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name">{{$training_item.r_name}}</a> (<span class="t_dist dist-mi">{{$training_item.t_distance}} mi</span>.)</p>
 			<p><span class="t_time">{{$training_item.t_time}}</span> / <span class="t_pace">{{$training_item.t_pace}}</span> / Cal</p>
 			<p class="t_date">{{$training_item.t_date|date_format}}</p>
 			<p><a href="/training/view?tid={{$training_item.t_tid}}">View in Detail</a></p>
@@ -58,7 +58,8 @@
 <div class="clear"></div>
 
 <script type="text/javascript">
-	//console.log({{$json_training_items}});
+$(document).ready(function(){
+//console.log({{$json_training_items}});
 	var encoded = {{$json_training_items}};
 	var dis = encoded.distance;
 	var active = [];
@@ -123,17 +124,22 @@
 	var overview = $.plot($("#chart_overview"), [dis], distance_overview_options);
 	overview.setSelection({ xaxis: { from: (max_date - (8.75 * 24 * 60 * 60 * 1000)), to: max_date } });
   $("#chart_placeholder").bind("plotselected", function(event, ranges) {
-	  plot = $.plot($("#chart_placeholder"), [dis],
-              $.extend(true, {}, distance_plot_options, {
-                  xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
-              }));
       overview.setSelection(ranges, true);
-
+      var max_dist = 1;
 		$.each(dis, function(i){
-          if (active[i]){
+			if(this[0] > ranges.xaxis.from && this[0] < ranges.xaxis.to && this[1] > max_dist){
+				max_dist = Math.ceil(this[1]);
+			}
+	      if (active[i]){
               plot.highlight(0, i);
           }
       });
+	  plot = $.plot($("#chart_placeholder"), [dis],
+              $.extend(true, {}, distance_plot_options, {
+                  xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
+                  yaxis: { min: 0, max: max_dist }
+              }));
+      
   });
   
   $("#chart_overview").bind("plotselected", function (event, ranges) {
@@ -170,8 +176,7 @@
    // $("input[name*='man']").val("has man in it!");
       //console.log(active);
   });
-
-//code for sorting
+  });
 
 sorter = {
 	sort: function(key){
@@ -190,8 +195,8 @@ sorter = {
 			var b_val = $(b).find("."+key).eq(0).text();
 
 			if(sorter.settings.classes[key] == "numeric"){
-				a_val = parseFloat(a_val);
-				b_val = parseFloat(b_val);
+				a_val = parseFloat(a_val.replace(/^[^\d.]*/, ''));
+				b_val = parseFloat(b_val.replace(/^[^\d.]*/, ''));
 			}
 			else if(sorter.settings.classes[key] == "date"){
 				a_val = Date.parse(a_val);
@@ -230,7 +235,6 @@ $(document).ready(function(){
 		sorter.sort($(this).val());
 	});
 });
-  
 
 </script>
 <!--CONTENT GOES HERE-->

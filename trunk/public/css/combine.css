@@ -1,4 +1,8 @@
 /* CUSTOM */
+#route_list table{
+	border-collapse: separate;
+}
+
 #training_items_list{
 	max-height: 600px;
 	overflow: scroll;
@@ -1095,7 +1099,7 @@ thead th.table-head {
 tbody th,tbody td {
 	border-top: 1px solid #bbb;
 	border-bottom: 1px solid #bbb;
-	background: #eee;
+	/*background: #eee;*/
 }
 
 tbody tr.odd th,tbody tr.odd td {
