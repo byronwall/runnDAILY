@@ -11,12 +11,12 @@
 {{if $route_view->getIsOwner($currentUser->uid)}}
 	<div class="actions">
 	{{if $route_view->getCanEdit()}}
-		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
+		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon/training_plus.png" />Record Time</a>
 		<a href="/routes/create?rid={{$route_view->id}}" class="icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
 		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon_maps_pencil.png" />Copy/Edit</a>
 		<a href="#delete_modal" class="facebox icon"><img src="/img/icon_delete.png" />Delete</a>
 	{{else}}
-		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon_training_plus.png" />Record Time</a>
+		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon/training_plus.png" />Record Time</a>
 		<a href="/routes/create?rid={{$route_view->id}}&mode=copy" class="icon"><img src="/img/icon_pencil_plus.png" />Copy/Edit</a>
 	{{/if}}
 	</div>
@@ -60,13 +60,15 @@
 </div>
 <div class="clear"></div>
 
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
-<script src="/js/map.js" type="text/javascript"></script>    
+{{include file="routes/parts/script.tpl"}}
 <script type="text/javascript">
 
 $(document).ready( function(){
 	Map.load("map_placeholder", null);
-	MapData.loadRoute({{$route_view->points}}, false);
+	MapData.loadRoute({{$route_view->points}}, {
+		draggable: false,
+		show_points: false
+	});
 
 	var validator = $("#route_train_form").validate({
 		rules: {
@@ -92,20 +94,6 @@ $(document).ready( function(){
 				required: "Enter a distance",
 				number: "Must be a number"
 			}
-		},
-		// the errorPlacement has to take the table layout into account
-		errorPlacement: function(error, element) {
-			if ( element.is(":checkbox") )
-				error.appendTo ( element.next() );
-			else if( element.is(":hidden") )
-				alert(error.text());				
-			else
-				error.appendTo( element.parent() );
-		},
-		// set this class to error-labels to indicate valid fields
-		success: function(label) {
-			// set &nbsp; as text for IE
-			label.html("&nbsp;").addClass("checked");
 		}
 	});	
 });

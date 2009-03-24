@@ -109,9 +109,7 @@ This is the template for the page where new routes are created.
 	</form>
 </div>
 
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxQzNv4mzrEKtvvUg4SKGFnPU6pUNBTkQL_qSiLmJQ3qE-zNxRFJgRZM8g" type="text/javascript"></script>
-<script src="/js/map.js" type="text/javascript"></script>
-<script src="/js/PolylineEncoder.pack.js" type="text/javascript"></script>
+{{include file="routes/parts/script.tpl"}}
 <script type="text/javascript">
 
 $(document).ready( function(){
@@ -131,7 +129,9 @@ $(document).ready( function(){
 	{{/if}}
 
 	{{if $is_edit}}
-		loadRouteFromDB({{$route_edit->points}}, true);
+		loadRouteFromDB({{$route_edit->points}}, {
+			draggable:false
+		});
 	{{/if}}
 
 	$("#r_form_save").validate({

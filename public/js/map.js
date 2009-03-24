@@ -31,7 +31,8 @@ var MapSettings = {
 
 var Map = {
 	config: {
-		draggable: true
+		draggable: true,
+		show_points: true
 	},
 	icon: null,
 	iconOptions: null,
@@ -90,13 +91,6 @@ var Map = {
 		}
 	},
 	addPoint: function(latlng_new){
-		var marker_new = new GMarker(latlng_new, Map.iconOptions);
-		Map.instance.addOverlay(marker_new);
-		
-		if(Map.iconOptions.draggable){
-			GEvent.addListener(marker_new, "dragend", Map.event_dragend);
-		}
-		
 		if(Map.polyline != null){
 			var i = Map.points.length;
 			Map.polyline.insertVertex(Map.points.length, latlng_new);
@@ -112,9 +106,22 @@ var Map = {
 		
 		var point = new routePoint();
 		point.latlng = latlng_new;
-		point.marker = marker_new;
+
+		if(Map.config.show_points){
+			var marker_new = new GMarker(latlng_new, Map.iconOptions);
+			Map.instance.addOverlay(marker_new);
+			point.marker = marker_new;
+			point.marker.marker_id = Map.points.length - 1;
+			if(Map.iconOptions.draggable){
+				$.debug("error");
+				GEvent.addListener(marker_new, "dragend", Map.event_dragend);
+			}
+		}
+		else{
+			point.marker = null;
+		}
 		
-		point.marker.marker_id = Map.points.length - 1;
+		
 		Map.points.push(point);
 		
 		MileMarkers.update(false);
@@ -232,10 +239,11 @@ var MileMarkers = {
 	points: [],
 	prevDistance: 0,
 	prevMarkerDistance: 0,
+	miles: 0,
 	
 	init: function(){
 		MileMarkers.icon = new GIcon();
-		MileMarkers.icon.image = "/img/pin.png";
+		MileMarkers.icon.image = "/img/red_marker.png";
 		MileMarkers.icon.shadow = "";
 		MileMarkers.icon.iconSize = new GSize(16, 16);
 		MileMarkers.icon.shadowSize = new GSize(0, 0);
@@ -247,9 +255,16 @@ var MileMarkers = {
 			clickable: false
 		}
 	},
-	add: function(lat, lng){
+	add: function(lat, lng, mile){
 		var latlng = new GLatLng(lat, lng);
-		var marker = new GMarker(latlng, MileMarkers.icon_options);
+		
+		var options = $.extend({}, MileMarkers.icon_options, {
+			labelText: mile,
+			labelOffset: new GSize(4,-14)
+		});
+		
+		var marker = new LabeledMarker(latlng, options);
+		//var marker = new GMarker(latlng, MileMarkers.icon_options);
 		
 		var point = new routePoint();
 		point.latlng = latlng;
@@ -274,6 +289,7 @@ var MileMarkers = {
 			MileMarkers.prevDistance = 0;
 			indexStart = 1;
 			temp_total = 0;
+			MileMarkers.miles = 0;
 		}
 		
 		for(var j = indexStart;j < Map.points.length;j++){			
@@ -296,7 +312,7 @@ var MileMarkers = {
 				var lat = prevLatLng.lat() + scale * (curLatLng.lat() - prevLatLng.lat());
 				var lng = prevLatLng.lng() + scale * (curLatLng.lng() - prevLatLng.lng());
 				
-				MileMarkers.add(lat, lng);			
+				MileMarkers.add(lat, lng, ++MileMarkers.miles);			
 			}
 			
 			MileMarkers.prevMarkerDistance =  Math.floor(temp_total / MapSettings.MileMarkers.distance) * MapSettings.MileMarkers.distance;
@@ -336,9 +352,10 @@ var DistanceCircle = {
 }
 
 var MapData = {
-	loadRoute: function(polyline_options, is_edit){
+	loadRoute: function(polyline_options, options){
 		MapActions.clearAllPoints();
-		Map.config.draggable = is_edit;
+		Map.config = $.extend({}, Map.config, options);
+
 		Map.init();
 		
 		polyline_options.zoomFactor = 2;

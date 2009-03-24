@@ -231,17 +231,24 @@ class TrainingLog extends Object{
 	
 	public function buildChartData($items){
 		$data = array();
-		$data["distance"] = array();
-		$data["max_dis"] = 0;
-		$data["min_date"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
-		$data["max_date"] = date("U") * 1000;
-		foreach($items as $item){
-			$data["distance"][] = array((date("U", strtotime($item["t_date"])) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
-			if ($item["t_distance"] > $data["max_dis"]){
-				$data["max_dis"] = $item["t_distance"];
+		if($items){
+			$data["distance"] = array();
+			$data["max_dis"] = 0;
+			$data["min_date"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
+			$data["max_date"] = date("U") * 1000;
+			foreach($items as $item){
+				$data["distance"][] = array((date("U", strtotime($item["t_date"])) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
+				if ($item["t_distance"] > $data["max_dis"]){
+					$data["max_dis"] = $item["t_distance"];
+				}
 			}
+			$data["max_dis"] = ceil($data["max_dis"]);
+		}else{
+			$data["distance"] = array(date("U") * 1000, 0);
+			$data["max_dis"] = 1;
+			$data["min_date"] = date("U") * 999.8;
+			$data["max_date"] = date("U") * 1000;
 		}
-		$data["max_dis"] = ceil($data["max_dis"]);
 		return json_encode($data);
 	}
 }

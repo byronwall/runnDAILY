@@ -91,7 +91,10 @@ var RouteIndex = {
 		$("#loading_overlay").hide();
 		
 		//show route
-		MapData.loadRoute(polyline, false);
+		MapData.loadRoute(polyline, {
+			draggble: false,
+			show_points: false
+		});
 		
 		//change to route info panel
 		$("#route_list, #route_settings").hide();
@@ -126,10 +129,17 @@ var RouteIndex = {
 			$(id).text(dist.toFixed(2));
 		});
 	},
+	selected_rid: null,
 	marker_click_event: function(latlng){
-		var id = "#tr_" + this.id;
 		$(".active_row").removeClass("active_row");
-		$(id).addClass("active_row");
+		if(RouteIndex.selected_rid == this.id){
+			RouteIndex.selected_rid = null
+		}
+		else{
+			RouteIndex.selected_rid = this.id;
+			var id = "#tr_" + this.id;
+			$(id).addClass("active_row");
+		}
 	},
 	ready_event: function(){
 		$("a.route").click(function(){
