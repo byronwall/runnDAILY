@@ -48,11 +48,6 @@
 	</div>
 </div>
 <div class="grid_8">
-	<div>
-		<form onsubmit="Geocoder.showAddress('#map_jump');return false;">
-			<p><input type="text" value="Jump" id="map_jump"><input type="submit" value="Jump"></p>
-		</form>
-	</div>
 	<div id="route_map" class="map"></div>
 </div>
 <div class="clear"></div>

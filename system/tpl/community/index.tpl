@@ -10,8 +10,6 @@
 </div>
 </div>
 <div class="clear"></div>
-{{modules list=$currentUser->settings.community_modules}}
-<div class="clear"></div>
 
 <div class="grid_12">
 <h2 id="page-heading">Coming Soon</h2>

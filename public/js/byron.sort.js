@@ -30,7 +30,7 @@
 			var findSortKey;
 			if ($(this).is('.sort-alpha')) {
 				findSortKey = function($cell) {
-					return $cell.find('.sort-key').text().toUpperCase()+ ' ' + $cell.text().toUpperCase();
+					return $cell.text().toUpperCase();
 				};
 			}
 			else if ($(this).is('.sort-numeric')) {
@@ -82,6 +82,7 @@
 	$.fn.sortTable.defaults = {
 		sort_field: null,
 		sort_desc: -1,
-		should_restripe: true
+		should_restripe: true,
 	}
+	
 })(jQuery);
