@@ -21,8 +21,7 @@ This is the template for the page where new routes are created.
 <div class="clear"></div>
 <div class="grid_2">
 <div class="route_distance">
-	<p class="r_distance_disp">0.00</p>
-	<p class="units">miles</p>
+	<p class="r_distance_disp dist-mi">0.00 mi</p>
 </div>
 <hr>
 <div class="" id="route_name_desc">
@@ -89,8 +88,7 @@ This is the template for the page where new routes are created.
 	</ul>
 	
 	<div class="route_distance">
-		<p class="r_distance_disp">0.00</p>
-		<p class="units">miles</p>
+		<p class="r_distance_disp dist-mi">0.00 mi</p>
 	</div>
 </div>
 <div class="clear"></div>
