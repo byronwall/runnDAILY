@@ -19,7 +19,7 @@
 </div>
 <div class="grid_9">
 	<div class="actions">
-		<a href="/training/create" class="icon"><img src="/img/icon_training_plus.png"/>New Training Item</a>
+		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png"/>New Training Item</a>
 		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Browse Training Items</a>
 	</div>
 </div>
@@ -42,7 +42,7 @@
 		</div>
 		{{foreachelse}}
 		<div>
-			<p>You do not currently have any training items.</p>
+			<p>You do not currently have any training items. <a href="/training/create" class="icon"><img src="/img/icon/training_plus.png" />Create</a> a new training item to enable advanced features.</p>
 		</div>
 		{{/foreach}}
 	</div>
