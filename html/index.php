@@ -1,4 +1,5 @@
 <?php
+die("Configuring the server.");
 $_SERVER["TIME_START"] = microtime(true);
 
 DEFINE("PUBLIC_ROOT", dirname(__FILE__));
