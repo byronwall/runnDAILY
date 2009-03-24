@@ -104,7 +104,7 @@
 <script type="text/javascript">
 	$(document).ready(
 		function(){
-			$.initConversions();
+			Units.init();
 			$("#form_feedback").validate({
 				submitHandler : function(form){
 					$(form).ajaxSubmit();

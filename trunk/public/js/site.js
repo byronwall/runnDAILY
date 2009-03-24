@@ -52,23 +52,6 @@
  eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('(4($){6 m={\'\\b\':\'\\\\b\',\'\\t\':\'\\\\t\',\'\\n\':\'\\\\n\',\'\\f\':\'\\\\f\',\'\\r\':\'\\\\r\',\'"\':\'\\\\"\',\'\\\\\':\'\\\\\\\\\'},s={\'j\':4(x){6 a=[\'[\'],b,f,i,l=x.5,v;k(i=0;i<l;i+=1){v=x[i];f=s[7 v];2(f){v=f(v);2(7 v==\'8\'){2(b){a[a.5]=\',\'}a[a.5]=v;b=o}}}a[a.5]=\']\';3 a.p(\'\')},\'E\':4(x){3 q(x)},\'d\':4(x){3"d"},\'w\':4(x){3 F(x)?q(x):\'d\'},\'G\':4(x){2(x){2(x H I){3 s.j(x)}6 a=[\'{\'],b,f,i,v;k(i J x){v=x[i];f=s[7 v];2(f){v=f(v);2(7 v==\'8\'){2(b){a[a.5]=\',\'}a.K(s.8(i),\':\',v);b=o}}}a[a.5]=\'}\';3 a.p(\'\')}3\'d\'},\'8\':4(x){2(/["\\\\\\y-\\z]/.A(x)){x=x.L(/([\\y-\\z\\\\"])/g,4(a,b){6 c=m[b];2(c){3 c}c=b.M();3\'\\\\N\'+O.P(c/e).B(e)+(c%e).B(e)})}3\'"\'+x+\'"\'}};$.Q=4(v){6 f=R(v)?s[7 v]:s[\'w\'];2(f)3 f(v)};$.h=4(v,a){2(a===C)a=$.h.D;2(a&&!/^("(\\\\.|[^"\\\\\\n\\r])*?"|[,:{}\\[\\]0-9.\\-+S-u \\n\\r\\t])+?$/.A(v))3 C;3 T(\'(\'+v+\')\')};$.h.D=U})(V);',58,58,'||if|return|function|length|var|typeof|string|||||null|16|||parseJSON||array|for||||true|join|String||||||number||x00|x1f|test|toString|undefined|safe|boolean|isFinite|object|instanceof|Array|in|push|replace|charCodeAt|u00|Math|floor|toJSON|isNaN|Eaeflnr|eval|false|jQuery'.split('|'),0,{}))
  
  
- $.initConversions = function(){
-	$(".dist-mi").live("click", function(){
-		$(".dist-mi").each(function(){
-			var dist = $(this).text().split(" ", 1)[0];
-			$(this).text((dist * 1.6).toFixed(2) + " km");
-			$(this).addClass("dist-km").removeClass("dist-mi");
-		});
-	});
-	$(".dist-km").live("click", function(){
-		$(".dist-km").each(function(){
-			var dist = $(this).text().split(" ", 1)[0];
-			$(this).text((dist / 1.6).toFixed(2) + " mi");
-			$(this).addClass("dist-mi").removeClass("dist-km");
-		});
-	});
-};
-
 $.fn.heightEqual = function(DOM){
 	$(this).height($(DOM).height());
 }
@@ -97,7 +80,7 @@ var	Units = {
 	
 	init: function(options){
 		Units = $.extend({}, Units, options);
-		$(Units.unit_class +":not(:text), "+ Units.dist_class+":not(:text)").live("click", function(){
+		$(Units.unit_class +":not(:text), "+ Units.dist_class+":not(:text), " + Units.combined_class).die("click").live("click", function(){
 			if(Units.is_mile){
 				Units.unit_value = "km";
 				Units.convert = 1.609344;
