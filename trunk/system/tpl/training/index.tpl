@@ -57,13 +57,14 @@
 <div class="clear"></div>
 
 <script type="text/javascript">
-	console.log({{$json_training_items}});
+	//console.log({{$json_training_items}});
 	var encoded = {{$json_training_items}}
 	var dis = encoded.distance;
 	var active = [];
+	
 	for(i = 0; i < dis.length; i++){
 		active[i] = 0;
-	}
+	};
 	
 	var max_h = encoded.max_dis;
 	var min_date = encoded.min_date;
@@ -89,8 +90,9 @@
 					},
 			grid:	{
 						clickable: true
-					},
-		}
+					}
+	};
+	
 	var plot = $.plot($("#chart_placeholder"), [dis], distance_plot_options);
 
 	var distance_overview_options = {
@@ -115,7 +117,8 @@
 			selection:	{
 							mode: "x"
 						}
-		}
+	};
+	
 	var overview = $.plot($("#chart_overview"), [dis], distance_overview_options);
 	overview.setSelection({ xaxis: { from: (max_date - (8.75 * 24 * 60 * 60 * 1000)), to: max_date } });
   $("#chart_placeholder").bind("plotselected", function(event, ranges) {
@@ -129,7 +132,7 @@
           if (active[i]){
               plot.highlight(0, i);
           }
-      }
+      };
   });
   
   $("#chart_overview").bind("plotselected", function (event, ranges) {
@@ -144,7 +147,7 @@
       //$("#item_" + item.dataIndex).addClass("active_row");
       if (item) {
         plot.highlight(item.series, item.datapoint);
-        console.log("#item_");
+        //console.log("#item_");
         if (!active[item.dataIndex]){
         active[item.dataIndex] = 1;
         $("#item_" + item.dataIndex).addClass("active_row");
@@ -154,17 +157,17 @@
             active[item.dataIndex] = 0;
         }
         //alert(item.dataIndex);
-      }else{
-          $("div[id*='item']").removeClass("active_row");
-          for(i = 0; i < dis.length; i++){
-              if (active[i]){
-                  plot.unhighlight(0, i);
-                  active[i] = 0;
-              }
-          }
-    	 // $("input[name*='man']").val("has man in it!");
       }
-      console.log(active);
+    	//else{
+ //         $("div[id*='item']").removeClass("active_row");
+  //        for(i = 0; i < dis.length; i++){
+ //             if (active[i]){
+  //                plot.unhighlight(0, i);
+  //                active[i] = 0;
+ //             }
+    //      };
+   // $("input[name*='man']").val("has man in it!");
+      //console.log(active);
   });
 
 </script>
