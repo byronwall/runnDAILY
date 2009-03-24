@@ -209,7 +209,9 @@ class TrainingLog extends Object{
 			LEFT JOIN routes ON r_id = t_rid
 			WHERE
 				t_uid = ?
-			ORDER BY t_date DESC
+			ORDER BY
+				t_date DESC,
+				t_distance DESC
 			LIMIT 50
 		");
 		$stmt->bind_param("i", $uid);
@@ -232,7 +234,7 @@ class TrainingLog extends Object{
 		$data["distance"] = array();
 		$data["max_dis"] = 0;
 		$data["min_date"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
-		$data["max_date"] = (date("U") + (24 * 60 * 60)) * 1000;
+		$data["max_date"] = date("U") * 1000;
 		foreach($items as $item){
 			$data["distance"][] = array((date("U", strtotime($item["t_date"])) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
 			if ($item["t_distance"] > $data["max_dis"]){
