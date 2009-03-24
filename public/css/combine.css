@@ -5,7 +5,7 @@
 
 #training_items_list{
 	max-height: 600px;
-	overflow: scroll;
+	overflow: auto;
 }
 .active_row{
 	background-color: #fff5c5;

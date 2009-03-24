@@ -145,7 +145,7 @@ var Map = {
 		Map.updateDistanceDisplay();
 	},
 	updateDistanceDisplay: function(){
-		$(".r_distance_disp").text(Map.totalDistance.toFixed(2));
+		$(".r_distance_disp").text(Map.totalDistance.toFixed(2) + " mi");
 	},
 	event_dragend: function(latlng_new){
 		Map.points[this.marker_id + 1].latlng = latlng_new;
