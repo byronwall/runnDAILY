@@ -31,7 +31,7 @@
 		{{foreach from=$training_index_items item=training_item}}
 		<div id="item_{{counter}}" class="training_item">
 			{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
-				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-mi">{{$training_item.t_distance}} mi</span></div>
+				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance}} mi</span></div>
 				<div class="icon float_right"><span class="t_time">{{$training_item.t_time|time_format}}</span> <img src="/img/icon/clock.png" /></div>
 			<div class="clear"></div>
 				<div class="icon float_left"><img src="/img/icon/clipboard_text.png" /><span class="t_pace">{{$training_item.t_pace}} mi/h</span></div>
@@ -237,6 +237,7 @@ $(document).ready(function(){
 			$(this).addClass("sort_asc");
 			$(this).removeClass("sort_desc");
 		}
+		return false;
 	});
 });
 
