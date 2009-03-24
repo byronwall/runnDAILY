@@ -1,7 +1,21 @@
 <?php
 class Controller_Routes{
 	public function index(){
-
+		$routes = Route::getRoutesForUserInArray(User::$current_user->uid, 50);
+		$routes_js = json_encode_null($routes);
+		
+		RoutingEngine::getSmarty()->assign("routes", $routes);
+		RoutingEngine::getSmarty()->assign("routes_js", $routes_js);
+	}
+	public function ajax_route_data(){
+		if(!isset($_GET["rid"])){
+			RoutingEngine::returnAjax(false);
+		}
+		
+		$route = Route::getPolyline($_GET["rid"]);
+		
+		//note that this already is JSON
+		RoutingEngine::returnAjax($route, false);
 	}
 	public function view(){
 		if(!isset($_GET["rid"])){
