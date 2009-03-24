@@ -56,8 +56,11 @@ var Map = {
 			draggable : Map.config.draggable
 		}
 	},
-	load: function(map_holder_id, click_callback) {
+	load: function(map_holder_id, click_callback, options) {
 		if (GBrowserIsCompatible()) {
+			if(options && options.full_height){
+				$("#"+map_holder_id).height($(window).height()*0.95);
+			}
 			Map.instance = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
 			Map.instance.setCenter(new GLatLng(38.424212,-86.930522), 13);
 			
