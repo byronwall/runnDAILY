@@ -201,5 +201,48 @@ class TrainingLog extends Object{
 		}
 		return false;
 	}
+	
+	public function getIndexItemsForUser($uid){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
+			FROM training_times
+			LEFT JOIN routes ON r_id = t_rid
+			WHERE
+				t_uid = ?
+			ORDER BY
+				t_date DESC,
+				t_distance DESC
+			LIMIT 50
+		");
+		$stmt->bind_param("i", $uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$items = array();
+		
+		while ($row = $stmt->fetch_assoc()) {
+			$items[] = $row;
+		}
+		
+		$stmt->close();
+		
+		return $items;
+	}
+	
+	public function buildChartData($items){
+		$data = array();
+		$data["distance"] = array();
+		$data["max_dis"] = 0;
+		$data["min_date"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
+		$data["max_date"] = date("U") * 1000;
+		foreach($items as $item){
+			$data["distance"][] = array((date("U", strtotime($item["t_date"])) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
+			if ($item["t_distance"] > $data["max_dis"]){
+				$data["max_dis"] = $item["t_distance"];
+			}
+		}
+		$data["max_dis"] = ceil($data["max_dis"]);
+		return json_encode($data);
+	}
 }
 ?>
