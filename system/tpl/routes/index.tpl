@@ -30,7 +30,7 @@
 							<a href="#"	rel={{$route.r_id}} class="route">map</a> |
 							<a href="/routes/view?rid={{$route.r_id}}">full page</a>
 					</td>
-					<td class="dist-mi">{{$route.r_distance}} mi</td>
+					<td class="dist-val">{{$route.r_distance}} mi</td>
 				</tr>
 				{{foreachelse}}
 				<tr><td colspan="3"><a href="/routes/create">No routes.  Create one.</a></td></tr>
