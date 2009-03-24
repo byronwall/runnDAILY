@@ -1,4 +1,31 @@
 /* CUSTOM */
+.training_overview{
+	background-color: #f4f8ff;
+}
+.mar_top_10{
+	margin-top: 10px;
+}
+.mar_bot_0{
+	margin-bottom: 0px;
+}
+.bold{
+	font-weight: bold;
+}
+.align_center{
+	text-align: center;
+}
+.horiz-cent{
+	margin-left: auto;
+	margin-right: auto;
+}
+.training_item{
+	border-bottom: 1px solid #444;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 3px;
+	margin-top: 3px;
+}
+
 #route_list table{
 	border-collapse: separate;
 }
@@ -6,12 +33,13 @@
 #training_items_list{
 	max-height: 600px;
 	overflow: auto;
+	margin-top: 5px;
 }
 .active_row{
 	background-color: #fff5c5;
 }
 #chart_placeholder{
-	height: 450px;
+	height: 425px;
 	width: 100%;
 }
 #chart_overview{
@@ -31,7 +59,7 @@ ul.nav.header {
 	
 }
 
-a.icon img,p.icon img {
+a.icon img,p.icon img, div.icon img {
 	height: 16px;
 	width: 16px;
 	border-style: none;
