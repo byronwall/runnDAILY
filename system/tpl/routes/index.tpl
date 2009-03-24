@@ -30,7 +30,7 @@
 							<a href="#"	rel={{$route.r_id}} class="route">map</a> |
 							<a href="/routes/view?rid={{$route.r_id}}">full page</a>
 					</td>
-					<td>{{$route.r_distance}}</td>
+					<td class="dist-mi">{{$route.r_distance}} mi</td>
 				</tr>
 				{{foreachelse}}
 				<tr><td colspan="3"><a href="/routes/create">No routes.  Create one.</a></td></tr>
@@ -128,7 +128,8 @@ var RouteIndex = {
 	},
 	marker_click_event: function(latlng){
 		var id = "#tr_" + this.id;
-		$(id).css("color", "blue");
+		$(".active_row").removeClass("active_row");
+		$(id).addClass("active_row");
 	},
 	ready_event: function(){
 		$("a.route").click(function(){

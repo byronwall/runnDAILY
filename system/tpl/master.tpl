@@ -104,6 +104,7 @@
 <script type="text/javascript">
 	$(document).ready(
 		function(){
+			$.initConversions();
 			$("#form_feedback").validate({
 				submitHandler : function(form){
 					$(form).ajaxSubmit();

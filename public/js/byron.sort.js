@@ -82,7 +82,7 @@
 	$.fn.sortTable.defaults = {
 		sort_field: null,
 		sort_desc: -1,
-		should_restripe: true,
+		should_restripe: true
 	}
 	
 })(jQuery);
