@@ -53,12 +53,15 @@
 				<img src="/img/icon_user_female.png"/>
 			{{/if}}
 			{{$currentUser->username}}
+			<!--  
 			{{if $currentUser->msg_new}}
 			<img class="notification" src="/img/icon_mail_exclamation.png" />
-			{{/if}}</a>
+			{{/if}}
+			-->
+			</a>
 		<ul>
 				<li><a href="/settings" class="icon">Settings</a></li>
-				<li><a href="/messages" class="icon">Messages ({{$currentUser->msg_new}})</a></li>
+<!--				<li><a href="/messages" class="icon">Messages ({{$currentUser->msg_new}})</a></li>-->
 				<li><a href="/user/logout" class="icon">Logout</a></li>
 		</ul>
 		{{else}}

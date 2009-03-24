@@ -15,22 +15,23 @@
 	<div id="sort_options" class="align_right">
 		<form>
 			<label>Sort by: </label>
-			<select>
-				<option>Date</option>
-				<option>Distance</option>
-				<option>Pace</option>
-				<option>Calories</option>
-				<option>Route Name</option>
+			<select id="sort_select">
+				<option value="t_date">Date</option>
+				<option value="t_dist">Distance</option>
+				<option value="t_pace">Pace</option>
+				<option value="t_cal">Calories</option>
+				<option value="t_name">Route Name</option>
+				<option value="t_time">Time</option>
 			</select>
 		</form>
 	</div>
 	<div id="training_items_list">
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
-		<div id="item_{{counter}}" class="training_index_item">
-			<p><a href="/routes/view?rid={{$training_item.t_rid}}">{{$training_item.r_name}}</a> ({{$training_item.t_distance}} mi.)</p>
-			<p>{{$training_item.t_time}} / {{$training_item.t_pace}} / Cal</p>
-			<p>{{$training_item.t_date|date_format}}</p>
+		<div id="item_{{counter}}" class="training_item">
+			<p><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name">{{$training_item.r_name}}</a> (<span class="t_dist">{{$training_item.t_distance}}</span> mi.)</p>
+			<p><span class="t_time">{{$training_item.t_time}}</span> / <span class="t_pace">{{$training_item.t_pace}}</span> / Cal</p>
+			<p class="t_date">{{$training_item.t_date|date_format}}</p>
 			<p><a href="/training/view?tid={{$training_item.t_tid}}">View in Detail</a></p>
 		</div>
 		{{foreachelse}}
@@ -58,7 +59,7 @@
 
 <script type="text/javascript">
 	//console.log({{$json_training_items}});
-	var encoded = {{$json_training_items}}
+	var encoded = {{$json_training_items}};
 	var dis = encoded.distance;
 	var active = [];
 	
@@ -128,11 +129,11 @@
               }));
       overview.setSelection(ranges, true);
 
-      for(i = 0; i < dis.length; i++){
+		$.each(dis, function(i){
           if (active[i]){
               plot.highlight(0, i);
           }
-      };
+      });
   });
   
   $("#chart_overview").bind("plotselected", function (event, ranges) {
@@ -169,6 +170,67 @@
    // $("input[name*='man']").val("has man in it!");
       //console.log(active);
   });
+
+//code for sorting
+
+sorter = {
+	sort: function(key){
+		if(!sorter.settings.classes[key]) return false;
+
+		if(sorter.settings.sort_key == key){
+			sorter.settings.sort_desc = -sorter.settings.sort_desc;
+		}
+		else{
+			sorter.settings.sort_desc = 1;
+			sorter.settings.sort_key = key;
+		}
+		var items = $(sorter.settings.item, sorter.settings.parent).get();
+		items.sort(function(a, b) {
+			var a_val = $(a).find("."+key).eq(0).text();
+			var b_val = $(b).find("."+key).eq(0).text();
+
+			if(sorter.settings.classes[key] == "numeric"){
+				a_val = parseFloat(a_val);
+				b_val = parseFloat(b_val);
+			}
+			else if(sorter.settings.classes[key] == "date"){
+				a_val = Date.parse(a_val);
+				b_val = Date.parse(b_val);
+			}
+			
+			if (a_val < b_val ) return -sorter.settings.sort_desc;
+			if (a_val > b_val ) return sorter.settings.sort_desc;
+			return 0
+		});
+		$.each(items, function(){
+			$(sorter.settings.parent).append(this);
+		});
+	},
+	reverse: function(){
+		sorter.sort(sorter.settings.sort_key);
+	}
+};
+
+sorter.settings = {
+		classes: {
+			t_name: "alpha",
+			t_dist: "numeric",
+			t_time: "numeric",
+			t_date: "date",
+			t_pace: "numeric"
+		},
+		parent: "#training_items_list",
+		item: ".training_item",
+		sort_desc: 1,
+		sort_key: null
+};
+
+$(document).ready(function(){
+	$("#sort_select").change(function(){
+		sorter.sort($(this).val());
+	});
+});
+  
 
 </script>
 <!--CONTENT GOES HERE-->
