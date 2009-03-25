@@ -20,7 +20,7 @@
 <div class="grid_9">
 	<div class="actions">
 		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png"/>New Training Item</a>
-		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Browse Training Items</a>
+		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Training Items</a>
 	</div>
 </div>
 <div class="clear"></div>

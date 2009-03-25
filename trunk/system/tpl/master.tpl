@@ -59,9 +59,9 @@
 		{{if $currentUser->isAuthenticated}}
 			<a href="/community/view_user?uid={{$currentUser->uid}}" class="icon">
 			{{if !($currentUser->gender)}}
-				<img src="/img/icon_user_male.png"/>
+				<img src="/img/icon/user_male.png"/>
 			{{else}}
-				<img src="/img/icon_user_female.png"/>
+				<img src="/img/icon/user_female.png"/>
 			{{/if}}
 			{{$currentUser->username}}
 			<!--  

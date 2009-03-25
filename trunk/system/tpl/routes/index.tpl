@@ -5,7 +5,7 @@
 <div class="grid_12">
 <div class="actions">
 	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png"/>New Route</a>
-	<a href="/routes/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Browse Routes</a>
+	<a href="/routes/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Routes</a>
 </div>
 </div>
 <div class="clear"></div>
@@ -32,18 +32,16 @@
 					<td class="dist-val align_right bold">{{$route.r_distance}} mi</td>
 				</tr>
 				{{foreachelse}}
-				<tr><td colspan="3"><a href="/routes/create">No routes.  Create one.</a></td></tr>
+				<tr><td colspan="3">You do not currently have any routes.<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />Create</a> a new route to enable advanced features.</td></tr>
 				{{/foreach}}
 			</tbody>
 		</table>
 	</div>
 	<div id="route_info" style="display:none">
-		<h4>viewing details</h4>
-		
-		<p id="info_name"></p>
+		<h4 id="info_name"></h4>
 		<p id="info_distance"></p>
 		<p id="info_date"></p>
-		<p><a href="#" class="list">switch back to list</a></p>
+		<p><a href="#" class="list icon"><img src="/img/icon/arrow_back.png" />Return</a></p>
 	</div>
 </div>
 <div class="grid_8">
