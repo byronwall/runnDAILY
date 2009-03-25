@@ -233,19 +233,29 @@ class TrainingLog extends Object{
 		$data = array();
 		if($items){
 			$data["distance"] = array();
+			$date["pace"] = array();
 			$data["max_dis"] = 0;
+			$data["max_pace"] = 0;
 			$data["min_date"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
 			$data["max_date"] = date("U") * 1000;
 			foreach($items as $item){
-				$data["distance"][] = array((date("U", strtotime($item["t_date"])) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
+				$secs = strtotime($item["t_date"]);
+				$data["distance"][] = array((date("U", $secs) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
+				$data["pace"][] = array((date("U", $secs) - (4 * 60 * 60)) * 1000, $item["t_pace"] + 0);
 				if ($item["t_distance"] > $data["max_dis"]){
 					$data["max_dis"] = $item["t_distance"];
 				}
+				if ($item["t_pace"] > $data["max_pace"]){
+					$data["max_pace"] = $item["t_pace"];
+				}
 			}
 			$data["max_dis"] = ceil($data["max_dis"]);
+			$data["max_pace"] = ceil($data["max_pace"]);
 		}else{
 			$data["distance"] = array(date("U") * 1000, 0);
+			$data["pace"] = array(date("U") * 1000, 0);
 			$data["max_dis"] = 1;
+			$data["max_pace"] = 1;
 			$data["min_date"] = date("U") * 999.8;
 			$data["max_date"] = date("U") * 1000;
 		}

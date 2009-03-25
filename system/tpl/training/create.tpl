@@ -56,21 +56,6 @@
 
 <div class="clear"></div>
 
-<div class="grid_12">
-	<h2 id="page-heading">Coming Soon</h2>
-</div>
-
-<div class="clear"></div>
-
-<div class="grid_4">
-	<div class="box">
-		<h2>Advanced Options</h2>
-		<p>Advanced options may include intensity and other various elements that could be used for statistics.</p>
-	</div>
-</div>
-
-<div class="clear"></div>
-
 <script type="text/javascript">
 var routes = {{$routes_json}};
 

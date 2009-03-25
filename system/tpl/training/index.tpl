@@ -52,9 +52,9 @@
 	<div id="chart_select" class="align_right">
 		<form>
 		<p>Chart type: 		
-			<input type="radio" name="chart_type" value="dis" checked="checked" /><label for="chart_distance">Distance</label>
-			<input type="radio" name="chart_type" value="pac" /><label for="chart_pace">Pace</label>
-			<input type="radio" name="chart_type" value="cal" /><label for="chart_calories">Calories</label>
+			<input id="dist_rad" type="radio" name="chart_type" value="dis" checked="checked" /><label for="chart_distance">Distance</label>
+			<input id="pace_rad" type="radio" name="chart_type" value="pac" /><label for="chart_pace">Pace</label>
+<!--			<input type="radio" name="chart_type" value="cal" /><label for="chart_calories">Calories</label>-->
 		</p>
 		</form>
 	</div>
@@ -69,16 +69,18 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-//console.log({{$json_training_items}});
 	var encoded = {{$json_training_items}};
 	var dis = encoded.distance;
+	var pace = encoded.pace;
+	var mode = "dist";
 	var active = [];
 	
 	for(i = 0; i < dis.length; i++){
 		active[i] = 0;
 	};
 	
-	var max_h = encoded.max_dis;
+	var max_dis = encoded.max_dis;
+	var max_pace = encoded.max_pace;
 	var min_date = encoded.min_date;
 	var max_date = encoded.max_date;
 	var distance_plot_options = {
@@ -91,7 +93,7 @@ $(document).ready(function(){
 						max: max_date
 					},
 			yaxis:	{
-						max: max_h,
+						max: max_dis,
 						min: 0,
 						label: "Distance"
 					},
@@ -105,8 +107,6 @@ $(document).ready(function(){
 					}
 	};
 	
-	var plot = $.plot($("#chart_placeholder"), [dis], distance_plot_options);
-
 	var distance_overview_options = {
 			xaxis:	{
 						mode: "time",
@@ -119,7 +119,7 @@ $(document).ready(function(){
 			yaxis:	{
 						ticks: null,
 						min: 0,
-						max: max_h
+						max: max_dis
 					},
 			bars:	{
 						show: true,
@@ -133,29 +133,105 @@ $(document).ready(function(){
 							mode: "x"
 						}
 	};
+
+	var pace_plot_options = {
+			xaxis:	{
+						mode: "time",
+						timeformat: "%b %d",
+						//tickSize: [1, "day"],
+						minTickSize: [1, "day"],
+						min: (max_date - (8.75 * 24 * 60 * 60 * 1000)),
+						max: max_date
+					},
+			yaxis:	{
+						max: max_pace,
+						min: 0,
+						label: "Pace"
+					},
+			lines:	{
+						show: true
+						//barWidth: (24 * 60 * 60 * 1000),
+						//align: "center"
+					},
+			points:	{
+						show: true
+					},
+			grid:	{
+						clickable: true
+					}
+	};
+	
+	var pace_overview_options = {
+			xaxis:	{
+						mode: "time",
+						timeformat: "%b %d",
+						//tickSize: [1, "day"],
+						minTickSize: [.5, "month"],
+						min: min_date,
+						max: max_date
+					},
+			yaxis:	{
+						ticks: null,
+						min: 0,
+						max: max_pace
+					},
+			lines:	{
+						show: true
+						//barWidth: (24 * 60 * 60 * 1000),
+						//align: "center"
+					},
+			grid:	{
+						backgroundColor: "#ffffff"
+					},
+			selection:	{
+							mode: "x"
+						}
+	};
+	
+	var plot = $.plot($("#chart_placeholder"), [dis], distance_plot_options);
 	
 	var overview = $.plot($("#chart_overview"), [dis], distance_overview_options);
 	overview.setSelection({ xaxis: { from: (max_date - (8.75 * 24 * 60 * 60 * 1000)), to: max_date } });
-  $("#chart_placeholder").bind("plotselected", function(event, ranges) {
-      overview.setSelection(ranges, true);
-      var max_dist = 1;
+
+	$("#chart_placeholder").bind("plotselected", function(event, ranges) {
+	    overview.setSelection(ranges, true);
+	    var max_dist = 1;
+	    var max_pace = 1;
 		$.each(dis, function(i){
 			if(this[0] > ranges.xaxis.from && this[0] < ranges.xaxis.to && this[1] > max_dist){
 				max_dist = Math.ceil(this[1]);
 			}
-      });
+	    });
+		$.each(pace, function(i){
+			if(this[0] > ranges.xaxis.from && this[0] < ranges.xaxis.to && this[1] > max_pace){
+				max_pace = Math.ceil(this[1]);
+			}
+	    });
+	    if(mode == "dist"){
 	  plot = $.plot($("#chart_placeholder"), [dis],
-              $.extend(true, {}, distance_plot_options, {
-                  xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
-                  yaxis: { min: 0, max: max_dist }
-              }));
-      $.each(dis, function(i){
+	            $.extend(true, {}, distance_plot_options, {
+	                xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
+	                yaxis: { min: 0, max: max_dist }
+	            }));
+	    }else{
+	  plot = $.plot($("#chart_placeholder"), [pace],
+	            $.extend(true, {}, pace_plot_options, {
+	                xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
+	                yaxis: { min: 0, max: max_pace }
+	            }));
+	    }
+	    $.each(dis, function(i){
 	      if (active[i]){
-              plot.highlight(0, i);
-          }
-      });
-      
-  });
+	            plot.highlight(0, i);
+	        }
+	    });
+	    $.each(pace, function(i){
+	      if (active[i]){
+	            plot.highlight(0, i);
+	        }
+	    });
+	    
+	});
   
   $("#chart_overview").bind("plotselected", function (event, ranges) {
       plot.setSelection(ranges);
@@ -173,6 +249,21 @@ $(document).ready(function(){
         	active[item.dataIndex] = 1;
         }
       }
+  });
+
+  $("#pace_rad").click(function(){
+		mode = "pace";
+		var plot = $.plot($("#chart_placeholder"), [pace], pace_plot_options);
+		var overview = $.plot($("#chart_overview"), [pace], pace_overview_options);
+		overview.setSelection({ xaxis: { from: (max_date - (8.75 * 24 * 60 * 60 * 1000)), to: max_date } });
+			
+  });
+  $("#dist_rad").click(function(){
+		mode = "dist";
+		var plot = $.plot($("#chart_placeholder"), [dis], distance_plot_options);
+		var overview = $.plot($("#chart_overview"), [dis], distance_overview_options);
+		overview.setSelection({ xaxis: { from: (max_date - (8.75 * 24 * 60 * 60 * 1000)), to: max_date } });
+			
   });
   });
 
