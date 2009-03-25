@@ -35,10 +35,7 @@
 <div class="clear"></div>
 
 <script type="text/javascript">
-
-var anchorCall;
 $(document).ready( function(){
-	prep_ajax($("a.ajax"));
 	validator = $("#training_browse_form").validate({
 		rules: {
 			"t_distance[0]":{
@@ -65,20 +62,4 @@ $(document).ready( function(){
 		$("#training_browse_form").clearForm();
 	});
 });
-
-function prep_ajax(DOM){
-	DOM.click( function(){
-		anchorCall = $(this).parent().before("<li><img src='/img/loadingAnimation.gif' /></li>");
-		anchorCall.fadeOut("slow");
- 		$.get(this.href, function(data){
-			anchorCall.prev("li").remove();
-			anchorCall.before(data);
-			prep_ajax(anchorCall.prev().find("a.ajax"));
-			anchorCall.remove();
-		}, "html");
-		return false;
-	});
-	
-}
-
 </script>
