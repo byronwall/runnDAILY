@@ -1,8 +1,0 @@
-<IfModule rewrite_module>
-RewriteEngine On
-RewriteCond %{SCRIPT_FILENAME} !-f
-#RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteRule . index.php [L]
-</IfModule>
-
-AddHandler php5-script .php
