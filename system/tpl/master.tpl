@@ -48,7 +48,7 @@
 		</ul>
 		</li>
 		
-		<li><a href="/about" class="icon"><img src="/img/icon/runndaily.png"/>runn Daily</a>
+		<li><a href="/about" class="icon"><img src="/img/icon/runndaily.png"/>runnDAILY</a>
 		<ul>
 				<li><a href="/about/index">About Us</a></li>
 				<li><a href="/about/contact">Contact</a></li>
@@ -76,14 +76,14 @@
 		</ul>
 		{{else}}
 		<li class="secondary"><a href="/login" class="icon"><img src="/img/icon_login.png" />Login</a></li>
-		<li class="secondary"><a href="/register" class="icon"><img src="/img/icon_register.png" />Register</a></li>
+		<li class="secondary"><a href="/register" class="icon"><img src="/img/icon/register.png" />Register</a></li>
 		{{/if}} {{if $engine->requirePermission("PV__100")}}
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
 		{{if $page->common}}
-		<li class="secondary"><a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon_help.png" /></a></li>
+		<li class="secondary"><a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon/help.png" /></a></li>
 		{{/if}}
-		<li class="secondary"><a href="#feedback_modal" class="facebox icon"><img src="/img/icon_feedback.png" /></a></li>
+		<li class="secondary"><a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" /></a></li>
 </ul>
 </div>
 <div class="clear"></div>
