@@ -20,6 +20,7 @@
 	</form>
 	{{/if}}
 </div>
+<h5 style="color: red;">We are still experiencing server issues. We have restored the majority of the site's features. Registration is open, and all registered users will be emailed once our server is functioning properly. We apologize for the inconvenience.</h5>
 </div>
 <div class="clear"></div>
 
