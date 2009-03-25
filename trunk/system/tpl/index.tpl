@@ -24,12 +24,6 @@
 <div class="clear"></div>
 
 <div class="grid_12">
-	<h3>We are currently having difficulties with our server.  Bookmark the site and check back if it 
-	does not seem to be working.  We can assure you that this annoys us as much as you, and it will be fixed as  
-	soon as possible.</h3>
-</div>
-
-<div class="grid_12">
 <h3>runnDAILY</h3>
 <p>Welcome to runnDAILY! runnDAILY is an online dashboard for anyone that
 runs, walks, bikes, or jogs. We provide a very unique set of tools that allow a

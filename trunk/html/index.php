@@ -1,5 +1,5 @@
 <?php
-phpinfo();
+//phpinfo();
 //die("Configuring the server.");
 $_SERVER["TIME_START"] = microtime(true);
 
