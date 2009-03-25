@@ -129,7 +129,7 @@ function register_click(overlay, latlng){
 		$("[name=u_location_lng]").val(latlng.lng());
 
 		var icon_home = new GIcon();
-		icon_home.image = "/img/icon_home.png";
+		icon_home.image = "/img/icon/home.png";
 		icon_home.shadow = "";
 		icon_home.iconSize = new GSize(16, 16);
 		icon_home.shadowSize = new GSize(0, 0);

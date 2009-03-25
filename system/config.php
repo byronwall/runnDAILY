@@ -7,9 +7,9 @@ function site_autoload($class){
 	if($class == "smarty") return require(CLASS_ROOT."/smarty/Smarty.php");
 	
 	$path = CLASS_ROOT. "/" . str_replace("_", "/", $class) . ".php";
-	if(file_exists($path)){
+	//if(file_exists($path)){
 		require($path);
-	}
+	//}
 }
 
 function array_safe($arr, $key, $default = null){

@@ -31,6 +31,16 @@ class Controller_User{
 		$user->cookie_hash = md5(time());
 		
 		if($user->create()){
+			if(isset($_FILES['user_img'])){
+				$updir = PUBLIC_ROOT . "/img/user/";
+				$path_part = pathinfo($_FILES['user_img']['name']);
+				$upfile = (User::$current_user->uid % 100) . "/" . User::$current_user->uid . "." . $path_part["extension"];
+				if (move_uploaded_file($_FILES['user_img']['tmp_name'], $updir . $upfile)){
+					$user->updateImage($upfile);
+				}
+			}
+			
+			
 			$_SESSION["userData"] = $user;
 			Notification::add("Your account has been created.");
 			Page::redirect("/");
@@ -60,6 +70,7 @@ class Controller_User{
 		}
 		Page::redirect("/admin/user");
 	}
+	
 	public function delete(){
 		$user = new User($_POST);
 
@@ -85,7 +96,7 @@ class Controller_User{
 		Page::redirect("/settings");
 	}
 	public function check_exists(){
-		$username = $_GET["username"];
+		$username = $_GET["u_username"];
 
 		if(User::getUserExists($username)){
 			echo json_encode(false);

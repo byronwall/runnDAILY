@@ -1,12 +1,6 @@
 <?php
 class Controller_Home{
 	public function index(){
-		if(User::$current_user->uid){
-			$recent_activity = Log::getAllActivityForUser(User::$current_user->uid);
-			RoutingEngine::getSmarty()->assign("recent_activity_list", $recent_activity);
-		}
-		
-		RoutingEngine::getSmarty()->assign("body_id", "body_home");
 	}
 	public function login(){
 		

@@ -30,15 +30,25 @@
 <div class="grid_12">
 <ul class="header nav main">
 		<li><a href="/index" class="icon"><img src="/img/icon/home.png" />Home</a></li>
-		<li><a href="/routes/index" class="icon"><img src="/img/icon/route.png" />Routes</a></li>
-		<li><a href="/training/index" class="icon"><img src="/img/icon/training.png" />Training</a></li>
+		<li><a href="/routes/index" class="icon"><img src="/img/icon/route.png" />Routes</a>
+			<ul>
+				<li><a href="/routes/create">Create</a></li>
+				<li><a href="/routes/browse">Search</a></li>
+			</ul>
+		</li>
+		<li><a href="/training/index" class="icon"><img src="/img/icon/training.png" />Training</a>
+			<ul>
+					<li><a href="/training/create">Create</a></li>
+					<li><a href="/training/browse">Search</a></li>
+			</ul>
+		</li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon/community.png" />Community</a>
 		<ul>
 				<li><a href="/events">Events</a></li>
 		</ul>
 		</li>
 		
-		<li><a href="#" class="icon"><img src="/img/icon/runndaily.png"/>runn Daily</a>
+		<li><a href="/about" class="icon"><img src="/img/icon/runndaily.png"/>runn Daily</a>
 		<ul>
 				<li><a href="/about/index">About Us</a></li>
 				<li><a href="/about/contact">Contact</a></li>
@@ -115,13 +125,18 @@
 
 			$("a.notify").click(function(){
 				var a = $(this);
-				$.post(
-					"/user/ajax_remove_notification",
-					{id:this.rel},
-					function(data){
-						a.closest(".notification").remove();
-					}
-				);
+				if(this.rel){
+					$.post(
+						"/user/ajax_remove_notification",
+						{id:this.rel},
+						function(data){
+							a.closest(".notification").remove();
+						}
+					);
+				}
+				else{
+					a.closest(".notification").remove();
+				}				
 				return false;
 			});
 		}

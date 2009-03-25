@@ -19,9 +19,10 @@ class User extends Object{
 	public $date_access;
 	public $msg_new;
 	public $join;
+	public $img_src;
 	
 	public $permissions;
-	public $settings;
+	public $settings = array();
 	
 	public $friends;
 	
@@ -439,7 +440,7 @@ class User extends Object{
 	public function refreshDetails($row = null){
 		if(!isset($row)){
 			$stmt = Database::getDB()->prepare("
-				SELECT *
+				SELECT u_msg_new
 				FROM users
 				WHERE u_uid = ?
 			");
@@ -540,6 +541,28 @@ class User extends Object{
 		
 		return $rows == 1;
 	}
+	
+	public function updateImage($filename){
+		$this->img_src = $filename;
+		$stmt = Database::getDB()->prepare("
+			UPDATE users
+			SET
+				u_img_src = ?
+			WHERE
+				u_uid = ?
+		");
+		$stmt->bind_param("si", $this->img_src, $this->uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		if($rows == 1){
+			return true;
+		}
+	}	
+	
 	public function deleteUser(){
 		//require admin privs
 		User::$current_user->checkPermissions(100);

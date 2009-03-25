@@ -197,8 +197,8 @@ class RoutingEngine{
 	public function authenticateUser(){
 		if(isset($_SESSION["userData"]) && $_SESSION["userData"]->uid){
 			User::$current_user = $_SESSION["userData"];
-			User::$current_user->refreshDetails();
-			User::$current_user->refreshSettings();
+			//User::$current_user->refreshDetails();
+			//User::$current_user->refreshSettings();
 		}
 		else{
 			$_SESSION["userData"] = User::cookieLogin();
