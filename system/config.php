@@ -1,9 +1,6 @@
 <?php
 DEFINE("COOKIE_NAME", "runndaily");
-DEFINE("DB_USER", "thechanmane");
-DEFINE("DB_PASS", "ic'an'cu88");
-DEFINE("DB_NAME", "running");
-DEFINE("DB_HOST", "98.223.231.125");
+
 spl_autoload_register("site_autoload");
 
 function site_autoload($class){
