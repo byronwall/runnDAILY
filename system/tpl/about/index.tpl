@@ -5,7 +5,7 @@
 
 <div class="grid_12">
 <h5>What is runnDAILY?</h5>
-<p>runnDAILY is a dashboard for anyone that runs, walks, bikes, or jogs. We
+<p>runnDAILY is an online dashboard for anyone that runs, walks, bikes, or jogs. We
 provide a very unique set of tools that allow a user to completely track their
 personal exercise activity. The most powerful of these tools is a mapping
 utility that can plot a variety of routes. In addition to the routing utility,

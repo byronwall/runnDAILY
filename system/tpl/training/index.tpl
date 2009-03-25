@@ -38,7 +38,7 @@
 				<div class="t_cal icon float_right">Calories <img src="/img/icon/heart.png" /></div>
 			<div class="clear"></div>
 			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$training_item.t_date|date_format}}</div>
-			<div class="align_right"><a href="/training/view?tid={{$training_item.t_tid}} class="icon"><img src="/img/icon/training.png" />View in Detail</a></div>
+			<div class="align_right"><a href="/training/view?tid={{$training_item.t_tid}}" class="icon"><img src="/img/icon/training.png" />View in Detail</a></div>
 		</div>
 		{{foreachelse}}
 		<div>
@@ -50,13 +50,10 @@
 
 <div class="grid_9">
 	<div id="chart_select" class="align_right">
-		<form>
 		<p>Chart type: 		
-			<input id="dist_rad" type="radio" name="chart_type" value="dis" checked="checked" /><label for="chart_distance">Distance</label>
-			<input id="pace_rad" type="radio" name="chart_type" value="pac" /><label for="chart_pace">Pace</label>
-<!--			<input type="radio" name="chart_type" value="cal" /><label for="chart_calories">Calories</label>-->
+			<input id="dist_rad" type="radio" checked="checked" /><label>Distance</label>
+			<input id="pace_rad" type="radio" value="pac" /><label>Pace</label>
 		</p>
-		</form>
 	</div>
 	<div id="chart_placeholder"></div>
 	<div class="training_overview">
@@ -73,7 +70,7 @@ $(document).ready(function(){
 	var dis = encoded.distance;
 	var pace = encoded.pace;
 	var mode = "dist";
-	var active = [];
+	var active = new Array();
 	
 	for(i = 0; i < dis.length; i++){
 		active[i] = 0;
@@ -154,7 +151,8 @@ $(document).ready(function(){
 						//align: "center"
 					},
 			points:	{
-						show: true
+						show: true,
+						radius: 5
 					},
 			grid:	{
 						clickable: true
@@ -288,7 +286,8 @@ sorter = {
 			}
 			if (a_val < b_val ) return -sorter.settings.sort_desc;
 			if (a_val > b_val ) return sorter.settings.sort_desc;
-			return 0
+
+			return 0;
 		});
 		$.each(items, function(){
 			$(sorter.settings.parent).append(this);

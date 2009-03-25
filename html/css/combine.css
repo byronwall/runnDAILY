@@ -1,4 +1,12 @@
 /* CUSTOM */
+#route_list th{
+	vertical-align: middle;
+	padding: 3px;
+	margin: 3px;
+}
+#route_list thead tr th{
+	text-align: center;
+}
 input.error{
 	border:1px dotted red;
 }
@@ -16,9 +24,6 @@ div.LabeledMarker_markerLabel{
 	width:20px;
 }
 
-.training_overview{
-	background-color: #f4f8ff;
-}
 .mar_top_10{
 	margin-top: 10px;
 }
