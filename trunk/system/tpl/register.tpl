@@ -23,6 +23,7 @@
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
 	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"> <img src="/img/icon_exclamation_small.png"/></p>
+	<p><label for="input_email_confirm">Confirm Email: </label><input id="input_email_confirm" type="text" name="u_email_confirm"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"> <img src="/img/icon_exclamation_small.png"/></p>
@@ -86,6 +87,11 @@ $(document).ready(
 					required: true,
 					email: true
 				},
+				u_email_confirm: {
+					required: true,
+					email: true,
+					equalTo: "#input_email"
+				},
 				u_birthday: {
 					date: true
 				},
@@ -110,7 +116,12 @@ $(document).ready(
 				},
 				u_email: {
 					required: "Enter a valid email address.",
-					minlength: "Enter a valid email address."
+					email: "Enter a valid email address."
+				},
+				u_email_confirm: {
+					required: "Enter a valid email address.",
+					email: "Enter a valid email address.",
+					equalTo: "Email addresses need to be the same."
 				},
 				u_location_lat: {
 					required: "Select your location on the map"

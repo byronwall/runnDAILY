@@ -3,7 +3,9 @@
 </div>
 <div class="clear"></div>
 
-<div id="errors" class="grid_12"></div>
+<div class="grid_12">
+	<ul id="errors_box"></ul>
+</div>
 <div class="clear"></div>
 
 <form name="settings_form" id="form_settings" action="/user/action_settings" method="post">
@@ -14,6 +16,7 @@
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
 	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email" value="{{$currentUser->email}}"></p>
+	<p><label for="input_email_confirm">Confirm Email: </label><input id="input_email_confirm" type="text" name="u_email_confirm"></p>
 	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"></p>
 	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"></p>
 </div>
@@ -58,8 +61,10 @@ $(document).ready(
 			register_click(null, LatLngCenter);
 		{{/if}}
 
-
-		$("#form_settings").validate({
+		var validator = $("#form_settings").validate({
+			onkeyup: true,
+			onclick: true,
+			onfocusout: false,
 			rules: {
 				u_password: {
 					minlength: 5
@@ -69,8 +74,14 @@ $(document).ready(
 					equalTo: "#input_password"
 				},
 				u_email: {
-					required: true,
 					email: true
+				},
+				u_email_confirm: {
+					email: true,
+					equalTo: "#input_email"
+				},
+				u_birthday: {
+					date: true
 				},
 				u_location_lat:{
 					required: true
@@ -78,17 +89,18 @@ $(document).ready(
 			},
 			messages: {
 				u_password: {
-					required: "Enter a password.",
 					rangelength: jQuery.format("Password must be at least {0} characters")
 				},
 				u_password_confirm: {
-					required: "Confirm your password.",
 					minlength: jQuery.format("Enter at least {0} characters"),
 					equalTo: "Passwords do not match."
 				},
 				u_email: {
-					required: "Enter a valid email address.",
-					minlength: "Enter a valid email address."
+					email: "Enter a valid email address."
+				},
+				u_email_confirm: {
+					email: "Enter a valid email address.",
+					equalTo: "Email addresses need to be the same."
 				},
 				u_location_lat: {
 					required: "Select your location on the map"
@@ -111,10 +123,11 @@ $(document).ready(
 				});
 				form.submit();
 			},
-			errorLabelContainer: "#errors",
-			wrapper: "p"
+			errorLabelContainer: "#errors_box",
+			wrapper: "li",
+			errorClass: "error"
 		});
-
+			
 		$("input[name*=u_]").each(function(){
 			$(this).data("init", $(this).val());
 		});
