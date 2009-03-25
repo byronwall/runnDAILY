@@ -8,7 +8,7 @@
 		{{if !$currentUser->checkFriendsWith($user->uid)}}
 		<a href="#addFriend" id="a_addfriend" class="icon"><img src="/img/icon_user_plus.png" />Add as Friend</a>
 		{{else}}
-		<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon_user_plus.png" />Remove Friend</a>
+		<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon/user_plus.png" />Remove Friend</a>
 		{{/if}}
 	</div>
 </div>
@@ -78,7 +78,7 @@ $("#a_addfriend").live("click", function(){
 		{f_uid:f_uid},
 		function(data){
 			if(data){
-				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon_user_plus.png" />Remove Friend</a>');
+				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon/user_plus.png" />Remove Friend</a>');
 			}
 			else{
 				a.text("Try To Add Again");
@@ -100,7 +100,7 @@ $("#a_removefriend").live("click", function(){
 		{f_uid:f_uid},
 		function(data){
 			if(data){
-				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon_user_plus.png" />Add as Friend</a>');
+				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon/user_plus.png" />Add as Friend</a>');
 			}
 			else{
 				a.text("Try To Remove Again");
