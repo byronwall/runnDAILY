@@ -8,7 +8,7 @@ class Database extends mysqli
 	//private constructor to prevent direct access
 	private function __construct()
 	{
-		parent::__construct("localhost", "php", "j6Hmj544vUETZedU", "running");
+		parent::__construct(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 		if(mysqli_connect_errno())
 		{
 			throw new Exception(mysqli_connect_error(), mysqli_connect_errno());
