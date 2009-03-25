@@ -15,7 +15,7 @@
 
 <table>
 <thead>
-	<td>Address</td><td>Permissions</td><td>Title</td><td>Tab</td><td>Common</td>
+	<td>Address</td><td>Permissions</td><td>Title</td><td>Common</td>
 </thead>
 <tbody>
 {{foreach from=$pages item=p_page}}
@@ -27,7 +27,6 @@
 		{{html_options name="p_perm_code" output=$page_perms values=$page_perms selected=$p_page->perm_code}}
 		</td>
 		<td><input type="text" value="{{$p_page->title}}" name="p_title" class="required"/></td>
-		<td><input type="text" value="{{$p_page->tab}}" name="p_tab" /></td>
 		<td><input type="text" value="{{$p_page->common}}" name="p_common" /></td>
 		<td><input type="submit" value="update" /></td>
 	</tr>

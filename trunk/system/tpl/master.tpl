@@ -43,9 +43,9 @@
 			</ul>
 		</li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon/community.png" />Community</a>
-		<ul>
-				<li><a href="/events">Events</a></li>
-		</ul>
+<!--		<ul>-->
+<!--				<li><a href="/events">Events</a></li>-->
+<!--		</ul>-->
 		</li>
 		
 		<li><a href="/about" class="icon"><img src="/img/icon/runndaily.png"/>runnDAILY</a>

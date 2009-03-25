@@ -126,6 +126,12 @@
       $('#facebox .content').append(data)
       $('#facebox .loading').remove()
       $('#facebox .body').children().fadeIn('normal')
+      if($.facebox.settings.modal){ 
+      	$("#facebox .close").text("close with <escape>").bind("click", function(){return false});
+      }
+      else{
+      	$("#facebox .close").text("close").bind("click", $.facebox.close);
+      }
       $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
@@ -160,10 +166,8 @@
     if (settings) $.extend($.facebox.settings, settings)
     $('body').append($.facebox.settings.faceboxHtml)
 
-    var preload = [ new Image(), new Image() ]
-    preload[1].src = $.facebox.settings.loadingImage
-
-    $('#facebox .close').click($.facebox.close)
+    var preload = [ new Image() ]
+    preload[0].src = $.facebox.settings.loadingImage
   }
   
   // getPageScroll() by quirksmode.com
