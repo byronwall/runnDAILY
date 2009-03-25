@@ -1,9 +1,10 @@
 #facebox {
   position: fixed;
-  top: 0;
-  left: 0;
+  top:0px;
+  left:0px;
   z-index: 100;
   text-align: left;
+  max-width: 600px;
 }
 
 #facebox .popup {
@@ -40,7 +41,9 @@
   border: 0;
   margin: 0;
 }
-
+#facebox .content{
+	
+}
 #facebox .footer {
   border-top: 1px solid #DDDDDD;
   padding-top: 5px;

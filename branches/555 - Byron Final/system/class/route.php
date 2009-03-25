@@ -14,7 +14,7 @@ class Route extends Object{
 
 	public $training_count;
 	public $user;
-
+	
 	function __construct($arr = null, $arr_pre = "r_"){
 		parent::__construct($arr, $arr_pre);
 		
@@ -34,6 +34,19 @@ class Route extends Object{
 		return $encoded->points;
 	}
 
+	function copy(){
+		var_dump($this);
+		$db_route = Route::fromRouteIdentifier($this->id);
+		var_dump($db_route);
+		$db_route->name = $this->name;
+		
+		if($db_route->createRoute()){
+			$this->id = $db_route->id;
+			return true;
+		}
+		return false;
+	}
+	
 	static function getPolyline($rid){
 		$stmt = Database::getDB()->prepare("
 			SELECT r_points
@@ -108,7 +121,7 @@ class Route extends Object{
 	 */
 	public static function fromRouteIdentifier($id){
 		$stmt = Database::getDB()->prepare("
-			SELECT *
+			SELECT r.*, u_username
 			FROM routes as r, users as u
 			WHERE
 				r.r_id = ? AND
@@ -121,7 +134,10 @@ class Route extends Object{
 		$row = $stmt->fetch_assoc();
 		$stmt->close();
 
-		return new Route($row);
+		$route = new Route($row);
+		$route->data["u_username"] = $row["u_username"];
+		
+		return $route;
 	}
 
 
@@ -171,7 +187,7 @@ class Route extends Object{
 		$stmt->close();
 		if($rows == 1){
 			Log::insertItem($uid, 101, null, $rid, null, null);
-			return true;
+			return Route::_removeImage($rid);
 		}
 		return false;
 	}
@@ -199,6 +215,7 @@ class Route extends Object{
 
 		if($rows == 1){
 			Log::insertItem(User::$current_user->uid, 102, null, $this->id, null, null);
+			$this->_storeImage();
 			return true;
 		}
 		return false;
@@ -234,7 +251,12 @@ class Route extends Object{
 		}
 		return false;
 	}
-	public function _storeImage(){
+	private static function _removeImage($rid){
+		$img_src = ($rid % 100) . "/" . $rid . ".png";
+		$path = PUBLIC_ROOT . "/img/route/" . $img_src;
+		return unlink($path);		
+	}
+	private function _storeImage(){
 		$img_src = ($this->id % 100) . "/" . $this->id . ".png";
 		$path = PUBLIC_ROOT . "/img/route/" . $img_src;
 		if($this->_createRouteImage($path)){
@@ -254,6 +276,9 @@ class Route extends Object{
 			$stmt->close();
 			
 			return $rows == 1;
+		}
+		else{
+			die("error storing image");
 		}
 		return false;
 	}
@@ -341,11 +366,11 @@ class Route extends Object{
 		imagecopy($bg, $im, 0, 0, 0, 0, $im_width, $im_height);
 		//imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
 		
-		imagepng($bg, $path);
+		$result = imagepng($bg, $path);
 		imagedestroy($im);
 		imagedestroy($bg);
 		
-		return true;
+		return $result;
 	}
 	
 	

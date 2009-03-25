@@ -77,8 +77,13 @@ class Controller_Routes{
 	public function create(){
 		if(isset($_GET["rid"])){
 			$route = Route::fromRouteIdentifier($_GET["rid"]);
-			RoutingEngine::getSmarty()->assign("route_edit", $route);
-			RoutingEngine::getSmarty()->assign("is_edit", true);
+			if($route->getTrainingCount() == 0){
+				RoutingEngine::getSmarty()->assign("route_edit", $route);
+				RoutingEngine::getSmarty()->assign("is_edit", true);
+			}
+			else{
+				Notification::add("The route you tried to edit needs to be copied first.");
+			}
 
 			if(isset($_GET["mode"])){
 				$isCopy = $_GET["mode"] == "copy";
@@ -89,8 +94,17 @@ class Controller_Routes{
 	}
 	public function action_create(){
 		$route = new Route($_POST);
-		if($route->createRoute()){
-			Page::redirect("/routes/view?rid={$route->id}");
+		if($route->id){
+			if($route->updateRoute()){
+				Notification::add("Route - {$route->name} - was updated.");
+				Page::redirect("/routes/view?rid={$route->id}");
+			}
+		}
+		else{		
+			if($route->createRoute()){
+				Notification::add("Route - {$route->name} - was created.");
+				Page::redirect("/routes/view?rid={$route->id}");
+			}
 		}
 	}
 	public function action_delete(){
@@ -98,17 +112,29 @@ class Controller_Routes{
 		$uid = User::$current_user->uid;
 
 		if(Route::deleteRouteSecure($rid, $uid)){
-		Notification::add("Route was deleted.", true);
+			Notification::add("Route was deleted.");
 			Page::redirect("/routes/");
 		}
 		Page::redirect("/routes/view?rid={$rid}");
 	}
-	public function action_edit(){
+	public function action_copy_edit(){
+		var_dump($_POST);
 		$route = new Route($_POST);
-		if($route->updateRoute()){
+		if($route->copy()){
+			Notification::add("Your route - {$route->name} - was copied.  You are now editing it.");
+			Page::redirect("/routes/create?rid={$route->id}");
+		}
+		die("copy edit");
+		
+	}
+	public function action_copy_view(){
+		$route = new Route($_POST);
+		if($route->copy()){
+			Notification::add("Your route - {$route->name} - was copied.");
 			Page::redirect("/routes/view?rid={$route->id}");
 		}
-		die("error updating?");
+		var_dump($_POST);
+		die("copy edit");
 	}
 	
 }
