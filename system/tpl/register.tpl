@@ -34,11 +34,6 @@
 	<p class="notice">Personal information will be used to personalize your site experience.</p>
 	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_settings[real_name]"/></p>
 	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_settings[birthday]"/></p>
-	<p>
-		<label>User Image: </label>
-		<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
-		<input type="file" name="user_img">
-	</p>
 	<h4>Physical Information</h4>
 	<p class="notice">Physical information will be used for calorie estimation and other quantitative purposes.</p>
 	<p><label>Height (in): </label><input type="text" id="input_height" name="u_settings[height]"/></p>
@@ -53,6 +48,7 @@
 	<p><label for="input_location">Location: </label><input type="text" id="input_location" name="location">
 	<input type="button" onclick="Geocoder.showAddress('#input_location');return false;" value="Re-center" /></p>
 	<p id="location_msg" class=""></p>
+	<p class="notice">Click on the map below to set your home location.</p>
 	<div id="map_placeholder" class="map"></div>
 </div>
 </form>

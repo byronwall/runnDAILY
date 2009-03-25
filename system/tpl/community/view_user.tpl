@@ -13,43 +13,8 @@
 </div>
 <div class="clear"></div>
 
-<div class="grid_3">
-	<div class="box">
-		<h2>Details</h2>
-		<ul>
-			<li>last seen: {{$user->date_access|date_format}}</li>
-			<li>member since: coming soon!</li>
-		</ul>
-	</div>
-</div>
-
-
-<div class="grid_5">
-	<div class="box">
-		<h2>Recently Created Routes</h2>
-		<ul id="route_recent_con">
-			{{include file="routes/parts/route_list.tpl" routes=$user_routes query=$r_query }}
-		</ul>
-	</div>
-</div>
-
-
-<div class="grid_4">
-	<div class="box">
-		<h2>Recently Added Activity</h2>
-		<ul id="route_recent_con">
-			{{include file="log/log_list.tpl" logs=$user_log uid=$user->uid page_no=1}}
-			<li class="route_recent_list"><a href="#">coming soon: see all activity</a></li>
-		</ul>
-	</div>
-	
-	<div class="box">
-		<h2>Recently Created Training Entries</h2>
-		<ul id="route_recent_con">
-			{{include file="training/parts/item_list.tpl" t_items=$user_training query=$t_query}}	
-			<li class="route_recent_list"><a href="/training/browse?u_uid={{$user->uid}}">coming soon: see all training</a></li>
-		</ul>
-	</div>
+<div class="grid_12">
+<h5 style="color: red;">Advanced user features are currently disabled while we work through our server issues.</h5>
 </div>
 
 <div class="clear"></div>
