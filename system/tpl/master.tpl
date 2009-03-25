@@ -52,6 +52,7 @@
 		<ul>
 				<li><a href="/about/index">About Us</a></li>
 				<li><a href="/about/contact">Contact</a></li>
+				<li><a href="/about/credits">Credits</a></li>
 		</ul>
 		</li>
 		<li class="secondary">

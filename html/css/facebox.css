@@ -4,6 +4,7 @@
   left: 0;
   z-index: 100;
   text-align: left;
+  max-width: 600px;
 }
 
 #facebox .popup {

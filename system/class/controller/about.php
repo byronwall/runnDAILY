@@ -9,5 +9,8 @@ class Controller_About{
 	public function contact(){
 		
 	}
+	public function credits(){
+		
+	}
 }
 ?>
