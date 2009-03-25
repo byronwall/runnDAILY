@@ -7,6 +7,7 @@ function smarty_modifier_time_format($seconds){
 	
 	for ($i = 0; $i < count($familiar); $i++){
 		if($familiar[$i] != 0){
+			$familiar[$i] += 0;
 			$output .= $familiar[$i];
 			$output .= " " . $unit[$i];
 			if($familiar[$i] != 1){

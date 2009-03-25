@@ -9,10 +9,14 @@
 </div>
 <div class="clear"></div>
 
-<div id="errors" class="grid_12"></div>
+<div class="grid_12">
+	<ul id="errors_box"></ul>
+</div>
 <div class="clear"></div>
 
-<form action="/user/register" method="post" id="form_register">
+
+
+<form enctype="multipart/form-data" action="/user/register" method="post" id="form_register">
 <div class="grid_6">
 	<h4>Account Information</h4>
 	<p class="notice">Please select a username and enter a valid email address.</p>
@@ -22,7 +26,6 @@
 	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"> <img src="/img/icon_exclamation_small.png"/></p>
 	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"> <img src="/img/icon_exclamation_small.png"/></p>
-	<p><a id="a_checkname" href="#" onclick="return false;">Check username availability.</a></p>
 </div>
 
 <div class="grid_6">
@@ -30,6 +33,11 @@
 	<p class="notice">Personal information will be used to personalize your site experience.</p>
 	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_settings[real_name]"/></p>
 	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_settings[birthday]"/></p>
+	<p>
+		<label>User Image: </label>
+		<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+		<input type="file" name="user_img">
+	</p>
 	<h4>Physical Information</h4>
 	<p class="notice">Physical information will be used for calorie estimation and other quantitative purposes.</p>
 	<p><label>Height (in): </label><input type="text" id="input_height" name="u_settings[height]"/></p>
@@ -56,11 +64,14 @@ $(document).ready(
 	function(){
 		Map.load("map_placeholder", register_click);
 		var validator = $("#form_register").validate({
+			onkeyup: false,
+			onclick: true,
+			onfocusout: false,
 			rules: {
 				u_username: {
 					required: true,
 					minlength: 2,
-					//remote: "/user/check_exists"
+					remote: "/user/check_exists"
 				},
 				u_password: {
 					required: true,
@@ -86,7 +97,7 @@ $(document).ready(
 				u_username: {
 					required: "Enter a username.",
 					minlength: jQuery.format("Enter at least {0} characters"),
-					//remote: "Username is unavailable. Enter a new username."
+					remote: "Username is unavailable. Enter a new username."
 				},
 				u_password: {
 					required: "Enter a password.",
@@ -111,12 +122,13 @@ $(document).ready(
 				});
 				form.submit();
 			},
-			errorLabelContainer: "#errors",
-			wrapper: "p"
+			errorLabelContainer: "#errors_box",
+			wrapper: "li",
+			errorClass: "error"
 		});
 	}
 );
-document.body.onunload = GUnload();
+document.body.onunload = GUnload;
 
 function register_click(overlay, latlng){
 	if(latlng){

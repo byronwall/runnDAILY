@@ -113,7 +113,6 @@ var Map = {
 			point.marker = marker_new;
 			point.marker.marker_id = Map.points.length - 1;
 			if(Map.iconOptions.draggable){
-				$.debug("error");
 				GEvent.addListener(marker_new, "dragend", Map.event_dragend);
 			}
 		}
@@ -154,7 +153,11 @@ var Map = {
 		Map.updateDistanceDisplay();
 	},
 	updateDistanceDisplay: function(){
-		Units.textWithUnits({			dist: Map.totalDistance,			target: ".r_distance_disp"		});	},
+		Units.textWithUnits({
+			dist: Map.totalDistance,
+			target: ".r_distance_disp"
+		});
+	},
 	event_dragend: function(latlng_new){
 		Map.points[this.marker_id + 1].latlng = latlng_new;
 		
@@ -243,12 +246,12 @@ var MileMarkers = {
 	
 	init: function(){
 		MileMarkers.icon = new GIcon();
-		MileMarkers.icon.image = "/img/red_marker.png";
+		MileMarkers.icon.image = "/img/map/mile-20.png";
 		MileMarkers.icon.shadow = "";
-		MileMarkers.icon.iconSize = new GSize(16, 16);
+		MileMarkers.icon.iconSize = new GSize(20, 20);
 		MileMarkers.icon.shadowSize = new GSize(0, 0);
-		MileMarkers.icon.iconAnchor = new GPoint(0, 14);
-		MileMarkers.icon.infoWindowAnchor = new GPoint(0, 14);
+		MileMarkers.icon.iconAnchor = new GPoint(10, 10);
+		MileMarkers.icon.infoWindowAnchor = new GPoint(0, 10);
 		
 		MileMarkers.icon_options = {
 			icon : MileMarkers.icon,
@@ -260,7 +263,7 @@ var MileMarkers = {
 		
 		var options = $.extend({}, MileMarkers.icon_options, {
 			labelText: mile,
-			labelOffset: new GSize(4,-14)
+			labelOffset: new GSize(-10,-8)
 		});
 		
 		var marker = new LabeledMarker(latlng, options);
@@ -275,6 +278,7 @@ var MileMarkers = {
 	},
 	update: function(shouldUpdateAll){
 		if(Map.points.length <= 1){
+			MileMarkers.miles = 0;
 			return;	
 		}
 		var temp_total = MileMarkers.prevDistance;
