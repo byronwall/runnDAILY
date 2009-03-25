@@ -13,6 +13,10 @@ developed using the 960 Grid System.</p>
 <h5>Hosting</h5>
 <p><img src="/img/media_temple.png" /></p>
 <h5>Graphic Icons</h5>
-<p>Fugue Icon Pack by Yusuke Kamiyamane at <a href="http://www.pinvoke.com/">Pinvoke</a>.</p>
+<p>Fugue Icon Pack by Yusuke Kamiyamane at <a href="http://www.pinvoke.com/"
+		target="_blank"
+>Pinvoke</a> licensed under the <a
+		href="http://creativecommons.org/licenses/by/3.0/" target="_blank"
+>Creative Commons Attribution 3.0 license</a>.</p>
 </div>
 <div class="clear"></div>

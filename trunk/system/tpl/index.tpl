@@ -25,18 +25,18 @@
 
 <div class="grid_12">
 <h3>runnDAILY</h3>
-<p>Welcome to runnDAILY! runnDAILY is a dashboard for anyone that runs,
-walks, bikes, or jogs. We provide a very unique set of tools that allow a user
-to completely track their personal exercise activity. The most powerful of these
-tools is a mapping utility that can plot a variety of routes. In addition to the
-routing utility, there are numerous other features that allow a user to track
-past activity and record times for daily workouts. These features are provided
-inside an intuitive, easy to use interface that's built on a social network of
-fellow runners. The social networking aspect of runnDAILY allows users to
-interact with one another by sharing routes and training activities.</p>
-<p><span class="bold">Please take a moment to familiarize yourself with the site's layout and
-features by reading the brief descriptions provided below.</span> Once you know
-what's possible, explore and try out the various features!</p>
+<p>Welcome to runnDAILY! runnDAILY is an online dashboard for anyone that
+runs, walks, bikes, or jogs. We provide a very unique set of tools that allow a
+user to completely track their personal exercise activity. The most powerful of
+these tools is a mapping utility that can plot a variety of routes. In addition
+to the routing utility, there are numerous other features that allow a user to
+track past activity and record times for daily workouts. These features are
+provided inside an intuitive, easy to use interface that's built on a social
+network of fellow runners. The social networking aspect of runnDAILY allows
+users to interact with one another by sharing routes and training activities.</p>
+<p><span class="bold">Please take a moment to familiarize yourself
+with the site's layout and features by reading the brief descriptions provided
+below.</span> Once you know what's possible, explore the site and try out everything!</p>
 <hr>
 <h4>Site Features</h4>
 <p>As previously stated, there are many aspects to runnDAILY. While each
@@ -53,7 +53,8 @@ provide every user with an enjoyable experience. Don't be shy; let us know what
 you really think!</p>
 <h5><img src="/img/icon/distance.png" /> Miles / Kilometers</h5>
 <p>ANY distance can be clicked and dynamically updated to display miles or
-kilometers. Try it out: <span class="dist-val">10.0 mi</span></p>
+kilometers. <span class="bold">Try it out: <span class="dist-val">10.0
+mi</span></span></p>
 <hr>
 <h4><img src="/img/icon/route.png" /> Routes</h4>
 <p>Routes are the core of runnDAILY. Registered users may create, edit, and
@@ -61,14 +62,13 @@ share routes. A quick list of the main features is provided below. For a
 complete description of route features, click the Help icon on any route page.</p>
 <h5><img src="/img/icon/route_plus.png" /> Create Route</h5>
 <p>Routes can be created using a variety of methods. Our mapping utility
-provides two distinct possibilties: point-by-point or by following roads.
+provides two distinct possibilities: point-by-point or by following roads.
 Detailed information about these features and their options can be found in the
 Help panel on the create route page.</p>
 <h5><img src="/img/icon/route_view.png" /> View Route</h5>
 <p>Detailed information is available for any route created with runnDAILY.
-In addition to overall distance, individual mile / kilometer markers <img
-		src="/img/icon/mile_marker.png"
-/> are available for every route.</p>
+In addition to overall distance, individual mile / kilometer markers are
+available for every route.</p>
 <hr>
 <h4><img src="/img/icon/training.png" /> Training</h4>
 <p>runnDAILY provides a collection of tools that allow a user to completely
@@ -88,10 +88,12 @@ plotting strategies.</p>
 <hr>
 <h4><img src="/img/icon/community.png" /> Community</h4>
 <p>runnDAILY is built on a social network. While this network will be small
-in the early stages of development, it's future applications are immense. For
+in the early stages of development, its future applications are immense. For
 now, there is a limited set of community features available to all users.</p>
-<h5><img src="/img/icon/user_plus.png" /> Add Friend / <img src="/img/icon/user_view.png" /> View Friend</h5>
+<h5><img src="/img/icon/user_plus.png" /> Add Friend / <img
+		src="/img/icon/user_view.png"
+/> View Friend</h5>
 <p>Relationships can be established between users. Keep track of your
-friends progress by viewing their routes and training entries.</p>
+friends' progress by viewing their routes and training entries.</p>
 </div>
 <div class="clear"></div>

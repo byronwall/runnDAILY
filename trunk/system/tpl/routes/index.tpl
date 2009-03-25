@@ -16,7 +16,7 @@
 			<thead>
 				<tr>
 					<th class="sort-date">Date</th>
-					<th class="sort-alpha">Name</th>
+					<th class="sort-alpha">Route Name</th>
 					<th class="sort-numeric">Distance</th>
 				</tr>
 			</thead>
@@ -25,12 +25,11 @@
 				<tr id="tr_{{$route.r_id}}">
 					<td id="td_dist_{{$route.r_id}}">{{$route.r_creation|date_format:"n/j/Y"}}</td>
 					<td>
-						{{$route.r_name}}
-						<p>
-							<a href="#"	rel={{$route.r_id}} class="route">map</a> |
-							<a href="/routes/view?rid={{$route.r_id}}">full page</a>
+						<p><a href="/routes/view?rid={{$route.r_id}}" class="icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></p>
+						<p><a href="#"	rel={{$route.r_id}} class="route icon"><img src="/img/icon/arrow.png">Show in place</a></p>
+<!--						<p><a href="/routes/view?rid={{$route.r_id}}" class="icon"><img src="/img/icon/route.png" /> View in Detail</a></p>-->
 					</td>
-					<td class="dist-val">{{$route.r_distance}} mi</td>
+					<td class="dist-val align_right bold">{{$route.r_distance}} mi</td>
 				</tr>
 				{{foreachelse}}
 				<tr><td colspan="3"><a href="/routes/create">No routes.  Create one.</a></td></tr>
