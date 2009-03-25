@@ -29,7 +29,6 @@ if(array_safe($_SESSION, "DbBackdoor", false)){
 	DEFINE("DB_HOST", "98.223.231.125");
 	
 //}
-
 RoutingEngine::getInstance()->authenticateUser();
 
 $request = explode("?", $_SERVER["REQUEST_URI"]);
