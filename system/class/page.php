@@ -1,7 +1,6 @@
 <?php
 class Page extends Object{
 	public $page_name;
-	public $tab = "home";
 	public $title = "Runn Daily";
 	public $common;
 	public $perm_code;

@@ -126,29 +126,46 @@ var Map = {
 		MileMarkers.update(false);
 		DistanceCircle.draw();
 	},
-	refresh: function(){
-		Map.instance.clearOverlays();
+	refresh: function(options){
+		opts = $.extend({}, {
+			redraw_points: true,
+			redraw_miles: true,
+			redraw_line: true,
+			clear_all: true
+		}, options);
 		
-		$.each(
-			Map.points, 
-			function(index, route_point){
-				Map.instance.addOverlay(route_point.marker);	
-			}
-		);
-		Map.polyline = new GPolyline(
-			$.map(
-				Map.points,
-				function(route_point){
-					return route_point.latlng;
+		if(opts.clear_all){
+			Map.instance.clearOverlays();
+		}
+		
+		if(opts.redraw_points){
+			$.each(
+				Map.points, 
+				function(index, route_point){
+					Map.instance.addOverlay(route_point.marker);	
 				}
-			),
-			"#000000",
-			3
-		);
-		Map.instance.addOverlay(Map.polyline);
+			);
+		}
+		
+		if(opts.redraw_line){
+			if(Map.polyline) Map.instance.removeOverlay(Map.polyline);
+			Map.polyline = new GPolyline(
+				$.map(
+					Map.points,
+					function(route_point){
+						return route_point.latlng;
+					}
+				),
+				"#000000",
+				3
+			);
+			Map.instance.addOverlay(Map.polyline);
+		}
 		Map.totalDistance = Map.polyline.getLength() * meters_to_miles;
 		
-		MileMarkers.update(true);
+		if(opts.redraw_miles){
+			MileMarkers.update(true);
+		}
 		DistanceCircle.draw();
 		Map.updateDistanceDisplay();
 	},
@@ -161,7 +178,10 @@ var Map = {
 	event_dragend: function(latlng_new){
 		Map.points[this.marker_id + 1].latlng = latlng_new;
 		
-		Map.refresh();
+		Map.refresh({
+			redraw_points: false,
+			clear_all: false
+		});
 	},
 	setHomeLocation: function(lat, lng){
 		Map.instance.setCenter(new GLatLng(lat, lng), 12);

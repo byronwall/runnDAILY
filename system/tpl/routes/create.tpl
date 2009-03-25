@@ -37,17 +37,11 @@ This is the template for the page where new routes are created.
 		<input type="hidden" name="r_points" value=""/>
 		<input type="hidden" name="r_start_lat" value=""/>
 		<input type="hidden" name="r_start_lng" value=""/>
-		{{if $currentUser->isAuthenticated}}
+		{{if $engine->requirePermission("PV__300")}}
 			{{if $is_edit}}
 				<input type="hidden" name="r_id" value="{{$route_edit->id}}"/>
-				{{if $isCopy}}
-					<input type="hidden" name="r_rid_parent" value="{{$route_edit->id}}"/>
-					<input type="hidden" name="action" value="save"/>
-					<p><input type="submit" value="Create Route"/></p>
-				{{else}}
-					<input type="hidden" name="action" value="update"/>
-					<p><input type="submit" value="Edit Route"/></p>
-				{{/if}}
+				<input type="hidden" name="action" value="update"/>
+				<p><input type="submit" value="Update Route"/></p>
 			{{else}}
 				<input type="hidden" name="action" value="save"/>
 				<p><input type="submit" value="Create Route"/></p>
@@ -130,8 +124,8 @@ $(document).ready( function(){
 	{{/if}}
 
 	{{if $is_edit}}
-		loadRouteFromDB({{$route_edit->points}}, {
-			draggable:false
+		MapData.loadRoute({{$route_edit->points}}, {
+			draggable:true
 		});
 	{{/if}}
 
