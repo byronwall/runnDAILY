@@ -32,7 +32,7 @@
 		<div id="item_{{counter}}" class="training_item">
 			{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
 				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance}} mi</span></div>
-				<div class="icon float_right"><span class="t_time">{{$training_item.t_time|time_format}}</span> <img src="/img/icon/clock.png" /></div>
+				<div class="icon float_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
 			<div class="clear"></div>
 				<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace">{{$training_item.t_pace}} mi/h</span></div>
 				<div class="t_cal icon float_right">Calories <img src="/img/icon/heart.png" /></div>
@@ -270,11 +270,13 @@ $(document).ready(function(){
 sorter = {
 	sort: function(key){
 		if(!sorter.settings.classes[key]) return false;
+		sorter.settings.sort_key = key;
 
 		var items = $(sorter.settings.item, sorter.settings.parent).get();
 		items.sort(function(a, b) {
-			var a_val = $(a).find("."+key).eq(0).text();
-			var b_val = $(b).find("."+key).eq(0).text();
+			var a_val = $(a).find("."+key).eq(0).text().toUpperCase();
+			var b_val = $(b).find("."+key).eq(0).text().toUpperCase();
+
 
 			if(sorter.settings.classes[key] == "numeric"){
 				a_val = parseFloat(a_val.replace(/^[^\d.]*/, ''));
@@ -284,7 +286,6 @@ sorter = {
 				a_val = Date.parse(a_val);
 				b_val = Date.parse(b_val);
 			}
-			
 			if (a_val < b_val ) return -sorter.settings.sort_desc;
 			if (a_val > b_val ) return sorter.settings.sort_desc;
 			return 0
