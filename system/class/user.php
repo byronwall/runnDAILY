@@ -339,13 +339,21 @@ class User extends Object{
 	 * @return Array of User types
 	 */
 	public static function getListOfUsers(){
-		$result = Database::getDB()->query("SELECT * FROM users") or die("error on sql");
+		$result = Database::getDB()->query("
+			SELECT users.u_uid, u_username, u_join, um_value AS u_gender
+			FROM users
+			LEFT JOIN users_metadata ON users.u_uid = users_metadata.u_uid
+			WHERE users_metadata.um_key = 'gender'
+			ORDER BY u_join DESC
+			LIMIT 50
+		") or die("error on sql");
 
 		$user_list = array();
 
 		while($row = $result->fetch_assoc()){
-			$user_list[] = new User($row);
+			$user_list[] = $row;
 		}
+		
 		return $user_list;
 	}
 	/**
@@ -501,25 +509,23 @@ class User extends Object{
 	 * @return array: an array of User objects
 	 */
 	public function getFriends(){
-		unset($this->friends);
-		if(isset($this->friends)) return $this->friends;
-		
 		$stmt = Database::getDB()->prepare("
-			SELECT users.* FROM users_friends
-			INNER JOIN users
-			ON users.u_uid = users_friends.f_uid_2
+			SELECT users.u_uid, u_username, um_value AS u_gender
+			FROM users_friends
+			INNER JOIN users ON users.u_uid = users_friends.f_uid_2
+			LEFT JOIN users_metadata ON users.u_uid = users_metadata.u_uid
 			WHERE users_friends.f_uid_1 = ?
+			AND users_metadata.um_key = 'gender'
+			LIMIT 50
 		");
-		$stmt->bind_param("i", $this->uid);
+		$stmt->bind_param("i", User::$current_user->uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
 		$users = array();
 		
 		while($row = $stmt->fetch_assoc()){
-			$user = new User($row);
-			$users[] = $user;
-			$this->friends[$user->uid] = true;
+			$users[] = $row;
 		}
 		
 		return $users;
