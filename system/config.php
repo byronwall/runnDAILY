@@ -1,10 +1,10 @@
 <?php
 
 DEFINE("COOKIE_NAME", "runndaily");
-DEFINE("DB_USER", "db64581");
+DEFINE("DB_USER", "php");
 DEFINE("DB_PASS", "j6Hmj544vUETZedU");
-DEFINE("DB_NAME", "db64581_running");
-DEFINE("DB_HOST", $_ENV["DATABASE_SERVER"]);
+DEFINE("DB_NAME", "running");
+DEFINE("DB_HOST", "localhost");
 spl_autoload_register("site_autoload");
 
 function site_autoload($class){
