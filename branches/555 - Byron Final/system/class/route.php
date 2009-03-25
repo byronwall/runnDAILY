@@ -5,11 +5,12 @@ class Route extends Object{
 	public $description;
 	public $name;
 	public $id;
-	public $rid_parent;
 	public $start_lat;
 	public $start_lng;
 	public $creation;
 	public $uid;
+	public $gid;
+	public $img_src;
 
 	public $training_count;
 	public $user;
@@ -213,12 +214,11 @@ class Route extends Object{
 				r_start_lat = ?,
 				r_start_lng = ?,
 				r_description = ?,
-				r_uid = ?,
-				r_rid_parent = ?
+				r_uid = ?
 		");
-		$stmt->bind_param("ssdddsii", $this->name, $this->points,
+		$stmt->bind_param("ssdddsi", $this->name, $this->points,
 			$this->distance, $this->start_lat, $this->start_lng,
-			$this->description, User::$current_user->uid, $this->rid_parent);
+			$this->description, User::$current_user->uid);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
@@ -229,9 +229,163 @@ class Route extends Object{
 		if($rows == 1){
 			$this->id = $ins_id;
 			Log::insertItem(User::$current_user->uid, 100, null, $this->id, null, null);
-			return true;
+			
+			return $this->_storeImage();
 		}
 		return false;
+	}
+	public function _storeImage(){
+		$img_src = ($this->id % 100) . "/" . $this->id . ".png";
+		$path = PUBLIC_ROOT . "/img/route/" . $img_src;
+		if($this->_createRouteImage($path)){
+			$this->img_src = $img_src;
+			$stmt = Database::getDB()->prepare("
+				UPDATE routes
+				SET
+					r_img_src = ?
+				WHERE
+					r_id = ?
+			");
+			$stmt->bind_param("si", $this->img_src, $this->id);
+			$stmt->execute() or die($stmt->error);
+			$stmt->store_result();
+			
+			$rows = $stmt->affected_rows;
+			$stmt->close();
+			
+			return $rows == 1;
+		}
+		return false;
+	}
+		
+	private function _getBoundingBox($points){
+		$point_max["x"] = max($points["x"]);
+		$point_max["y"] = max($points["y"]);
+		$point_min["x"] = min($points["x"]);
+		$point_min["y"] = min($points["y"]);
+	
+		$width = ($point_max["x"] - $point_min["x"]) / 2;
+		$height = ($point_max["y"] - $point_min["y"]) / 2;
+		$center = array("x"=>($point_max["x"] + $point_min["x"]) / 2, "y"=>($point_max["y"] + $point_min["y"]) / 2);
+	
+		return array("height"=>$height, "width"=>$width, "center"=>$center);
+	}
+	public function _createRouteImage($path){
+		$encoded = json_decode($this->points)->points;
+		$distance = $this->distance;
+		
+		$im_width = 100;
+		$im_height = 100;
+		
+		$padding = 0.85;
+		
+		$point_arr = $this->_decodePolylineToArray($encoded);
+		
+		$bg = imagecreatefrompng(PUBLIC_ROOT."/img/earth.png");
+		
+		$im = imagecreatetruecolor($im_width, $im_height) or die('Cannot Initialize new GD image stream');
+		
+		imageSaveAlpha($bg, true);
+		ImageAlphaBlending($im, true);
+		ImageAntiAlias($im, true);
+		
+		$black = imagecolorallocatealpha($im, 0x00, 0x00, 0x00, 0);
+		$clear = imagecolorallocatealpha($im, 200, 200, 200, 127);
+		$line_color = imagecolorallocatealpha($im, "0x00", "0x3c", "0xff", 0);
+		imagefill($im, 0, 0, $clear);
+		
+		$boundingBox = $this->_getBoundingBox($point_arr);
+		
+		$height = $boundingBox["height"];
+		$width = $boundingBox["width"];
+		
+		$height = $width = max(array($height, $width));
+		
+		$center_point = $boundingBox["center"];
+		
+		$normal_points = array();
+		$normal_scaled = array();
+		
+		$i = 0;
+		while($i < count($point_arr["x"])){
+			$x_dist = $point_arr["x"][$i] - $center_point["x"];
+			$y_dist = $point_arr["y"][$i] - $center_point["y"];
+		
+			$x_norm = $x_dist / $width * $padding;
+			$y_norm = $y_dist/$height * $padding;
+		
+			$normal_points[] = array("x"=>$x_norm, "y"=>$y_norm);
+		
+			$x_scaled = ($x_norm+1)*$im_width/2;
+			$y_scaled = ($y_norm+1)*$im_height/2;
+		
+			$normal_scaled[] = array("x"=>$x_scaled, "y"=>$y_scaled);
+		
+			$i++;
+		}
+		
+		for($i = 1; $i < count($normal_points); $i++){
+			imageline($im, $normal_scaled[$i-1]["x"], $normal_scaled[$i-1]["y"], $normal_scaled[$i]["x"], $normal_scaled[$i]["y"],$line_color);
+		}
+		
+		//imagestring($im, 3, $im_width * 0.3, $im_height * 0.75, $distance." mi", $black);
+		
+		// The text to draw
+		//$text = 'Testing...';
+		// Replace path by your own font path
+		$font = PUBLIC_ROOT. "/font/arial.ttf";
+		
+		// Add some shadow to the text
+		imagettftext($im, 10, 0, $im_width * 0.05, $im_height * 0.95, $black, $font, $distance." mi");
+		
+		imagecopy($bg, $im, 0, 0, 0, 0, $im_width, $im_height);
+		//imagecopy($shadow, $bg, 7, 6, 0, 0, $im_width, $im_height);
+		
+		imagepng($bg, $path);
+		imagedestroy($im);
+		imagedestroy($bg);
+		
+		return true;
+	}
+	
+	
+	private function _decodePolylineToArray($encoded)
+	{
+		$length = strlen($encoded);
+		$index = 0;
+		$points = array();
+		$lat = 0;
+		$lng = 0;
+		while ($index < $length)
+		{
+			$b = 0;
+			$shift = 0;
+			$result = 0;
+			do
+			{
+				$b = ord(substr($encoded, $index++)) - 63;
+				$result |= ($b & 0x1f) << $shift;
+				$shift += 5;
+			}
+			while ($b >= 0x20);
+			$dlat = (($result & 1) ? ~($result >> 1) : ($result >> 1));
+			$lat += $dlat;
+			$shift = 0;
+			$result = 0;
+			do
+			{
+				$b = ord(substr($encoded, $index++)) - 63;
+				$result |= ($b & 0x1f) << $shift;
+				$shift += 5;
+			}
+			while ($b >= 0x20);
+			$dlng = (($result & 1) ? ~($result >> 1) : ($result >> 1));
+			$lng += $dlng;
+			$points["x"][] = $lng * 1e-5;
+			$points["y"][] = -($lat * 1e-5);
+		}
+	
+		return $points;
 	}
 
 	public function getTrainingCount(){
