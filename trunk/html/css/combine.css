@@ -46,6 +46,7 @@ div.LabeledMarker_markerLabel{
 	margin-right: 5px;
 	margin-bottom: 3px;
 	margin-top: 3px;
+	padding-bottom: 5px;
 }
 
 #route_list table{
