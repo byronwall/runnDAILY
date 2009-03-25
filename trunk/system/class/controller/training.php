@@ -61,9 +61,9 @@ class Controller_Training{
 	public function action_edit(){
 		$t_item = new TrainingLog($_POST);
 		if($t_item->updateItem() ){
-			Page::redirect("/training/view?tid={$t_item->tid}");
+			Page::redirect("/training/");
 		}
-		Page::redirect("/training/create?tid={$t_item->tid}");
+		Page::redirect("/training/");
 	}
 	public function action_delete(){
 		$t_item = new TrainingLog($_POST);
@@ -76,7 +76,7 @@ class Controller_Training{
 		$t_item = new TrainingLog($_POST);
 		if(array_safe($_POST, "t_rid") == "") $t_item->rid = null;
 		if($t_item->createItem()){
-			Page::redirect("/training/view?tid={$t_item->tid}");
+			Page::redirect("/training/");
 		}
 		Page::redirect("/training/");
 	}
