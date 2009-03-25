@@ -43,9 +43,6 @@
 			</ul>
 		</li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon/community.png" />Community</a>
-<!--		<ul>-->
-<!--				<li><a href="/events">Events</a></li>-->
-<!--		</ul>-->
 		</li>
 		
 		<li><a href="/about" class="icon"><img src="/img/icon/runndaily.png"/>runnDAILY</a>
@@ -64,15 +61,9 @@
 				<img src="/img/icon/user_female.png"/>
 			{{/if}}
 			{{$currentUser->username}}
-			<!--  
-			{{if $currentUser->msg_new}}
-			<img class="notification" src="/img/icon_mail_exclamation.png" />
-			{{/if}}
-			-->
 			</a>
 		<ul>
 				<li><a href="/settings" class="icon">Settings</a></li>
-<!--				<li><a href="/messages" class="icon">Messages ({{$currentUser->msg_new}})</a></li>-->
 				<li><a href="/user/logout" class="icon">Logout</a></li>
 		</ul>
 		{{else}}
@@ -137,7 +128,7 @@
 				}
 				else{
 					a.closest(".notification").remove();
-				}				
+				}
 				return false;
 			});
 		}
