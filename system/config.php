@@ -1,4 +1,5 @@
 <?php
+php_info();
 DEFINE("COOKIE_NAME", "runndaily");
 DEFINE("DB_USER", "db64581_php");
 DEFINE("DB_PASS", "j6Hmj544vUETZedU");
