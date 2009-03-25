@@ -10,7 +10,7 @@
 				<option value="t_date">Date</option>
 				<option value="t_dist">Distance</option>
 				<option value="t_pace">Pace</option>
-				<option value="t_cal">Calories</option>
+<!--				<option value="t_cal">Calories</option>-->
 				<option value="t_name">Route Name</option>
 				<option value="t_time">Time</option>
 			</select>
