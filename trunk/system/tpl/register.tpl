@@ -44,7 +44,7 @@
 
 <div class="grid_12">
 
-<h4>Home Location for Routes</h4>
+<h4>Home Location for Routes <img src="/img/icon_exclamation_small.png" /></h4>
 	<p><label for="input_location">Location: </label><input type="text" id="input_location" name="location">
 	<input type="button" onclick="Geocoder.showAddress('#input_location');return false;" value="Re-center" /></p>
 	<p id="location_msg" class=""></p>
