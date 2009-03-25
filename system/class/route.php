@@ -19,6 +19,7 @@ class Route extends Object{
 		parent::__construct($arr, $arr_pre);
 		
 		$this->creation = strtotime($this->creation);
+		$this->distance = round($this->distance, 2);
 	}
 
 	/**
@@ -254,7 +255,7 @@ class Route extends Object{
 	private static function _removeImage($rid){
 		$img_src = ($rid % 100) . "/" . $rid . ".png";
 		$path = PUBLIC_ROOT . "/img/route/" . $img_src;
-		return unlink($path);		
+		return unlink($path);
 	}
 	private function _storeImage(){
 		$img_src = ($this->id % 100) . "/" . $this->id . ".png";
