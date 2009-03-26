@@ -1,6 +1,6 @@
 <div class="grid_12">
 	<h2 class="heading float_left">{{$route_view->name}}</h2>
-	<h2 class="align_right heading float_right">{{$route_view->distance}} mi</h2>
+	<h2 class="align_right heading float_right"><span class="dist-val">{{$route_view->distance}} mi</span></h2>
 	<hr class="heading">
 </div>
 <div class="clear"></div>
