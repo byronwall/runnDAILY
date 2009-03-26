@@ -102,8 +102,8 @@ $(document).ready( function(){
 			}
 		},
 		messages: {
-			t_time: {required: "Please enter a time"},
-			t_date: {required: "Please enter a date"},
+			t_time: {required: "Please enter a time."},
+			t_date: {required: "Please enter a date."},
 			t_distance: {
 				required: "Please enter a distance.",
 				number: "Distance must be a number."

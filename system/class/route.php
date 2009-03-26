@@ -248,7 +248,8 @@ class Route extends Object{
 			$this->id = $ins_id;
 			Log::insertItem(User::$current_user->uid, 100, null, $this->id, null, null);
 			
-			return $this->_storeImage();
+			return true;
+			//return $this->_storeImage();
 		}
 		return false;
 	}
