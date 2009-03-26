@@ -340,10 +340,8 @@ class User extends Object{
 	 */
 	public static function getListOfUsers(){
 		$result = Database::getDB()->query("
-			SELECT users.u_uid, u_username, u_join, um_value AS u_gender
+			SELECT users.u_uid, u_username, u_join
 			FROM users
-			LEFT JOIN users_metadata ON users.u_uid = users_metadata.u_uid
-			WHERE users_metadata.um_key = 'gender'
 			ORDER BY u_join DESC
 			LIMIT 50
 		") or die("error on sql");

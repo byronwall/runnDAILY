@@ -5,7 +5,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 <div class="actions">
-	<a href="#" class="icon"><img src="/img/icon/binocular.png" />Find User</a>
+<!--	<a href="#" class="icon"><img src="/img/icon/binocular.png" />Find User</a>-->
 </div>
 </div>
 <div class="clear"></div>
@@ -16,14 +16,7 @@
 {{foreach from=$users_friends item=friend}}
 	<div class="float_left">
 		<p>
-			<a href="/community/view_user?uid={{$friend.u_uid}}" class="icon">
-				{{if $friend.u_gender}}
-					<img src="/img/icon/user_female.png" />
-				{{else}}
-					<img src="/img/icon/user_male.png" />
-				{{/if}}
-					{{$friend.u_username}}
-			</a>
+			<a href="/community/view_user?uid={{$friend.u_uid}}" class="icon"><img src="/img/icon/user.png" />{{$friend.u_username}}</a>
 		</p>
 	</div>
 {{foreachelse}}
