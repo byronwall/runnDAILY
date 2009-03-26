@@ -508,12 +508,10 @@ class User extends Object{
 	 */
 	public function getFriends(){
 		$stmt = Database::getDB()->prepare("
-			SELECT users.u_uid, u_username, um_value AS u_gender
+			SELECT users.u_uid, u_username
 			FROM users_friends
 			INNER JOIN users ON users.u_uid = users_friends.f_uid_2
-			LEFT JOIN users_metadata ON users.u_uid = users_metadata.u_uid
 			WHERE users_friends.f_uid_1 = ?
-			AND users_metadata.um_key = 'gender'
 			LIMIT 50
 		");
 		$stmt->bind_param("i", User::$current_user->uid);
