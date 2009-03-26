@@ -29,7 +29,7 @@
 						<p><a href="#"	rel={{$route.r_id}} class="route icon"><img src="/img/icon/arrow.png">Show in place</a></p>
 <!--						<p><a href="/routes/view?rid={{$route.r_id}}" class="icon"><img src="/img/icon/route.png" /> View in Detail</a></p>-->
 					</td>
-					<td class="dist-val align_right bold">{{$route.r_distance}} mi</td>
+					<td class="dist-val align_right bold">{{$route.r_distance|round:"2"}} mi</td>
 				</tr>
 				{{foreachelse}}
 				<tr><td colspan="3">You do not currently have any routes.<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />Create</a> a new route to enable advanced features.</td></tr>
@@ -100,8 +100,8 @@ var RouteIndex = {
 		var rid = RouteIndex.temp_rid;
 		routes[rid].polyline = polyline;
 		$("#info_name").text(routes[rid].r_name);
-		$("#info_distance").text(routes[rid].r_distance);
-		$("#info_date").text(routes[rid].r_creation);
+		$("#info_distance").html('<img src="/img/icon/distance.png" /> Distance: <span class="dist-val">' + routes[rid].r_distance.toFixed(2) + ' mi</span>');
+		$("#info_date").html('<img src="/img/icon/calendar.png" /> ' + routes[rid].r_creation);
 	},
 	switchToAll: function(){
 		RouteIndex.route_view = false;
