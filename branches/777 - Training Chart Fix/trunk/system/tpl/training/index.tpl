@@ -55,15 +55,15 @@
 			<input id="pace_rad" type="radio" value="pac" /><label>Pace</label>
 		</p>
 	</div>
-	<div id="chart_placeholder"><h5 style="color: red;">Training chart is currently disabled while we work through our server issues.</h5></div>
-<!--	<div class="training_overview">-->
-<!--		<p class="notice bold align_center mar_top_10 mar_bot_0">Overview</p>-->
-<!--		<div id="chart_overview"></div>-->
-<!--		<p class="notice bold align_center">Drag above in order to zoom / change the timeframe.</p>-->
-<!--	</div>-->
+	<div id="chart_placeholder"></div>
+	<div class="training_overview">
+		<p class="notice bold align_center mar_top_10 mar_bot_0">Overview</p>
+		<div id="chart_overview"></div>
+		<p class="notice bold align_center">Drag above in order to zoom / change the timeframe.</p>
+	</div>
 </div>
 <div class="clear"></div>
-
+<!--<script src="/js/chart.js" type="text/javascript"></script>-->
 <script type="text/javascript">
 sorter = {
 		sort: function(key){
@@ -130,9 +130,10 @@ sorter = {
 			}
 			return false;
 		});
+		plot = $.plot($("#chart_placeholder"), [[[0, 3], [4, 8], [8, 5], [9, 13]]]);
 	});
 
-	</script>
+</script>
 <!--CONTENT GOES HERE-->
 <!--<div class="grid_12">-->
 <!--	<h2 id="page-heading">Coming Soon</h2>-->
