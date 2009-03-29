@@ -463,6 +463,7 @@ class Route extends Object{
 		
 		$results = array();
 		while($row = $stmt->fetch_assoc()){
+			$row["r_creation"] = date("F j, Y", strtotime($row["r_creation"]));
 			$results[$row["r_id"]] = $row;
 		}
 		
