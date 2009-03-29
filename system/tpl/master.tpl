@@ -54,14 +54,7 @@
 		</li>
 		<li class="secondary">
 		{{if $currentUser->isAuthenticated}}
-			<a href="/community/view_user?uid={{$currentUser->uid}}" class="icon">
-			{{if !($currentUser->gender)}}
-				<img src="/img/icon/user_male.png"/>
-			{{else}}
-				<img src="/img/icon/user_female.png"/>
-			{{/if}}
-			{{$currentUser->username}}
-			</a>
+			<a href="/community/view_user?uid={{$currentUser->uid}}" class="icon"><img src="/img/icon/user_friend.png" />{{$currentUser->username}}</a>
 		<ul>
 				<li><a href="/settings" class="icon">Settings</a></li>
 				<li><a href="/user/logout" class="icon">Logout</a></li>
@@ -73,9 +66,9 @@
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
 		{{if $page->common}}
-		<li class="secondary"><a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon/help.png" /></a></li>
+		<li class="secondary"><a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon/help.png" /> </a></li>
 		{{/if}}
-		<li class="secondary"><a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" /></a></li>
+		<li class="secondary"><a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" /> </a></li>
 </ul>
 </div>
 <div class="clear"></div>
