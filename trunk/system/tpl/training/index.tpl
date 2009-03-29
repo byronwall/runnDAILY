@@ -65,7 +65,7 @@
 <div class="clear"></div>
 <script src="/js/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
-sorter = {
+var sorter = {
 		sort: function(key){
 			if(!sorter.settings.classes[key]) return false;
 			sorter.settings.sort_key = key;

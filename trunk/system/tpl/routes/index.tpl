@@ -6,9 +6,9 @@
 	<div id="sort_options" class="align_right">
 			<label>Sort by: </label>
 			<select id="sort_select">
-				<option value="t_date">Date</option>
-				<option value="t_dist">Distance</option>
-				<option value="t_name">Route Name</option>
+				<option value="r_date">Date</option>
+				<option value="r_dist">Distance</option>
+				<option value="r_name">Route Name</option>
 			</select>
 			<a href="#" id="reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
 	</div>
@@ -61,8 +61,8 @@
 	{{foreach from=$routes item=route}}
 		<div id="route_{{$route.r_id}}" class="route_item">
 			<div><a href="/routes/view?rid={{$route.r_id}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></div>
-			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$route.r_creation|date_format}}</div>
-			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
+			<div class="r_date icon"><img src="/img/icon/calendar.png" />{{$route.r_creation|date_format}}</div>
+			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="r_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
 			<div class="clear"></div>
 			<div><a href="#" rel={{$route.r_id}} class="route icon"><img src="/img/icon/arrow.png" /> Show in place</a></div>
 		</div>
@@ -201,8 +201,69 @@ var RouteIndex = {
 			sort_field: "Date",
 			sort_desc: -1
 		});
+		$("#sort_select").change(function(){
+			sorter.sort($(this).val());
+		});
+		$("#reverse_sort").click(function(){
+			sorter.reverse();
+			if($(this).hasClass("sort_asc")){
+				$(this).html('<img src="/img/icon/sort_desc.png" /> DESC</a>');
+				$(this).addClass("sort_desc");
+				$(this).removeClass("sort_asc");
+			}else{
+				$(this).html('<img src="/img/icon/sort_asc.png" /> ASC</a>');
+				$(this).addClass("sort_asc");
+				$(this).removeClass("sort_desc");
+			}
+			return false;
+		});
 	}
-}
+};
+var sorter = {
+		sort: function(key){
+			if(!sorter.settings.classes[key]) return false;
+			sorter.settings.sort_key = key;
+
+			var items = $(sorter.settings.item, sorter.settings.parent).get();
+			items.sort(function(a, b) {
+				var a_val = $(a).find("."+key).eq(0).text().toUpperCase();
+				var b_val = $(b).find("."+key).eq(0).text().toUpperCase();
+
+
+				if(sorter.settings.classes[key] == "numeric"){
+					a_val = parseFloat(a_val.replace(/^[^\d.]*/, ''));
+					b_val = parseFloat(b_val.replace(/^[^\d.]*/, ''));
+				}
+				else if(sorter.settings.classes[key] == "date"){
+					a_val = Date.parse(a_val);
+					b_val = Date.parse(b_val);
+				}
+				if (a_val < b_val ) return -sorter.settings.sort_desc;
+				if (a_val > b_val ) return sorter.settings.sort_desc;
+
+				return 0;
+			});
+			$.each(items, function(){
+				$(sorter.settings.parent).append(this);
+			});
+		},
+		reverse: function(){
+			sorter.settings.sort_desc = -sorter.settings.sort_desc;
+			sorter.sort(sorter.settings.sort_key);
+		}
+	};
+
+sorter.settings = {
+		classes: {
+			r_name: "alpha",
+			r_dist: "numeric",
+			r_date: "date",
+		},
+		parent: "#route_list",
+		item: ".route_item",
+		sort_desc: -1,
+		sort_key: "t_date"
+};
 var routes = {{$routes_js}};
 
 $(document).ready(RouteIndex.ready_event);
