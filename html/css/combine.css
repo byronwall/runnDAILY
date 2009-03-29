@@ -159,6 +159,7 @@ img.logo {
 .map {
 	height: 475px;
 	margin-bottom: 10px;
+	position: relative;
 }
 
 .float_left {
@@ -247,9 +248,10 @@ img .notification {
 }
 
 #route_create .container_12,#route_create .container_16 {
-	width: 94%;
-	margin-left: 3%;
-	margin-right: 3%;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 960px;
 }
 
 #route_create .grid_1,#route_create .grid_2,#route_create .grid_3,#route_create .grid_4,#route_create .grid_5,#route_create .grid_6,#route_create .grid_7,#route_create .grid_8,#route_create .grid_9,#route_create .grid_10,#route_create .grid_11,#route_create .grid_12,#route_create .grid_13,#route_create .grid_14,#route_create .grid_15,#route_create .grid_16
@@ -305,7 +307,7 @@ img .notification {
 }
 
 #route_create .container_12 .grid_10 {
-	width: 81.333%;
+	width: 81%;
 }
 
 #route_create .container_12 .grid_11 {

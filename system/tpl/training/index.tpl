@@ -65,41 +65,8 @@
 <div class="clear"></div>
 <script src="/js/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
-var sorter = {
-		sort: function(key){
-			if(!sorter.settings.classes[key]) return false;
-			sorter.settings.sort_key = key;
-
-			var items = $(sorter.settings.item, sorter.settings.parent).get();
-			items.sort(function(a, b) {
-				var a_val = $(a).find("."+key).eq(0).text().toUpperCase();
-				var b_val = $(b).find("."+key).eq(0).text().toUpperCase();
-
-
-				if(sorter.settings.classes[key] == "numeric"){
-					a_val = parseFloat(a_val.replace(/^[^\d.]*/, ''));
-					b_val = parseFloat(b_val.replace(/^[^\d.]*/, ''));
-				}
-				else if(sorter.settings.classes[key] == "date"){
-					a_val = Date.parse(a_val);
-					b_val = Date.parse(b_val);
-				}
-				if (a_val < b_val ) return -sorter.settings.sort_desc;
-				if (a_val > b_val ) return sorter.settings.sort_desc;
-
-				return 0;
-			});
-			$.each(items, function(){
-				$(sorter.settings.parent).append(this);
-			});
-		},
-		reverse: function(){
-			sorter.settings.sort_desc = -sorter.settings.sort_desc;
-			sorter.sort(sorter.settings.sort_key);
-		}
-	};
-
-	sorter.settings = {
+	$(document).ready(function(){
+		sorter.init({
 			classes: {
 				t_name: "alpha",
 				t_dist: "numeric",
@@ -111,9 +78,7 @@ var sorter = {
 			item: ".training_item",
 			sort_desc: -1,
 			sort_key: "t_date"
-	};
-
-	$(document).ready(function(){
+		});
 		$("#sort_select").change(function(){
 			sorter.sort($(this).val());
 		});

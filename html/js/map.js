@@ -440,7 +440,14 @@ var Display = {
 		if(!Display.fullscreen){
 			$("#r_map").removeClass("map").addClass("map_full");
 			$("#r_map").css("position", "fixed");
-			$("body").css("overflow","hidden");
+			$("#r_map").heightBrowser({scale:1});
+			
+			$("#r_map").parents().each(function(){
+				$(this).data("overflow_init", $(this).css("overflow"));
+				$(this).css("overflow", "hidden");	
+			})
+			
+			
 			$("#map_overlay").show();
 			Display.fullscreen = true;
 			Map.instance.checkResize();
@@ -448,6 +455,12 @@ var Display = {
 		else{
 			$("#r_map").removeClass("map_full").addClass("map");
 			$("#r_map").css("position", "relative");
+			$("#r_map").heightBrowser();
+			
+			$("#r_map").parents().each(function(){
+				$(this).css("overflow", $(this).data("overflow_init"));
+			})
+			
 			$("body").css("overflow","auto");
 			$("#map_overlay").hide();
 			Display.fullscreen = false;

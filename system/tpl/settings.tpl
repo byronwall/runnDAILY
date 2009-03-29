@@ -133,7 +133,7 @@ $(document).ready(
 		});
 	}
 );
-document.body.onunload = GUnload();
+document.body.onunload = GUnload;
 
 function register_click(overlay, latlng){
 	if(latlng){

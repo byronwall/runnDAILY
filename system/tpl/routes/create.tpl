@@ -15,7 +15,7 @@ This is the template for the page where new routes are created.
 		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
 		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
 		<a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
-<!--		<a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>-->
+		<a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Full Screen</a>
 	</div>
 </div>
 <div class="clear"></div>
@@ -68,19 +68,17 @@ This is the template for the page where new routes are created.
 </div>
 
 <div class="grid_10">
-	<div id="r_map" class="map large"></div>
+	<div id="r_map" class="map map_fix"></div>
 </div>
 <div id="results" style="display:none"></div>
 <div id="map_overlay" style="display:none">
 	<img src="/img/logo.png">
-	<ul>
-		<li><a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a></li>
-		<li><a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a></li>
-		<li><a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a></li>
-		<li><a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Close Full Screen</a></li>
-		<li><a href="#settings" class="facebox icon">Settings</a></li>
-		<li><a href="#route_name_desc" class="facebox icon">Save</a></li>
-	</ul>
+	<p><a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a></p>
+	<p><a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a></p>
+	<p><a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a></p>
+	<p><a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon_magnifier_zoom_fit.png"/>Close Full Screen</a></p>
+	<p><a href="#settings_modal" class="facebox icon">Settings</a></p>
+	<p><a href="#route_name_desc" class="facebox icon">Save</a></p>
 	
 	<div class="route_distance">
 		<p class="r_distance_disp dist-num">0.00</p>
