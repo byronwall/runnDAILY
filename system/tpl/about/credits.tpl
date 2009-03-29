@@ -7,7 +7,7 @@
 <p>We would like to give credit to the developers whose contributions to the
 community have made runnDAILY possible. runnDAILY is built on the PHP platform
 with a mySQL database. Javascript is assisted by jQuery, and the design was
-developed using the 960 Grid System.</p>
+developed using the 960 Grid System. Our hosting is provided by Media Temple.</p>
 <h5>Core Operating Platform</h5>
 <p><img src="/img/php.png" /></p>
 <h5>Hosting</h5>

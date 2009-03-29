@@ -17,7 +17,7 @@
 <div class="grid_2">
 	<h2>Community</h2>
 <ul>
-	<li><a href="/community/index">Main</a></li>
+	<li><a href="/community/index">Index</a></li>
 </ul>
 
 </div>
@@ -25,7 +25,7 @@
 
 	<h2>runn Daily</h2>
 <ul>
-	<li><a href="/about/index">About</a></li>
+	<li><a href="/about/index">About Us</a></li>
 	<li><a href="/about/contact">Contact</a></li>
 	<li><a href="/about/credits">Credits</a></li>
 </ul>
