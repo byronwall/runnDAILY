@@ -20,7 +20,7 @@
 </div>
 </div>
 <div class="clear"></div>
-
+<!---->
 <!--<div class="grid_3">-->
 <!--	<div id="route_list">-->
 <!--		<table class="sortable">-->
@@ -59,14 +59,22 @@
 <div class="grid_3">
 	<div id="route_list">
 	{{foreach from=$routes item=route}}
-		<div class="route_item">
+		<div id="route_{{$route.r_id}}" class="route_item">
 			<div><a href="/routes/view?rid={{$route.r_id}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></div>
-			<div class="icon"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
 			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$route.r_creation|date_format}}</div>
+			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
+			<div class="clear"></div>
+			<div><a href="#" rel={{$route.r_id}} class="route icon"><img src="/img/icon/arrow.png" /> Show in place</a></div>
 		</div>
 	{{foreachelse}}
 		<div>You do not have any routes.<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />Create</a> a new route to enable advanced features.</div>
 	{{/foreach}}
+	</div>
+	<div id="route_info" style="display:none">
+		<h4 id="info_name"></h4>
+		<p id="info_distance"></p>
+		<p id="info_date"></p>
+		<p><a href="#" class="list icon"><img src="/img/icon/arrow_back.png" />Return</a></p>
 	</div>
 </div>
 
@@ -125,7 +133,7 @@ var RouteIndex = {
 
 		var rid = RouteIndex.temp_rid;
 		routes[rid].polyline = polyline;
-		$("#info_name").text(routes[rid].r_name);
+		$("#info_name").html('<a href="/routes/view?rid={{$route.r_id}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a>');
 		$("#info_distance").html('<img src="/img/icon/distance.png" /> Distance: <span class="dist-val">' + routes[rid].r_distance.toFixed(2) + ' mi</span>');
 		$("#info_date").html('<img src="/img/icon/calendar.png" /> ' + routes[rid].r_creation);
 	},
@@ -147,7 +155,7 @@ var RouteIndex = {
 		return false;
 		var center = Map.instance.getCenter();
 		$.each(routes, function(){
-			var id = "#td_dist_" + this.r_id;
+			var id = "#route_" + this.r_id;
 			var dist = center.distanceFrom(this.latlng) * meters_to_miles;
 			$(id).text(dist.toFixed(2));
 		});
@@ -160,7 +168,7 @@ var RouteIndex = {
 		}
 		else{
 			RouteIndex.selected_rid = this.id;
-			var id = "#tr_" + this.id;
+			var id = "#route_" + this.id;
 			$(id).addClass("active_row");
 		}
 	},
