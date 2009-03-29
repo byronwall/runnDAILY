@@ -232,32 +232,32 @@ class TrainingLog extends Object{
 	public function buildChartData($items){
 		$data = array();
 		if($items){
-			$data["distance"] = array();
-			$date["pace"] = array();
-			$data["max_dis"] = 0;
-			$data["max_pace"] = 0;
-			$data["min_date"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
-			$data["max_date"] = date("U") * 1000;
+			$data["Distance_Data"] = array();
+			$date["Pace_Data"] = array();
+			$data["Distance_Max"] = 0;
+			$data["Pace_Max"] = 0;
+			$data["Date_Min"] = date("U", strtotime($items[count($items) - 1]["t_date"])) * 999.8;
+			$data["Date_Max"] = date("U") * 1000;
 			foreach($items as $item){
 				$secs = strtotime($item["t_date"]);
-				$data["distance"][] = array((date("U", $secs) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
-				$data["pace"][] = array((date("U", $secs) - (4 * 60 * 60)) * 1000, $item["t_pace"] + 0);
-				if ($item["t_distance"] > $data["max_dis"]){
-					$data["max_dis"] = $item["t_distance"];
+				$data["Distance_Data"][] = array((date("U", $secs) - (4 * 60 * 60)) * 1000, $item["t_distance"] + 0);
+				$data["Pace_Data"][] = array((date("U", $secs) - (4 * 60 * 60)) * 1000, $item["t_pace"] + 0);
+				if ($item["t_distance"] > $data["Distance_Max"]){
+					$data["Distance_Max"] = $item["t_distance"];
 				}
-				if ($item["t_pace"] > $data["max_pace"]){
-					$data["max_pace"] = $item["t_pace"];
+				if ($item["t_pace"] > $data["Pace_Max"]){
+					$data["Pace_Max"] = $item["t_pace"];
 				}
 			}
-			$data["max_dis"] = ceil($data["max_dis"]);
-			$data["max_pace"] = ceil($data["max_pace"]);
+			$data["Distance_Max"] = ceil($data["Distance_Max"]);
+			$data["Pace_Max"] = ceil($data["Pace_Max"]);
 		}else{
-			$data["distance"] = array(date("U") * 1000, 0);
-			$data["pace"] = array(date("U") * 1000, 0);
-			$data["max_dis"] = 1;
-			$data["max_pace"] = 1;
-			$data["min_date"] = date("U") * 999.8;
-			$data["max_date"] = date("U") * 1000;
+			$data["Distance_Data"] = array(date("U") * 1000, 0);
+			$data["Pace_Data"] = array(date("U") * 1000, 0);
+			$data["Distance_Max"] = 1;
+			$data["Pace_Max"] = 1;
+			$data["Date_Min"] = (date("U") * 1000) - (7 * 24 * 60 * 60 * 1000);
+			$data["Date_Max"] = date("U") * 1000;
 		}
 		return json_encode($data);
 	}
