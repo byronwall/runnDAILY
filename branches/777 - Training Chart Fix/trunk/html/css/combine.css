@@ -61,15 +61,18 @@ div.LabeledMarker_markerLabel{
 .active_row{
 	background-color: #fff5c5;
 }
-#chart_placeholder{
+#primary_chart{
 	height: 425px;
 	width: 100%;
 }
-#chart_overview{
+#overview_chart{
 	height: 100px;
 	width: 85%;
 	margin-left: auto;
 	margin-right: auto;
+}
+.training_overview{
+	margin-top: 20px;
 }
 img.fillx{
 	width: 100%;

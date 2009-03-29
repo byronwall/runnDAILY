@@ -77,40 +77,36 @@ var	Units = {
 	dist_class: ".dist-num",
 	combined_class: ".dist-val",
 	callback: null,
+	changeUnits: function(){
+		if(Units.is_mile){
+			Units.unit_value = "km";
+			Units.convert = 1.609344;
+		}
+		else{
+			Units.unit_value = "mi";
+			Units.convert = 0.6214;
+		}
+		Units.is_mile = !Units.is_mile;
+
+		$(Units.unit_class).text(Units.unit_value);
+		$(Units.dist_class).each(function(){
+			var dist = parseFloat($(this).text()) * Units.convert
+				$(this).text(dist.toFixed(2));
+		});
+		$(Units.combined_class).each(function(){
+			var dist = parseFloat($(this).text().replace(/^[^\d.]*/, '')) * Units.convert;
+			$(this).text(dist.toFixed(2) + " " + Units.unit_value);
+		});
+		if(Units.callback){
+			Units.callback();
+		}
+	},
 	
 	init: function(options){
 		Units = $.extend({}, Units, options);
-		$(Units.unit_class +":not(:text), "+ Units.dist_class+":not(:text), " + Units.combined_class).die("click").live("click", function(){
-			if(Units.is_mile){
-				Units.unit_value = "km";
-				Units.convert = 1.609344;
-			}
-			else{
-				Units.unit_value = "mi";
-				Units.convert = 0.6214;
-			}
-			Units.is_mile = !Units.is_mile;
-
-			$(Units.unit_class).text(Units.unit_value);
-			$(Units.dist_class).each(function(){
-				if($(this).is(":text")){
-				var dist = parseFloat($(this).val()) * Units.convert
-					$(this).val(dist.toFixed(2));
-				}
-				else{
-				var dist = parseFloat($(this).text()) * Units.convert
-					$(this).text(dist.toFixed(2));
-				}
-			});
-			$(Units.combined_class).each(function(){
-				var dist = parseFloat($(this).text().replace(/^[^\d.]*/, '')) * Units.convert;
-				$(this).text(dist.toFixed(2) + " " + Units.unit_value);
-			});
-			if(Units.callback){
-				Units.callback();
-			}
-		})
-		
+		$(Units.dist_class).die("click").live("click", Units.changeUnits)
+		$(Units.combined_class).die("click").live("click", Units.changeUnits)
+		$(Units.unit_class).die("click").live("click", Units.changeUnits)
 	},
 	textWithUnits: function(options){
 		opts = $.extend({}, {from_miles:true, add_units: false}, options);

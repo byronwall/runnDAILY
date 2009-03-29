@@ -51,19 +51,19 @@
 <div class="grid_9">
 	<div id="chart_select" class="align_right">
 		<p>Chart type: 		
-			<input id="dist_rad" type="radio" checked="checked" /><label>Distance</label>
-			<input id="pace_rad" type="radio" value="pac" /><label>Pace</label>
+			<input id="distance_radio" type="radio" name="chart_type" value="dis" checked="checked" /><label>Distance</label>
+			<input id="pace_radio" type="radio" name="chart_type" value="pac" /><label>Pace</label>
 		</p>
 	</div>
-	<div id="chart_placeholder"></div>
+	<div id="primary_chart"></div>
 	<div class="training_overview">
 		<p class="notice bold align_center mar_top_10 mar_bot_0">Overview</p>
-		<div id="chart_overview"></div>
+		<div id="overview_chart"></div>
 		<p class="notice bold align_center">Drag above in order to zoom / change the timeframe.</p>
 	</div>
 </div>
 <div class="clear"></div>
-<!--<script src="/js/chart.js" type="text/javascript"></script>-->
+<script src="/js/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
 sorter = {
 		sort: function(key){
@@ -130,32 +130,29 @@ sorter = {
 			}
 			return false;
 		});
-		plot = $.plot($("#chart_placeholder"), [[[0, 3], [4, 8], [8, 5], [9, 13]]]);
-	});
+		$("#overview_chart").bind("plotselected", function(event, ranges) {
+			Chart.CurrentRange = ranges;
+			Chart.UpdatePrimary();
+			Chart.UpdateOverviewSelection();
+		});
 
+		  $("#primary_chart").bind("plotclick", function (event, pos, item) {
+			  Chart.ToggleItem(event, pos, item);
+		  });
+
+		  $("#distance_radio").click(function(){
+			  Chart.Type = "distance";
+			Chart.UpdatePrimary();
+			Chart.UpdateOverview();
+			  });
+		  $("#pace_radio").click(function(){
+			  Chart.Type = "pace";
+			Chart.UpdatePrimary();
+			Chart.UpdateOverview();
+			  });
+		
+		Chart.LoadData({{$JSON_Chart_Data}});
+		Chart.UpdatePrimary();
+		Chart.UpdateOverview();
+	});
 </script>
-<!--CONTENT GOES HERE-->
-<!--<div class="grid_12">-->
-<!--	<h2 id="page-heading">Coming Soon</h2>-->
-<!--</div>-->
-<!--<div class="clear"></div>-->
-<!---->
-<!--<div class="grid_12">-->
-<!--	<div class="actions"><a href="#" class="icon"><img src="/img/icon_trophy_plus.png" />New Goal</a></div>-->
-<!--</div>-->
-<!--<div class="clear"></div>-->
-<!---->
-<!--<div class="grid_3">-->
-<!--	<div class="box">-->
-<!--		<h2>Charts and Plots</h2>-->
-<!--		<p>Weekly, monthly, etc. distance</p>-->
-<!--		<p>Weekly, monthly, etc. pace</p>-->
-<!--	</div>-->
-<!--</div>-->
-<!--<div class="grid_4">-->
-<!--	<div class="box">-->
-<!--		<h2>Recent Training Activity</h2>-->
-<!--		<p>Similar to the other index pages, cid specific recent activity</p>-->
-<!--	</div>-->
-<!--</div>-->
-<!--<div class="clear"></div>-->
