@@ -257,7 +257,7 @@ sorter.settings = {
 		classes: {
 			r_name: "alpha",
 			r_dist: "numeric",
-			r_date: "date",
+			r_date: "date"
 		},
 		parent: "#route_list",
 		item: ".route_item",
