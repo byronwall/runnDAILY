@@ -15,7 +15,7 @@
 		<p class="notice">Was your training completed on a familiar route?</p>
 		<input type="hidden" name="action" value="save" />
 		<p><input type="radio" name="t_rid" checked="checked" value=""><label>No</label></p>
-		<p><input type="radio" name="t_rid" value=""><label>Yes</label></p>
+		<p><input id="route_radio" type="radio" name="t_rid" value=""><label>Yes</label></p>
 		<p>
 		<select name="route_select" id="route_select" style="display:none">
 			<option value="">Please select a route</option>
@@ -60,8 +60,8 @@
 var routes = {{$routes_json}};
 
 $(document).ready(function(){
-	$("input[name=t_rid]").change(function(){
-			$("#route_select").toggle();
+	$("#route_radio").change(function(){
+			$("#route_select").change();
 			if($(this).val()){
 				$(this).val($("#route_select :selected").val());
 			}
