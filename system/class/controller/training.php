@@ -2,9 +2,9 @@
 class Controller_Training{
 	public function index(){
 		$index_items = TrainingLog::getIndexItemsForUser(User::$current_user->uid);
-		$json_items = TrainingLog::buildChartData($index_items);
+		$json_data = TrainingLog::buildChartData($index_items);
 		RoutingEngine::getSmarty()->assign("training_index_items", $index_items);
-		RoutingEngine::getSmarty()->assign("json_training_items", $json_items);
+		RoutingEngine::getSmarty()->assign("JSON_Chart_Data", $json_data);
 	}
 	public function view(){
 		if(!isset($_GET["tid"])){
