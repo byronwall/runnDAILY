@@ -133,7 +133,7 @@ var RouteIndex = {
 
 		var rid = RouteIndex.temp_rid;
 		routes[rid].polyline = polyline;
-		$("#info_name").html('<a href="/routes/view?rid={{$route.r_id}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a>');
+		$("#info_name").html('<a href="/routes/view?rid='+rid+'" class="r_name icon"><img src="/img/icon/route.png" />'+routes[rid].r_name+'</a>');
 		$("#info_distance").html('<img src="/img/icon/distance.png" /> Distance: <span class="dist-val">' + routes[rid].r_distance.toFixed(2) + ' mi</span>');
 		$("#info_date").html('<img src="/img/icon/calendar.png" /> ' + routes[rid].r_creation);
 	},
@@ -197,9 +197,17 @@ var RouteIndex = {
 		});
 		Map.instance.setCenter(RouteIndex.init_location);
 		$("#route_list").height($("#route_map").height()).css("overflow", "auto");
-		$("table.sortable").sortTable({
-			sort_field: "Date",
-			sort_desc: -1
+
+		sorter.init({
+			classes: {
+				r_name: "alpha",
+				r_dist: "numeric",
+				r_date: "date"
+			},
+			parent: "#route_list",
+			item: ".route_item",
+			sort_desc: -1,
+			sort_key: "r_date"
 		});
 		$("#sort_select").change(function(){
 			sorter.sort($(this).val());
@@ -219,51 +227,7 @@ var RouteIndex = {
 		});
 	}
 };
-var sorter = {
-		sort: function(key){
-			if(!sorter.settings.classes[key]) return false;
-			sorter.settings.sort_key = key;
 
-			var items = $(sorter.settings.item, sorter.settings.parent).get();
-			items.sort(function(a, b) {
-				var a_val = $(a).find("."+key).eq(0).text().toUpperCase();
-				var b_val = $(b).find("."+key).eq(0).text().toUpperCase();
-
-
-				if(sorter.settings.classes[key] == "numeric"){
-					a_val = parseFloat(a_val.replace(/^[^\d.]*/, ''));
-					b_val = parseFloat(b_val.replace(/^[^\d.]*/, ''));
-				}
-				else if(sorter.settings.classes[key] == "date"){
-					a_val = Date.parse(a_val);
-					b_val = Date.parse(b_val);
-				}
-				if (a_val < b_val ) return -sorter.settings.sort_desc;
-				if (a_val > b_val ) return sorter.settings.sort_desc;
-
-				return 0;
-			});
-			$.each(items, function(){
-				$(sorter.settings.parent).append(this);
-			});
-		},
-		reverse: function(){
-			sorter.settings.sort_desc = -sorter.settings.sort_desc;
-			sorter.sort(sorter.settings.sort_key);
-		}
-	};
-
-sorter.settings = {
-		classes: {
-			r_name: "alpha",
-			r_dist: "numeric",
-			r_date: "date"
-		},
-		parent: "#route_list",
-		item: ".route_item",
-		sort_desc: -1,
-		sort_key: "t_date"
-};
 var routes = {{$routes_js}};
 
 $(document).ready(RouteIndex.ready_event);
