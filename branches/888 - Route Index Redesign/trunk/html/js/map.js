@@ -100,7 +100,7 @@ var Map = {
 			}
 		}
 		else{
-			Map.polyline = new GPolyline([latlng_new], "#000000", 3, .5);
+			Map.polyline = new GPolyline([latlng_new], "#ff0000", 3, .5);
 			Map.instance.addOverlay(Map.polyline);
 		}
 		
@@ -156,7 +156,7 @@ var Map = {
 						return route_point.latlng;
 					}
 				),
-				"#000000",
+				"#ff0000",
 				3
 			);
 			Map.instance.addOverlay(Map.polyline);
