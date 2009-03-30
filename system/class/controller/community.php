@@ -10,17 +10,17 @@ class Controller_Community{
 		}
 		$uid = $_GET["uid"];
 		
-		$routes = Route::getRoutesForUser($uid, 5);
-		$t_items = TrainingLog::getItemsForUserPaged($uid, 4);
-		$l_items = Log::getAllActivityForUserPaged($uid, 5);
+		$routes = Route::getRoutesForUserInArray($uid, 50);
+		$routes_js = json_encode_null($routes);
 		
-		User::$current_user->getFriends();
+		RoutingEngine::getSmarty()->assign("routes", $routes);
+		RoutingEngine::getSmarty()->assign("routes_js", $routes_js);
 		
-		RoutingEngine::getSmarty()->assign("r_query", "u_uid={$uid}&page=1&count=5");
-		RoutingEngine::getSmarty()->assign("t_query", "u_uid={$uid}&page=1&count=5");
-		RoutingEngine::getSmarty()->assign("user_routes", $routes);
-		RoutingEngine::getSmarty()->assign("user_training", $t_items);
-		RoutingEngine::getSmarty()->assign("user_log", $l_items);
+		$index_items = TrainingLog::getIndexItemsForUser($uid);
+		$json_data = TrainingLog::buildChartData($index_items);
+		RoutingEngine::getSmarty()->assign("training_index_items", $index_items);
+		RoutingEngine::getSmarty()->assign("JSON_Chart_Data", $json_data);
+		
 		RoutingEngine::getSmarty()->assign("user",User::fromUid($uid));
 	}
 	public function add_friend(){
