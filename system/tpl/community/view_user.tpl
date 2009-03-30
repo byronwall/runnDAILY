@@ -31,7 +31,6 @@
 			<div class="r_date icon"><img src="/img/icon/calendar.png" />{{$route.r_creation|date_format}}</div>
 			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="r_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
 			<div class="clear"></div>
-			<div><a href="#" rel={{$route.r_id}} class="route icon"><img src="/img/icon/arrow.png" /> Show in place</a></div>
 		</div>
 	{{foreachelse}}
 		<div>{{$user->username}} does not currently have any routes.</div>
