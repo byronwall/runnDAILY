@@ -1,5 +1,4 @@
-<h4>Edit Entry</h4>
-
+<h4>Edit Training Item</h4>
 <div id="training_edit_modal">
 	<form action="/training/action_edit" method="post" id="training_edit_form">
 		<input type="hidden" name="t_tid" value="{{$t_item->tid}}" />
@@ -18,7 +17,7 @@
 		</p>
 		<p>
 			<label>Distance</label>
-			<input type="text" name="t_distance" value="{{$t_item->distance}}" />
+			<input type="text" name="t_distance" value="{{$t_item->distance|round:2}}" /> mi
 		</p>
 		<p><label>Activity Type: </label>
 			{{html_options name="t_type" options=$t_types selected=$t_item->type}}
@@ -29,7 +28,7 @@
 		</p>
 	</form>
 </div>
-<h4>Delete Entry</h4>
+<h5><img src="/img/icon/delete.png" class="icon" />Delete Training Item</h5>
 
 <div id="training_delete_modal">
 	<form action="/training/action_delete" method="post">
