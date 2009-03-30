@@ -25,6 +25,13 @@
 {{if $currentUser->isAuthenticated}}
 <div class="grid_12">
 	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
+	<p><span class="bold">March 30, 2009</span> - Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated more site features!</p>
+	<div class="grid_4">
+	<p><a href="/training/" class="icon"><img src="/img/icon/training.png" />Training</a> (Updated)</p>
+	<ul>
+	<li>Training items may now be edited and deleted. Check out the <img src="/img/icon/training_pencil.png" /> <span class="bold">Edit / Delete</span> link on every training item.</li>
+</div>
+<div class="clear"></div>
 	<p><span class="bold">March 29, 2009</span> - Thanks to your <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated several site features and included a few new ones!</p>
 </div>
 <div class="clear"></div>
