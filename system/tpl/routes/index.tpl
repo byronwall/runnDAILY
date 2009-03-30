@@ -74,6 +74,7 @@
 		<h4 id="info_name"></h4>
 		<p id="info_distance"></p>
 		<p id="info_date"></p>
+		<p id="info_desc"></p>
 		<p><a href="#" class="list icon"><img src="/img/icon/arrow_back.png" />Return</a></p>
 	</div>
 </div>
@@ -136,6 +137,7 @@ var RouteIndex = {
 		$("#info_name").html('<a href="/routes/view?rid='+rid+'" class="r_name icon"><img src="/img/icon/route.png" />'+routes[rid].r_name+'</a>');
 		$("#info_distance").html('<img src="/img/icon/distance.png" /> Distance: <span class="dist-val">' + routes[rid].r_distance.toFixed(2) + ' mi</span>');
 		$("#info_date").html('<img src="/img/icon/calendar.png" /> ' + routes[rid].r_creation);
+		$("#info_date").text(routes[rid].r_description);
 	},
 	switchToAll: function(){
 		RouteIndex.route_view = false;

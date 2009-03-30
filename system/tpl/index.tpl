@@ -22,19 +22,34 @@
 	</div>
 </div>
 <div class="clear"></div>
+
 {{if $currentUser->isAuthenticated}}
 <div class="grid_12">
 	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
 	<p><span class="bold">March 30, 2009</span> - Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated more site features!</p>
+</div>
+<div class="clear"></div>
+
 	<div class="grid_4">
 	<p><a href="/training/" class="icon"><img src="/img/icon/training.png" />Training</a> (Updated)</p>
 	<ul>
 	<li>Training items may now be edited and deleted. Check out the <img src="/img/icon/training_pencil.png" /> <span class="bold">Edit / Delete</span> link on every training item.</li>
+	</ul>
+	</div>
+	
+	<div class="grid_4">
+	<p><a href="/routes/" class="icon"><img src="/img/icon/route.png" /> Routes</a> (Updated)</p>
+	<ul>
+	<li>Route descriptions are now available when routes are shown in detail or in place.</li>
+	</ul>
 </div>
 <div class="clear"></div>
+
+<div class="grid_12">
 	<p><span class="bold">March 29, 2009</span> - Thanks to your <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated several site features and included a few new ones!</p>
 </div>
 <div class="clear"></div>
+
 <div class="grid_4">
 	<p><a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" /> Create Route</a> (Updated, New Features)</p>
 	<ul>
@@ -55,6 +70,7 @@
 </div>
 <div class="clear"></div>
 {{/if}}
+
 <div class="grid_12">
 <h3>runnDAILY</h3>
 <p>Welcome to runnDAILY! runnDAILY is an online dashboard for anyone that
