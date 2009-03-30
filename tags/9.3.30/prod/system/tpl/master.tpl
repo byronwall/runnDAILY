@@ -4,28 +4,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     
-    <!--SYTLE SHEETS-->
-	<link href="/css/reset.css" rel="stylesheet" type="text/css">
-	<link href="/css/combine.css" rel="stylesheet" type="text/css">
-    <link href="/css/facebox.css" rel="stylesheet" type="text/css">
-    
-<!--    <link href="/css/runndaily-min-9.3.30.css" rel="stylesheet" type="text/css">-->
-    
-    <!--FAVORITE ICON-->
+    <link href="/css/runndaily-9.3.30.min.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/png" href="/img/favico.png">
+    <script src="/js/runndaily-9.3.30.min.js" type="text/javascript"></script>
     
-    <!--JAVASCRIPT-->
-    
-    <script src="/js/runndaily-min-9.3.30.js" type="text/javascript"></script>
-    
-    <script src="/js/jquery.facebox.js" type="text/javascript"></script>
-    <script src="/js/excanvas.js" type="text/javascript"></script>
-    <script src="/js/jquery.flot.js" type="text/javascript"></script>
-    <script src="/js/jquery.sort.js" type="text/javascript"></script>
-    <script src="/js/runndaily.chart.js" type="text/javascript"></script>
-    <script src="/js/runndaily.plugin.js" type="text/javascript"></script>
-    
-    <!--TITLE-->
     <title>{{$page->title}}</title>
 </head>
 
@@ -64,6 +46,8 @@
 <script type="text/javascript">
 	$(document).ready(
 		function(){
+			$('a[class*=facebox]').live("click", $.facebox.clickHandler);
+			
 			Units.init();
 			$("#form_feedback").validate({
 				submitHandler : function(form){
