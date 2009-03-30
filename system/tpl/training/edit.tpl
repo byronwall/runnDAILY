@@ -28,7 +28,7 @@
 		</p>
 	</form>
 </div>
-<h5><img src="/img/icon/delete.png" class="icon" />Delete Training Item</h5>
+<h5>Delete Training Item</h5>
 
 <div id="training_delete_modal">
 	<form action="/training/action_delete" method="post">
