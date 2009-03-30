@@ -9,7 +9,9 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Copyright 2007, 2008 Chris Wanstrath [ chris@ozmm.org ]
- *
+ */
+ 
+ /*
  * Usage:
  *  
  *  jQuery(document).ready(function() {

@@ -2,7 +2,9 @@
  * sortTable (for jQuery)
  * version: 9.3.23
  * @requires jQuery v1.2 or later
- *
+ */
+ 
+ /*
  * Usage:
  *  
  *  $(document).ready(function() {

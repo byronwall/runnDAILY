@@ -9,15 +9,21 @@
 	<link href="/css/combine.css" rel="stylesheet" type="text/css">
     <link href="/css/facebox.css" rel="stylesheet" type="text/css">
     
+<!--    <link href="/css/runndaily-min-9.3.30.css" rel="stylesheet" type="text/css">-->
+    
     <!--FAVORITE ICON-->
     <link rel="icon" type="image/png" href="/img/favico.png">
     
     <!--JAVASCRIPT-->
-    <script src="/js/site.js" type="text/javascript"></script>
-    <script src="/js/facebox.js" type="text/javascript"></script>
-    <script src="/js/byron.sort.js" type="text/javascript"></script>
+    
+    <script src="/js/runndaily-min-9.3.30.js" type="text/javascript"></script>
+    
+    <script src="/js/jquery.facebox.js" type="text/javascript"></script>
     <script src="/js/excanvas.js" type="text/javascript"></script>
     <script src="/js/jquery.flot.js" type="text/javascript"></script>
+    <script src="/js/jquery.sort.js" type="text/javascript"></script>
+    <script src="/js/runndaily.chart.js" type="text/javascript"></script>
+    <script src="/js/runndaily.plugin.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>{{$page->title}}</title>
