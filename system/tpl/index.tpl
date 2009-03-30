@@ -22,7 +22,7 @@
 	</div>
 </div>
 <div class="clear"></div>
-
+{{if $currentUser->isAuthenticated}}
 <div class="grid_12">
 	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
 	<p><span class="bold">March 29, 2009</span> - Thanks to your <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated several site features and included a few new ones!</p>
@@ -47,7 +47,7 @@
 	</ul>
 </div>
 <div class="clear"></div>
-
+{{/if}}
 <div class="grid_12">
 <h3>runnDAILY</h3>
 <p>Welcome to runnDAILY! runnDAILY is an online dashboard for anyone that
