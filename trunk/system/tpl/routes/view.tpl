@@ -80,6 +80,13 @@
 </div>
 <div class="clear"></div>
 
+{{if $route_view->description}}
+<div class="grid_12">
+	<p><span class="bold">Description:</span> {{$route_view->description}}</p>
+</div>
+<div class="clear"></div>
+{{/if}}
+
 {{include file="routes/parts/script.tpl"}}
 <script type="text/javascript">
 

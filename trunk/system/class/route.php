@@ -448,7 +448,7 @@ class Route extends Object{
 	 */
 	static function getRoutesForUserInArray($uid, $count = 50){
 		$stmt = Database::getDB()->prepare("
-			SELECT r_id, r_name, r_start_lat, r_start_lng, r_distance, r_creation
+			SELECT r_id, r_name, r_start_lat, r_start_lng, r_distance, r_creation, r_description
 			FROM routes
 			WHERE
 				r_uid = ?
