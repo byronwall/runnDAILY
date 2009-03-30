@@ -38,7 +38,7 @@
 				<div class="t_cal icon float_right"></div>
 			<div class="clear"></div>
 			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$training_item.t_date|date_format}}</div>
-<!--			<div class="align_right"><a href="/training/view?tid={{$training_item.t_tid}}" class="icon"><img src="/img/icon/training.png" />View in Detail</a></div>-->
+			<div class="align_right"><a href="/training/edit?tid={{$training_item.t_tid}}" class="facebox icon"><img src="/img/icon/training.png" />Edit or Delete</a></div>
 		</div>
 		{{foreachelse}}
 		<div>

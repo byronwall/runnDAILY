@@ -116,5 +116,35 @@ class Controller_Training{
 		RoutingEngine::getSmarty()->assign("routes_json", json_encode_null($routes));
 		RoutingEngine::getSmarty()->assign("routes", $routes);
 	}
+	function edit(){
+		if(!isset($_GET["tid"])){
+			Notification::add("That training entry does not exist.");
+			Page::redirect("/training");
+		}
+		$tid = $_GET["tid"];
+		
+		$training = TrainingLog::getItem($tid);
+		if($training->uid != User::$current_user->uid){
+			Notification::add("You are not allowed to edit that entry");
+			Page::redirect("/training");
+		}
+		
+		$stmt = Database::getDB()->prepare("
+			SELECT t_type_id, t_type_name
+			FROM training_types
+		");
+		$stmt->execute();
+		$stmt->store_result();
+		$types = array();
+		while($row = $stmt->fetch_assoc()){
+			$types[$row["t_type_id"]] = $row["t_type_name"];
+		}
+		$stmt->close();
+		
+		RoutingEngine::getSmarty()->assign("t_types", $types);		
+		RoutingEngine::getSmarty()->assign("t_item", $training);
+		RoutingEngine::getSmarty()->display("training/edit.tpl");
+		exit;
+	}
 }
 ?>

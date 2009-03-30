@@ -56,7 +56,7 @@ class TrainingLog extends Object{
 		$stmt->close();
 
 		if($rows == 1){
-			Log::insertItem(User::$current_user->uid, 301, null, $this->rid, $this->tid, null);
+			Log::insertItem(User::$current_user->uid, 301, null, $this->rid, null, null);
 			return true;
 		}
 		return false;
@@ -72,10 +72,11 @@ class TrainingLog extends Object{
 				t_time = ?,
 				t_distance = ?,
 				t_date = FROM_UNIXTIME(?),
-				t_pace = ?
+				t_pace = ?,
+				t_type = ?
 			WHERE t_tid = ?
 		");
-		$stmt->bind_param("ddsdi", $this->time, $this->distance, $this->date, $this->getPace(), $this->tid);
+		$stmt->bind_param("ddsdii", $this->time, $this->distance, $this->date, $this->getPace(), $this->type, $this->tid);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
