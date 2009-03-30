@@ -32,7 +32,7 @@
 	<p><a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" /> Create Route</a> (Updated, New Features)</p>
 	<ul>
 	<li><img src="/img/icon/fullscreen.png" class="icon" /> Fullscreen mode has been introduced.</li>
-	<li><img src="/img/icon/settings.png" class="icon" /> Settings have been reloacted.</li>
+	<li><img src="/img/icon/settings.png" class="icon" /> Settings have been relocated.</li>
 	</ul>
 </div>
 <div class="grid_4">
