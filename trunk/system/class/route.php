@@ -36,9 +36,7 @@ class Route extends Object{
 	}
 
 	function copy(){
-		var_dump($this);
 		$db_route = Route::fromRouteIdentifier($this->id);
-		var_dump($db_route);
 		$db_route->name = $this->name;
 		
 		if($db_route->createRoute()){
@@ -187,8 +185,9 @@ class Route extends Object{
 		$rows = $stmt->affected_rows;
 		$stmt->close();
 		if($rows == 1){
-			Log::insertItem($uid, 101, null, $rid, null, null);
-			return Route::_removeImage($rid);
+			Log::insertItem($uid, 101, null, null, null, null);
+			return true;
+			//return Route::_removeImage($rid);
 		}
 		return false;
 	}
@@ -434,13 +433,13 @@ class Route extends Object{
 	}
 	
 	public function getCanEdit(){
-		return $this->getTrainingCount() == 0;
+		return $this->getIsOwner() && $this->getTrainingCount() == 0;
 	}
 	public function getHasParent(){
 		return $this->rid_parent != null;
 	}
-	public function getIsOwner($uid){
-		return $this->uid = $uid;
+	public function getIsOwner($uid = null){
+		return $this->uid == User::$current_user->uid;
 	}
 	/**
 	 * @param $uid
