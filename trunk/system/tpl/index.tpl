@@ -4,27 +4,47 @@
 </div>
 <div class="clear"></div>
 <div class="grid_12">
-<div class="actions">
-	{{if $currentUser->isAuthenticated}}
-	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />New Route</a>
-	<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png" />New Training Item</a>
-	{{else}}
-	<form action="/user/login" method="post">
-		<p>
-			<label for="u_username">Username: </label><input type="text" name="username" />
-			<label for="u_password">Password: </label><input type="password" name="password" />
-			<label>Cookie? </label><input type="checkbox" name="remember" value="1">
-			<input type="submit" value="Login" />
-		</p>
-		<a href="/register" class="icon"><img src="/img/icon/register.png" />Register</a>
-	</form>
-	{{/if}}
+	<div class="actions">
+		{{if $currentUser->isAuthenticated}}
+		<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />New Route</a>
+		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png" />New Training Item</a>
+		{{else}}
+		<form action="/user/login" method="post">
+			<p>
+				<label for="u_username">Username: </label><input type="text" name="username" />
+				<label for="u_password">Password: </label><input type="password" name="password" />
+				<label>Cookie? </label><input type="checkbox" name="remember" value="1">
+				<input type="submit" value="Login" />
+			</p>
+			<a href="/register" class="icon"><img src="/img/icon/register.png" />Register</a>
+		</form>
+		{{/if}}
+	</div>
 </div>
-<h5 style="color: green;">We have been able to resolve the great majority
-of our initial issues. We are pleased to report that no data was lost. We hope
-that you can now take advantage of the numerous features we have restored. We
-ask that you still bear with us as we resolve any remaining issues. Thanks and
-enjoy runnDAILY!</h5>
+<div class="clear"></div>
+
+<div class="grid_12">
+	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
+	<p><span class="bold">March 29, 2009</span> - Thanks to your <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated several site features and included a few new ones!</p>
+</div>
+<div class="clear"></div>
+<div class="grid_4">
+	<p><a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" /> Create Route</a> (Updated, New Features)</p>
+	<ul>
+	<li><img src="/img/icon/fullscreen.png" class="icon" /> Fullscreen mode has been introduced.</li>
+	<li><img src="/img/icon/settings.png" class="icon" /> Settings have been reloacted.</li>
+	</ul>
+</div>
+<div class="grid_4">
+	<p><a href="/training/" class="icon"><img src="/img/icon/training.png" />Training</a> (Updated)</p>
+	<ul>
+	<li>Training chart has been enabled. Enjoy a visual interpretation of <img src="/img/icon/distance.png" /> Distance and <img src="/img/icon/dashboard.png" /> Pace.</li>
+</div>
+<div class="grid_4">
+	<p><a href="/community" class="icon"><img src="/img/icon/user_friend.png" />View User Detail</a> (Updated)</p>
+	<ul>
+	<li>Advanced user pages are now enabled. Track your friends' training progress and routes.</li>
+	</ul>
 </div>
 <div class="clear"></div>
 
