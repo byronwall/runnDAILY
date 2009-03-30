@@ -52,7 +52,7 @@
 </div>
 <div class="clear"></div>
 
-<!-- HIDDEN ELEMENTS -->
+
 <div id="event_delete_modal" style="display:none">
 	<div>
 		<form method="post" action="/events/delete">

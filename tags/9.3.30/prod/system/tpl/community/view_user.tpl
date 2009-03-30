@@ -15,15 +15,15 @@
 
 <div class="grid_4">
 <h4>Routes</h4>
-<!--	<div id="sort_options" class="align_right">-->
-<!--			<label>Sort by: </label>-->
-<!--			<select id="route_sort_select">-->
-<!--				<option value="r_date">Date</option>-->
-<!--				<option value="r_dist">Distance</option>-->
-<!--				<option value="r_name">Route Name</option>-->
-<!--			</select>-->
-<!--			<a href="#" id="route_reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>-->
-<!--	</div>-->
+
+
+
+
+
+
+
+
+
 	<div id="route_list" class="route_list">
 	{{foreach from=$routes item=route}}
 		<div id="route_{{$route.r_id}}" class="route_item">
@@ -40,18 +40,18 @@
 
 <div class="grid_4">
 <h4>Training Items</h4>
-<!--	<div id="sort_options" class="align_right">-->
-<!--			<label>Sort by: </label>-->
-<!--			<select id="training_sort_select">-->
-<!--				<option value="t_date">Date</option>-->
-<!--				<option value="t_dist">Distance</option>-->
-<!--				<option value="t_pace">Pace</option>-->
-<!--				<option value="t_cal">Calories</option>-->
-<!--				<option value="t_name">Route Name</option>-->
-<!--				<option value="t_time">Time</option>-->
-<!--			</select>-->
-<!--			<a href="#" id="training_reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>-->
-<!--	</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
 	<div id="training_items_list">
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
@@ -64,7 +64,7 @@
 				<div class="t_cal icon float_right"></div>
 			<div class="clear"></div>
 			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$training_item.t_date|date_format}}</div>
-<!--			<div class="align_right"><a href="/training/view?tid={{$training_item.t_tid}}" class="icon"><img src="/img/icon/training.png" />View in Detail</a></div>-->
+
 		</div>
 		{{foreachelse}}
 		<div>

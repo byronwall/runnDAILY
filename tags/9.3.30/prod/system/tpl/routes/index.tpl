@@ -16,45 +16,45 @@
 <div class="grid_9">
 <div class="actions">
 	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png"/>New Route</a>
-<!--	<a href="/routes/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Routes</a>-->
+
 </div>
 </div>
 <div class="clear"></div>
-<!---->
-<!--<div class="grid_3">-->
-<!--	<div id="route_list">-->
-<!--		<table class="sortable">-->
-<!--			<thead>-->
-<!--				<tr>-->
-<!--					<th class="sort-date">Date</th>-->
-<!--					<th class="sort-alpha">Route Name</th>-->
-<!--					<th class="sort-numeric">Distance</th>-->
-<!--				</tr>-->
-<!--			</thead>-->
-<!--			<tbody>-->
-<!--				{{foreach from=$routes item=route}}-->
-<!--				<tr id="tr_{{$route.r_id}}">-->
-<!--					<td id="td_dist_{{$route.r_id}}">{{$route.r_creation|date_format:"n/j/Y"}}</td>-->
-<!--					<td>-->
-<!--						<p><a href="/routes/view?rid={{$route.r_id}}" class="icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></p>-->
-<!--						<p><a href="#"	rel={{$route.r_id}} class="route icon"><img src="/img/icon/arrow.png">Show in place</a></p>-->
-<!--						<p><a href="/routes/view?rid={{$route.r_id}}" class="icon"><img src="/img/icon/route.png" /> View in Detail</a></p>-->
-<!--					</td>-->
-<!--					<td class="dist-val align_right bold">{{$route.r_distance|round:"2"}} mi</td>-->
-<!--				</tr>-->
-<!--				{{foreachelse}}-->
-<!--				<tr><td colspan="3">You do not currently have any routes.<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />Create</a> a new route to enable advanced features.</td></tr>-->
-<!--				{{/foreach}}-->
-<!--			</tbody>-->
-<!--		</table>-->
-<!--	</div>-->
-<!--	<div id="route_info" style="display:none">-->
-<!--		<h4 id="info_name"></h4>-->
-<!--		<p id="info_distance"></p>-->
-<!--		<p id="info_date"></p>-->
-<!--		<p><a href="#" class="list icon"><img src="/img/icon/arrow_back.png" />Return</a></p>-->
-<!--	</div>-->
-<!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="grid_3">
 	<div id="route_list">
