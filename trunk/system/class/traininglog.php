@@ -23,6 +23,7 @@ class TrainingLog extends Object{
 	 * @return float
 	 */
 	public function getPace(){
+		if($this->time == 0) return 0;
 		return $this->distance * 3600 / $this->time;
 	}
 	

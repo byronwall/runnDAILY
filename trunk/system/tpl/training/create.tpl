@@ -13,12 +13,11 @@
 	<div class="box">
 		<h2>Step 1</h2>
 		<p class="notice">Was your training completed on a familiar route?</p>
-		<input type="hidden" name="action" value="save" />
-		<p><input type="radio" name="t_rid" checked="checked" value=""><label>No</label></p>
+		<p><input id="radio_no_route" type="radio" name="t_rid" value="" checked="checked"><label>No</label></p>
 		<p><input id="route_radio" type="radio" name="t_rid" value=""><label>Yes</label></p>
 		<p>
-		<select name="route_select" id="route_select" style="display:none">
-			<option value="">Please select a route</option>
+		<select id="route_select" style="display:none">
+			<option value="0">Please select a route</option>
 			{{foreach from=$routes item=route}}
 				<option value="{{$route->id}}">{{$route->name}} | {{$route->distance}} mi</option>
 			{{/foreach}}
@@ -60,11 +59,16 @@
 var routes = {{$routes_json}};
 
 $(document).ready(function(){
-	$("#route_radio").change(function(){
-			$("#route_select").change();
+	$("#route_radio").click(function(){
+			$("#route_select").show();
 			if($(this).val()){
 				$(this).val($("#route_select :selected").val());
 			}
+	});
+	$("#radio_no_route").click(function(){
+		$("#route_select").val(0);
+		$("#route_select").hide().change();
+		
 	});
 	$("#route_select").change(function(){
 		if($(this).val()>0){
@@ -74,7 +78,7 @@ $(document).ready(function(){
 			$("input[name=t_rid]:checked").val($(this).val());
 		}
 		else{
-			$("#route_name").text("none");
+			$("#route_name").text("None selected");
 			$("#route_distance").val("");
 			$("input[name=t_rid]:checked").val("");
 		}
@@ -84,6 +88,15 @@ $(document).ready(function(){
 			t_distance:{required:true, number:true},
 			t_date:{required:true},
 			t_time:{required:true}
+		},
+		submitHandler: function(form){
+			if($("#route_radio").is(":checked") && $("#route_select").val()==0){
+				$("#route_radio").attr("disabled", "disabled");
+			}
+			$("input").each( function(){
+				if($(this).val() == "") $(this).attr("disabled", true);
+			});
+			form.submit();
 		}
 	});
 });
