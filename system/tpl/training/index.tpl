@@ -66,7 +66,7 @@
 <script src="/js/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		sorter.init({
+		$.sorter.add("#training_items_list",{
 			classes: {
 				t_name: "alpha",
 				t_dist: "numeric",
@@ -77,23 +77,9 @@
 			parent: "#training_items_list",
 			item: ".training_item",
 			sort_desc: -1,
-			sort_key: "t_date"
-		});
-		$("#sort_select").change(function(){
-			sorter.sort($(this).val());
-		});
-		$("#reverse_sort").click(function(){
-			sorter.reverse();
-			if($(this).hasClass("sort_asc")){
-				$(this).html('<img src="/img/icon/sort_desc.png" /> DESC</a>');
-				$(this).addClass("sort_desc");
-				$(this).removeClass("sort_asc");
-			}else{
-				$(this).html('<img src="/img/icon/sort_asc.png" /> ASC</a>');
-				$(this).addClass("sort_asc");
-				$(this).removeClass("sort_desc");
-			}
-			return false;
+			sort_key: "t_date",
+			reverse: "#reverse_sort",
+			selector: "#sort_select"
 		});
 		$("#overview_chart").bind("plotselected", function(event, ranges) {
 			Chart.CurrentRange = ranges;

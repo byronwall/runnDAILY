@@ -118,7 +118,6 @@ class Controller_Routes{
 		Page::redirect("/routes/view?rid={$rid}");
 	}
 	public function action_copy_edit(){
-		var_dump($_POST);
 		$route = new Route($_POST);
 		if($route->copy()){
 			Notification::add("Your route - {$route->name} - was copied.  You are now editing it.");

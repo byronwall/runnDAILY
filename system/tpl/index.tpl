@@ -13,7 +13,7 @@
 			<p>
 				<label for="u_username">Username: </label><input type="text" name="username" />
 				<label for="u_password">Password: </label><input type="password" name="password" />
-				<label>Cookie? </label><input type="checkbox" name="remember" value="1">
+				<label>Stay Logged In? </label><input type="checkbox" name="remember" value="1">
 				<input type="submit" value="Login" />
 			</p>
 			<a href="/register" class="icon"><img src="/img/icon/register.png" />Register</a>

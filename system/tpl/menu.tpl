@@ -30,7 +30,7 @@
 				<li><a href="/user/logout" class="icon">Logout</a></li>
 		</ul>
 		{{else}}
-		<li class="secondary"><a href="/login" class="icon"><img src="/img/icon_login.png" />Login</a></li>
+		<li class="secondary"><a href="#login_modal" class="facebox icon"><img src="/img/icon_login.png" />Login</a></li>
 		<li class="secondary"><a href="/register" class="icon"><img src="/img/icon/register.png" />Register</a></li>
 		{{/if}} {{if $engine->requirePermission("PV__100")}}
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
