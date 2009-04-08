@@ -1,3 +1,7 @@
+/*!
+ * runnDAILY Mapping Library
+ */
+
 var MapActions = {
 	outAndBack: function(){
 		for(var i = Map.points.length-1;i>=0;i--){
@@ -63,7 +67,7 @@ var Map = {
 				$("#"+map_holder_id).heightBrowser();
 			}
 			Map.instance = new GMap2(document.getElementById(map_holder_id), {mapTypes:[G_NORMAL_MAP,G_SATELLITE_MAP,G_HYBRID_MAP,G_PHYSICAL_MAP]});
-			Map.instance.setCenter(new GLatLng(38.424212,-86.930522), 13);
+			Map.instance.setCenter(new GLatLng(39.229984356582, -95.2734375), 4);
 			
 			if(click_callback != null){
 				GEvent.addListener(Map.instance,"click", click_callback);
@@ -196,6 +200,7 @@ var Map = {
 var meters_to_miles = 0.000621371192;
 
 GMarker.prototype.marker_id = -1;
+GMarker.prototype.z_index = 1;
 
 function routePoint(){
 	
@@ -262,7 +267,6 @@ var MileMarkers = {
 	points: [],
 	prevDistance: 0,
 	prevMarkerDistance: 0,
-	miles: 0,
 	
 	init: function(){
 		MileMarkers.icon = new GIcon();
@@ -280,10 +284,12 @@ var MileMarkers = {
 	},
 	add: function(lat, lng, mile){
 		var latlng = new GLatLng(lat, lng);
-		
 		var options = $.extend({}, MileMarkers.icon_options, {
 			labelText: mile,
-			labelOffset: new GSize(-10,-8)
+			labelOffset: new GSize(-10,-8),
+			zIndexProcess: function(marker){
+				return marker.z_index; 
+			}
 		});
 		
 		var marker = new LabeledMarker(latlng, options);
@@ -298,7 +304,11 @@ var MileMarkers = {
 	},
 	update: function(shouldUpdateAll){
 		if(Map.points.length <= 1){
-			MileMarkers.miles = 0;
+			MileMarkers.prevMarkerDistance = 0;
+			MileMarkers.prevDistance = 0;
+			indexStart = 1;
+			temp_total = 0;
+			
 			return;	
 		}
 		var temp_total = MileMarkers.prevDistance;
@@ -313,7 +323,6 @@ var MileMarkers = {
 			MileMarkers.prevDistance = 0;
 			indexStart = 1;
 			temp_total = 0;
-			MileMarkers.miles = 0;
 		}
 		
 		for(var j = indexStart;j < Map.points.length;j++){			
@@ -324,19 +333,18 @@ var MileMarkers = {
 			if(!Units.is_mile){
 				new_dist *= Units.convert;
 			}
-			
 			temp_total += new_dist;
 			
 			var distIntoSec = MileMarkers.prevDistance - Math.floor(MileMarkers.prevDistance / MapSettings.MileMarkers.distance) * MapSettings.MileMarkers.distance; 
 		
 			for(var i =1; i< (temp_total - MileMarkers.prevMarkerDistance) / MapSettings.MileMarkers.distance;i++){	
-				
 				var scale = (MapSettings.MileMarkers.distance * i - distIntoSec) / (temp_total - MileMarkers.prevDistance); 
 				
 				var lat = prevLatLng.lat() + scale * (curLatLng.lat() - prevLatLng.lat());
 				var lng = prevLatLng.lng() + scale * (curLatLng.lng() - prevLatLng.lng());
 				
-				MileMarkers.add(lat, lng, ++MileMarkers.miles);			
+				var dist = MileMarkers.prevMarkerDistance + i * MapSettings.MileMarkers.distance;
+				MileMarkers.add(lat, lng, dist);			
 			}
 			
 			MileMarkers.prevMarkerDistance =  Math.floor(temp_total / MapSettings.MileMarkers.distance) * MapSettings.MileMarkers.distance;
@@ -440,7 +448,7 @@ var Display = {
 		if(!Display.fullscreen){
 			$("#r_map").removeClass("map").addClass("map_full");
 			$("#r_map").css("position", "fixed");
-			$("#r_map").heightBrowser({scale:1});
+			$("#r_map").heightBrowser({scale:1, clear: true});
 			
 			$("#r_map").parents().each(function(){
 				$(this).data("overflow_init", $(this).css("overflow"));
@@ -455,7 +463,7 @@ var Display = {
 		else{
 			$("#r_map").removeClass("map_full").addClass("map");
 			$("#r_map").css("position", "relative");
-			$("#r_map").heightBrowser();
+			$("#r_map").heightBrowser({clear:true});
 			
 			$("#r_map").parents().each(function(){
 				$(this).css("overflow", $(this).data("overflow_init"));
