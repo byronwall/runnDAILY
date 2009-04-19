@@ -60,11 +60,6 @@ This is the template for the page where new routes are created.
 		<p id="location_msg" class=""></p>
 	</form>
 </div>
-<!--<div class="" id="route_options">-->
-<!--	<div class="delete_box">-->
-<!--		<a href="#settings_modal" class="facebox icon">Settings</a>-->
-<!--	</div>-->
-<!--</div>-->
 
 </div>
 

@@ -4,25 +4,19 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     
-    <!--SYTLE SHEETS-->
-<!--	<link href="/css/reset.css" rel="stylesheet" type="text/css">-->
-<!--	<link href="/css/combine.css" rel="stylesheet" type="text/css">-->
-<!--    <link href="/css/facebox.css" rel="stylesheet" type="text/css">-->
+    
+
     <link href="/css/runndaily-9.4.19-min.css" rel="stylesheet" type="text/css">
     
-    <!--FAVORITE ICON-->
+    
     <link rel="icon" type="image/png" href="/img/favico.png">
     
-    <!--JAVASCRIPT-->
-<!--    <script src="/js/site.js" type="text/javascript"></script>-->
-<!--    <script src="/js/jquery.facebox.js" type="text/javascript"></script>-->
-<!--    <script src="/js/excanvas.js" type="text/javascript"></script>-->
-<!--    <script src="/js/jquery.flot.js" type="text/javascript"></script>-->
-<!--    <script src="/js/jquery.runndaily.js" type="text/javascript"></script>-->
+    
+
     <script src="/js/runndaily-9.4.19-min.js" type="text/javascript"></script>
 
     
-    <!--TITLE-->
+    
     <title>{{$page->title}}</title>
 </head>
 

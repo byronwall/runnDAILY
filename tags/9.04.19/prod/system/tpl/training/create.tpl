@@ -101,9 +101,3 @@ $(document).ready(function(){
 	});
 });
 </script>
-
-
-
-
-
-
