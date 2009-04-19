@@ -5,7 +5,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 <div class="actions">
-<!--	<a href="#" class="icon"><img src="/img/icon/binocular.png" />Find User</a>-->
+
 </div>
 </div>
 <div class="clear"></div>

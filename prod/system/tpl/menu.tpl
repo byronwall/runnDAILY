@@ -3,13 +3,13 @@
 		<li><a href="/routes/index" class="icon"><img src="/img/icon/route.png" />Routes</a>
 			<ul>
 				<li><a href="/routes/create">Create</a></li>
-<!--				<li><a href="/routes/browse">Search</a></li>-->
+
 			</ul>
 		</li>
 		<li><a href="/training/index" class="icon"><img src="/img/icon/training.png" />Training</a>
 			<ul>
 					<li><a href="/training/create">Create</a></li>
-<!--					<li><a href="/training/browse">Search</a></li>-->
+
 			</ul>
 		</li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon/community.png" />Community</a>

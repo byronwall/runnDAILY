@@ -14,8 +14,6 @@
 </div>
 <div class="clear"></div>
 
-
-
 <form enctype="multipart/form-data" action="/user/register" method="post" id="form_register">
 <div class="grid_6">
 	<h4>Account Information</h4>
@@ -34,7 +32,7 @@
 	<p class="notice">Personal information will be used to personalize your site experience.</p>
 	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_settings[real_name]"/></p>
 	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_settings[birthday]"/></p>
-<!--	<p><label for="input_gender">Gender: </label><input id="input_gender" name="u_settings[gender]" value="0" type="radio" /> Male <input type="radio" name="u_settings[gender]" value="1" /> Female</p>-->
+
 	<h4>Physical Information</h4>
 	<p class="notice">Physical information will be used for calorie estimation and other quantitative purposes.</p>
 	<p><label>Height (in): </label><input type="text" id="input_height" name="u_settings[height]"/></p>
