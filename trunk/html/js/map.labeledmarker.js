@@ -1,4 +1,4 @@
-/**
+/**!
  * @name LabeledMarker
  * @version 1.3
  * @author Mike Purvis (http://uwmike.com)
@@ -15,9 +15,7 @@
  *            href="http://googlemapsbook.com/2007/03/06/clickable-labeledmarker/"
  *            >Clickable LabeledMarker</a></li>
  *     </ul>
- */
-
-/*
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -148,7 +146,7 @@ LabeledMarker.prototype.redrawLabel_ = function () {
   // Calculate the DIV coordinates of two opposite corners of our bounds to
   // get the size and position of our rectangle
   var p = this.map_.fromLatLngToDivPixel(this.getLatLng());
-  var z = GOverlay.getZIndex(this.getLatLng().lat());
+  var z = this.z_index;
 
   // Now position our div based on the div coordinates of our bounds
   this.div_.style.left = (p.x + this.labelOffset_.width) + "px";

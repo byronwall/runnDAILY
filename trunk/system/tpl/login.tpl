@@ -13,7 +13,7 @@ This is the template for the login page.
 									
 					<p><label>Username: </label><input type="text" name="username"></p>
 					<p><label>Password: </label><input type="password" name="password"></p>
-					<p><label>Cookie? </label><input type="checkbox" name="remember" value="1"></p>
+					<p><label>Stay Logged In? </label><input type="checkbox" name="remember" value="1"></p>
 					
 					<input class="login" type="submit" value="Login">
 			</form>
