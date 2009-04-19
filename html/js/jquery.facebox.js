@@ -1,4 +1,4 @@
-/*
+/*!
  * Facebox (for jQuery)
  * version: 1.2 (05/05/2008)
  * @requires jQuery v1.2 or later
@@ -9,7 +9,9 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Copyright 2007, 2008 Chris Wanstrath [ chris@ozmm.org ]
- *
+ */
+
+/*
  * Usage:
  *  
  *  jQuery(document).ready(function() {
@@ -83,7 +85,6 @@
       opacity      : .50,
       overlay      : true,
       loadingImage : '/img/loadingAnimation.gif',
-      closeImage   : '/facebox/closelabel.gif',
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
       faceboxHtml  : '\
 	<div id="facebox" style="display:none;"> \
@@ -126,17 +127,14 @@
       $('#facebox .content').append(data)
       $('#facebox .loading').remove()
       $('#facebox .body').children().fadeIn('normal')
-      if($.facebox.settings.modal){ 
-      	$("#facebox .close").text("close with <escape>").bind("click", function(){return false});
-      }
-      else{
-      	$("#facebox .close").text("close").bind("click", $.facebox.close);
-      }
+		$("#facebox .close").text("close").bind("click", $.facebox.close);
+      
       $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
 
-    close: function() {
+    close: function(delay) {
+    	if(delay) $.facebox.settings.close_delay = delay;
       $(document).trigger('close.facebox')
       return false
     },

@@ -2,61 +2,24 @@
 <h2 id="page-heading">Routes</h2>
 </div>
 <div class="clear"></div>
-<div class="grid_3">
-	<div id="sort_options" class="align_right">
-			<label>Sort by: </label>
-			<select id="sort_select">
-				<option value="r_date">Date</option>
-				<option value="r_dist">Distance</option>
-				<option value="r_name">Route Name</option>
-			</select>
-			<a href="#" id="reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
-	</div>
-</div>
-<div class="grid_9">
+<div class="grid_12">
 <div class="actions">
 	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png"/>New Route</a>
 <!--	<a href="/routes/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Routes</a>-->
 </div>
 </div>
 <div class="clear"></div>
-<!---->
-<!--<div class="grid_3">-->
-<!--	<div id="route_list">-->
-<!--		<table class="sortable">-->
-<!--			<thead>-->
-<!--				<tr>-->
-<!--					<th class="sort-date">Date</th>-->
-<!--					<th class="sort-alpha">Route Name</th>-->
-<!--					<th class="sort-numeric">Distance</th>-->
-<!--				</tr>-->
-<!--			</thead>-->
-<!--			<tbody>-->
-<!--				{{foreach from=$routes item=route}}-->
-<!--				<tr id="tr_{{$route.r_id}}">-->
-<!--					<td id="td_dist_{{$route.r_id}}">{{$route.r_creation|date_format:"n/j/Y"}}</td>-->
-<!--					<td>-->
-<!--						<p><a href="/routes/view?rid={{$route.r_id}}" class="icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></p>-->
-<!--						<p><a href="#"	rel={{$route.r_id}} class="route icon"><img src="/img/icon/arrow.png">Show in place</a></p>-->
-<!--						<p><a href="/routes/view?rid={{$route.r_id}}" class="icon"><img src="/img/icon/route.png" /> View in Detail</a></p>-->
-<!--					</td>-->
-<!--					<td class="dist-val align_right bold">{{$route.r_distance|round:"2"}} mi</td>-->
-<!--				</tr>-->
-<!--				{{foreachelse}}-->
-<!--				<tr><td colspan="3">You do not currently have any routes.<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />Create</a> a new route to enable advanced features.</td></tr>-->
-<!--				{{/foreach}}-->
-<!--			</tbody>-->
-<!--		</table>-->
-<!--	</div>-->
-<!--	<div id="route_info" style="display:none">-->
-<!--		<h4 id="info_name"></h4>-->
-<!--		<p id="info_distance"></p>-->
-<!--		<p id="info_date"></p>-->
-<!--		<p><a href="#" class="list icon"><img src="/img/icon/arrow_back.png" />Return</a></p>-->
-<!--	</div>-->
-<!--</div>-->
 
-<div class="grid_3">
+<div class="grid_3" id="route_sidebar">
+	<div id="sort_options" class="align_right">
+		<label>Sort by: </label>
+		<select id="sort_select">
+			<option value="r_date">Date</option>
+			<option value="r_dist">Distance</option>
+			<option value="r_name">Route Name</option>
+		</select>
+		<a href="#" id="reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
+	</div>
 	<div id="route_list">
 	{{foreach from=$routes item=route}}
 		<div id="route_{{$route.r_id}}" class="route_item">
@@ -138,12 +101,14 @@ var RouteIndex = {
 		$("#info_distance").html('<img src="/img/icon/distance.png" /> Distance: <span class="dist-val">' + routes[rid].r_distance.toFixed(2) + ' mi</span>');
 		$("#info_date").html('<img src="/img/icon/calendar.png" /> ' + routes[rid].r_creation);
 		$("#info_date").text(routes[rid].r_description);
+		$("#sort_options").hide();
 	},
 	switchToAll: function(){
 		RouteIndex.route_view = false;
 		$("#loading_overlay").show();
 		$("#route_list, #route_settings").show();
 		$("#route_info").hide();
+		$("#sort_options").show();
 
 		Map.instance.clearOverlays();
 		$.each(routes, function(){
@@ -164,6 +129,8 @@ var RouteIndex = {
 	},
 	selected_rid: null,
 	marker_click_event: function(latlng){
+		RouteIndex.switchToRoute(this.id);
+		return;
 		$(".active_row").removeClass("active_row");
 		if(RouteIndex.selected_rid == this.id){
 			RouteIndex.selected_rid = null
@@ -197,10 +164,15 @@ var RouteIndex = {
 				RouteIndex.init_location = this.latlng;
 			}
 		});
-		Map.instance.setCenter(RouteIndex.init_location);
-		$("#route_list").height($("#route_map").height()).css("overflow", "auto");
+		if(RouteIndex.init_location){
+			Map.instance.setCenter(RouteIndex.init_location, 12);
+		}
+		else{
+			Map.instance.setCenter(new GLatLng(39.229984356582, -95.2734375), 4);
+		}
+		$("#route_list").heightBrowser().css("overflow", "auto");
 
-		sorter.init({
+		$.sorter.add("routes", {
 			classes: {
 				r_name: "alpha",
 				r_dist: "numeric",
@@ -209,28 +181,13 @@ var RouteIndex = {
 			parent: "#route_list",
 			item: ".route_item",
 			sort_desc: -1,
-			sort_key: "r_date"
-		});
-		$("#sort_select").change(function(){
-			sorter.sort($(this).val());
-		});
-		$("#reverse_sort").click(function(){
-			sorter.reverse();
-			if($(this).hasClass("sort_asc")){
-				$(this).html('<img src="/img/icon/sort_desc.png" /> DESC</a>');
-				$(this).addClass("sort_desc");
-				$(this).removeClass("sort_asc");
-			}else{
-				$(this).html('<img src="/img/icon/sort_asc.png" /> ASC</a>');
-				$(this).addClass("sort_asc");
-				$(this).removeClass("sort_desc");
-			}
-			return false;
+			sort_key: "r_date",
+			reverse: "#reverse_sort",
+			selector: "#sort_select"
 		});
 	}
 };
-
-var routes = {{$routes_js}};
+var routes = {{$routes_js|default:"{}"}};
 
 $(document).ready(RouteIndex.ready_event);
 </script>

@@ -15,15 +15,15 @@
 
 <div class="grid_4">
 <h4>Routes</h4>
-<!--	<div id="sort_options" class="align_right">-->
-<!--			<label>Sort by: </label>-->
-<!--			<select id="route_sort_select">-->
-<!--				<option value="r_date">Date</option>-->
-<!--				<option value="r_dist">Distance</option>-->
-<!--				<option value="r_name">Route Name</option>-->
-<!--			</select>-->
-<!--			<a href="#" id="route_reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>-->
-<!--	</div>-->
+	<div id="sort_options" class="align_right">
+			<label>Sort by: </label>
+			<select id="route_sort_select">
+				<option value="r_date">Date</option>
+				<option value="r_dist">Distance</option>
+				<option value="r_name">Route Name</option>
+			</select>
+			<a href="#" id="route_reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
+	</div>
 	<div id="route_list" class="route_list">
 	{{foreach from=$routes item=route}}
 		<div id="route_{{$route.r_id}}" class="route_item">
@@ -40,18 +40,18 @@
 
 <div class="grid_4">
 <h4>Training Items</h4>
-<!--	<div id="sort_options" class="align_right">-->
-<!--			<label>Sort by: </label>-->
-<!--			<select id="training_sort_select">-->
-<!--				<option value="t_date">Date</option>-->
-<!--				<option value="t_dist">Distance</option>-->
-<!--				<option value="t_pace">Pace</option>-->
-<!--				<option value="t_cal">Calories</option>-->
-<!--				<option value="t_name">Route Name</option>-->
-<!--				<option value="t_time">Time</option>-->
-<!--			</select>-->
-<!--			<a href="#" id="training_reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>-->
-<!--	</div>-->
+	<div id="sort_options" class="align_right">
+			<label>Sort by: </label>
+			<select id="training_sort_select">
+				<option value="t_date">Date</option>
+				<option value="t_dist">Distance</option>
+				<option value="t_pace">Pace</option>
+				<option value="t_cal">Calories</option>
+				<option value="t_name">Route Name</option>
+				<option value="t_time">Time</option>
+			</select>
+			<a href="#" id="training_reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
+	</div>
 	<div id="training_items_list">
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
@@ -142,8 +142,7 @@ $("#a_removefriend").live("click", function(){
 	return false;	
 });
 
-route_sorter = $.extend({}, sorter);
-route_sorter.init({
+$.sorter.add("routes", {
 	classes: {
 		r_name: "alpha",
 		r_dist: "numeric",
@@ -152,27 +151,12 @@ route_sorter.init({
 	parent: "#route_list",
 	item: ".route_item",
 	sort_desc: -1,
-	sort_key: "r_date"
-});
-$("#route_sort_select").change(function(){
-	route_sorter.sort($(this).val());
-});
-$("#route_reverse_sort").click(function(){
-	route_sorter.reverse();
-	if($(this).hasClass("sort_asc")){
-		$(this).html('<img src="/img/icon/sort_desc.png" /> DESC</a>');
-		$(this).addClass("sort_desc");
-		$(this).removeClass("sort_asc");
-	}else{
-		$(this).html('<img src="/img/icon/sort_asc.png" /> ASC</a>');
-		$(this).addClass("sort_asc");
-		$(this).removeClass("sort_desc");
-	}
-	return false;
+	sort_key: "r_date",
+	reverse: "#route_reverse_sort",
+	selector: "#route_sort_select"
 });
 
-training_sorter = $.extend({}, sorter);
-training_sorter.init({
+$.sorter.add("training", {
 	classes: {
 		t_name: "alpha",
 		t_dist: "numeric",
@@ -183,22 +167,8 @@ training_sorter.init({
 	parent: "#training_items_list",
 	item: ".training_item",
 	sort_desc: -1,
-	sort_key: "t_date"
-});
-$("#training_sort_select").change(function(){
-	training_sorter.sort($(this).val());
-});
-$("#training_reverse_sort").click(function(){
-	training_sorter.reverse();
-	if($(this).hasClass("sort_asc")){
-		$(this).html('<img src="/img/icon/sort_desc.png" /> DESC</a>');
-		$(this).addClass("sort_desc");
-		$(this).removeClass("sort_asc");
-	}else{
-		$(this).html('<img src="/img/icon/sort_asc.png" /> ASC</a>');
-		$(this).addClass("sort_asc");
-		$(this).removeClass("sort_desc");
-	}
-	return false;
+	sort_key: "t_date",
+	reverse: "#training_reverse_sort",
+	selector: "#training_sort_select"
 });
 </script>

@@ -18,7 +18,7 @@
 			<td>{{$message->date|date_format}}</td>
 			<td>{{$message->user->username|default:anon}}</td>
 			<td>{{$message->msg}}</td>
-			<td><a href="#TB_inline?&inlineId=delete_modal&modal=true" class="form" rel="{{$message->mid}}">delete</a></td>
+			<td><a href="#delete_modal" class="form" rel="{{$message->mid}}">delete</a></td>
 		</tr>
 	{{foreachelse}}
 	No feedback!
@@ -39,12 +39,13 @@
 <script type="text/javascript">
 
 $(document).ready(	function(){
-	$("a.form").click(	function(){
+	$("a.form").click(function(){
+		$.debug(this);
 		$("#form_delete [name=m_mid]").val(this.rel);
 		$("#form_delete").data("row", $(this).parent().parent());
-		tb_show("", this.href, false);
-		return false;
 	});
+	$("a.form").click($.facebox.clickHandler);
+	
 	$("#form_delete").validate({
 		submitHandler: function(form){
 			$(form).ajaxSubmit({
@@ -55,7 +56,7 @@ $(document).ready(	function(){
 					}
 				}
 			});
-			tb_remove();
+			$.facebox.close();
 		}
 	});
 });

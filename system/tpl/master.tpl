@@ -14,10 +14,10 @@
     
     <!--JAVASCRIPT-->
     <script src="/js/site.js" type="text/javascript"></script>
-    <script src="/js/facebox.js" type="text/javascript"></script>
-    <script src="/js/byron.sort.js" type="text/javascript"></script>
+    <script src="/js/jquery.facebox.js" type="text/javascript"></script>
     <script src="/js/excanvas.js" type="text/javascript"></script>
     <script src="/js/jquery.flot.js" type="text/javascript"></script>
+    <script src="/js/jquery.runndaily.js" type="text/javascript"></script>
     
     <!--TITLE-->
     <title>{{$page->title}}</title>
@@ -47,13 +47,26 @@
 </div>
 
 <div id="feedback_modal" style="display: none">
-	<h2>Let us know what you think:</h2>
 	<form action="/feedback/create" method="post" id="form_feedback">
+		<h3>Let us know what you think:</h3>
 		<p><textarea name="m_msg" class="required"></textarea></p>
 		<p><input type="submit" value="Submit" /> <input type="button" value="Cancel" onclick="$.facebox.close()" /></p>
 		<input type="hidden" name="action" value="create" />
 	</form>
 </div>
+{{if !$currentUser->isAuthenticated}}
+<div id="login_modal" style="display:none">
+	<form action="/user/login" method="post">
+		<p class="notice">Please enter your username and password.</p>
+						
+		<p><label>Username: </label><input type="text" name="username"></p>
+		<p><label>Password: </label><input type="password" name="password"></p>
+		<p><label>Stay Logged In? </label><input type="checkbox" name="remember" value="1"></p>
+		
+		<input class="login" type="submit" value="Login">
+	</form>
+</div>
+{{/if}}
 
 <script type="text/javascript">
 	$(document).ready(
@@ -61,9 +74,13 @@
 			Units.init();
 			$("#form_feedback").validate({
 				submitHandler : function(form){
-					$(form).ajaxSubmit();
-					$(form).clearForm();
-					$.facebox.close();
+					$(form).ajaxSubmit({
+						success: function(data){
+							$(form).clearForm();
+							$.facebox("Feedback received.");
+							setTimeout($.facebox.close, 1000);
+						}
+					});
 				}
 			});
 
