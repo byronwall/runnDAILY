@@ -63,7 +63,6 @@
 	</div>
 </div>
 <div class="clear"></div>
-<script src="/js/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.sorter.add("#training_items_list",{
