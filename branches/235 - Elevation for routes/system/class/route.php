@@ -11,6 +11,7 @@ class Route extends Object{
 	public $uid;
 	public $gid;
 	public $img_src;
+	public $elevation;
 
 	public $training_count;
 	public $user;
@@ -215,7 +216,8 @@ class Route extends Object{
 
 		if($rows == 1){
 			Log::insertItem(User::$current_user->uid, 102, null, $this->id, null, null);
-			$this->_storeImage();
+			$this->_updateElevationData();
+			//$this->_storeImage();
 			return true;
 		}
 		return false;
@@ -246,12 +248,41 @@ class Route extends Object{
 		if($rows == 1){
 			$this->id = $ins_id;
 			Log::insertItem(User::$current_user->uid, 100, null, $this->id, null, null);
-			
+			$this->_updateElevationData();
 			return true;
 			//return $this->_storeImage();
 		}
 		return false;
 	}
+	/**
+	 * Function is called to update the elevation data of the route.
+	 * 
+	 * @return int|bool	Number of rows affected. false indicates no data nearby.
+	 */
+	private function _updateElevationData(){
+		$points = json_decode($this->points)->points;		
+		$points = $this->_decodePolylineToArray($points);		
+		if(($elevations = Elevation::getElevationForPath($points)) === false) return false;
+		
+		$this->elevation = json_encode($elevations);
+		
+		$stmt = Database::getDB()->prepare("
+			UPDATE routes
+			SET
+				r_elevation = ?
+			WHERE 
+				r_id = ?
+		");
+		$stmt->bind_param("si", $this->elevation, $this->id);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
+	}
+	
 	private static function _removeImage($rid){
 		$img_src = ($rid % 100) . "/" . $rid . ".png";
 		$path = PUBLIC_ROOT . "/img/route/" . $img_src;
@@ -296,6 +327,7 @@ class Route extends Object{
 	
 		return array("height"=>$height, "width"=>$width, "center"=>$center);
 	}
+	//TODO: This funciton does not work as expected due to changes in the decodePolyline function.
 	public function _createRouteImage($path){
 		$encoded = json_decode($this->points)->points;
 		$distance = $this->distance;
@@ -407,8 +439,7 @@ class Route extends Object{
 			while ($b >= 0x20);
 			$dlng = (($result & 1) ? ~($result >> 1) : ($result >> 1));
 			$lng += $dlng;
-			$points["x"][] = $lng * 1e-5;
-			$points["y"][] = -($lat * 1e-5);
+			$points[]= array("lng"=> $lng * 1e-5, "lat"=> ($lat * 1e-5));
 		}
 	
 		return $points;

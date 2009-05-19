@@ -17,6 +17,13 @@ class Controller_Routes{
 		//note that this already is JSON
 		RoutingEngine::returnAjax($route, false);
 	}
+	public function ajax_elevation(){
+		$lng = $_GET["lng"];
+		$lat = $_GET["lat"];
+		
+		$elevation = Elevation::getElevation($lat, $lng);
+		RoutingEngine::returnAjax($elevation, false);
+	}
 	public function view(){
 		if(!isset($_GET["rid"])){
 			Page::redirect("/routes/");
