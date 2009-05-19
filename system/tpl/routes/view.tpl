@@ -87,10 +87,21 @@
 <div class="clear"></div>
 {{/if}}
 
+{{if $route_view->elevation}}
+<div class="grid_12">
+	<div id="elev_chart" style="width:100%;height:100px"></div>
+</div>
+<div class="clear"></div>
+{{/if}}
+
 {{include file="routes/parts/script.tpl"}}
 <script type="text/javascript">
 
 $(document).ready( function(){
+	{{if $route_view->elevation}}
+	var elevation = {{$route_view->elevation}};
+	$.plot($("#elev_chart"), [elevation]);
+	{{/if}} 
 	Map.load("map_placeholder", null);
 	MapData.loadRoute({{$route_view->points}}, {
 		draggable: false,
