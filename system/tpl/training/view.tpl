@@ -18,7 +18,7 @@
 		<p>Distance: {{$item->distance}} mi</p>
 		<p>Total Time: {{$item->time|time_format}}</p>
 		<p>Pace: {{$item->pace}} mph</p>
-		<a href="/routes/view?rid={{$item->route->id}}">View {{$item->route->name}}</a>
+		<a href="/routes/view/{{$item->route->id}}">View {{$item->route->name}}</a>
 	</div>
 </div>
 

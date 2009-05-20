@@ -27,7 +27,7 @@
 	<div id="route_list" class="route_list">
 	{{foreach from=$routes item=route}}
 		<div id="route_{{$route.r_id}}" class="route_item">
-			<div><a href="/routes/view?rid={{$route.r_id}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></div>
+			<div><a href="/routes/view/{{$route.r_id}}/{{$route.r_name}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></div>
 			<div class="r_date icon"><img src="/img/icon/calendar.png" />{{$route.r_creation|date_format}}</div>
 			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="r_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
 			<div class="clear"></div>
@@ -56,7 +56,7 @@
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
 		<div id="item_{{counter}}" class="training_item">
-			{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
+			{{if $training_item.r_name}}<div><a href="/routes/view/{{$training_item.t_rid}}/{{$training_item.r_name}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
 				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance|round:"2"}} mi</span></div>
 				<div class="icon float_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
 			<div class="clear"></div>

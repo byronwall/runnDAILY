@@ -5,7 +5,7 @@
 </div>
 <div class="clear"></div>
 <div class="grid_3">
-	<p>Created by: <a href="/community/view_user?uid={{$route_view->uid}}">{{$route_view->data.u_username}}</a></p>
+	<p>Created by: <a href="/community/view_user/{{$route_view->uid}}/{{$route_view->data.u_username}}">{{$route_view->data.u_username}}</a></p>
 </div>
 <div class="grid_9">
 	<div class="actions">
