@@ -18,9 +18,9 @@ class Controller_Routes{
 		RoutingEngine::returnAjax($route, false);
 	}
 	public function view(){
-		if(!isset($_GET["rid"])){
-			Page::redirect("/routes/");
-		}
+		RoutingEngine::getInstance()->registerParams("rid");
+		
+		if(!isset($_GET["rid"])) Page::redirect("/routes");
 		$id = $_GET["rid"];
 		$route = Route::fromRouteIdentifier($id);
 		//get training types for create new training modal
@@ -97,13 +97,13 @@ class Controller_Routes{
 		if($route->id){
 			if($route->updateRoute()){
 				Notification::add("Route - {$route->name} - was updated.");
-				Page::redirect("/routes/view?rid={$route->id}");
+				Page::redirect("/routes/view/{$route->id}/{$route->name}");
 			}
 		}
 		else{		
 			if($route->createRoute()){
 				Notification::add("Route - {$route->name} - was created.");
-				Page::redirect("/routes/view?rid={$route->id}");
+				Page::redirect("/routes/view/{$route->id}/{$route->name}");
 			}
 		}
 	}
@@ -115,7 +115,7 @@ class Controller_Routes{
 			Notification::add("Route was deleted.");
 			Page::redirect("/routes/");
 		}
-		Page::redirect("/routes/view?rid={$rid}");
+		Page::redirect("/routes/view/{$rid}");
 	}
 	public function action_copy_edit(){
 		$route = new Route($_POST);
@@ -124,16 +124,16 @@ class Controller_Routes{
 			Page::redirect("/routes/create?rid={$route->id}");
 		}
 		Notification::add("There was an error copying the route.  Try again.");
-		Page::redirect("/routes/view?rid={$route->id}");
+		Page::redirect("/routes/view/{$route->id}");
 	}
 	public function action_copy_view(){
 		$route = new Route($_POST);
 		if($route->copy()){
 			Notification::add("Your route - {$route->name} - was copied.");
-			Page::redirect("/routes/view?rid={$route->id}");
+			Page::redirect("/routes/view/{$route->id}");
 		}
 		Notification::add("There was an error copying the route.  Try again.");
-		Page::redirect("/routes/view?rid={$route->id}");
+		Page::redirect("/routes/view/{$route->id}");
 	}
 	
 }

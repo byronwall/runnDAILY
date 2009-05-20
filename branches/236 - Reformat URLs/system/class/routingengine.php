@@ -5,6 +5,7 @@ class RoutingEngine{
 	private $controller_full = "controller_home";
 	public $action = "index";
 	private $start_time;
+	private $_params;
 	
 	/**
 	 * @var Page
@@ -99,7 +100,7 @@ class RoutingEngine{
 		$controller = $this->controller_full;
 		$class = new $controller();
 		$action = $this->action;
-		$class->{$action}();
+		call_user_func_array(array($class, $action), $this->_params);
 		
 		$filename = self::getSmarty()->template_dir."/".$this->getTemplateName();
 		
@@ -229,8 +230,33 @@ class RoutingEngine{
 	public function getPageName(){
 		return $this->_request_path;
 	}
+
+	/**
+	 * Internal function is called to initially grab any parameters from the URL.
+	 * 
+	 * @param array $params	Array containing the parameter data.
+	 * @return void
+	 */
 	private function _processParamters($params){
-		var_dump($params);
+		$this->_params = $params;
+		foreach($this->_params as $k=>$v){
+			$_GET[$k] = $v;
+		}
+	}
+	/**
+	 * Function is called to assign names to the parameters passed in the URL.
+	 * These parameters are then accessible through $_GET.
+	 * 
+	 * @param string $param	List of parameters to be named 
+	 * @return void
+	 */
+	public function registerParams($param){
+		$names = func_get_args();
+		foreach($names as $index=>$name){
+			if(!isset($this->_params[$index])) continue;
+			$this->_params[$name] = $this->_params[$index];
+			$_GET[$name] = $this->_params[$index];
+		}
 	}
 }
 ?>
