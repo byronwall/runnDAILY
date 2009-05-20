@@ -53,37 +53,35 @@ class RoutingEngine{
 	 */
 	public function initialize($request){
 		$request = strtolower($request);
-		$request = preg_replace("/(\/)?(.*)/", "$2", $request);
+		if(substr($request, 0, 1)== "/") $request = substr($request, 1);
+		if(substr($request, -1, 1)== "/") $request = substr($request, 0, -1);
 		$this->_request_path = $request;
 		
 		$paths = explode("/", $this->_request_path);
 		if(in_array($paths[0], self::$controllers)){
 			$this->controller = $paths[0];
-			$this->controller_full = "Controller_".$paths[0];
-			if(!empty($paths[1]) && $this->_checkAction($paths[1])){
-				$this->action = $paths[1];
-			}
-			else{
-				$this->action = "index";
-				$this->_request_path = $paths[0]."/index";
-			}
+			$action = array_safe($paths, 1);
+			$params = array_slice($paths, 2);
 		}
 		else{
 			$this->controller = "home";
-			$this->controller_full = "Controller_Home";
-			if(!empty($paths[0]) && $this->_checkAction($paths[0])){
-				$this->action = $paths[0];
-				$this->_request_path = "home/{$this->action}";
-			}
-			else{
-				$this->action = "index";
-				$this->_request_path = "home/index";
-			}
+			$action = $paths[0];
+			$params = array_slice($paths, 1);
+		}
+		$this->controller_full = "Controller_".$this->controller;
+		if(!empty($action) && $this->_checkAction($action)){
+			$this->action = $action;
+			$this->_request_path = $this->controller."/{$this->action}";
+		}
+		else{
+			$this->action = "index";
+			$this->_request_path = $this->controller."/index";
 		}
 		
-		$this->page = Page::getPage($this->_request_path);
-		
+		$this->page = Page::getPage($this->_request_path);		
 		$this->requirePermission($this->page->perm_code, null, true);
+		$this->_processParamters($params);
+		
 		$this->getSmarty()->assign("page", $this->page);
 		$this->getSmarty()->assign("currentUser", User::$current_user);
 		$this->getSmarty()->assign("engine", $this);
@@ -230,6 +228,9 @@ class RoutingEngine{
 	 */
 	public function getPageName(){
 		return $this->_request_path;
+	}
+	private function _processParamters($params){
+		var_dump($params);
 	}
 }
 ?>
