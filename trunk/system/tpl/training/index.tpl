@@ -2,6 +2,15 @@
 	<h2 id="page-heading">Training</h2>
 </div>
 <div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+		<a href="/goals/create" class="icon"><img src="/img/icon.png"/>New Goal</a>
+		<a href="/goals" class="icon"><img src="/img/icon.png"/>View Goals</a>
+		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png"/>New Training Item</a>
+<!--		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Training Items</a>-->
+	</div>
+</div>
+<div class="clear"></div>
 
 <div class="grid_3">
 	<div id="sort_options" class="align_right">
@@ -16,16 +25,6 @@
 			</select>
 			<a href="#" id="reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
 	</div>
-</div>
-<div class="grid_9">
-	<div class="actions">
-		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png"/>New Training Item</a>
-<!--		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Training Items</a>-->
-	</div>
-</div>
-<div class="clear"></div>
-
-<div class="grid_3">
 	<div id="training_items_list">
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}

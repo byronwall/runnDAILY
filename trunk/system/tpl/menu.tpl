@@ -2,13 +2,15 @@
 		<li><a href="/index" class="icon"><img src="/img/icon/home.png" />Home</a></li>
 		<li><a href="/routes/index" class="icon"><img src="/img/icon/route.png" />Routes</a>
 			<ul>
-				<li><a href="/routes/create">Create</a></li>
+				<li><a href="/routes/create">New Route</a></li>
 <!--				<li><a href="/routes/browse">Search</a></li>-->
 			</ul>
 		</li>
 		<li><a href="/training/index" class="icon"><img src="/img/icon/training.png" />Training</a>
 			<ul>
-					<li><a href="/training/create">Create</a></li>
+					<li><a href="/training/create">New Training Item</a></li>
+					<li><a href="/goals">View Goals</a></li>
+					<li><a href="/goals/create">New Goal</a></li>
 <!--					<li><a href="/training/browse">Search</a></li>-->
 			</ul>
 		</li>

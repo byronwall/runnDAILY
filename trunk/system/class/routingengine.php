@@ -20,6 +20,7 @@ class RoutingEngine{
 		"community",
 		"events",
 		"feedback",
+		"goals",
 		"group",
 		"help",
 		"home",
