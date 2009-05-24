@@ -11,10 +11,10 @@
 		<p><textarea rows="3" cols="25" name="go_desc"></textarea></p>
 		<hr />
 		<p>Between <input type="text" name="go_start" /> and <input type="text" name="go_end" />:</p>
-		<p>I would like to run <input type="text" name="go_metadata[go_dist_tot]" /> miles.</p>
-		<p>I would like to run at an average pace of <input type="text" name="go_metadata[go_pace_avg]" /> miles/hour.</p>
-		<p>I would like to run for <input type="text" name="go_metadata[go_time_tot]" /> minutes.</p>
-		<p>I would like to run <input type="text" name="go_metadata[go_freq_tot]" /> times.</p>
+		<p>I would like to run <input type="text" name="go_metadata[dist_tot]" /> miles.</p>
+		<p>I would like to run at an average pace of <input type="text" name="go_metadata[pace_avg]" /> miles/hour.</p>
+		<p>I would like to run for <input type="text" name="go_metadata[time_tot]" /> minutes.</p>
+		<p>I would like to run <input type="text" name="go_metadata[freq_tot]" /> times.</p>
 		<p><input type="submit" value="Create"></p>
 	</form>
 </div>

@@ -109,7 +109,7 @@ class TrainingLog extends Object{
 	 * @param $uid
 	 * @param $date_start
 	 * @param $date_end
-	 * @return array:TrainingLogg
+	 * @return array:TrainingLog
 	 */
 	public static function getItemsForUser($uid, $date_start = 0, $date_end = 0){
 		if($date_end == 0) $date_end = mktime();
@@ -129,6 +129,49 @@ class TrainingLog extends Object{
 		}
 
 		return $training_items;
+	}
+	public static function getItemsForUserForGoalView($uid, $start, $end){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
+			FROM training_times
+			LEFT JOIN routes ON r_id = t_rid
+			WHERE t_uid = ?
+			AND t_date
+				BETWEEN FROM_UNIXTIME( ? )
+				AND FROM_UNIXTIME( ? )
+			ORDER BY t_date DESC
+		");
+		$stmt->bind_param("iii", $uid, $start, $end);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$training_items = array();
+
+		while($row = $stmt->fetch_assoc()){
+			$training_items[] = $row;
+		}
+
+		return $training_items;
+	}
+	public static function getItemsForUserForGoalPercent($uid, $start, $end){
+		$stmt = Database::getDB()->prepare("
+		SELECT COUNT( t_tid ) AS count, SUM( t_pace ) AS pace, SUM( t_distance ) AS dist, SUM( t_time ) AS time
+		FROM training_times
+		WHERE
+			t_uid = ?
+			AND t_date
+				BETWEEN FROM_UNIXTIME( ? )
+				AND FROM_UNIXTIME( ? )
+		");
+		$stmt->bind_param("iii", $uid, $start, $end);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$goal_data = $stmt->fetch_assoc();
+		
+		$stmt->close();
+
+		return $goal_data;
 	}
 	public static function getItemsForUserPaged($uid, $count = 10, $page = 0){
 		$limit_lower = $page * $count;
