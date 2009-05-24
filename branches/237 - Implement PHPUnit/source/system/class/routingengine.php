@@ -18,6 +18,7 @@ class RoutingEngine{
 		"about",
 		"admin",
 		"community",
+		"confirmation",
 		"events",
 		"feedback",
 		"group",
