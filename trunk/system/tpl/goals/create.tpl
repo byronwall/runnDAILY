@@ -5,10 +5,16 @@
 
 <div class="grid_12">
 	<form action="/goals/action_create" method="post" id="goal_create_form">
+		<p><label>Name: </label></p>
+		<p><input type="text" name="go_name" /></p>
+		<p><label>Description: </label></p>
+		<p><textarea rows="3" cols="25" name="go_desc"></textarea></p>
+		<hr />
 		<p>Between <input type="text" name="go_start" /> and <input type="text" name="go_end" />:</p>
-		<p>I would like to run <input type="text" name="go_dist_tot" /> miles.</p>
-		<p>I would like to run at an average pace of <input type="text" name="go_pace_avg" /> miles/hour.</p>
-		<p>I would like to run for <input type="text" name="go_time_tot" /> minutes.</p>
+		<p>I would like to run <input type="text" name="go_metadata[go_dist_tot]" /> miles.</p>
+		<p>I would like to run at an average pace of <input type="text" name="go_metadata[go_pace_avg]" /> miles/hour.</p>
+		<p>I would like to run for <input type="text" name="go_metadata[go_time_tot]" /> minutes.</p>
+		<p>I would like to run <input type="text" name="go_metadata[go_freq_tot]" /> times.</p>
 		<p><input type="submit" value="Create"></p>
 	</form>
 </div>
