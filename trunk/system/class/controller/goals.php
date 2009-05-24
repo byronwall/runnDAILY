@@ -2,7 +2,7 @@
 class Controller_Goals{
 	public function index(){
 		$goals = Goal::getGoalsForUser(User::$current_user->uid);
-		var_dump($goals);
+		RoutingEngine::getSmarty()->assign("goal_list", $goals);
 	}
 	public function create(){
 		
@@ -10,7 +10,10 @@ class Controller_Goals{
 	
 	public function view(){
 		$goal = Goal::getGoalById($_GET['id']);
-		var_dump($goal);
+		$training_items = TrainingLog::getItemsForUserForGoalView(User::$current_user->uid, $goal->start, $goal->end);
+		//var_dump($training_items);
+		RoutingEngine::getSmarty()->assign("goal", $goal);
+		RoutingEngine::getSmarty()->assign("training_items", $training_items);
 	}
 	
 	public function action_create(){
