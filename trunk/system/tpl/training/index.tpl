@@ -31,13 +31,12 @@
 		<div id="item_{{counter}}" class="training_item">
 			{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
 				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance|round:"2"}} mi</span></div>
-				<div class="icon float_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
 			<div class="clear"></div>
+				<div class="t_date icon float_right">{{$training_item.t_date|date_format}} <img src="/img/icon/calendar.png" /></div>
 				<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace">{{$training_item.t_pace|round:"2"}} mi/h</span></div>
-				<div class="t_cal icon float_right"></div>
 			<div class="clear"></div>
-			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$training_item.t_date|date_format}}</div>
-			<div class="align_right"><a href="/training/edit?tid={{$training_item.t_tid}}&modal=true" class="facebox icon"><img src="/img/icon/training_pencil.png" />Edit / Delete</a></div>
+				<div class="icon align_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
+				<div class="align_right"><a href="/training/edit?tid={{$training_item.t_tid}}&modal=true" class="facebox icon"><img src="/img/icon/training_pencil.png" />Edit / Delete</a></div>
 		</div>
 		{{foreachelse}}
 		<div>
