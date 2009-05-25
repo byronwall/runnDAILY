@@ -12,9 +12,9 @@
 <div class="clear"></div>
 
 <div class="grid_12">
-	{{if $goal->desc}}<p>Description: {{$goal->desc}}</p>{{/if}}
-	<p>Percent Complete: {{$goal->percent|round:"1"}}%</p>
+	{{if $goal->desc}}<p>{{$goal->desc}}</p>{{/if}}
 	<h5>Goal Details</h5>
+	<p>Percent Complete: {{$goal->percent|round:"1"}}%</p>
 	<p>{{$goal->start|date_format}} - {{$goal->end|date_format}}</p>
 	{{foreach from=$goal->metadata item=metadata}}
 		<p>{{$metadata.desc}}: {{$metadata.value}}</p>

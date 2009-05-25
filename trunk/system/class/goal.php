@@ -3,17 +3,9 @@ class Goal extends Object{
 	public $id;
 	public $uid;
 
-	public $create;
 	public $start;
 	public $end;
 
-	/*
-	public $dist_tot;
-	public $pace_avg;
-	public $freq_tot;
-	public $time_tot;
-	*/
-	
 	public $metadata = array();
 
 	public $name;
@@ -24,7 +16,6 @@ class Goal extends Object{
 	function __construct($arr = null, $arr_pre = "go_"){
 		parent::__construct($arr, $arr_pre);
 		
-		$this->create = strtotime($this->create);
 		$this->start = strtotime($this->start);
 		$this->end = strtotime($this->end);
 	}
@@ -65,8 +56,6 @@ class Goal extends Object{
 				$this->saveMetadata($key);
 			}
 		}
-		
-		$this->updatePercent();
 		
 		return true;
 	}
@@ -187,9 +176,11 @@ class Goal extends Object{
 			$percents['time'] = ($goal_data['time'] / 60.0) / $this->metadata['time_tot']['value'];
 		}
 		
+		var_dump($percents);
+		
 		foreach($percents as $item){
 			if($item <= 1){
-				$percent *= $item;
+				$percent = $percent * $item;
 			}
 		}
 		
