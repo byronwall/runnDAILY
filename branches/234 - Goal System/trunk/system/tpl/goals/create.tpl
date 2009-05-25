@@ -3,20 +3,41 @@
 </div>
 <div class="clear"></div>
 
-<div class="grid_12">
-	<form action="/goals/action_create" method="post" id="goal_create_form">
-		<p><label>Name: </label></p>
-		<p><input type="text" name="go_name" /></p>
-		<p><label>Description: </label></p>
-		<p><textarea rows="3" cols="25" name="go_desc"></textarea></p>
-		<hr />
-		<p>Between <input type="text" name="go_start" /> and <input type="text" name="go_end" />,</p>
-		<p>I would like to run <input type="text" name="go_metadata[dist_tot]" /> miles.</p>
-		<p>I would like to run at an average pace of <input type="text" name="go_metadata[pace_avg]" /> miles/hour.</p>
-		<p>I would like to run for <input id="input_time" type="text" name="go_metadata[time_tot]" /> minutes.</p>
-		<p><input type="submit" value="Create"></p>
-	</form>
+<form action="/goals/action_create" method="post" id="goal_create_form">
+<div class="grid_3">
+	<div class="box">
+	<h2>General Information</h2>
+	<p class="notice">Enter a name and description for your goal.</p>
+	<p><label>Name: </label></p>
+	<p><input type="text" name="go_name" /></p>
+	<p><label>Description: </label></p>
+	<p><textarea rows="3" name="go_desc"></textarea></p>
+	</div>
 </div>
+<div class="grid_4">
+	<div class="box">
+	<h2>Date Boundaries</h2>
+	<p class="notice">Specify a date range for your goal.</p>
+	<p>Quick range:</p>
+	<p><input type="radio" name="date_range" /> This Week <input type="radio" name="date_range" /> Next Week <input type="radio" name="date_range" /> This Month</p>
+	<p>Custom Date Range:</p>
+	<p><label>Start: </label></p>
+	<p><input type="text" name="go_start" /></p>
+	<p><label>End: </label></p>
+	<p><input type="text" name="go_end" /></p>
+	</div>
+</div>
+<div class="grid_5">
+	<div class="box">
+	<h2>Goal Specifics</h2>
+	<p class="notice">Specify the conditions of your goal.</p>
+	<p>I would like to run <input type="text" name="go_metadata[dist_tot]" size="5" /> miles.</p>
+	<p>I would like to run at an average pace of <input type="text" name="go_metadata[pace_avg]" size="5" /> miles/hour.</p>
+	<p>I would like to run for <input id="input_time" type="text" name="go_metadata[time_tot]" size="5" /> minutes.</p>
+	<p><input type="submit" value="Create"></p>
+	</div>
+</div>
+</form>
 <div class="clear"></div>
 
 <script type="text/javascript">
@@ -24,8 +45,9 @@
 $(document).ready(function(){
 	$("#goal_create_form").validate({
 		rules:{
-			g_sdate:{required:true},
-			g_edate:{required:true}
+			go_name:{required:true},
+			go_start:{required:true},
+			go_end:{required:true}
 		},
 		submitHandler: function(form){
 			$("input").each( function(){
