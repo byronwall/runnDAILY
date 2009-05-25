@@ -11,6 +11,7 @@ class Controller_Goals{
 	public function view(){
 		$goal = Goal::getGoalById($_GET['id']);
 		$training_items = TrainingLog::getItemsForUserForGoalView(User::$current_user->uid, $goal->start, $goal->end);
+		$goal->buildGoalDataUsingTrainingItems($training_items);
 		RoutingEngine::getSmarty()->assign("goal", $goal);
 		RoutingEngine::getSmarty()->assign("training_items", $training_items);
 	}

@@ -146,8 +146,6 @@ class Goal extends Object{
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
-		$goal_list = array();
-
 		$goal = new Goal($stmt->fetch_assoc());
 
 		$stmt->close();
@@ -211,21 +209,41 @@ class Goal extends Object{
 		$stmt->store_result();
 		$rows = $stmt->affected_rows;
 		
-		$goal_list = array();
+		$goal_ids = array();
 		
 		while ($row = $stmt->fetch_assoc()) {
-			$goal_list[] = $row;
+			$goal_ids[] = $row;
 		}
 
 		$stmt->close();
 		
-		return $goal_list;
+		return $goal_ids;
 	}
 	
 	public static function updatePercentForList($goal_list){
 		foreach($goal_list as $item){
 			$goal = Goal::getGoalById($item['go_id']);
 			$goal->updatePercent();
+		}
+	}
+	
+	function buildGoalDataUsingTrainingItems($training_items){
+		$goal_data = array("dist_tot" => 0, "pace_avg" => 0, "time_tot" => 0);
+		
+		foreach($training_items as $item){
+			$goal_data['dist_tot'] += $item['t_distance'];
+			$goal_data['pace_avg'] += $item['t_pace'];
+			$goal_data['time_tot'] += $item['t_time'];
+		}
+		
+		$goal_data['pace_avg'] /= count($training_items);
+		
+		foreach($goal_data as $key => $value){
+			foreach($this->metadata as $meta_key => $meta_value){
+				if($key == $meta_key){
+					$this->metadata[$key]['current'] = $value;
+				}
+			}
 		}
 	}
 }
