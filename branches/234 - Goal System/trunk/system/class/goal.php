@@ -97,6 +97,7 @@ class Goal extends Object{
 			FROM goals
 			WHERE
 				go_uid = ?
+			ORDER BY go_end ASC
 		");
 		
 		$stmt->bind_param("i", $uid);
@@ -108,7 +109,11 @@ class Goal extends Object{
 		while ($row = $stmt->fetch_assoc()) {
 			$goal = new Goal($row);
 			$goal->metadata = $goal->getMetadataForGoal($goal->id);
-			$goal_list[] = $goal;
+			if(strtotime("today") <= $goal->end){
+				$goal_list['active'][] = $goal;
+			}else{
+				$goal_list['past'][] = $goal;
+			}
 		}
 
 		$stmt->close();
@@ -116,7 +121,7 @@ class Goal extends Object{
 		return $goal_list;
 	}
 	
-	function getMetadataForGoal($goid){
+	function getMetadataForGoal(){
 		$stmt = Database::getDB()->prepare("
 			SELECT *
 			FROM goals_metadata
@@ -125,7 +130,7 @@ class Goal extends Object{
 			WHERE
 				gom_goid = ?
 		");
-		$stmt->bind_param("i", $goid);
+		$stmt->bind_param("i", $this->id);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
@@ -138,10 +143,6 @@ class Goal extends Object{
 		$stmt->close();
 		
 		return $metadata;
-	}
-	
-	function fillMetadataForGoal($goal_data){
-		
 	}
 	
 	public static function getGoalById($goid){
@@ -162,7 +163,9 @@ class Goal extends Object{
 
 		$stmt->close();
 		
-		$goal->metadata = $goal->getMetadataForGoal($goal->id);
+		$goal->metadata = $goal->getMetadataForGoal();
+		
+		//$goal->updatePercent();
 		
 		return $goal;
 	}
@@ -181,18 +184,13 @@ class Goal extends Object{
 		}
 		
 		if(isset($this->metadata['time_tot'])){
-			$percents['time'] = $goal_data['time'] / $this->metadata['time_tot']['value'];
-		}
-		
-		if(isset($this->metadata['freq_tot'])){
-			$percents['freq'] = $goal_data['count'] / $this->metadata['freq_tot']['value'];
+			$percents['time'] = ($goal_data['time'] / 60.0) / $this->metadata['time_tot']['value'];
 		}
 		
 		foreach($percents as $item){
-			if($item > 1){
-				$item = 1;
+			if($item <= 1){
+				$percent *= $item;
 			}
-			$percent *= $item;
 		}
 		
 		$this->percent = $percent * 100;
@@ -205,6 +203,39 @@ class Goal extends Object{
 		$stmt->bind_param("di", $this->percent, $this->id);
 		$stmt->execute() or die($stmt->error);
 		$stmt->close();
+	}
+	
+	public static function getGoalIdsForUserInRange($uid, $date){
+		$stmt = Database::getDB()->prepare("
+			SELECT go_id
+			FROM goals
+			WHERE
+				go_uid = ?
+				AND go_start <= FROM_UNIXTIME( ? )
+				AND go_end >= FROM_UNIXTIME( ? )
+		");
+		
+		$stmt->bind_param("iii", $uid, $date, $date);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		
+		$goal_list = array();
+		
+		while ($row = $stmt->fetch_assoc()) {
+			$goal_list[] = $row;
+		}
+
+		$stmt->close();
+		
+		return $goal_list;
+	}
+	
+	public static function updatePercentForList($goal_list){
+		foreach($goal_list as $item){
+			$goal = Goal::getGoalById($item['go_id']);
+			$goal->updatePercent();
+		}
 	}
 }
 ?>

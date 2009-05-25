@@ -33,6 +33,7 @@
 <div id="training_delete_modal">
 	<form action="/training/action_delete" method="post">
 		<input type="hidden" name="t_tid" value="{{$t_item->tid}}" />
+		<input type="hidden" name="t_date" value="{{$t_item->date|date_format}}"/>
 		<p>
 			<input type="checkbox" id="delete_check" value="1">
 			<label for="delete_check">I would like to delete this entry.</label>		

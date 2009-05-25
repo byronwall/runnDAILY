@@ -61,6 +61,10 @@ class Controller_Training{
 	public function action_edit(){
 		$t_item = new TrainingLog($_POST);
 		if($t_item->updateItem() ){
+			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
+			if($affected_goals){
+				Goal::updatePercentForList($affected_goals);
+			}
 			Page::redirect("/training/");
 		}
 		Page::redirect("/training/");
@@ -68,6 +72,10 @@ class Controller_Training{
 	public function action_delete(){
 		$t_item = new TrainingLog($_POST);
 		if($t_item->deleteItemSecure()){
+			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
+			if($affected_goals){
+				Goal::updatePercentForList($affected_goals);
+			}
 			Page::redirect("/training/");
 		}
 		Page::redirect("/training/create?tid={$t_item->tid}");
@@ -76,6 +84,10 @@ class Controller_Training{
 		$t_item = new TrainingLog($_POST);
 		if(array_safe($_POST, "t_rid") == "") $t_item->rid = null;
 		if($t_item->createItem()){
+			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
+			if($affected_goals){
+				Goal::updatePercentForList($affected_goals);
+			}
 			Page::redirect("/training/");
 		}
 		Page::redirect("/training/");
