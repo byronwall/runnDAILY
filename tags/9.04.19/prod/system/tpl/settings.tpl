@@ -48,7 +48,7 @@
 <div class="clear"></div>
 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxTwKQnnvD1T4H7IjqlIr-cK4JGBGBR9nTuCz-u_Of2k2UEZ7khhybXPyw" type="text/javascript"></script>
-<script src="/js/map.js" type="text/javascript"></script>
+<script src="/js/runndaily-map-9.4.19-min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 $(document).ready(
@@ -62,7 +62,7 @@ $(document).ready(
 		{{/if}}
 
 		var validator = $("#form_settings").validate({
-			onkeyup: true,
+			//onkeyup: true,
 			onclick: true,
 			onfocusout: false,
 			rules: {
