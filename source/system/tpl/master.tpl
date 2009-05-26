@@ -54,7 +54,7 @@
 		<input type="hidden" name="action" value="create" />
 	</form>
 </div>
-{{if !$currentUser->isAuthenticated}}
+{{if !$engine->requirePermission("PV__300")}}
 <div id="login_modal" style="display:none">
 	<form action="/user/login" method="post">
 		<p class="notice">Please enter your username and password.</p>
@@ -77,8 +77,7 @@
 					$(form).ajaxSubmit({
 						success: function(data){
 							$(form).clearForm();
-							$.facebox("Feedback received.");
-							setTimeout($.facebox.close, 1000);
+							$.facebox("Feedback received.", 1000);
 						}
 					});
 				}

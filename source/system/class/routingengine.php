@@ -155,7 +155,7 @@ class RoutingEngine{
 	 * @param bool $redir		Whether or not to redirect on a failed permission
 	 * @return bool				Whether or not the user has the required permission
 	 */
-	public function requirePermission($perm_code, $gid = null, $redir = false){
+	public function requirePermission($perm_code = "PV__300", $gid = null, $redir = false){
 		if(!isset($perm_code)) $allow = false;
 		else{
 			$code = explode("__", $perm_code);
@@ -204,10 +204,10 @@ class RoutingEngine{
 		else{
 			$_SESSION["userData"] = User::cookieLogin();
 			User::$current_user = $_SESSION["userData"];
+			User::$current_user->getFriends();
 		}
-		if(!isset(User::$current_user->permissions)){
-			User::$current_user->getPermissions();
-		}
+		User::$current_user->initialize();
+		
 		return true;
 	}
 	/**

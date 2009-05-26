@@ -98,7 +98,9 @@ This is the template for the page where new routes are created.
 		<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
 		<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
 		<p><input type="button" value="Apply, Don't Save" onclick="check_apply()"/></p>
-		<p><input type="submit" value="Set Default" /></p>
+		{{if $engine->requirePermission("PV__300")}}
+			<p><input type="submit" value="Set Default" /></p>
+		{{/if}}
 		<input type="hidden" name="u_settings[map_settings]" >
 	</form>
 </div>
@@ -114,7 +116,7 @@ $(document).ready( function(){
 		}
 	);
 
-	{{if $currentUser->isAuthenticated && $currentUser->settings.map_settings}}
+	{{if $currentUser->settings.map_settings}}
 		MapSettings = $.extend({}, MapSettings, {{$currentUser->settings.map_settings}});
 	{{/if}}
 	

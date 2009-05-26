@@ -5,7 +5,7 @@
 <div class="clear"></div>
 <div class="grid_12">
 	<div class="actions">
-		{{if $currentUser->isAuthenticated}}
+		{{if $engine->requirePermission("PV__300")}}
 		<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />New Route</a>
 		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png" />New Training Item</a>
 		{{else}}
@@ -23,7 +23,7 @@
 </div>
 <div class="clear"></div>
 
-{{if $currentUser->isAuthenticated}}
+{{if $engine->requirePermission("PV__300")}}
 <div class="grid_12">
 	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
 	<p><span class="bold">March 30, 2009</span> - Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated more site features!</p>
