@@ -21,8 +21,8 @@ class Controller_Routes{
 		if(!isset($_GET["rid"])){
 			Page::redirect("/routes/");
 		}
-		$id = $_GET["rid"];
-		$route = Route::fromRouteIdentifier($id);
+		$rid = $_GET["rid"];
+		$route = Route::fromRouteIdentifier($rid);
 		//get training types for create new training modal
 		
 		$stmt = Database::getDB()->prepare("
@@ -37,8 +37,11 @@ class Controller_Routes{
 		}
 		$stmt->close();
 		
+		$training_items = TrainingLog::getItemsForUserForRoute(User::$current_user->uid, $rid);
+		
 		RoutingEngine::getSmarty()->assign("t_types", $types);
 		RoutingEngine::getSmarty()->assign("route_view", $route);
+		RoutingEngine::getSmarty()->assign("training_items", $training_items);
 	}
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";

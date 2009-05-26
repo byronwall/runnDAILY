@@ -9,10 +9,11 @@
 </div>
 <div class="grid_9">
 	<div class="actions">
-{{if $route_view->getCanEdit()}}
+		{{if $training_items}}<a href="#assoc_training_items" class="icon"><img src="/img/icon/training.png" />View Training Items</a>{{/if}}
 		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon/training_plus.png" />Record Time</a>
-		<a href="/routes/create?rid={{$route_view->id}}" class="icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
 		<a href="#copy_modal" class="facebox icon"><img src="/img/icon_maps_pencil.png" />Copy</a>
+{{if $route_view->getCanEdit()}}
+		<a href="/routes/create?rid={{$route_view->id}}" class="icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
 		<a href="#delete_modal" class="facebox icon"><img src="/img/icon_delete.png" />Delete</a>
 	
 		<div id="delete_modal" style="display:none">
@@ -24,9 +25,6 @@
 				<input type="button" value="cancel" onclick="$.facebox.close()" />
 			</form>
 		</div>
-	{{else}}
-		<a href="#route_train_modal" class="facebox icon"><img src="/img/icon/training_plus.png" />Record Time</a>
-		<a href="#copy_modal" class="facebox"><img src="/img/icon_pencil_plus.png" />Copy</a>
 	{{/if}}
 	</div>
 	
@@ -75,14 +73,32 @@
 </div>
 <div class="clear"></div>
 
+{{if $route_view->description}}
+<div class="grid_12">
+	<p><span class="bold">Description:</span> {{$route_view->description}}</p>
+</div>
+<div class="clear"></div>
+{{/if}}
+
 <div class="grid_12">
 	<div id="map_placeholder" class="map large"></div>
 </div>
 <div class="clear"></div>
 
-{{if $route_view->description}}
+{{if $training_items}}
 <div class="grid_12">
-	<p><span class="bold">Description:</span> {{$route_view->description}}</p>
+	<h5 id="assoc_training_items">Associated Training Items</h5>
+	{{counter start=-1 print=false}}
+	{{foreach from=$training_items item=training_item}}
+	<div id="item_{{counter}}" class="training_item">
+			<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance|round:"2"}} mi</span></div>
+			<div class="t_date icon float_right">{{$training_item.t_date|date_format}} <img src="/img/icon/calendar.png" /></div>
+		<div class="clear"></div>
+			<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace">{{$training_item.t_pace|round:"2"}} mi/h</span></div>
+			<div class="icon float_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
+		<div class="clear"></div>
+	</div>
+	{{/foreach}}
 </div>
 <div class="clear"></div>
 {{/if}}

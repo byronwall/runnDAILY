@@ -130,6 +130,27 @@ class TrainingLog extends Object{
 
 		return $training_items;
 	}
+	public static function getItemsForUserForRoute($uid, $rid){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
+			FROM training_times
+			LEFT JOIN routes ON r_id = t_rid
+			WHERE t_uid = ?
+			AND t_rid = ?
+			ORDER BY t_date DESC
+		");
+		$stmt->bind_param("ii", $uid, $rid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$training_items = array();
+
+		while($row = $stmt->fetch_assoc()){
+			$training_items[] = $row;
+		}
+
+		return $training_items;
+	}
 	public static function getItemsForUserForGoalView($uid, $start, $end){
 		$stmt = Database::getDB()->prepare("
 			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
