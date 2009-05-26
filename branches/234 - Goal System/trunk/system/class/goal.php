@@ -237,6 +237,7 @@ class Goal extends Object{
 		}
 		
 		$goal_data['pace_avg'] /= count($training_items);
+		$goal_data['time_tot'] /= 60;
 		
 		foreach($goal_data as $key => $value){
 			foreach($this->metadata as $meta_key => $meta_value){
