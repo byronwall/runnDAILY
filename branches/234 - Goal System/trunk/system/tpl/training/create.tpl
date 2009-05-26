@@ -19,8 +19,8 @@
 		</p>
 	<h2>Training Details</h2>
 		<p class="notice">Please enter the details of your training.</p>
-		<p><label>Route: </label><span id="route_name">None selected</span></p>
-		<p><label>Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}" id="route_distance"></p>
+		<p><label for="route_name">Route: </label><span id="route_name">None selected</span></p>
+		<p><label for="route_distance">Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}" id="route_distance" size="5"></p>
 		<p>
 			<label>Activity Type: </label>
 			<select name="t_type" id="training_type">
@@ -30,10 +30,10 @@
 			</select>
 		</p>
 		<p><label>Date: </label><input type="text" name="t_date" value="Today"></p>
-		<p><label>Time: </label><input type="text" name="t_time" value="00:00:00"></p>
-	<h2>Privacy</h2>
-		<p class="notice">Do you wish to make this training item private?</p>
-		<p><label>Private? </label><input type="checkbox" name="t_private" value="1"></p>
+		<p><label>Time: </label><input type="text" name="t_time" value="00:00:00" size="10"></p>
+<!--	<h2>Privacy</h2>-->
+<!--		<p class="notice">Do you wish to make this training item private?</p>-->
+<!--		<p><input id="input_private" type="checkbox" name="t_private" value="1"> <label for="input_private">Yes</label></p>-->
 		<p><input type="submit" value="Create"></p>
 </div>
 </form>
