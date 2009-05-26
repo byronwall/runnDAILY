@@ -13,6 +13,9 @@
 			</ul>
 		</li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon/community.png" />Community</a>
+		<ul>
+				<li><a href="/confirmation">Requests</a></li>
+		</ul>		
 		</li>
 		
 		<li><a href="/about" class="icon"><img src="/img/icon/runndaily.png"/>runnDAILY</a>
@@ -23,7 +26,7 @@
 		</ul>
 		</li>
 		<li class="secondary">
-		{{if $currentUser->isAuthenticated}}
+		{{if $engine->requirePermission("PV__300")}}
 			<a href="/community/view_user?uid={{$currentUser->uid}}" class="icon"><img src="/img/icon/user_friend.png" />{{$currentUser->username}}</a>
 		<ul>
 				<li><a href="/settings" class="icon">Settings</a></li>
@@ -32,7 +35,8 @@
 		{{else}}
 		<li class="secondary"><a href="#login_modal" class="facebox icon"><img src="/img/icon_login.png" />Login</a></li>
 		<li class="secondary"><a href="/register" class="icon"><img src="/img/icon/register.png" />Register</a></li>
-		{{/if}} {{if $engine->requirePermission("PV__100")}}
+		{{/if}}
+		{{if $engine->requirePermission("PV__100")}}
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
 		{{if $page->common}}

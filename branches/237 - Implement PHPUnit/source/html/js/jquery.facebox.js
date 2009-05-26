@@ -63,14 +63,17 @@
  *
  */
 (function($) {
-  $.facebox = function(data, klass) {
+  $.facebox = function(data, timeout) {
     $.facebox.loading()
-
     if (data.ajax) fillFaceboxFromAjax(data.ajax)
     else if (data.image) fillFaceboxFromImage(data.image)
     else if (data.div) fillFaceboxFromHref(data.div)
     else if ($.isFunction(data)) data.call($)
-    else $.facebox.reveal(data, klass)
+    else $.facebox.reveal(data)
+    
+    if(timeout){
+    	$.facebox.close(timeout);
+    }
   }
 
   /*
@@ -103,6 +106,15 @@
     loading: function() {
       init()
       if ($('#facebox .loading').length == 1) return true
+      
+      //prevents an error where the old contents are emptied if the facebox is not closed in between calls.      
+      if($.facebox.settings.dom){
+  		$($.facebox.settings.dom).append($.facebox.settings.dom_data);
+  		
+  		$.facebox.settings.dom = null;
+  		$.facebox.settings.dom_data = null;
+  	}
+      
       showOverlay()
 
       $('#facebox .content').empty()
@@ -121,9 +133,8 @@
       $(document).trigger('loading.facebox')
     },
 
-    reveal: function(data, klass) {
+    reveal: function(data) {
       $(document).trigger('beforeReveal.facebox')
-      if (klass) $('#facebox .content').addClass(klass)
       $('#facebox .content').append(data)
       $('#facebox .loading').remove()
       $('#facebox .body').children().fadeIn('normal')
@@ -131,6 +142,7 @@
       
       $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
+      $.facebox.settings.isOpen = true;
     },
 
     close: function(delay) {
@@ -202,7 +214,7 @@
   //     div: #id
   //   image: blah.extension
   //    ajax: anything else
-  function fillFaceboxFromHref(href, klass) {
+  function fillFaceboxFromHref(href) {
     $.facebox.settings.modal = href.match(/modal/)
     
     // div
@@ -211,7 +223,7 @@
       var target = href.replace(url,'')
       $.facebox.settings.dom = target;
       $.facebox.settings.dom_data = $(target).children();
-      $.facebox.reveal($(target).children().show(), klass)
+      $.facebox.reveal($(target).children().show())
 
     // image
     } else if (href.match($.facebox.settings.imageTypesRegexp)) {
@@ -235,13 +247,16 @@
   }
 
   function skipOverlay() {
-    return $.facebox.settings.overlay == false || $.facebox.settings.opacity === null 
+    return $.facebox.settings.overlay == false || $.facebox.settings.opacity === null || $.facebox.settings.isOpen
   }
 
   function showOverlay() {
-    if (skipOverlay()) return
+    if (skipOverlay()){
+    	console.log("skip overlay");
+    	return
+    }
 
-    if ($('facebox_overlay').length == 0) 
+    if ($('#facebox_overlay').length == 0) 
       $("body").append('<div id="facebox_overlay" class="facebox_hide"></div>')
 
     $('#facebox_overlay').hide().addClass("facebox_overlayBG")
@@ -272,7 +287,17 @@
    */
 
   $(document).bind('close.facebox', function() {
-    $(document).unbind('keydown.facebox');
+    if($.facebox.settings.close_delay){
+    	var timeout = $.facebox.settings.close_delay;
+    	$.facebox.settings.close_delay = false;
+    	setTimeout(close, timeout);    	
+    }
+    else close();
+  	
+  });
+  function close(){
+    $.facebox.settings.isOpen = false;
+  	$(document).unbind('keydown.facebox');
     $('#facebox').fadeOut(function() {
       $('#facebox .content').removeClass().addClass('content');
       hideOverlay();
@@ -284,8 +309,7 @@
   		$.facebox.settings.dom_data = null;
   	}
     });
-  	
-  })
+  }
 
 })(jQuery);
 

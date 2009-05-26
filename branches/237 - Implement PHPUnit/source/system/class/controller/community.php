@@ -2,7 +2,7 @@
 class Controller_Community{
 	public function index(){
 		RoutingEngine::getSmarty()->assign("users_all", User::getListOfUsers());
-		RoutingEngine::getSmarty()->assign("users_friends", User::getFriends());
+		RoutingEngine::getSmarty()->assign("users_friends", User::$current_user->getFriends());
 	}
 	public function view_user(){
 		if(!isset($_GET["uid"])){
@@ -25,12 +25,12 @@ class Controller_Community{
 	}
 	public function add_friend(){
 		if(!isset($_POST["f_uid"])){
-			RoutingEngine::returnAjax(false);
+			RoutingEngine::returnAjax(array("result"=>false), true);
 		}
 		$friend_uid = $_POST["f_uid"];
 		$added = User::$current_user->addFriend($friend_uid);
 		RoutingEngine::getInstance()->persistUserData();
-		RoutingEngine::returnAjax($added);
+		RoutingEngine::returnAjax(array("result"=>$added), true);
 	}
 	public function ajax_remove_friend(){
 		if(!isset($_POST["f_uid"])){
