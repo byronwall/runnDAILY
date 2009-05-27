@@ -14,7 +14,7 @@ This is the template for the page where new routes are created.
 	<div class="actions">
 		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
 		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
-		<a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
+		<a href="#" onclick="MapActions.outAndBack(); return false;" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
 		<a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon/fullscreen.png"/>Full Screen</a>
 		<a href="#settings_modal" class="facebox icon"><img src="/img/icon/settings.png" />Settings</a>
 	</div>
