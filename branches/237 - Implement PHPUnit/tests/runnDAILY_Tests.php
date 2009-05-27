@@ -23,6 +23,8 @@ class runnDAILY_Suite extends PHPUnit_Framework_TestSuite
     	Database::getDB()->autocommit(false);
     }
     public function tearDown(){
+    	//tries to undo all changes that were made.
+    	//this fails if any code calls $db->commit()
     	Database::getDB()->rollback();
     }
 }
