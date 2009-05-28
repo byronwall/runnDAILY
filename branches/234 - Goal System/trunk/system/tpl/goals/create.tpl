@@ -19,9 +19,9 @@
 		<p><input type="text" name="go_end" /></p>
 	<h2>Goal Specifics</h2>
 		<p class="notice">Specify the conditions of your goal.</p>
-		<p>I would like to run <input type="text" name="go_metadata[dist_tot]" size="5" /> miles.</p>
-		<p>I would like to run at an average pace of <input type="text" name="go_metadata[pace_avg]" size="5" /> miles/hour.</p>
-		<p>I would like to run for <input id="input_time" type="text" name="go_metadata[time_tot]" size="5" /> minutes.</p>
+		<p>I would like to run <input type="text" name="go_metadata[dist_tot]" size="6" /> miles.</p>
+		<p>I would like to run at an average pace of <input type="text" name="go_metadata[pace_avg]" size="6" /> miles/hour.</p>
+		<p>I would like to run for <input id="input_time" type="text" name="go_metadata[time_tot]" size="6" /> minutes.</p>
 		<p><input type="submit" value="Create"></p>
 </div>
 </form>

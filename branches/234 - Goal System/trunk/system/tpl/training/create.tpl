@@ -20,7 +20,7 @@
 	<h2>Training Details</h2>
 		<p class="notice">Please enter the details of your training.</p>
 		<p><label for="route_name">Route: </label><span id="route_name">None selected</span></p>
-		<p><label for="route_distance">Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}" id="route_distance" size="5"></p>
+		<p><label for="route_distance">Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}" id="route_distance" size="6"></p>
 		<p>
 			<label>Activity Type: </label>
 			<select name="t_type" id="training_type">
@@ -34,6 +34,9 @@
 <!--	<h2>Privacy</h2>-->
 <!--		<p class="notice">Do you wish to make this training item private?</p>-->
 <!--		<p><input id="input_private" type="checkbox" name="t_private" value="1"> <label for="input_private">Yes</label></p>-->
+	<h2>Comment</h2>
+		<p class="notice">Enter an optional comment about your training experience.</p>
+		<p><textarea rows="4" cols="40" name="t_comment"></textarea></p>
 		<p><input type="submit" value="Create"></p>
 </div>
 </form>

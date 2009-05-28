@@ -37,6 +37,9 @@
 				<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace">{{$training_item.t_pace|round:"2"}} mi/h</span></div>
 			<div class="clear"></div>
 				<div class="icon align_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
+				{{if $training_item.t_comment}}
+				<div class="align_left italic">{{$training_item.t_comment}}</div>
+				{{/if}}
 				<div class="align_right"><a href="/training/edit?tid={{$training_item.t_tid}}&modal=true" class="facebox icon"><img src="/img/icon/training_pencil.png" />Edit / Delete</a></div>
 		</div>
 		{{foreachelse}}

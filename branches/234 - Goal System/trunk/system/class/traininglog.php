@@ -11,6 +11,7 @@ class TrainingLog extends Object{
 	public $type_name;
 	public $type_desc;	
 	public $route;
+	public $comment;
 
 	function __construct($arr = null, $arr_pre = "t_"){
 		parent::__construct($arr, $arr_pre);
@@ -74,10 +75,11 @@ class TrainingLog extends Object{
 				t_distance = ?,
 				t_date = FROM_UNIXTIME(?),
 				t_pace = ?,
-				t_type = ?
+				t_type = ?,
+				t_comment = ?
 			WHERE t_tid = ?
 		");
-		$stmt->bind_param("ddsdii", $this->time, $this->distance, $this->date, $this->getPace(), $this->type, $this->tid);
+		$stmt->bind_param("ddsdisi", $this->time, $this->distance, $this->date, $this->getPace(), $this->type, $this->comment, $this->tid);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
@@ -132,7 +134,7 @@ class TrainingLog extends Object{
 	}
 	public static function getItemsForUserForRoute($uid, $rid){
 		$stmt = Database::getDB()->prepare("
-			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date, t_comment
 			FROM training_times
 			LEFT JOIN routes ON r_id = t_rid
 			WHERE t_uid = ?
@@ -153,7 +155,7 @@ class TrainingLog extends Object{
 	}
 	public static function getItemsForUserForGoalView($uid, $start, $end){
 		$stmt = Database::getDB()->prepare("
-			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date, t_comment
 			FROM training_times
 			LEFT JOIN routes ON r_id = t_rid
 			WHERE t_uid = ?
@@ -250,9 +252,10 @@ class TrainingLog extends Object{
 				t_date = FROM_UNIXTIME(?),
 				t_rid = ?,
 				t_uid = ?,
-				t_type = ?
+				t_type = ?,
+				t_comment = ?
 		");
-		$stmt->bind_param("dddsiii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid, $this->type);
+		$stmt->bind_param("dddsiiis", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid, $this->type, $this->comment);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
@@ -270,7 +273,7 @@ class TrainingLog extends Object{
 	
 	public function getIndexItemsForUser($uid){
 		$stmt = Database::getDB()->prepare("
-			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date, t_comment
 			FROM training_times
 			LEFT JOIN routes ON r_id = t_rid
 			WHERE
