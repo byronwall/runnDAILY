@@ -6,6 +6,7 @@
 	<div class="actions">
 		<a href="/goals" class="icon"><img src="/img/icon/trophy_bronze.png"/>View Goals</a>
 		<a href="/goals/create" class="icon"><img src="/img/icon/trophy_plus.png"/>New Goal</a>
+		<a href="/training/summary?modal=true" class="icon facebox"><img src="/img/icon/training_summary.png"/>View Training Summary</a>
 		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png"/>New Training Item</a>
 <!--		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Training Items</a>-->
 	</div>

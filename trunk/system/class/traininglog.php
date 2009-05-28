@@ -191,7 +191,7 @@ class TrainingLog extends Object{
 		$goal_data = $stmt->fetch_assoc();
 		
 		$stmt->close();
-
+		
 		return $goal_data;
 	}
 	public static function getItemsForUserPaged($uid, $count = 10, $page = 0){

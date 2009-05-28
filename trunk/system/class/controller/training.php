@@ -158,5 +158,24 @@ class Controller_Training{
 		RoutingEngine::getSmarty()->display("training/edit.tpl");
 		exit;
 	}
+	public function summary(){
+		$this_week = new DateRange();
+		$this_week->getWeekRange("today");
+		$data_this_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $this_week->start, $this_week->end);
+		
+		
+		$last_week = new DateRange();
+		$last_week->getWeekRange("today", -1);
+		$data_last_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $last_week->start, $last_week->end);
+		
+		RoutingEngine::getSmarty()->assign("this_week", $this_week);
+		RoutingEngine::getSmarty()->assign("last_week", $last_week);
+		RoutingEngine::getSmarty()->assign("data_this_week", $data_this_week);
+		RoutingEngine::getSmarty()->assign("data_last_week", $data_last_week);
+		$output = RoutingEngine::getSmarty()->fetch("training/_summary.tpl");
+		
+		echo $output;
+		die;
+	}
 }
 ?>
