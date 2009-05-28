@@ -17,10 +17,14 @@
 		</p>
 		<p>
 			<label>Distance</label>
-			<input type="text" name="t_distance" value="{{$t_item->distance|round:2}}" /> mi
+			<input type="text" name="t_distance" value="{{$t_item->distance|round:2}}" size="6" /> mi
 		</p>
 		<p><label>Activity Type: </label>
 			{{html_options name="t_type" options=$t_types selected=$t_item->type}}
+		</p>
+		<p>Comment:</p>
+		<p>
+			<textarea rows="4" cols="25" name="t_comment">{{$t_item->comment}}</textarea>
 		</p>
 		<p>
 			<input type="submit" value="Update" />

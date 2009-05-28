@@ -1,7 +1,7 @@
 <?php
 class DateRange{
-	var $start;
-	var $end;
+	public $start;
+	public $end;
 	
 	function getWeekRange($start = "today", $offset = 0){
 		$this->start = strtotime($start);

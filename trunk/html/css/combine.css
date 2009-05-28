@@ -38,6 +38,9 @@ div.LabeledMarker_markerLabel{
 .bold{
 	font-weight: bold;
 }
+.italic{
+	font-style: italic;
+}
 .align_center{
 	text-align: center;
 }
