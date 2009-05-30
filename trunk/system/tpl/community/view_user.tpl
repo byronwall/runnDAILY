@@ -13,7 +13,7 @@
 </div>
 <div class="clear"></div>
 
-{{if $currentUser->checkFriendsWith($user->uid)}}
+{{if $currentUser->checkFriendsWith($user->uid) || $currentUser->uid == $user->uid}}
 <div class="grid_5">
 <h4>Routes</h4>
 	<div id="sort_options" class="align_right">

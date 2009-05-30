@@ -163,13 +163,13 @@ class Controller_Training{
 		$this_week->getWeekRange();
 		$data_this_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $this_week->start, $this_week->end);
 		
-		
 		$last_week = new DateRange();
 		$last_week->getWeekRange("today", -1);
 		$data_last_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $last_week->start, $last_week->end);
 		
 		$overall = TrainingLog::getSummaryOverall(User::$current_user->uid);
 		
+		//var_dump($data_this_week, $data_last_week, $overall);
 		RoutingEngine::getSmarty()->assign("this_week", $this_week);
 		RoutingEngine::getSmarty()->assign("last_week", $last_week);
 		RoutingEngine::getSmarty()->assign("overall", $overall);
