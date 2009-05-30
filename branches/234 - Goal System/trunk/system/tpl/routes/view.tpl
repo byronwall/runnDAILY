@@ -53,7 +53,7 @@
 			<ul id="train_errors" class="error_box"></ul>
 		
 			<input type="hidden" name="t_rid" value="{{$route_view->id}}">
-			<p><label>Time: </label><input type="text" name="t_time" value="00:00:00"></p>
+			<p><label>Time: </label><input type="text" name="t_time" value="00:00:00" size="10"></p>
 			<p><label>Activity Type: </label>
 				<select name="t_type" id="training_type">
 				{{foreach from=$t_types item=type}}
@@ -61,9 +61,10 @@
 				{{/foreach}}
 				</select>
 			</p>
-			<p><label>Date: </label><input type="text" name="t_date" value="Today"></p>
-			<p><label>Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}"></p>
-			<p><label>Private? </label><input type="checkbox" name="t_private" value="1"></p>
+			<p><label>Date: </label><input type="text" name="t_date" value="Today" size="15"></p>
+			<p><label>Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}" size="6"></p>
+			<p>Comment:</p>
+			<p><textarea rows="4" cols="25" name="t_comment"></textarea></p>
 			<p>
 				<input type="submit" value="Create">
 				<input type="button" value="Cancel" onclick="$.facebox.close()" />

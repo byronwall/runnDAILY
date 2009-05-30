@@ -13,7 +13,8 @@
 </div>
 <div class="clear"></div>
 
-<div class="grid_4">
+{{if $currentUser->checkFriendsWith($user->uid)}}
+<div class="grid_5">
 <h4>Routes</h4>
 	<div id="sort_options" class="align_right">
 			<label>Sort by: </label>
@@ -38,7 +39,7 @@
 	</div>
 </div>
 
-<div class="grid_4">
+<div class="grid_5">
 <h4>Training Items</h4>
 	<div id="sort_options" class="align_right">
 			<label>Sort by: </label>
@@ -46,7 +47,6 @@
 				<option value="t_date">Date</option>
 				<option value="t_dist">Distance</option>
 				<option value="t_pace">Pace</option>
-				<option value="t_cal">Calories</option>
 				<option value="t_name">Route Name</option>
 				<option value="t_time">Time</option>
 			</select>
@@ -58,13 +58,14 @@
 		<div id="item_{{counter}}" class="training_item">
 			{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
 				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance|round:"2"}} mi</span></div>
-				<div class="icon float_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
 			<div class="clear"></div>
+				<div class="t_date icon float_right">{{$training_item.t_date|date_format}} <img src="/img/icon/calendar.png" /></div>
 				<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace">{{$training_item.t_pace|round:"2"}} mi/h</span></div>
-				<div class="t_cal icon float_right"></div>
 			<div class="clear"></div>
-			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$training_item.t_date|date_format}}</div>
-<!--			<div class="align_right"><a href="/training/view?tid={{$training_item.t_tid}}" class="icon"><img src="/img/icon/training.png" />View in Detail</a></div>-->
+				<div class="icon align_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
+				{{if $training_item.t_comment}}
+				<div class="align_left italic">{{$training_item.t_comment}}</div>
+				{{/if}}
 		</div>
 		{{foreachelse}}
 		<div>
@@ -73,13 +74,18 @@
 		{{/foreach}}
 	</div>
 </div>
+{{else}}
+<div class="grid_10">
+	<p>You are not currently friends with {{$user->username}}. You must be friends to see route and training information.</p>
+</div>
+{{/if}}
 
-<div class="grid_3">
-<h4>Details</h4>
-<h5>Last Seen</h5>
-<p>{{if $user->date_access}}<img src="/img/icon/calendar.png" class="icon" /> {{$user->date_access|date_format}}{{else}}Not seen recently.{{/if}}</p>
-<h5>Member Since</h5>
-<p>{{if $user->join}}<img src="/img/icon/calendar.png" class="icon" /> {{$user->join|date_format}}{{else}}The beginning.{{/if}}</p>
+<div class="grid_2 align_right">
+	<h4>Details</h4>
+		<h5>Last Seen</h5>
+		<p>{{if $user->date_access}}<img src="/img/icon/calendar.png" class="icon" /> {{$user->date_access|date_format}}{{else}}Not seen recently.{{/if}}</p>
+	<h5>Member Since</h5>
+		<p>{{if $user->join}}<img src="/img/icon/calendar.png" class="icon" /> {{$user->join|date_format}}{{else}}The beginning.{{/if}}</p>
 </div>
 
 <div class="clear"></div>
@@ -100,7 +106,7 @@ var f_uid = {{$user->uid}};
 
 $("#a_addfriend").live("click", function(){
 	var a = $(this);
-	a.text("adding friend...");
+	a.text("Adding friend...");
 	
 	$.post(
 		"/community/add_friend",
@@ -122,7 +128,7 @@ $("#a_addfriend").live("click", function(){
 
 $("#a_removefriend").live("click", function(){
 	var a = $(this);
-	a.text("removing friend...");
+	a.text("Removing friend...");
 	
 	$.post(
 		"/community/ajax_remove_friend",

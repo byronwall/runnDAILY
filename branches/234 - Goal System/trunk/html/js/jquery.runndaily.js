@@ -5,7 +5,7 @@
 (function($){
 	var resize_items = [];
 	$.fn.heightBrowser = function(options){
-		var settings = $.extend({}, {scale:0.95}, options);
+		var settings = $.extend({}, {scale:0.92}, options);
 		var DOM = $(this).selector;
 		if($(this).data("resize") && !settings.clear){
 			var index = $(this).data("resize") - 1;

@@ -32,7 +32,7 @@ This is the template for the page where new routes are created.
 	<form action="/routes/action_create" method="post" id="r_form_save">
 		<p class="notice">Go ahead and name your route!.. describe it too</p>
 		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}" class="field"/></p>
-		<p><label>Description</label></p>
+		<p><label>Description:</label></p>
 		<p><textarea rows="3" name="r_description" class="field">{{$route_edit->description}}</textarea></p>
 		<input type="hidden" name="r_distance" value=""/>
 		<input type="hidden" name="r_points" value=""/>

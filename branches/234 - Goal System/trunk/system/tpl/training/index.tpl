@@ -107,5 +107,6 @@
 		Chart.LoadData({{$JSON_Chart_Data}});
 		Chart.UpdatePrimary();
 		Chart.UpdateOverview();
+		$("#training_items_list").heightBrowser().css("overflow", "auto");
 	});
 </script>

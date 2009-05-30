@@ -20,7 +20,7 @@ class Controller_Community{
 		//$json_data = TrainingLog::buildChartData($index_items);
 		RoutingEngine::getSmarty()->assign("training_index_items", $index_items);
 		//RoutingEngine::getSmarty()->assign("JSON_Chart_Data", $json_data);
-		
+		//var_dump(User::$current_user);
 		RoutingEngine::getSmarty()->assign("user",User::fromUid($uid));
 	}
 	public function add_friend(){

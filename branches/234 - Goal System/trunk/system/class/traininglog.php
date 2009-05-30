@@ -196,6 +196,22 @@ class TrainingLog extends Object{
 		
 		return $goal_data;
 	}
+	public static function getSummaryOverall($uid){
+		$stmt = Database::getDB()->prepare("
+		SELECT COUNT( t_tid ) AS count, SUM( t_pace ) AS pace, SUM( t_distance ) AS dist, SUM( t_time ) AS time
+		FROM training_times
+		WHERE t_uid = ?
+		");
+		$stmt->bind_param("i", $uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$goal_data = $stmt->fetch_assoc();
+		
+		$stmt->close();
+		
+		return $goal_data;
+	}
 	public static function getItemsForUserPaged($uid, $count = 10, $page = 0){
 		$limit_lower = $page * $count;
 		$limit_upper = $page * $count + $count;

@@ -60,9 +60,10 @@ div.LabeledMarker_markerLabel{
 #route_list table{
 	border-collapse: separate;
 }
-#training_items_list, #community_view_user #route_list{
-	max-height: 600px;
-	overflow: auto;
+
+#training_items_list, #route_list{
+	/*max-height: 600px;
+	overflow: auto;*/
 	margin-top: 5px;
 }
 .active_row{
