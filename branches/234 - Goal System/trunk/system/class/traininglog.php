@@ -10,14 +10,14 @@ class TrainingLog extends Object{
 	public $type;
 	public $type_name;
 	public $type_desc;	
-	public $route;
+	//public $route;
 	public $comment;
 
 	function __construct($arr = null, $arr_pre = "t_"){
 		parent::__construct($arr, $arr_pre);
 		$this->date = strtotime($this->date);
 		$this->time = TrainingLog::getSecondsFromFormat($this->time);
-		$this->route = new Route($arr);
+		//$this->route = new Route($arr);
 	}	
 	/**
 	 * Calculates the pace in MPH
@@ -244,9 +244,11 @@ class TrainingLog extends Object{
 	 */
 	public static function getItem($tid){
 		$stmt = Database::getDB()->prepare("
-		SELECT * FROM training_times as t
-		LEFT JOIN routes as r ON r.r_id = t.t_rid
-		WHERE t.t_tid = ?
+			SELECT *
+			FROM training_times as t
+			LEFT JOIN routes as r
+			ON r.r_id = t.t_rid
+			WHERE t.t_tid = ?
 		");
 		$stmt->bind_param("i", $tid);
 		$stmt->execute();

@@ -41,5 +41,18 @@ class Controller_Community{
 		RoutingEngine::getInstance()->persistUserData();
 		RoutingEngine::returnAjax($removed);
 	}
+	
+	public function search(){
+		if(!isset($_POST["search_for"]) || $_POST["search_for"] == ""){
+			echo("<p>Please enter a search term.</p>");
+			exit;
+		}
+		$user_list = User::searchForUser($_POST["search_for"]);
+		RoutingEngine::getSmarty()->assign("user_list", $user_list);
+		$output = RoutingEngine::getSmarty()->fetch("community/_user_search_result.tpl");
+		echo($output);
+		
+		exit;
+	}
 }
 ?>
