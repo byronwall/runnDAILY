@@ -610,5 +610,33 @@ class User extends Object{
 		
 		return false;
 	}
+	
+	public static function searchForUser($search_string){
+		$query_string = "%" . $search_string . "%";
+		$stmt = Database::getDB()->prepare("
+			SELECT u_uid, u_username
+			FROM users
+			WHERE u_username LIKE ?
+			UNION
+			SELECT u_uid, u_username
+			FROM users
+			WHERE u_email LIKE ?
+			ORDER BY u_username
+			LIMIT 40
+		");
+		
+		$stmt->bind_param("ss", $query_string, $query_string);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$users = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$users[] = $row;
+		}
+		
+		$stmt->close();
+		return $users;
+	}
 }
 ?>

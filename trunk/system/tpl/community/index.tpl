@@ -11,7 +11,13 @@
 <div class="clear"></div>
 
 <div class="grid_12">
-<p>The community features are currently limited. Once a more concrete community is established, we will be able to activate all community features.</p>
+<h4>Find a User</h4>
+<p class="notice">Search for a user by username or email.</p>
+<p>
+	<input id="input_search" type="text" name="u_search" />
+	<input id="search" type="submit" value="Search" />
+</p>
+<div id="results"></div>
 <h4>Your Friends</h4>
 {{foreach from=$users_friends item=friend}}
 	<div class="float_left">
@@ -25,6 +31,7 @@
 	</div>
 {{/foreach}}
 <div class="clear"></div>
+
 <h4>Recently Joined Users</h4>
 {{foreach from=$users_all item=user}}
 	<div class="float_left">
@@ -39,3 +46,12 @@
 {{/foreach}}
 </div>
 <div class="clear"></div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#search").click(function(){
+		$("#results").val("<p>Searching...</p>");
+		$("#results").load("search", {search_for : $("#input_search").val()});
+	});
+});
+</script>
