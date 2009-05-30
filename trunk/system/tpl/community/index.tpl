@@ -13,10 +13,12 @@
 <div class="grid_12">
 <h4>Find a User</h4>
 <p class="notice">Search for a user by username or email.</p>
-<p>
-	<input id="input_search" type="text" name="u_search" />
-	<input id="search" type="submit" value="Search" />
-</p>
+<form id="search_form" action="/community/search" method="post">
+	<p>
+		<input id="input_search" type="text" name="u_search" />
+		<input id="search" type="submit" value="Search" />
+	</p>
+</form>
 <div id="results"></div>
 <h4>Your Friends</h4>
 {{foreach from=$users_friends item=friend}}
@@ -49,9 +51,10 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#search").click(function(){
-		$("#results").val("<p>Searching...</p>");
-		$("#results").load("search", {search_for : $("#input_search").val()});
+	$("#search_form").validate({
+		submitHandler : function(form){
+			$(form).ajaxSubmit({"target" : "#results"});
+		}
 	});
 });
 </script>
