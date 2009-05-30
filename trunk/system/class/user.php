@@ -584,7 +584,31 @@ class User extends Object{
 		return $rows == 1;
 	}
 	public function checkFriendsWith($f_uid){
-		return isset($this->friends[$f_uid]);
+		if(isset(User::$current_user->friends[$f_uid])){
+			return User::$current_user->friends[$f_uid];
+		}
+
+		$stmt = Database::getDB()->prepare("
+			SELECT *
+			FROM users_friends
+			WHERE
+				f_uid_1 = ? AND
+				f_uid_2 = ?
+		");
+		
+		$stmt->bind_param("ii", User::$current_user->uid, $f_uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		if($rows == 1){
+			User::$current_user->friends[$f_uid] = 1;
+			return true;
+		}
+		
+		return false;
 	}
 }
 ?>

@@ -160,7 +160,7 @@ class Controller_Training{
 	}
 	public function summary(){
 		$this_week = new DateRange();
-		$this_week->getWeekRange("today");
+		$this_week->getWeekRange();
 		$data_this_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $this_week->start, $this_week->end);
 		
 		
@@ -168,8 +168,11 @@ class Controller_Training{
 		$last_week->getWeekRange("today", -1);
 		$data_last_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $last_week->start, $last_week->end);
 		
+		$overall = TrainingLog::getSummaryOverall(User::$current_user->uid);
+		
 		RoutingEngine::getSmarty()->assign("this_week", $this_week);
 		RoutingEngine::getSmarty()->assign("last_week", $last_week);
+		RoutingEngine::getSmarty()->assign("overall", $overall);
 		RoutingEngine::getSmarty()->assign("data_this_week", $data_this_week);
 		RoutingEngine::getSmarty()->assign("data_last_week", $data_last_week);
 		$output = RoutingEngine::getSmarty()->fetch("training/_summary.tpl");

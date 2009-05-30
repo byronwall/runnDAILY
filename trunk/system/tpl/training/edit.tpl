@@ -8,15 +8,15 @@
 		<ul id="train_errors" class="error_box"></ul>
 		
 		<p>
-			<label>Time</label>
-			<input type="text" name="t_time" value="{{$t_item->time|time_format:false}}" />
+			<label>Time: </label>
+			<input type="text" name="t_time" value="{{$t_item->time|time_format:false}}" size="10" />
 		</p>
 		<p>
-			<label>Date</label>
-			<input type="text" name="t_date" value="{{$t_item->date|date_format}}" />
+			<label>Date: </label>
+			<input type="text" name="t_date" value="{{$t_item->date|date_format}}" size="15" />
 		</p>
 		<p>
-			<label>Distance</label>
+			<label>Distance: </label>
 			<input type="text" name="t_distance" value="{{$t_item->distance|round:2}}" size="6" /> mi
 		</p>
 		<p><label>Activity Type: </label>

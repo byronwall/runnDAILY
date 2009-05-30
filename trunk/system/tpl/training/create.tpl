@@ -29,7 +29,7 @@
 					{{/foreach}}
 			</select>
 		</p>
-		<p><label>Date: </label><input type="text" name="t_date" value="Today"></p>
+		<p><label>Date: </label><input type="text" name="t_date" value="Today" size="15"></p>
 		<p><label>Time: </label><input type="text" name="t_time" value="00:00:00" size="10"></p>
 <!--	<h2>Privacy</h2>-->
 <!--		<p class="notice">Do you wish to make this training item private?</p>-->
