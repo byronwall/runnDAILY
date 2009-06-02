@@ -1,7 +1,7 @@
 <?php
 class Controller_Community{
 	public function index(){
-		RoutingEngine::getSmarty()->assign("users_all", User::getListOfUsers());
+		RoutingEngine::getSmarty()->assign("users_recent", User::getListOfUsers());
 		RoutingEngine::getSmarty()->assign("users_friends", User::getFriends());
 	}
 	public function view_user(){

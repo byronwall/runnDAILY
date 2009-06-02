@@ -1,7 +1,7 @@
 /* CUSTOM */
-#form_feedback textarea{
-	width: 350px;
-	height: 200px;
+#feedback_form_modal textarea{
+	width: 275px;
+	height: 150px;
 }
 
 #route_list th{
@@ -224,6 +224,15 @@ p.success {
 
 p.error {
 	color: red;
+}
+
+.alert_red {
+	color: red;
+	font-weight: bold;
+}
+.alert_green {
+	color: green;
+	font-weight: bold;
 }
 
 img .notification {

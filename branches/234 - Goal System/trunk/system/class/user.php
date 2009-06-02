@@ -512,6 +512,7 @@ class User extends Object{
 			FROM users_friends
 			INNER JOIN users ON users.u_uid = users_friends.f_uid_2
 			WHERE users_friends.f_uid_1 = ?
+			ORDER BY u_username ASC
 			LIMIT 50
 		");
 		$stmt->bind_param("i", User::$current_user->uid);

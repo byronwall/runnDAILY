@@ -12,25 +12,30 @@
 <div id="result"></div>
 
 <table>
-	<thead><td>date</td><td>user</td><td>message</td></thead>
+	<thead><td>Date</td><td>User</td><td colspan="2">Feedback</td></thead>
+	<tbody>
 	{{foreach from=$message item=message}}
 		<tr class="feedback_item">
 			<td>{{$message->date|date_format}}</td>
 			<td>{{$message->user->username|default:anon}}</td>
 			<td>{{$message->msg}}</td>
-			<td><a href="#delete_modal" class="form" rel="{{$message->mid}}">delete</a></td>
+			<td><a href="#delete_modal" class="form icon" rel="{{$message->mid}}"><img src="/img/icon/delete.png" /></a></td>
 		</tr>
 	{{foreachelse}}
-	No feedback!
+		<tr>No feedback!</tr>
 	{{/foreach}}
+	</tbody>
 </table>
 
 <div id="delete_modal" style="display:none">
 	<form action="/feedback/delete" method="post" id="form_delete">
-		<h1>Are you sure you want to delete that message?</h1>
-		<input type="hidden" name="m_mid" value="-1" />		
-		<input type="submit" value="yes, delete" />
-		<input type="button" value="cancel" onclick="$.facebox.close()" />
+		<h4>Are you sure you want to delete that message?</h4>
+		<p class="alert_red">Deleteing feedback cannot be undone! Make sure you no longer need the feedback item before deleting it!</p>
+		<input type="hidden" name="m_mid" value="-1" />
+		<p>
+			<input type="submit" value="Delete" />
+			<input type="button" value="Cancel" onclick="$.facebox.close()" />
+		</p>
 	</form>
 </div>
 </div>

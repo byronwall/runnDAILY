@@ -22,6 +22,7 @@ class RoutingEngine{
 		"feedback",
 		"goals",
 		"group",
+		"guides",
 		"help",
 		"home",
 		"log",
