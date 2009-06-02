@@ -17,7 +17,7 @@
 		<p>Ends {{$goal->end|date_format}}</p>
 		{{if $goal->desc}}<p>{{$goal->desc}}</p>{{/if}}
 	{{foreachelse}}
-		<p>You do no have any active goals! Create a <a href="/goals/create" class="icon"><img src="/img/icon.png" />New Goal</a>.</p>
+		<p>You do no have any active goals! Create a <a href="/goals/create" class="icon"><img src="/img/icon/trophy_plus.png" />New Goal</a>.</p>
 	{{/foreach}}
 	{{if $goal_list.past}}
 	<h4>Past Goals</h4>

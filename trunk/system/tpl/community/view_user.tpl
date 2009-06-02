@@ -2,6 +2,7 @@
 	<h2 id="page-heading">{{$user->username}}</h2>
 </div>
 <div class="clear"></div>
+{{if $currentUser->uid != $user->uid}}
 <div class="grid_12">
 	<div class="actions">
 		{{if !$currentUser->checkFriendsWith($user->uid)}}
@@ -12,6 +13,7 @@
 	</div>
 </div>
 <div class="clear"></div>
+{{/if}}
 
 {{if $currentUser->checkFriendsWith($user->uid) || $currentUser->uid == $user->uid}}
 <div class="grid_5">

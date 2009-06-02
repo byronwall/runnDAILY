@@ -6,7 +6,7 @@
 	<div class="actions">
 	{{if $item->getIsOwnedBy($currentUser->uid)}}
 		<a href="#training_edit_modal" class="facebox icon"><img src="/img/icon_pencil_arrow.png" />Edit</a>
-		<a href="#training_delete_modal" class="facebox icon"><img src="/img/icon_delete.png" />Delete</a>
+		<a href="#training_delete_modal" class="facebox icon"><img src="/img/icon/delete.png" />Delete</a>
 	{{/if}}
 	</div>
 </div>
