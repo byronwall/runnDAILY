@@ -1,9 +1,9 @@
 <?php
 class Page extends Object{
 	public $page_name;
-	public $title = "Runn Daily";
+	public $title = "runnDAILY";
 	public $common;
-	public $perm_code;
+	public $perm_code = "PV__100";
 	
 	private static $_smarty = null;
 	

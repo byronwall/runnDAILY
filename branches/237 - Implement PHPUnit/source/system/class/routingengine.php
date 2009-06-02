@@ -11,7 +11,13 @@ class RoutingEngine{
 	 */
 	public $page;
 	
+	/**
+	 * @var RoutingEngine
+	 */
 	private static $_instance = null;
+	/**
+	 * @var SmartyExt
+	 */
 	private static $_smarty = null;
 	
 	public static $controllers = array(
@@ -82,9 +88,12 @@ class RoutingEngine{
 			}
 		}
 		
-		$this->page = Page::getPage($this->_request_path);
+		//this removes the old database call.
+		//$this->page = Page::getPage($this->_request_path);
+		$this->page = new Page();
+		$this->page->page_name = $this->_request_path;
 		
-		$this->requirePermission($this->page->perm_code, null, true);
+		//$this->requirePermission($this->page->perm_code, null, true);
 		$this->getSmarty()->assign("page", $this->page);
 		$this->getSmarty()->assign("currentUser", User::$current_user);
 		$this->getSmarty()->assign("engine", $this);
@@ -103,6 +112,9 @@ class RoutingEngine{
 		$class = new $controller();
 		$action = $this->action;
 		$class->{$action}();
+		
+		//default page set
+		$this->setPage("runnDAILY DEFAULT", "PV__100", true);
 		
 		$filename = self::getSmarty()->template_dir."/".$this->getTemplateName();
 		
@@ -231,6 +243,15 @@ class RoutingEngine{
 	 */
 	public function getPageName(){
 		return $this->_request_path;
+	}
+	
+	private static $_isPageSet = false;
+	public static function setPage($title = "runnDAILY", $perm = "PV__100", $default = false){
+		if($default && self::$_isPageSet) return;
+		self::getInstance()->requirePermission($perm, null, true);		
+		self::getInstance()->page->title = $title;
+		
+		self::$_isPageSet = true;
 	}
 }
 ?>
