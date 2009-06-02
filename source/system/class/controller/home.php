@@ -1,9 +1,10 @@
 <?php
 class Controller_Home{
 	public function index(){
+		RoutingEngine::setPage("runnDAILY Home Page", "PV__400");
 	}
 	public function login(){
-		
+		RoutingEngine::setPage("runnDAILY Login", "PV__400");		
 	}
 	public function messages(){
 		$msgs_to = Message::getMessagesForUser(User::$current_user->uid, true);
@@ -13,26 +14,10 @@ class Controller_Home{
 		RoutingEngine::getSmarty()->assign("messages_from", $msgs_from);
 	}
 	public function register(){
-		
+		RoutingEngine::setPage("runnDAILY Registration", "PV__400");		
 	}
 	public function settings(){
-		
-	}
-	public function modules(){
-		$modules = array();
-		
-		$sel_type=array_safe($_GET, "loc", null);
-		
-		$types = array("home","routes", "training", "community");
-		
-		foreach($types as $type){
-			$var = $type."_modules";
-			$temp = explode(",", User::$current_user->$var);
-			foreach($temp as $item){ $modules[$type][$item] = true; }
-		}
-		
-		RoutingEngine::getSmarty()->assign("user_modules", $modules);
-		RoutingEngine::getSmarty()->assign("modules", Module::getAllModules($sel_type));
+		RoutingEngine::setPage("runnDAILY Settings", "PV__300");		
 	}
 }
 ?>
