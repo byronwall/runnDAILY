@@ -6,9 +6,9 @@
 <div class="grid_12">
 	<div class="actions">
 		{{if !$currentUser->checkFriendsWith($user->uid)}}
-		<a href="#addFriend" id="a_addfriend" class="icon"><img src="/img/icon/user_plus.png" />Add as Friend</a>
+		<a href="#requestFriend" id="a_add" class="facebox icon"><img src="/img/icon/user_plus.png" />Add as Friend</a>
 		{{else}}
-		<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon/user_minus.png" />Remove Friend</a>
+		<a href="#removeFriend" id="a_remove" class="facebox icon"><img src="/img/icon/user_minus.png" />Remove Friend</a>
 		{{/if}}
 	</div>
 </div>
@@ -103,80 +103,85 @@
 	</form>
 </div>
 
+<div id="requestFriend" style="display:none">
+	<form action="/confirmation/actionCreate" method="post" class="ajax">
+		<input type="hidden" name="type" value="1">
+		<input type="hidden" name="uid_to" value="{{$user->uid}}">
+		<p>Do you want to request to be friends?</p>
+		<p>
+			<input type="submit" value="Request">
+			<input type="button" value="cancel" onclick="$.facebox.close()">
+		</p>
+	</form>
+</div>
+<div id="removeFriend" style="display:none">
+	<form action="/community/ajax_remove_friend" method="post" class="ajax">
+		<input type="hidden" name="f_uid" value="{{$user->uid}}">
+		<p>Do you want to remove {{$user->username}} as a friend?</p>
+		<p>
+			<input type="submit" value="Remove">
+			<input type="button" value="Cancel" onclick="$.facebox.close()">
+		</p>
+	</form>
+</div>
+
 <script type="text/javascript">
-var f_uid = {{$user->uid}};
 
-$("#a_addfriend").live("click", function(){
-	var a = $(this);
-	a.text("Adding friend...");
-	
-	$.post(
-		"/community/add_friend",
-		{f_uid:f_uid},
-		function(data){
-			if(data){
-				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon/user_minus.png" />Remove Friend</a>');
-			}
-			else{
-				a.text("Try To Add Again");
-				a.hide();
-				a.fadeIn("slow");
+$(function(){
+	var actions = {
+		"/confirmation/actionCreate": function(data){
+			//this function expects a JSON object with [result]
+			if(data.result){
+				$.facebox("Your request was sent.", 500);
+				$("#a_add").fadeOut("slow").remove();
 			}
 		},
-		"text"
-	);
-	return false;	
-});
-
-$("#a_removefriend").live("click", function(){
-	var a = $(this);
-	a.text("Removing friend...");
-	
-	$.post(
-		"/community/ajax_remove_friend",
-		{f_uid:f_uid},
-		function(data){
-			if(data){
-				a.replaceWith('<a href="#addFriend" id="a_removefriend" class="icon"><img src="/img/icon/user_plus.png" />Add as Friend</a>');
+		"/community/ajax_remove_friend": function(data){
+			//this function expects a JSON object with [result]
+			if(data.result){
+				$.facebox("Your are no longer friends.", 500);
+				$("#a_remove").fadeOut("slow").remove();
 			}
-			else{
-				a.text("Try To Remove Again");
-				a.hide();
-				a.fadeIn("slow");
+		}
+	};
+	
+	$("form.ajax").ajaxForm({
+		success: function(data){
+			if(actions[this.url]){
+				actions[this.url](data);
 			}
 		},
-		"text"
-	);
-	return false;	
-});
+		dataType: "json"
+	});
 
-$.sorter.add("routes", {
-	classes: {
-		r_name: "alpha",
-		r_dist: "numeric",
-		r_date: "date"
-	},
-	parent: "#route_list",
-	item: ".route_item",
-	sort_desc: -1,
-	sort_key: "r_date",
-	reverse: "#route_reverse_sort",
-	selector: "#route_sort_select"
-});
-
-$.sorter.add("training", {
-	classes: {
-		t_name: "alpha",
-		t_dist: "numeric",
-		t_time: "numeric",
-		t_date: "date",
-		t_pace: "numeric"
-	},
-	parent: "#training_items_list",
-	item: ".training_item",
-	sort_desc: -1,
-	sort_key: "t_date",
-	reverse: "#training_reverse_sort",
-	selector: "#training_sort_select"
+	$.sorter.add("routes", {
+		classes: {
+			r_name: "alpha",
+			r_dist: "numeric",
+			r_date: "date"
+		},
+		parent: "#route_list",
+		item: ".route_item",
+		sort_desc: -1,
+		sort_key: "r_date",
+		reverse: "#route_reverse_sort",
+		selector: "#route_sort_select"
+	});
+	
+	$.sorter.add("training", {
+		classes: {
+			t_name: "alpha",
+			t_dist: "numeric",
+			t_time: "numeric",
+			t_date: "date",
+			t_pace: "numeric"
+		},
+		parent: "#training_items_list",
+		item: ".training_item",
+		sort_desc: -1,
+		sort_key: "t_date",
+		reverse: "#training_reverse_sort",
+		selector: "#training_sort_select"
+	});
 });
 </script>

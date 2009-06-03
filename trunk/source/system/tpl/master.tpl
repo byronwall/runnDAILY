@@ -23,7 +23,7 @@
     <title>{{$page->title}}</title>
 </head>
 
-<body id="{{$page->common}}">
+<body id="{{$engine->getCommonName()}}">
 <div class="container_12 top">
 <div class="grid_2 prefix_5 suffix_5 bg_top"><a href="/index"><img class="logo" src="/img/logo.png"></a></div>
 <div class="clear"></div>
@@ -56,7 +56,7 @@
 		<input type="hidden" name="action" value="create" />
 	</form>
 </div>
-{{if !$currentUser->isAuthenticated}}
+{{if !$engine->requirePermission("PV__300")}}
 <div id="login_modal" style="display:none">
 	<form id="login_form_modal" action="/user/login" method="post">
 		<p class="notice">Please enter your username and password.</p>
@@ -118,8 +118,7 @@
 					$(form).ajaxSubmit({
 						success: function(data){
 							$(form).clearForm();
-							$.facebox("Feedback received.");
-							setTimeout($.facebox.close, 1000);
+							$.facebox("Feedback received.", 1000);
 						}
 					});
 				}

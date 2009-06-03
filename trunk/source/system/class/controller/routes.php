@@ -1,6 +1,7 @@
 <?php
 class Controller_Routes{
 	public function index(){
+		RoutingEngine::setPage("runnDAILY Routes", "PV__300");
 		$routes = Route::getRoutesForUserInArray(User::$current_user->uid, 50);
 		$routes_js = json_encode_null($routes);
 		
@@ -8,6 +9,7 @@ class Controller_Routes{
 		RoutingEngine::getSmarty()->assign("routes_js", $routes_js);
 	}
 	public function ajax_route_data(){
+		RoutingEngine::setPage("runnDAILY Routes", "PV__300");
 		if(!isset($_GET["rid"])){
 			RoutingEngine::returnAjax(false);
 		}
@@ -18,6 +20,7 @@ class Controller_Routes{
 		RoutingEngine::returnAjax($route, false);
 	}
 	public function view(){
+		RoutingEngine::setPage("runnDAILY View Route", "PV__300");
 		RoutingEngine::getInstance()->registerParams("rid");
 		
 		if(!isset($_GET["rid"])) Page::redirect("/routes");
@@ -44,6 +47,9 @@ class Controller_Routes{
 		RoutingEngine::getSmarty()->assign("training_items", $training_items);
 	}
 	public function browse(){
+		//TODO: Implement this page if we want.
+		RoutingEngine::setPage("runnDAILY Routes", "PV__100");
+		
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 	
 		$parser = new Sql_Parser(true, 10, 0);
@@ -78,6 +84,7 @@ class Controller_Routes{
 		}
 	}
 	public function create(){
+		RoutingEngine::setPage("runnDAILY Create Route", "PV__400");
 		if(isset($_GET["rid"])){
 			$route = Route::fromRouteIdentifier($_GET["rid"]);
 			if($route->getTrainingCount() == 0){
@@ -96,6 +103,7 @@ class Controller_Routes{
 		RoutingEngine::getSmarty()->assign("body_id", "map_create");
 	}
 	public function action_create(){
+		RoutingEngine::setPage("runnDAILY Routes", "PV__300");
 		$route = new Route($_POST);
 		if($route->id){
 			if($route->updateRoute()){
@@ -111,6 +119,7 @@ class Controller_Routes{
 		}
 	}
 	public function action_delete(){
+		RoutingEngine::setPage("runnDAILY Routes", "PV__300");
 		$rid = $_POST["r_rid"];
 		$uid = User::$current_user->uid;
 
@@ -121,6 +130,7 @@ class Controller_Routes{
 		Page::redirect("/routes/view/{$rid}");
 	}
 	public function action_copy_edit(){
+		RoutingEngine::setPage("runnDAILY Routes", "PV__300");
 		$route = new Route($_POST);
 		if($route->copy()){
 			Notification::add("Your route - {$route->name} - was copied.  You are now editing it.");
@@ -130,6 +140,7 @@ class Controller_Routes{
 		Page::redirect("/routes/view/{$route->id}");
 	}
 	public function action_copy_view(){
+		RoutingEngine::setPage("runnDAILY Routes", "PV__300");
 		$route = new Route($_POST);
 		if($route->copy()){
 			Notification::add("Your route - {$route->name} - was copied.");

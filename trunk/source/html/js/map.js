@@ -2,14 +2,40 @@
  * runnDAILY Mapping Library
  */
 
+var MapHistory = {
+	events: [],
+	currentEvent: 0,
+	markNewEvent: function(){
+		this.currentEvent++;
+		this.events[this.currentEvent] = 0;
+	},
+	addToEvent: function(){
+		this.events[this.currentEvent]++;
+	},
+	undoEvent: function(){
+		if(this.currentEvent == 0) return 0;
+		
+		var count = this.events.pop();
+		this.currentEvent--;
+		
+		return count;
+	}	
+}
+
 var MapActions = {
 	outAndBack: function(){
+		MapHistory.markNewEvent();
 		for(var i = Map.points.length-1;i>=0;i--){
-			Map.addPoint(Map.points[i].latlng);
+			Map.addPoint(Map.points[i].latlng, true);
 		}	
 	},
 	undoLastPoint: function(){
-		Map.points.pop();	
+		var pointsToRemove = MapHistory.undoEvent();
+		console.log(pointsToRemove);
+		while(pointsToRemove-- > 0){
+			console.log("remove point");
+			Map.points.pop();
+		}	
 		Map.refresh();
 	},
 	clearAllPoints: function(){
@@ -94,7 +120,10 @@ var Map = {
 			}
 		}
 	},
-	addPoint: function(latlng_new){
+	addPoint: function(latlng_new, shouldNotMarkEvent){
+		if(!shouldNotMarkEvent) MapHistory.markNewEvent();
+		MapHistory.addToEvent();
+		
 		if(Map.polyline != null){
 			var i = Map.points.length;
 			Map.polyline.insertVertex(Map.points.length, latlng_new);
@@ -432,10 +461,11 @@ var Directions = {
 		}
 	},
 	load_event: function(){
+		MapHistory.markNewEvent();
 		Directions.polyline = Directions.instance.getPolyline();
 		var points = Directions.polyline.getVertexCount();
 		for(var i = 0; i < points; i++){
-			Map.addPoint(Directions.polyline.getVertex(i));
+			Map.addPoint(Directions.polyline.getVertex(i), true);
 		}
 		Directions.isSearching = false;
 	},

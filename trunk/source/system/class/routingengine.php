@@ -19,6 +19,7 @@ class RoutingEngine{
 		"about",
 		"admin",
 		"community",
+		"confirmation",
 		"events",
 		"feedback",
 		"goals",
@@ -81,8 +82,11 @@ class RoutingEngine{
 			$this->_request_path = $this->controller."/index";
 		}
 		
-		$this->page = Page::getPage($this->_request_path);		
-		$this->requirePermission($this->page->perm_code, null, true);
+		//$this->page = Page::getPage($this->_request_path);
+		$this->page = new Page();
+		$this->page->page_name = $this->_request_path;
+		
+		//$this->requirePermission($this->page->perm_code, null, true);
 		$this->_processParamters($params);
 		
 		$this->getSmarty()->assign("page", $this->page);
@@ -104,7 +108,10 @@ class RoutingEngine{
 		$action = $this->action;
 		call_user_func_array(array($class, $action), $this->_params);
 		
-		$filename = self::getSmarty()->template_dir."/".$this->getTemplateName();
+		//set default page props if not called yet
+		$this->setPage("runnDAILY DEFAULT", "PV__100", true);
+		
+		$filename = self::getSmarty()->template_dir."/".$this->getTemplateName();		
 		
 		if(!file_exists($filename)){
 			$handle = fopen($filename, "w");
@@ -155,7 +162,7 @@ class RoutingEngine{
 	 * @param bool $redir		Whether or not to redirect on a failed permission
 	 * @return bool				Whether or not the user has the required permission
 	 */
-	public function requirePermission($perm_code, $gid = null, $redir = false){
+	public function requirePermission($perm_code = "PV__300", $gid = null, $redir = false){
 		if(!isset($perm_code)) $allow = false;
 		else{
 			$code = explode("__", $perm_code);
@@ -204,10 +211,10 @@ class RoutingEngine{
 		else{
 			$_SESSION["userData"] = User::cookieLogin();
 			User::$current_user = $_SESSION["userData"];
+			User::$current_user->getFriends();
 		}
-		if(!isset(User::$current_user->permissions)){
-			User::$current_user->getPermissions();
-		}
+		User::$current_user->initialize();
+		
 		return true;
 	}
 	/**
@@ -259,6 +266,18 @@ class RoutingEngine{
 			$this->_params[$name] = $this->_params[$index];
 			$_GET[$name] = $this->_params[$index];
 		}
+	}
+	
+	private static $_isPageSet = false;
+	public static function setPage($title = "runnDAILY", $perm = "PV__100", $default = false){
+		if($default && self::$_isPageSet) return;
+		self::getInstance()->requirePermission($perm, null, true);		
+		self::getInstance()->page->title = $title;
+		
+		self::$_isPageSet = true;
+	}
+	public function getCommonName(){
+		return $this->controller ."_".$this->action;
 	}
 }
 ?>

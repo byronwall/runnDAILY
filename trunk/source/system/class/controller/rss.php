@@ -1,5 +1,9 @@
 <?php
 class Controller_Rss{
+	/*
+	 * This controller has been set to ADMIN by default.
+	 * TODO: Implement this controller.
+	 */
 	public function activity(){
 		if(!isset($_GET["username"])){
 			exit;

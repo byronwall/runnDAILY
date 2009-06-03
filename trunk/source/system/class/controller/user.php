@@ -1,6 +1,7 @@
 <?php
 class Controller_User{
 	public function login(){
+		RoutingEngine::setPage("runnDAILY User Login", "PV__400");
 		$username = $_POST["username"];
 		$password = $_POST["password"];
 		$remember = isset($_POST["remember"])?$_POST["remember"]:false;
@@ -20,11 +21,13 @@ class Controller_User{
 		}
 	}
 	public function logout(){
+		RoutingEngine::setPage("runnDAILY User Logout", "PV__400");
 		User::logout();
 		Notification::add("You are now logged out.");
 		Page::redirect("/");
 	}
 	public function register(){
+		RoutingEngine::setPage("runnDAILY User Register", "PV__400");
 		$user = new User($_POST);
 
 		$user->password = md5($user->password);
@@ -51,6 +54,7 @@ class Controller_User{
 		}
 	}
 	public function activate(){
+		//TODO: Implement this action.
 		$uid = $_GET["uid"];
 		$hash = $_GET["hash"];
 
@@ -61,6 +65,7 @@ class Controller_User{
 		Page::redirect("/index");
 	}
 	public function update(){
+		RoutingEngine::setPage("runnDAILY User Update", "PV__300");
 		$format = array_safe($_POST, "format", "html");
 		$user = new User($_POST);
 		if($user->updateUserInDB()){
@@ -71,16 +76,8 @@ class Controller_User{
 		Page::redirect("/admin/user");
 	}
 	
-	public function delete(){
-		$user = new User($_POST);
-
-		$success = $user->deleteUser();
-
-		if($success) exit("deleted");
-		else exit("did not delete");
-		Page::redirect("/admin/user");
-	}
 	public function action_settings(){
+		RoutingEngine::setPage("runnDAILY User Settings", "PV__300");
 		User::$current_user->refreshDetails($_POST);
 		
 		if(isset($_POST["u_password"])){
@@ -96,6 +93,7 @@ class Controller_User{
 		Page::redirect("/settings");
 	}
 	public function check_exists(){
+		RoutingEngine::setPage("runnDAILY User Exists", "PV__400");
 		$username = $_GET["u_username"];
 
 		if(User::getUserExists($username)){
@@ -107,36 +105,15 @@ class Controller_User{
 			exit;
 		}
 	}
-	public function action_update_modules(){
-		$modules = $_POST["modules"];
-		User::$current_user->routes_modules = implode(",", $modules["routes"]);
-		User::$current_user->home_modules = implode(",", $modules["home"]);
-		User::$current_user->training_modules = implode(",", $modules["training"]);
-		User::$current_user->community_modules = implode(",", $modules["community"]);
-		$stmt = Database::getDB()->prepare("
-			UPDATE users_settings
-			SET
-				u_routes_modules = ?,
-				u_home_modules = ?,
-				u_training_modules = ?,
-				u_community_modules = ?
-			WHERE
-				u_uid = ?
-		");
-		$stmt->bind_param("ssssi",User::$current_user->routes_modules,User::$current_user->home_modules,User::$current_user->training_modules,User::$current_user->community_modules,User::$current_user->uid);
-		$stmt->execute();
-		
-		$stmt->close();
-		
-		Page::redirect("/modules");
-	}
 	function action_map_settings(){
+		RoutingEngine::setPage("runnDAILY User Map Settings", "PV__300");
 		User::$current_user->refreshDetails($_POST);
 		User::$current_user->saveSetting("map_settings");
 		
 		exit;
 	}
 	function ajax_remove_notification(){
+		RoutingEngine::setPage("runnDAILY User Remove Notification", "PV__300");
 		if(!isset($_POST["id"])) return false;
 		
 		$id = $_POST["id"];

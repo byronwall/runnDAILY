@@ -14,7 +14,7 @@ This is the template for the page where new routes are created.
 	<div class="actions">
 		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon/delete.png"/>Clear All Points</a>
 		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
-		<a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
+		<a href="#" onclick="MapActions.outAndBack(); return false;" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
 		<a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon/fullscreen.png"/>Full Screen</a>
 		<a href="#settings_modal" class="facebox icon"><img src="/img/icon/settings.png" />Settings</a>
 	</div>
@@ -99,7 +99,9 @@ This is the template for the page where new routes are created.
 		<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
 		<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
 		<p><input type="button" value="Apply, Don't Save" onclick="check_apply()"/></p>
-		<p><input type="submit" value="Set Default" /></p>
+		{{if $engine->requirePermission("PV__300")}}
+			<p><input type="submit" value="Set Default" /></p>
+		{{/if}}
 		<input type="hidden" name="u_settings[map_settings]" >
 	</form>
 </div>
@@ -115,7 +117,7 @@ $(document).ready( function(){
 		}
 	);
 
-	{{if $currentUser->isAuthenticated && $currentUser->settings.map_settings}}
+	{{if $currentUser->settings.map_settings}}
 		MapSettings = $.extend({}, MapSettings, {{$currentUser->settings.map_settings}});
 	{{/if}}
 	

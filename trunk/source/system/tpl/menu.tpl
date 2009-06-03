@@ -25,7 +25,7 @@
 		</ul>
 		</li>
 		<li class="secondary">
-		{{if $currentUser->isAuthenticated}}
+		{{if $engine->requirePermission("PV__300")}}
 			<a href="/community/view_user/{{$currentUser->uid}}/{{$currentUser->username}}" class="icon"><img src="/img/icon/user_friend.png" />{{$currentUser->username}}</a>
 		<ul>
 				<li><a href="/settings" class="icon">Settings</a></li>

@@ -1,5 +1,10 @@
 <?php
 class Controller_Group{
+	/*
+	 * This controller is missing all of the RoutingEngine::setPage calls.
+	 * This is done on purpose to force admin privledges until we want these pages exposed.
+	 * 
+	 */
 	public function index(){
 
 	}
