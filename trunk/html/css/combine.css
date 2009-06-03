@@ -1,7 +1,7 @@
 /* CUSTOM */
-#form_feedback textarea{
-	width: 350px;
-	height: 200px;
+#feedback_form_modal textarea{
+	width: 275px;
+	height: 150px;
 }
 
 #route_list th{
@@ -38,6 +38,9 @@ div.LabeledMarker_markerLabel{
 .bold{
 	font-weight: bold;
 }
+.italic{
+	font-style: italic;
+}
 .align_center{
 	text-align: center;
 }
@@ -57,9 +60,10 @@ div.LabeledMarker_markerLabel{
 #route_list table{
 	border-collapse: separate;
 }
-#training_items_list, #community_view_user #route_list{
-	max-height: 600px;
-	overflow: auto;
+
+#training_items_list, #route_list{
+	/*max-height: 600px;
+	overflow: auto;*/
 	margin-top: 5px;
 }
 .active_row{
@@ -220,6 +224,15 @@ p.success {
 
 p.error {
 	color: red;
+}
+
+.alert_red {
+	color: red;
+	font-weight: bold;
+}
+.alert_green {
+	color: green;
+	font-weight: bold;
 }
 
 img .notification {

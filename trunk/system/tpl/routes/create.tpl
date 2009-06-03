@@ -5,14 +5,14 @@ This is the template for the page where new routes are created.
 {{if $is_edit}}
 <h2 id="page-heading">Editing {{$route_edit->name}}</h2>
 {{else}}
-<h2 id="page-heading">Create a New Route</h2>
+<h2 id="page-heading">New Route</h2>
 {{/if}}
 </div>
 <div class="clear"></div>
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a>
+		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon/delete.png"/>Clear All Points</a>
 		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
 		<a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
 		<a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon/fullscreen.png"/>Full Screen</a>
@@ -20,6 +20,7 @@ This is the template for the page where new routes are created.
 	</div>
 </div>
 <div class="clear"></div>
+
 <div class="grid_2">
 <div class="route_distance">
 	<p class="r_distance_disp dist-num">0.00</p>
@@ -30,9 +31,9 @@ This is the template for the page where new routes are created.
 <div class="delete_box">
 <h4>Route Name & Description</h4>
 	<form action="/routes/action_create" method="post" id="r_form_save">
-		<p class="notice">Go ahead and name your route!.. describe it too</p>
+		<div id="route_error_box"></div>
 		<p><label>Route Name: </label><input type="text" name="r_name" value="{{$route_edit->name}}" class="field"/></p>
-		<p><label>Description</label></p>
+		<p><label>Description:</label></p>
 		<p><textarea rows="3" name="r_description" class="field">{{$route_edit->description}}</textarea></p>
 		<input type="hidden" name="r_distance" value=""/>
 		<input type="hidden" name="r_points" value=""/>
@@ -55,7 +56,7 @@ This is the template for the page where new routes are created.
 	<h4>Re-center the Map</h4>
 	<form action="#" method="get" onsubmit="Geocoder.showAddress('#txt_address');return false;" class="search">
 		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
-		<p><input type="text" id="txt_address" value="Purdue University" class="field"></p>
+		<p><input type="text" id="txt_address" value="" class="field"></p>
 		<p><input type="submit" value="Re-center"></p>
 		<p id="location_msg" class=""></p>
 	</form>
@@ -74,7 +75,7 @@ This is the template for the page where new routes are created.
 <div id="results" style="display:none"></div>
 <div id="map_overlay" style="display:none">
 	<img src="/img/logo.png">
-	<p><a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon_delete.png"/>Clear All Points</a></p>
+	<p><a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon/delete.png"/>Clear All Points</a></p>
 	<p><a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a></p>
 	<p><a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a></p>
 	<p><a href="#settings_modal" class="facebox icon"><img src="/img/icon/settings.png" />Settings</a></p>
@@ -133,8 +134,10 @@ $(document).ready( function(){
 			r_name: {required: true}
 		},
 		messages: {
-			r_name: {required: ""}
+			r_name: {required: "Please enter a name."}
 		},
+		errorLabelContainer: "#route_error_box",
+		errorElement: "p",
 		submitHandler: function(form){
 			MapSave.submitHandler(form);
 			

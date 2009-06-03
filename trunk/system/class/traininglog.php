@@ -10,13 +10,14 @@ class TrainingLog extends Object{
 	public $type;
 	public $type_name;
 	public $type_desc;	
-	public $route;
+	//public $route;
+	public $comment;
 
 	function __construct($arr = null, $arr_pre = "t_"){
 		parent::__construct($arr, $arr_pre);
 		$this->date = strtotime($this->date);
 		$this->time = TrainingLog::getSecondsFromFormat($this->time);
-		$this->route = new Route($arr);
+		//$this->route = new Route($arr);
 	}	
 	/**
 	 * Calculates the pace in MPH
@@ -74,10 +75,11 @@ class TrainingLog extends Object{
 				t_distance = ?,
 				t_date = FROM_UNIXTIME(?),
 				t_pace = ?,
-				t_type = ?
+				t_type = ?,
+				t_comment = ?
 			WHERE t_tid = ?
 		");
-		$stmt->bind_param("ddsdii", $this->time, $this->distance, $this->date, $this->getPace(), $this->type, $this->tid);
+		$stmt->bind_param("ddsdisi", $this->time, $this->distance, $this->date, $this->getPace(), $this->type, $this->comment, $this->tid);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 
@@ -109,7 +111,7 @@ class TrainingLog extends Object{
 	 * @param $uid
 	 * @param $date_start
 	 * @param $date_end
-	 * @return array:TrainingLogg
+	 * @return array:TrainingLog
 	 */
 	public static function getItemsForUser($uid, $date_start = 0, $date_end = 0){
 		if($date_end == 0) $date_end = mktime();
@@ -129,6 +131,86 @@ class TrainingLog extends Object{
 		}
 
 		return $training_items;
+	}
+	public static function getItemsForUserForRoute($uid, $rid){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date, t_comment
+			FROM training_times
+			LEFT JOIN routes ON r_id = t_rid
+			WHERE t_uid = ?
+			AND t_rid = ?
+			ORDER BY t_date DESC
+		");
+		$stmt->bind_param("ii", $uid, $rid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$training_items = array();
+
+		while($row = $stmt->fetch_assoc()){
+			$training_items[] = $row;
+		}
+
+		return $training_items;
+	}
+	public static function getItemsForUserForGoalView($uid, $start, $end){
+		$stmt = Database::getDB()->prepare("
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date, t_comment
+			FROM training_times
+			LEFT JOIN routes ON r_id = t_rid
+			WHERE t_uid = ?
+			AND t_date
+				BETWEEN FROM_UNIXTIME( ? )
+				AND FROM_UNIXTIME( ? )
+			ORDER BY t_date DESC
+		");
+		$stmt->bind_param("iii", $uid, $start, $end);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$training_items = array();
+
+		while($row = $stmt->fetch_assoc()){
+			$training_items[] = $row;
+		}
+
+		return $training_items;
+	}
+	public static function getItemsForUserForGoalPercent($uid, $start, $end){
+		$stmt = Database::getDB()->prepare("
+		SELECT COUNT( t_tid ) AS count, SUM( t_pace ) AS pace, SUM( t_distance ) AS dist, SUM( t_time ) AS time
+		FROM training_times
+		WHERE
+			t_uid = ?
+			AND t_date
+				BETWEEN FROM_UNIXTIME( ? )
+				AND FROM_UNIXTIME( ? )
+		");
+		$stmt->bind_param("iii", $uid, $start, $end);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$goal_data = $stmt->fetch_assoc();
+		
+		$stmt->close();
+		
+		return $goal_data;
+	}
+	public static function getSummaryOverall($uid){
+		$stmt = Database::getDB()->prepare("
+		SELECT COUNT( t_tid ) AS count, SUM( t_pace ) AS pace, SUM( t_distance ) AS dist, SUM( t_time ) AS time
+		FROM training_times
+		WHERE t_uid = ?
+		");
+		$stmt->bind_param("i", $uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+
+		$goal_data = $stmt->fetch_assoc();
+		
+		$stmt->close();
+		
+		return $goal_data;
 	}
 	public static function getItemsForUserPaged($uid, $count = 10, $page = 0){
 		$limit_lower = $page * $count;
@@ -162,9 +244,11 @@ class TrainingLog extends Object{
 	 */
 	public static function getItem($tid){
 		$stmt = Database::getDB()->prepare("
-		SELECT * FROM training_times as t
-		LEFT JOIN routes as r ON r.r_id = t.t_rid
-		WHERE t.t_tid = ?
+			SELECT *
+			FROM training_times as t
+			LEFT JOIN routes as r
+			ON r.r_id = t.t_rid
+			WHERE t.t_tid = ?
 		");
 		$stmt->bind_param("i", $tid);
 		$stmt->execute();
@@ -186,9 +270,10 @@ class TrainingLog extends Object{
 				t_date = FROM_UNIXTIME(?),
 				t_rid = ?,
 				t_uid = ?,
-				t_type = ?
+				t_type = ?,
+				t_comment = ?
 		");
-		$stmt->bind_param("dddsiii", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid, $this->type);
+		$stmt->bind_param("dddsiiis", $this->time, $this->distance, $this->getPace(), $this->date, $this->rid, User::$current_user->uid, $this->type, $this->comment);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
@@ -206,7 +291,7 @@ class TrainingLog extends Object{
 	
 	public function getIndexItemsForUser($uid){
 		$stmt = Database::getDB()->prepare("
-			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date
+			SELECT r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date, t_comment
 			FROM training_times
 			LEFT JOIN routes ON r_id = t_rid
 			WHERE

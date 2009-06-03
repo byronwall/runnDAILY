@@ -2,13 +2,15 @@
 		<li><a href="/index" class="icon"><img src="/img/icon/home.png" />Home</a></li>
 		<li><a href="/routes/index" class="icon"><img src="/img/icon/route.png" />Routes</a>
 			<ul>
-				<li><a href="/routes/create">Create</a></li>
+				<li><a href="/routes/create">New Route</a></li>
 <!--				<li><a href="/routes/browse">Search</a></li>-->
 			</ul>
 		</li>
 		<li><a href="/training/index" class="icon"><img src="/img/icon/training.png" />Training</a>
 			<ul>
-					<li><a href="/training/create">Create</a></li>
+					<li><a href="/training/create">New Training Item</a></li>
+					<li><a href="/goals">View Goals</a></li>
+					<li><a href="/goals/create">New Goal</a></li>
 <!--					<li><a href="/training/browse">Search</a></li>-->
 			</ul>
 		</li>
@@ -35,8 +37,15 @@
 		{{/if}} {{if $engine->requirePermission("PV__100")}}
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
-		{{if $page->common}}
-		<li class="secondary"><a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon/help.png" />Help </a></li>
-		{{/if}}
+		<li class="secondary">
+			{{if $page->common}}
+			<a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon/help.png" />Help</a>
+			{{else}}
+			<a href="/help/view" class="facebox icon"><img src="/img/icon/help.png" />Help</a>
+			{{/if}}
+			<ul>
+				<li><a href="/guides" class="icon">Guides</a></li>
+			</ul>
+		</li>
 		<li class="secondary"><a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback </a></li>
 </ul>

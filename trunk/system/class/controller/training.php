@@ -61,6 +61,10 @@ class Controller_Training{
 	public function action_edit(){
 		$t_item = new TrainingLog($_POST);
 		if($t_item->updateItem() ){
+			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
+			if($affected_goals){
+				Goal::updatePercentForList($affected_goals);
+			}
 			Page::redirect("/training/");
 		}
 		Page::redirect("/training/");
@@ -68,6 +72,10 @@ class Controller_Training{
 	public function action_delete(){
 		$t_item = new TrainingLog($_POST);
 		if($t_item->deleteItemSecure()){
+			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
+			if($affected_goals){
+				Goal::updatePercentForList($affected_goals);
+			}
 			Page::redirect("/training/");
 		}
 		Page::redirect("/training/create?tid={$t_item->tid}");
@@ -76,6 +84,10 @@ class Controller_Training{
 		$t_item = new TrainingLog($_POST);
 		if(array_safe($_POST, "t_rid") == "") $t_item->rid = null;
 		if($t_item->createItem()){
+			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
+			if($affected_goals){
+				Goal::updatePercentForList($affected_goals);
+			}
 			Page::redirect("/training/");
 		}
 		Page::redirect("/training/");
@@ -145,6 +157,28 @@ class Controller_Training{
 		RoutingEngine::getSmarty()->assign("t_item", $training);
 		RoutingEngine::getSmarty()->display("training/edit.tpl");
 		exit;
+	}
+	public function summary(){
+		$this_week = new DateRange();
+		$this_week->getWeekRange();
+		$data_this_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $this_week->start, $this_week->end);
+		
+		$last_week = new DateRange();
+		$last_week->getWeekRange("today", -1);
+		$data_last_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $last_week->start, $last_week->end);
+		
+		$overall = TrainingLog::getSummaryOverall(User::$current_user->uid);
+		
+		//var_dump($data_this_week, $data_last_week, $overall);
+		RoutingEngine::getSmarty()->assign("this_week", $this_week);
+		RoutingEngine::getSmarty()->assign("last_week", $last_week);
+		RoutingEngine::getSmarty()->assign("overall", $overall);
+		RoutingEngine::getSmarty()->assign("data_this_week", $data_this_week);
+		RoutingEngine::getSmarty()->assign("data_last_week", $data_last_week);
+		$output = RoutingEngine::getSmarty()->fetch("training/_summary.tpl");
+		
+		echo $output;
+		die;
 	}
 }
 ?>

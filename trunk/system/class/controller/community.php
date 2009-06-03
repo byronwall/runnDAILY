@@ -1,7 +1,7 @@
 <?php
 class Controller_Community{
 	public function index(){
-		RoutingEngine::getSmarty()->assign("users_all", User::getListOfUsers());
+		RoutingEngine::getSmarty()->assign("users_recent", User::getListOfUsers());
 		RoutingEngine::getSmarty()->assign("users_friends", User::getFriends());
 	}
 	public function view_user(){
@@ -20,7 +20,7 @@ class Controller_Community{
 		//$json_data = TrainingLog::buildChartData($index_items);
 		RoutingEngine::getSmarty()->assign("training_index_items", $index_items);
 		//RoutingEngine::getSmarty()->assign("JSON_Chart_Data", $json_data);
-		
+		//var_dump(User::$current_user);
 		RoutingEngine::getSmarty()->assign("user",User::fromUid($uid));
 	}
 	public function add_friend(){
@@ -40,6 +40,19 @@ class Controller_Community{
 		$removed = User::$current_user->removeFriend($friend_uid);
 		RoutingEngine::getInstance()->persistUserData();
 		RoutingEngine::returnAjax($removed);
+	}
+	
+	public function search(){
+		if(!isset($_POST["u_search"]) || $_POST["u_search"] == ""){
+			echo("<p>Please enter a search term.</p>");
+			exit;
+		}
+		$user_list = User::searchForUser($_POST["u_search"]);
+		RoutingEngine::getSmarty()->assign("user_list", $user_list);
+		$output = RoutingEngine::getSmarty()->fetch("community/_user_search_result.tpl");
+		echo($output);
+		
+		exit;
 	}
 }
 ?>
