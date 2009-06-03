@@ -19,7 +19,7 @@
 	{{foreach from=$users_friends item=friend}}
 		<div class="float_left">
 			<p>
-				<a href="/community/view_user?uid={{$friend.u_uid}}" class="icon"><img src="/img/icon/user_friend.png" />{{$friend.u_username}}</a>
+				<a href="/community/view_user/{{$friend.u_uid}}/{{$friend.u_username}}" class="icon"><img src="/img/icon/user_friend.png" />{{$friend.u_username}}</a>
 			</p>
 		</div>
 	{{foreachelse}}
@@ -33,7 +33,7 @@
 	{{foreach from=$users_recent item=user}}
 		<div class="float_left">
 			<p>
-				<a href="/community/view_user?uid={{$user.u_uid}}" class="icon"><img src="/img/icon/user.png" />{{$user.u_username}}</a>
+				<a href="/community/view_user/{{$user.u_uid}}/{{$user.u_username}}" class="icon"><img src="/img/icon/user.png" />{{$user.u_username}}</a>
 			</p>
 		</div>
 	{{foreachelse}}

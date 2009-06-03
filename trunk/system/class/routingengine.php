@@ -5,6 +5,7 @@ class RoutingEngine{
 	private $controller_full = "controller_home";
 	public $action = "index";
 	private $start_time;
+	private $_params;
 	
 	/**
 	 * @var Page
@@ -55,37 +56,35 @@ class RoutingEngine{
 	 */
 	public function initialize($request){
 		$request = strtolower($request);
-		$request = preg_replace("/(\/)?(.*)/", "$2", $request);
+		if(substr($request, 0, 1)== "/") $request = substr($request, 1);
+		if(substr($request, -1, 1)== "/") $request = substr($request, 0, -1);
 		$this->_request_path = $request;
 		
 		$paths = explode("/", $this->_request_path);
 		if(in_array($paths[0], self::$controllers)){
 			$this->controller = $paths[0];
-			$this->controller_full = "Controller_".$paths[0];
-			if(!empty($paths[1]) && $this->_checkAction($paths[1])){
-				$this->action = $paths[1];
-			}
-			else{
-				$this->action = "index";
-				$this->_request_path = $paths[0]."/index";
-			}
+			$action = array_safe($paths, 1);
+			$params = array_slice($paths, 2);
 		}
 		else{
 			$this->controller = "home";
-			$this->controller_full = "Controller_Home";
-			if(!empty($paths[0]) && $this->_checkAction($paths[0])){
-				$this->action = $paths[0];
-				$this->_request_path = "home/{$this->action}";
-			}
-			else{
-				$this->action = "index";
-				$this->_request_path = "home/index";
-			}
+			$action = $paths[0];
+			$params = array_slice($paths, 1);
+		}
+		$this->controller_full = "Controller_".$this->controller;
+		if(!empty($action) && $this->_checkAction($action)){
+			$this->action = $action;
+			$this->_request_path = $this->controller."/{$this->action}";
+		}
+		else{
+			$this->action = "index";
+			$this->_request_path = $this->controller."/index";
 		}
 		
-		$this->page = Page::getPage($this->_request_path);
-		
+		$this->page = Page::getPage($this->_request_path);		
 		$this->requirePermission($this->page->perm_code, null, true);
+		$this->_processParamters($params);
+		
 		$this->getSmarty()->assign("page", $this->page);
 		$this->getSmarty()->assign("currentUser", User::$current_user);
 		$this->getSmarty()->assign("engine", $this);
@@ -103,7 +102,7 @@ class RoutingEngine{
 		$controller = $this->controller_full;
 		$class = new $controller();
 		$action = $this->action;
-		$class->{$action}();
+		call_user_func_array(array($class, $action), $this->_params);
 		
 		$filename = self::getSmarty()->template_dir."/".$this->getTemplateName();
 		
@@ -232,6 +231,34 @@ class RoutingEngine{
 	 */
 	public function getPageName(){
 		return $this->_request_path;
+	}
+
+	/**
+	 * Internal function is called to initially grab any parameters from the URL.
+	 * 
+	 * @param array $params	Array containing the parameter data.
+	 * @return void
+	 */
+	private function _processParamters($params){
+		$this->_params = $params;
+		foreach($this->_params as $k=>$v){
+			$_GET[$k] = $v;
+		}
+	}
+	/**
+	 * Function is called to assign names to the parameters passed in the URL.
+	 * These parameters are then accessible through $_GET.
+	 * 
+	 * @param string $param	List of parameters to be named 
+	 * @return void
+	 */
+	public function registerParams($param){
+		$names = func_get_args();
+		foreach($names as $index=>$name){
+			if(!isset($this->_params[$index])) continue;
+			$this->_params[$name] = $this->_params[$index];
+			$_GET[$name] = $this->_params[$index];
+		}
 	}
 }
 ?>
