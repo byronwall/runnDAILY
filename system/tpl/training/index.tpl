@@ -2,6 +2,16 @@
 	<h2 id="page-heading">Training</h2>
 </div>
 <div class="clear"></div>
+<div class="grid_12">
+	<div class="actions">
+		<a href="/goals" class="icon"><img src="/img/icon/trophy_bronze.png"/>View Goals</a>
+		<a href="/goals/create" class="icon"><img src="/img/icon/trophy_plus.png"/>New Goal</a>
+		<a href="/training/summary" class="icon facebox"><img src="/img/icon/training_summary.png"/>View Training Summary</a>
+		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png"/>New Training Item</a>
+<!--		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Training Items</a>-->
+	</div>
+</div>
+<div class="clear"></div>
 
 <div class="grid_3">
 	<div id="sort_options" class="align_right">
@@ -16,29 +26,21 @@
 			</select>
 			<a href="#" id="reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
 	</div>
-</div>
-<div class="grid_9">
-	<div class="actions">
-		<a href="/training/create" class="icon"><img src="/img/icon/training_plus.png"/>New Training Item</a>
-<!--		<a href="/training/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Training Items</a>-->
-	</div>
-</div>
-<div class="clear"></div>
-
-<div class="grid_3">
 	<div id="training_items_list">
 		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
 		<div id="item_{{counter}}" class="training_item">
 			{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
 				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance|round:"2"}} mi</span></div>
-				<div class="icon float_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
 			<div class="clear"></div>
+				<div class="t_date icon float_right">{{$training_item.t_date|date_format}} <img src="/img/icon/calendar.png" /></div>
 				<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace">{{$training_item.t_pace|round:"2"}} mi/h</span></div>
-				<div class="t_cal icon float_right"></div>
 			<div class="clear"></div>
-			<div class="t_date icon"><img src="/img/icon/calendar.png" />{{$training_item.t_date|date_format}}</div>
-			<div class="align_right"><a href="/training/edit?tid={{$training_item.t_tid}}&modal=true" class="facebox icon"><img src="/img/icon/training_pencil.png" />Edit / Delete</a></div>
+				<div class="icon align_right">{{$training_item.t_time|time_format}}<span class="t_time" style="display:none">{{$training_item.t_time}}</span> <img src="/img/icon/clock.png" /></div>
+				{{if $training_item.t_comment}}
+				<div class="align_left italic">{{$training_item.t_comment}}</div>
+				{{/if}}
+				<div class="align_right"><a href="/training/edit?tid={{$training_item.t_tid}}&modal=true" class="facebox icon"><img src="/img/icon/training_pencil.png" />Edit / Delete</a></div>
 		</div>
 		{{foreachelse}}
 		<div>
@@ -105,5 +107,6 @@
 		Chart.LoadData({{$JSON_Chart_Data}});
 		Chart.UpdatePrimary();
 		Chart.UpdateOverview();
+		$("#training_items_list").heightBrowser().css("overflow", "auto");
 	});
 </script>

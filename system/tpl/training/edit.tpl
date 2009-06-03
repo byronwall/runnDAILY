@@ -8,19 +8,23 @@
 		<ul id="train_errors" class="error_box"></ul>
 		
 		<p>
-			<label>Time</label>
-			<input type="text" name="t_time" value="{{$t_item->time|time_format:false}}" />
+			<label>Time: </label>
+			<input type="text" name="t_time" value="{{$t_item->time|time_format:false}}" size="10" />
 		</p>
 		<p>
-			<label>Date</label>
-			<input type="text" name="t_date" value="{{$t_item->date|date_format}}" />
+			<label>Date: </label>
+			<input type="text" name="t_date" value="{{$t_item->date|date_format}}" size="15" />
 		</p>
 		<p>
-			<label>Distance</label>
-			<input type="text" name="t_distance" value="{{$t_item->distance|round:2}}" /> mi
+			<label>Distance: </label>
+			<input type="text" name="t_distance" value="{{$t_item->distance|round:2}}" size="6" /> mi
 		</p>
 		<p><label>Activity Type: </label>
 			{{html_options name="t_type" options=$t_types selected=$t_item->type}}
+		</p>
+		<p>Comment:</p>
+		<p>
+			<textarea rows="4" cols="25" name="t_comment">{{$t_item->comment}}</textarea>
 		</p>
 		<p>
 			<input type="submit" value="Update" />
@@ -33,6 +37,7 @@
 <div id="training_delete_modal">
 	<form action="/training/action_delete" method="post">
 		<input type="hidden" name="t_tid" value="{{$t_item->tid}}" />
+		<input type="hidden" name="t_date" value="{{$t_item->date|date_format}}"/>
 		<p>
 			<input type="checkbox" id="delete_check" value="1">
 			<label for="delete_check">I would like to delete this entry.</label>		
