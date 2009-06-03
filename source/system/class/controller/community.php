@@ -1,10 +1,12 @@
 <?php
 class Controller_Community{
 	public function index(){
+		RoutingEngine::setPage("runnDAILY", "PV__300");
 		RoutingEngine::getSmarty()->assign("users_recent", User::getListOfUsers());
-		RoutingEngine::getSmarty()->assign("users_friends", User::getFriends());
+		RoutingEngine::getSmarty()->assign("users_friends", User::$current_user->getFriends());
 	}
 	public function view_user(){
+		RoutingEngine::setPage("runnDAILY", "PV__300");
 		RoutingEngine::getInstance()->registerParams("uid");
 		if(!isset($_GET["uid"])){
 			Page::redirect("/community");
@@ -25,25 +27,28 @@ class Controller_Community{
 		RoutingEngine::getSmarty()->assign("user",User::fromUid($uid));
 	}
 	public function add_friend(){
+		RoutingEngine::setPage("runnDAILY", "PV__300");
 		if(!isset($_POST["f_uid"])){
-			RoutingEngine::returnAjax(false);
+			RoutingEngine::returnAjax(array("result"=>false), true);
 		}
 		$friend_uid = $_POST["f_uid"];
 		$added = User::$current_user->addFriend($friend_uid);
 		RoutingEngine::getInstance()->persistUserData();
-		RoutingEngine::returnAjax($added);
+		RoutingEngine::returnAjax(array("result"=>$added), true);
 	}
 	public function ajax_remove_friend(){
+		RoutingEngine::setPage("runnDAILY", "PV__300");
 		if(!isset($_POST["f_uid"])){
-			RoutingEngine::returnAjax(false);
+			RoutingEngine::returnAjax(array("result"=>false), true);
 		}
 		$friend_uid = $_POST["f_uid"];
 		$removed = User::$current_user->removeFriend($friend_uid);
 		RoutingEngine::getInstance()->persistUserData();
-		RoutingEngine::returnAjax($removed);
+		RoutingEngine::returnAjax(array("result"=>$removed), true);
 	}
 	
 	public function search(){
+		RoutingEngine::setPage("runnDAILY", "PV__300");
 		if(!isset($_POST["u_search"]) || $_POST["u_search"] == ""){
 			echo("<p>Please enter a search term.</p>");
 			exit;

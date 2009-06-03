@@ -5,9 +5,6 @@
  *
  */
 class User extends Object{
-
-	public $isAuthenticated = false;
-
 	public $uid;
 	public $location_lng;
 	public $location_lat;
@@ -25,6 +22,8 @@ class User extends Object{
 	public $settings = array();
 	
 	public $friends;
+	
+	private $_init = false;
 	
 	/**
 	 * @var User
@@ -153,8 +152,8 @@ class User extends Object{
 
 			if($rows == 1){
 				$valid_user = new User($row);
-				$valid_user->isAuthenticated = true;
-				$valid_user->updateAccessTime();
+				//this gets called now in the initialize function
+				//$valid_user->updateAccessTime();
 				Log::insertItem($valid_user->uid, 203, null, null, null, null);
 				return $valid_user;
 			}
@@ -198,7 +197,6 @@ class User extends Object{
 		if($remember){
 			$user->updateUserCookie();
 		}
-		$user->isAuthenticated = true;
 		$user->updateAccessTime();
 		Log::insertItem($user->uid, 201, null, null, null, null);
 			
@@ -485,15 +483,25 @@ class User extends Object{
 	public function addFriend($friend_uid){
 		if($this->uid == $friend_uid) return false;
 		
-		$stmt = Database::getDB()->prepare("INSERT INTO users_friends(f_uid_1, f_uid_2, f_date_start) VALUES(?,?, NOW())");
-		$stmt->bind_param("ii", $this->uid, $friend_uid);
+		//Have to duplicate these in order for binding to work.
+		$id_dup = $this->uid;
+		$friend_uid_dup = $friend_uid;
+		
+		$stmt = Database::getDB()->prepare("
+			INSERT INTO	users_friends(f_uid_1, f_uid_2, f_date_start) 
+			VALUES
+				(?,?, NOW()),
+				(?,?, NOW())
+			
+		");
+		$stmt->bind_param("iiii", $this->uid, $friend_uid, $friend_uid_dup, $id_dup);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
 		$affected_rows = $stmt->affected_rows;
 		$stmt->close();
 		
-		if($affected_rows == 1){
+		if($affected_rows == 2){
 			$this->friends[$friend_uid] = true;
 			Log::insertItem(User::$current_user->uid, 400, $friend_uid, null, null, null);
 			return $affected_rows;
@@ -512,10 +520,9 @@ class User extends Object{
 			FROM users_friends
 			INNER JOIN users ON users.u_uid = users_friends.f_uid_2
 			WHERE users_friends.f_uid_1 = ?
-			ORDER BY u_username ASC
 			LIMIT 50
 		");
-		$stmt->bind_param("i", User::$current_user->uid);
+		$stmt->bind_param("i", $this->uid);
 		$stmt->execute();
 		$stmt->store_result();
 		
@@ -523,6 +530,7 @@ class User extends Object{
 		
 		while($row = $stmt->fetch_assoc()){
 			$users[] = $row;
+			$this->friends[$row["u_uid"]] = true;
 		}
 		
 		return $users;
@@ -638,6 +646,14 @@ class User extends Object{
 		
 		$stmt->close();
 		return $users;
+	}
+	public function initialize(){
+		if($this->_init) return;
+		
+		$this->getFriends();
+		$this->getPermissions();
+		$this->updateAccessTime();
+		$this->_init = true;
 	}
 }
 ?>

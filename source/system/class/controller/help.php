@@ -1,9 +1,10 @@
 <?php
 class Controller_Help{
 	public function index(){
-		
+		RoutingEngine::setPage("runnDAILY About", "PV__400");
 	}
 	public function view(){
+		RoutingEngine::setPage("runnDAILY About", "PV__400");
 		if(isset($_GET["common"])){
 			$output = RoutingEngine::getSmarty()->fetch("help/_pages/{$_GET["common"]}.tpl");
 		}else{

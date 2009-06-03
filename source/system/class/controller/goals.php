@@ -1,14 +1,16 @@
 <?php
 class Controller_Goals{
 	public function index(){
+		RoutingEngine::setPage("runnDAILY Goals", "PV__300");
 		$goals = Goal::getGoalsForUser(User::$current_user->uid);
 		RoutingEngine::getSmarty()->assign("goal_list", $goals);
 	}
 	public function create(){
-		
+		RoutingEngine::setPage("runnDAILY Create Goal", "PV__300");
 	}
 	
 	public function view(){
+		RoutingEngine::setPage("runnDAILY View Goal", "PV__300");
 		$goal = Goal::getGoalById($_GET['id']);
 		$training_items = TrainingLog::getItemsForUserForGoalView(User::$current_user->uid, $goal->start, $goal->end);
 		$goal->buildGoalDataUsingTrainingItems($training_items);
@@ -17,6 +19,7 @@ class Controller_Goals{
 	}
 	
 	public function action_create(){
+		RoutingEngine::setPage("runnDAILY", "PV__300");
 		$goal = new Goal($_POST);
 		if($goal->createGoal()){
 			Goal::updatePercentForList(array(0 => array("go_id" => $goal->id)));

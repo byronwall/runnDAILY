@@ -1,5 +1,11 @@
 <?php
 class Controller_Events{
+	/*
+	 * All of these functions do not have RoutingEngine::setPage called.
+	 * This means that they all require admin privledges by default.
+	 * This is being done until they are active pages.
+	 * 
+	 */
 	function index(){
 
 	}

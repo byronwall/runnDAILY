@@ -1,4 +1,5 @@
 <?php
+//TODO: Determine if we use this class at all.
 class Controller_Log{
 	public function browse(){
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";

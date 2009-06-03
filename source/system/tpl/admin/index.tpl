@@ -6,7 +6,6 @@
 <div class="grid_12">
 	<div class="actions">
 		<a href="/group/create" class="icon"><img src="/img/icon/users_plus.png" />Create Group</a>
-		<a href="/admin/pages" class="icon"><img src="/img/icon/reports_pencil.png" />Manage Pages</a>
 		<a href="/admin/users" class="icon"><img src="/img/icon/users_pencil.png" />Manage Users</a>
 		<a href="/admin/feedback" class="icon"><img src="/img/icon/balloon_left.png" />See User Feedback</a>
 	</div>

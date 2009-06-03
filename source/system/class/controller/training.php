@@ -1,12 +1,14 @@
 <?php
 class Controller_Training{
 	public function index(){
+		RoutingEngine::setPage("runnDAILY Training", "PV__300");
 		$index_items = TrainingLog::getIndexItemsForUser(User::$current_user->uid);
 		$json_data = TrainingLog::buildChartData($index_items);
 		RoutingEngine::getSmarty()->assign("training_index_items", $index_items);
 		RoutingEngine::getSmarty()->assign("JSON_Chart_Data", $json_data);
 	}
 	public function view(){
+		RoutingEngine::setPage("runnDAILY View Training", "PV__300");
 		if(!isset($_GET["tid"])){
 			Page::redirect("/training/");
 		}
@@ -24,6 +26,8 @@ class Controller_Training{
 		RoutingEngine::getSmarty()->assign("calendar", $cal_week);
 	}
 	public function browse(){
+		//TODO: Implement this feature.
+		RoutingEngine::setPage("runnDAILY Browse Training", "PV__100");
 		$format = (isset($_GET["format"]))?$_GET["format"]:"html";
 	
 		$parser = new Sql_Parser(true, 5, 0);
@@ -59,6 +63,7 @@ class Controller_Training{
 		}
 	}
 	public function action_edit(){
+		RoutingEngine::setPage("runnDAILY Training Edit", "PV__300");
 		$t_item = new TrainingLog($_POST);
 		if($t_item->updateItem() ){
 			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
@@ -70,6 +75,7 @@ class Controller_Training{
 		Page::redirect("/training/");
 	}
 	public function action_delete(){
+		RoutingEngine::setPage("runnDAILY Training Delete", "PV__300");
 		$t_item = new TrainingLog($_POST);
 		if($t_item->deleteItemSecure()){
 			$affected_goals = Goal::getGoalIdsForUserInRange(User::$current_user->uid, $t_item->date);
@@ -81,6 +87,7 @@ class Controller_Training{
 		Page::redirect("/training/create?tid={$t_item->tid}");
 	}
 	public function action_save(){
+		RoutingEngine::setPage("runnDAILY Training Save", "PV__300");
 		$t_item = new TrainingLog($_POST);
 		if(array_safe($_POST, "t_rid") == "") $t_item->rid = null;
 		if($t_item->createItem()){
@@ -94,6 +101,7 @@ class Controller_Training{
 	}
 	
 	public function create(){
+		RoutingEngine::setPage("runnDAILY Create Training Entry", "PV__300");
 		$stmt = Database::getDB()->prepare("
 			SELECT r_name, r_distance, r_id
 			FROM routes
@@ -129,6 +137,7 @@ class Controller_Training{
 		RoutingEngine::getSmarty()->assign("routes", $routes);
 	}
 	function edit(){
+		RoutingEngine::setPage("runnDAILY Edit Training Entry", "PV__300");
 		if(!isset($_GET["tid"])){
 			Notification::add("That training entry does not exist.");
 			Page::redirect("/training");
@@ -159,6 +168,7 @@ class Controller_Training{
 		exit;
 	}
 	public function summary(){
+		RoutingEngine::setPage("runnDAILY Training Summary", "PV__300");
 		$this_week = new DateRange();
 		$this_week->getWeekRange();
 		$data_this_week = TrainingLog::getItemsForUserForGoalPercent(User::$current_user->uid, $this_week->start, $this_week->end);
