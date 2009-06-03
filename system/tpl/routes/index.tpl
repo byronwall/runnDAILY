@@ -23,7 +23,7 @@
 	<div id="route_list">
 	{{foreach from=$routes item=route}}
 		<div id="route_{{$route.r_id}}" class="route_item">
-			<div><a href="/routes/view?rid={{$route.r_id}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></div>
+			<div><a href="/routes/view/{{$route.r_id}}/{{$route.r_name}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></div>
 			<div class="r_date icon"><img src="/img/icon/calendar.png" />{{$route.r_creation|date_format}}</div>
 			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="r_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
 			<div class="clear"></div>
@@ -97,7 +97,7 @@ var RouteIndex = {
 
 		var rid = RouteIndex.temp_rid;
 		routes[rid].polyline = polyline;
-		$("#info_name").html('<a href="/routes/view?rid='+rid+'" class="r_name icon"><img src="/img/icon/route.png" />'+routes[rid].r_name+'</a>');
+		$("#info_name").html('<a href="/routes/view/'+rid+'" class="r_name icon"><img src="/img/icon/route.png" />'+routes[rid].r_name+'</a>');
 		$("#info_distance").html('<img src="/img/icon/distance.png" /> Distance: <span class="dist-val">' + routes[rid].r_distance.toFixed(2) + ' mi</span>');
 		$("#info_date").html('<img src="/img/icon/calendar.png" /> ' + routes[rid].r_creation);
 		$("#info_date").text(routes[rid].r_description);

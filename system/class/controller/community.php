@@ -5,6 +5,7 @@ class Controller_Community{
 		RoutingEngine::getSmarty()->assign("users_friends", User::getFriends());
 	}
 	public function view_user(){
+		RoutingEngine::getInstance()->registerParams("uid");
 		if(!isset($_GET["uid"])){
 			Page::redirect("/community");
 		}
