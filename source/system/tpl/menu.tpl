@@ -15,6 +15,9 @@
 			</ul>
 		</li>
 		<li><a href="/community/index" class="icon"><img src="/img/icon/community.png" />Community</a>
+			<ul>
+				<li><a href="/confirmation">Requests</a></li>
+			</ul>
 		</li>
 		
 		<li><a href="/about" class="icon"><img src="/img/icon/runndaily.png"/>runnDAILY</a>
@@ -38,11 +41,8 @@
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
 		<li class="secondary">
-			{{if $page->common}}
-			<a href="/help/view?common={{$page->common}}" class="facebox icon"><img src="/img/icon/help.png" />Help</a>
-			{{else}}
-			<a href="/help/view" class="facebox icon"><img src="/img/icon/help.png" />Help</a>
-			{{/if}}
+			<a href="/help/view/{{$engine->getCommonName()}}" class="facebox icon"><img src="/img/icon/help.png" />Help</a>
+			<a href="/help/view" class="facebox icon"><img src="/img/icon/help.png" />Help (Byron broke this)</a>
 			<ul>
 				<li><a href="/guides" class="icon">Guides</a></li>
 			</ul>

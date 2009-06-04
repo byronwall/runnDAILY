@@ -3,10 +3,10 @@ class Controller_Help{
 	public function index(){
 		RoutingEngine::setPage("runnDAILY About", "PV__400");
 	}
-	public function view(){
+	public function view($common){
 		RoutingEngine::setPage("runnDAILY About", "PV__400");
-		if(isset($_GET["common"])){
-			$output = RoutingEngine::getSmarty()->fetch("help/_pages/{$_GET["common"]}.tpl");
+		if(isset($common)){
+			$output = RoutingEngine::getSmarty()->fetch("help/_pages/{$common}.tpl");
 		}else{
 			$feedback = new Message();
 			$feedback->uid_from = User::$current_user->uid;
