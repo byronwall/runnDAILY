@@ -4,7 +4,11 @@ class Controller_Home{
 		RoutingEngine::setPage("runnDAILY", "PV__400");
 	}
 	public function login(){
-		RoutingEngine::setPage("runnDAILY Login", "PV__400");		
+		RoutingEngine::setPage("runnDAILY Login", "PV__400");
+		if(RoutingEngine::getInstance()->requirePermission("PV__300")){
+			Notification::add("You are already logged in.");
+			Page::redirect("/");
+		}		
 	}
 	public function messages(){
 		//Page not supported yet.

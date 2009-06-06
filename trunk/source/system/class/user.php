@@ -36,19 +36,23 @@ class User extends Object{
 		$this->join = strtotime($this->join);
 	}
 	function removeFriend($f_uid){
+		//duplicate ids to bind them twice
+		$uid_dup = $this->uid;
+		$f_uid_dup = $f_uid;
+		
 		$stmt = Database::getDB()->prepare("
 			DELETE FROM users_friends
 			WHERE
-				f_uid_1 = ? AND
-				f_uid_2 = ?
+				(f_uid_1 = ? AND f_uid_2 = ?) OR
+				(f_uid_1 = ? AND f_uid_2 = ?)
 		");
-		$stmt->bind_param("ii", $this->uid, $f_uid);
+		$stmt->bind_param("iiii", $this->uid, $f_uid, $f_uid_dup, $uid_dup);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
 		
 		$rows = $stmt->affected_rows;
 		
-		if($rows == 1){
+		if($rows == 2){
 			unset($this->friends[$f_uid]);
 			return true;
 		}
