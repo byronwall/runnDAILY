@@ -42,7 +42,6 @@
 		{{/if}}
 		<li class="secondary">
 			<a href="/help/view/{{$engine->getCommonName()}}" class="facebox icon"><img src="/img/icon/help.png" />Help</a>
-			<a href="/help/view" class="facebox icon"><img src="/img/icon/help.png" />Help (Byron broke this)</a>
 			<ul>
 				<li><a href="/guides" class="icon">Guides</a></li>
 			</ul>

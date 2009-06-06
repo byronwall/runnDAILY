@@ -9,9 +9,10 @@ class Controller_Goals{
 		RoutingEngine::setPage("runnDAILY Create Goal", "PV__300");
 	}
 	
-	public function view(){
+	public function view($id){
+		if(!isset($id)) Page::redirect("/goals");
 		RoutingEngine::setPage("runnDAILY View Goal", "PV__300");
-		$goal = Goal::getGoalById($_GET['id']);
+		$goal = Goal::getGoalById($id);
 		$training_items = TrainingLog::getItemsForUserForGoalView(User::$current_user->uid, $goal->start, $goal->end);
 		$goal->buildGoalDataUsingTrainingItems($training_items);
 		RoutingEngine::getSmarty()->assign("goal", $goal);
@@ -23,7 +24,7 @@ class Controller_Goals{
 		$goal = new Goal($_POST);
 		if($goal->createGoal()){
 			Goal::updatePercentForList(array(0 => array("go_id" => $goal->id)));
-			Page::redirect("/goals/view?id=".$goal->id);
+			Page::redirect("/goals/view/{$goal->id}");
 		}else{
 			Page::redirect("/goals");
 		}

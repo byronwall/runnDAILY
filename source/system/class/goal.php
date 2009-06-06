@@ -236,7 +236,11 @@ class Goal extends Object{
 			$goal_data['time_tot'] += $item['t_time'];
 		}
 		
-		$goal_data['pace_avg'] /= count($training_items);
+		//account for division by zero.
+		$count = count($training_items);
+		if($count) $goal_data['pace_avg'] /= count($training_items);
+		else $goal_data['pace_avg'] = 0;
+		
 		$goal_data['time_tot'] /= 60;
 		
 		foreach($goal_data as $key => $value){
