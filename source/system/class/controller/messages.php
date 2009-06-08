@@ -9,13 +9,18 @@ class Controller_Messages{
 		RoutingEngine::setPage("Messages | runnDAILY", "PV__300");
 		RoutingEngine::getInstance()->registerParams("convo_id");
 		
-		if(isset($_GET["convo_id"])){
-			$message_list = Message::getMessagesForConvo($_GET["convo_id"]);
-			RoutingEngine::getSmarty()->assign("message_list", $message_list);
-			$output = RoutingEngine::getSmarty()->fetch("messages/_view_convo.tpl");
-		}else{
+		if(!isset($_GET["convo_id"])){
 			Page::redirect("/messages");
 		}
+		
+		$message_list = Message::getMessagesForConvo($_GET["convo_id"]);
+		
+		if(count($message_list) == 0){
+			Page::redirect("/messages");
+		}
+		
+		RoutingEngine::getSmarty()->assign("message_list", $message_list);
+		$output = RoutingEngine::getSmarty()->fetch("messages/_view_convo.tpl");
 		
 		echo($output);
 		die;
@@ -42,6 +47,14 @@ class Controller_Messages{
 	
 	public function actionReply(){
 		RoutingEngine::setPage("Messages | runnDAILY", "PV__300");
+		$message = new Message($_POST);
+		//TODO:add in error exception in case the message cannot be created
+		if($message->reply()){
+			if(Message::updateCount($message->uid_to, 1)){
+				Notification::add("Your reply was successfully delivered.");
+			}
+		}
+		Page::redirect("/messages");
 	}
 	//TODO:remove the old controller functions
 	/*

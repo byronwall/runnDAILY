@@ -66,6 +66,27 @@ class Message extends Object{
 		return ($rows == 1);
 	}
 	
+	function reply(){
+		$stmt = Database::getDB()->prepare("
+			INSERT INTO messages
+			SET
+				msg_convo_id = ?,
+				msg_uid_to = ?,
+				msg_uid_from = ?,
+				msg_type = ?,
+				msg_subject = ?,
+				msg_message = ?,
+				msg_date_created = NOW()
+		");
+		$stmt->bind_param("iiiiss", $this->convo_id, $this->uid_to, User::$current_user->uid, $this->type, $this->subject, $this->message);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return ($rows == 1);
+	}
+	
 	public static function updateCount($user_id, $offset){
 		if($offset == "clear"){
 			$stmt = Database::getDB()->prepare("
@@ -114,6 +135,7 @@ class Message extends Object{
 						AND m1.msg_active_from = 1
 					)
 				)
+			ORDER BY m1.msg_date_created DESC
 		");
 		
 		$stmt->bind_param("ii", $user_id, $user_id);
@@ -133,7 +155,7 @@ class Message extends Object{
 	
 	public static function getMessagesForConvo($convo_id){
 		$stmt = Database::getDB()->prepare("
-			SELECT msg_uid_to, msg_uid_from, msg_subject, msg_message, msg_date_created, msg_new, u_username AS msg_username_from
+			SELECT msg_convo_id, msg_uid_to, msg_uid_from, msg_subject, msg_message, msg_date_created, msg_new, u_username AS msg_username_from
 			FROM messages
 			LEFT JOIN users ON msg_uid_from = u_uid
 			WHERE
