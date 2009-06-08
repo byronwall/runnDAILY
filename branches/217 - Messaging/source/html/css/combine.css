@@ -1,4 +1,12 @@
 /* CUSTOM */
+#message_list{
+	max-height: 230px;
+	overflow: auto;
+}
+#message_item p.message{
+	margin-left: 15px;
+	margin-right: 15px;
+}
 #feedback_form_modal textarea{
 	width: 275px;
 	height: 150px;

@@ -87,6 +87,36 @@ class Message extends Object{
 		return ($rows == 1);
 	}
 	
+	function delete(){
+		$stmt = Database::getDB()->prepare("
+			UPDATE messages
+			SET msg_active_to = 0
+			WHERE msg_convo_id = ? AND msg_uid_to = ?
+		");
+		$stmt->bind_param("ii", $this->convo_id, User::$current_user->uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		if($rows == 0){
+			return $rows;
+		}
+		
+		$stmt = Database::getDB()->prepare("
+			UPDATE messages
+			SET msg_active_from = 0
+			WHERE msg_convo_id = ? AND msg_uid_from = ?
+		");
+		$stmt->bind_param("ii", $this->convo_id, User::$current_user->uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
+	}
+	
 	public static function updateCount($user_id, $offset){
 		if($offset == "clear"){
 			$stmt = Database::getDB()->prepare("
@@ -188,6 +218,23 @@ class Message extends Object{
 		$stmt->close();
 
 		return $message_list;
+	}
+	
+	public static function markConvoRead($convo_id){
+		$stmt = Database::getDB()->prepare("
+			UPDATE messages
+			SET msg_new = 0
+			WHERE
+				msg_convo_id = ? AND
+				msg_uid_to = ?
+		");
+		$stmt->bind_param("ii", $convo_id, User::$current_user->uid);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
 	}
 	
 	//TODO:remove the old message functions below
