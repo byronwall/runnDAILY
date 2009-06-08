@@ -13,18 +13,14 @@
 <div class="grid_12">
 	<h4>Conversations</h4>
 	{{foreach from=$convo_list item=convo}}
-	<p><a href="/messages/view_convo/{{$convo.msg_convo_id}}" class="facebox">{{$convo.msg_convo_id}}</a></p>
-	<p>{{$convo.msg_subject}}</p>
-	<p>{{$convo.msg_date_created|date_format:"l F j, Y g:i A"}}</p>
-	<p>
-	with
+	<p><a href="/messages/view_convo/{{$convo.msg_convo_id}}_modal" class="facebox icon">{{if $convo.msg_uid_to == $currentUser->uid && $convo.msg_new}}<img src="/img/icon/mail_new.png" />{{else}}<img src="/img/icon/mail.png" />{{/if}}{{$convo.msg_subject}}</a> 	with
 	{{if $currentUser->uid == $convo.msg_uid_to}}
-		{{$convo.msg_username_from}}
+		<a href="/community/view_user/{{$convo.msg_uid_from}}" class="icon"><img src="/img/icon/user_friend.png" />{{$convo.msg_username_from}}</a>
 	{{/if}}
 	{{if $currentUser->uid == $convo.msg_uid_from}}
-		{{$convo.msg_username_to}}
-	{{/if}}
-	</p>
+		<a href="/community/view_user/{{$convo.msg_uid_to}}" class="icon"><img src="/img/icon/user_friend.png" />{{$convo.msg_username_to}}</a>
+	{{/if}}</p>
+	<p>last activity: {{$convo.msg_date_created|date_format:"l F j, Y g:i A"}}</p>
 	{{foreachelse}}
 	<p>You do not currently have any active conversations.</p>
 	{{/foreach}}

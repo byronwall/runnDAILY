@@ -12,8 +12,8 @@ class Controller_Messages{
 		if(!isset($_GET["convo_id"])){
 			Page::redirect("/messages");
 		}
-		
-		$message_list = Message::getMessagesForConvo($_GET["convo_id"]);
+		$convo_id = $_GET["convo_id"];
+		$message_list = Message::getMessagesForConvo($convo_id);
 		
 		if(count($message_list) == 0){
 			Page::redirect("/messages");
@@ -23,6 +23,12 @@ class Controller_Messages{
 		$output = RoutingEngine::getSmarty()->fetch("messages/_view_convo.tpl");
 		
 		echo($output);
+		$read_count = Message::markConvoRead($convo_id);
+		if($read_count > 0){
+			Message::updateCount(User::$current_user->uid, -($read_count));
+			User::$current_user->msg_new -= $read_count;
+		}
+		
 		die;
 	}
 	public function create(){
@@ -32,15 +38,29 @@ class Controller_Messages{
 		
 		die;
 	}
+	public function delete(){
+		RoutingEngine::setPage("Messages | runnDAILY", "PV__300");
+		RoutingEngine::getInstance()->registerParams("convo_id");
+		if(!isset($_GET["convo_id"])){
+			Page::redirect("/messages");
+		}
+		$convo_id = $_GET["convo_id"];
+		
+		RoutingEngine::getSmarty()->assign("convo_id", $convo_id);
+		$output = RoutingEngine::getSmarty()->fetch("messages/_delete.tpl");
+		echo $output;
+		
+		die;
+		
+		exit;
+	}
 	
 	public function actionCreate(){
 		RoutingEngine::setPage("Messages | runnDAILY", "PV__300");
 		$message = new Message($_POST);
 		//TODO:add in error exception in case the message cannot be created
 		if($message->create()){
-			if(Message::updateCount($message->uid_to, 1)){
-				Notification::add("Your message was successfully delivered.");
-			}
+			Message::updateCount($message->uid_to, 1);
 		}
 		Page::redirect("/messages");
 	}
@@ -50,10 +70,26 @@ class Controller_Messages{
 		$message = new Message($_POST);
 		//TODO:add in error exception in case the message cannot be created
 		if($message->reply()){
-			if(Message::updateCount($message->uid_to, 1)){
-				Notification::add("Your reply was successfully delivered.");
-			}
+			Message::updateCount($message->uid_to, 1);
 		}
+		Page::redirect("/messages");
+	}
+	
+	public function actionDelete(){
+		RoutingEngine::setPage("Messages | runnDAILY", "PV__300");
+		if(!isset($_POST["msg_convo_id"])){
+			Page::redirect("/messages");
+		}
+		
+		$message = new Message($_POST);
+		
+		$read_count = Message::markConvoRead($message->convo_id);
+		if($read_count > 0){
+			Message::updateCount(User::$current_user->uid, -($read_count));
+			User::$current_user->msg_new -= $read_count;
+		}
+		
+		$message->delete();
 		Page::redirect("/messages");
 	}
 	//TODO:remove the old controller functions
