@@ -33,6 +33,12 @@ class Controller_Messages{
 	}
 	public function create(){
 		RoutingEngine::setPage("New Message | runnDAILY", "PV__300");
+		RoutingEngine::getInstance()->registerParams("uid_to");
+		$friend_list = User::getFriendList();
+		RoutingEngine::getSmarty()->assign("friend_list", $friend_list);
+		if(isset($_GET["uid_to"])){
+			RoutingEngine::getSmarty()->assign("uid_to", $_GET["uid_to"]);
+		}
 		$output = RoutingEngine::getSmarty()->fetch("messages/_create.tpl");
 		echo $output;
 		

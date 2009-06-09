@@ -24,9 +24,11 @@ class Controller_Help{
 		}else{
 			$feedback = new Message();
 			$feedback->uid_from = User::$current_user->uid;
-			$feedback->uid_to = 0;
-			$feedback->msg = "Please create a help page for " . $_SERVER["HTTP_REFERER"];
-			$feedback->createOrUpdateMessage();
+			$feedback->uid_to = null;
+			$feedback->message = "Please create a help page for " . $_SERVER["HTTP_REFERER"];
+			$feedback->subject = null;
+			$feedback->type = 2;
+			$feedback->create();
 			$output = RoutingEngine::getSmarty()->fetch("help/_pages/none.tpl");
 		}
 		
