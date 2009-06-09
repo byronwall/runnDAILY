@@ -47,13 +47,13 @@
 </div>
 
 <div id="feedback_modal" style="display: none">
-	<form id="feedback_form_modal" action="/feedback/create" method="post">
 		<h4>Feedback</h4>
 		<h5>Let us know what you think:</h5>
-		<p><textarea name="m_msg"></textarea></p>
+	<form id="feedback_form_modal" action="/feedback/create" method="post">
+		<p><textarea name="msg_message"></textarea></p>
 		<div id="feedback_modal_error_box"></div>
+		<input type="hidden" name="msg_type" value="2" />
 		<p class="align_right"><input type="submit" value="Submit" /></p>
-		<input type="hidden" name="action" value="create" />
 	</form>
 </div>
 {{if !$engine->requirePermission("PV__300")}}

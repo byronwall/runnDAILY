@@ -117,6 +117,21 @@ class Message extends Object{
 		return $rows;
 	}
 	
+	function deleteByType($type_id){
+		$stmt = Database::getDB()->prepare("
+			UPDATE messages
+			SET msg_active_to = 0
+			WHERE msg_convo_id = ? AND msg_type = ?
+		");
+		$stmt->bind_param("ii", $this->convo_id, $type_id);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
+	}
+	
 	public static function updateCount($user_id, $offset){
 		if($offset == "clear"){
 			$stmt = Database::getDB()->prepare("
@@ -165,6 +180,7 @@ class Message extends Object{
 						AND m1.msg_active_from = 1
 					)
 				)
+				AND m1.msg_type = 1
 			ORDER BY m1.msg_date_created DESC
 		");
 		
@@ -235,6 +251,31 @@ class Message extends Object{
 		$stmt->close();
 		
 		return $rows;
+	}
+	
+	public static function getMessagesByType($type_id){
+		$stmt = Database::getDB()->prepare("
+			SELECT m.*, u.u_username, u.u_uid
+			FROM messages m
+			LEFT JOIN users u ON u_uid = m.msg_uid_from
+			WHERE
+				msg_type = ? AND
+				msg_active_to = 1
+		");
+		
+		$stmt->bind_param("i", $type_id);
+		$stmt->execute() or die($stmt->error);
+		$stmt->store_result();
+		
+		$message_list = array();
+
+		while($row = $stmt->fetch_assoc()){
+			$message_list[] = $row;
+		}
+
+		$stmt->close();
+
+		return $message_list;
 	}
 	
 	//TODO:remove the old message functions below
