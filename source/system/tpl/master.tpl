@@ -53,7 +53,10 @@
 		<p><textarea name="msg_message"></textarea></p>
 		<div id="feedback_modal_error_box"></div>
 		<input type="hidden" name="msg_type" value="2" />
-		<p class="align_right"><input type="submit" value="Submit" /></p>
+		<p class="align_right">
+			<input type="submit" value="Submit" />
+			<input type="button" value="Cancel" onclick="$.facebox.close()" />
+		</p>
 	</form>
 </div>
 {{if !$engine->requirePermission("PV__300")}}
