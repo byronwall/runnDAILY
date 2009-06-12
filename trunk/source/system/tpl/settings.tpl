@@ -62,7 +62,6 @@ $(document).ready(
 		{{/if}}
 
 		var validator = $("#form_settings").validate({
-			onkeyup: true,
 			onclick: true,
 			onfocusout: false,
 			rules: {

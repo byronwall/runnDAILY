@@ -42,10 +42,15 @@
 			</p>
 		</div>
 	<h2>Goal Specifics</h2>
-		<p class="notice">Specify the conditions of your goal.</p>
+		<p class="notice">
+			Specify the conditions of your goal. If you choose two parameters, the third
+			will be calculated automatically.		
+		</p>
+		<div id="param_wrapper">
 		<p>I would like to run <input type="text" name="go_metadata[dist_tot]" size="6" /> miles.</p>
 		<p>I would like to run at an average pace of <input type="text" name="go_metadata[pace_avg]" size="6" /> miles/hour.</p>
 		<p>I would like to run for <input id="input_time" type="text" name="go_metadata[time_tot]" size="6" /> minutes.</p>
+		</div>
 		<p><input type="submit" value="Create"></p>
 </div>
 </form>
@@ -57,11 +62,44 @@ Date.prototype.toShortForm = function(){
 }
 
 $(document).ready(function(){
+	//this call here handles the calculating of values
+	$("#param_wrapper input:text").change(function(){
+		var inputs = $("#param_wrapper input:text");
+		//this is the user input collection
+		var dirty = inputs.filter("[value!='']");
+		//these are empty boxes to be calculated or those that already have been calculated
+		var clean = inputs.filter("[value=''], :disabled");
+		if(dirty.length >= 2){
+			if($(this).val() == ""){
+				 dirty.filter(":disabled").removeAttr("disabled").val("");
+				 return;
+			}
+			clean.attr("disabled","disabled");
+
+			var time = dirty.filter("[name*=time]").val();
+			var dist = dirty.filter("[name*=dist]").val();
+			var pace = dirty.filter("[name*=pace]").val();
+
+			//this will only pick the element that needs changed.
+			//it is easier to have jQuery things which are empty than to
+			//check explicitly
+			clean.filter("[name*=dist]").val(pace * time);
+			clean.filter("[name*=pace]").val(dist / time);
+			clean.filter("[name*=time]").val(dist / pace * 60);
+		}
+		else{
+			inputs.removeAttr("disabled");
+		}
+	});
+
 	$("#goal_create_form").validate({
 		rules:{
 			go_name:{required:true},
 			go_start:{required:true},
-			go_end:{required:true}
+			go_end:{required:true},
+			"go_metadata[dist_tot]": {number:true},
+			"go_metadata[pace_avg]": {number:true},
+			"go_metadata[time_tot]": {number:true}
 		},
 		submitHandler: function(form){
 			$("input").each( function(){
@@ -115,7 +153,7 @@ $(document).ready(function(){
 	});
 	
 	$("label, input:radio").click(function(){
-		var inputs = $("#date_section input:text").val("").attr("disabled", "disabled");
+		var inputs = $("#date_section input:text").attr("disabled", "disabled");
 		var elem = $(this).is("label")? $(this).attr("for"): $(this).attr("id");
 		$("#" + elem).attr("checked", "checked");
 		var input = $("#date_section input[id*="+elem+"_text]").removeAttr("disabled");

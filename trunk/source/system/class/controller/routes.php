@@ -149,7 +149,6 @@ class Controller_Routes{
 		Notification::add("There was an error copying the route.  Try again.");
 		Page::redirect("/routes/view/{$route->id}");
 	}
-	
 }
 
 ?>

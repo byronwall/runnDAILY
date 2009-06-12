@@ -107,10 +107,16 @@ class Controller_User{
 	}
 	function action_map_settings(){
 		RoutingEngine::setPage("runnDAILY User Map Settings", "PV__300");
-		User::$current_user->refreshDetails($_POST);
-		User::$current_user->saveSetting("map_settings");
+		if(!isset($_POST["map_settings"])){
+			RoutingEngine::returnAjax(array("result"=>false), true);
+		}
+		$map_settings = $_POST["map_settings"];
 		
-		exit;
+		User::$current_user->settings["map_settings"] = $map_settings;
+		$result = User::$current_user->saveSetting("map_settings");
+		
+		RoutingEngine::getInstance()->persistUserData();
+		RoutingEngine::returnAjax(array("result"=>$result), true);
 	}
 	function ajax_remove_notification(){
 		RoutingEngine::setPage("runnDAILY User Remove Notification", "PV__300");

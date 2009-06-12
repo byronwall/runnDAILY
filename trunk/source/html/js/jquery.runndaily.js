@@ -43,6 +43,13 @@
 			}
 		}
 	}
+	$.template = function(template, params){
+		var node = template.replace(/{([^{}]*)}/g, function (a, b) {
+			var r = params[b];
+			return typeof r === 'string' || typeof r === 'number' ? r : a;
+		});
+		return $(node);
+	};
 })(jQuery);
 
 var	Units = {

@@ -1,5 +1,6 @@
 <?php
 DEFINE("TEST_ROOT", dirname(__FILE__));
+DEFINE("TEST_DATA", TEST_ROOT."/data");
 DEFINE("TEST_LOC", TEST_ROOT."/class");
 DEFINE("SYSTEM_ROOT", dirname(__FILE__)."/../source/system");
 DEFINE("CLASS_ROOT", SYSTEM_ROOT."/class");
