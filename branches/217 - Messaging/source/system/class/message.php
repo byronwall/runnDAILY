@@ -96,12 +96,7 @@ class Message extends Object{
 		$stmt->bind_param("ii", $this->convo_id, User::$current_user->uid);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
-		$rows = $stmt->affected_rows;
 		$stmt->close();
-		
-		if($rows == 0){
-			return $rows;
-		}
 		
 		$stmt = Database::getDB()->prepare("
 			UPDATE messages
@@ -111,10 +106,7 @@ class Message extends Object{
 		$stmt->bind_param("ii", $this->convo_id, User::$current_user->uid);
 		$stmt->execute() or die($stmt->error);
 		$stmt->store_result();
-		$rows = $stmt->affected_rows;
 		$stmt->close();
-		
-		return $rows;
 	}
 	
 	function deleteByType($type_id){
