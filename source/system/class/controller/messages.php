@@ -98,14 +98,5 @@ class Controller_Messages{
 		$message->delete();
 		Page::redirect("/messages");
 	}
-	//TODO:remove the old controller functions
-	/*
-	public function create(){
-		$msg = new Message($_POST);
-		if($msg->createOrUpdateMessage()){
-			Page::redirect("/messages");
-		}
-		Page::redirect("/");
-	}*/
 }
 ?>
