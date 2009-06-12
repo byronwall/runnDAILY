@@ -46,6 +46,7 @@ var MapActions = {
 	}
 }
 var MapSettings = {
+	MapType: "G_NORMAL_MAP",
 	DistanceCircle : {
 		enable: false,
 		radius: 5

@@ -91,18 +91,27 @@ This is the template for the page where new routes are created.
 
 <div id="settings_modal" style="display: none">
 	<h4>Additional Map Options</h4>
-	<ul id="errors_box"></ul>
+	<div id="errors_box" style="display:none"></div>
 	<form action="/user/action_map_settings" method="post" id="r_form_settings">
 		<p class="notice">Set a few options for the map!</p>
-		<p><label>Mile Marker Distance: </label><input name="mile" type="text" id="u_mile_marker" class="number" value="1.0"/><span class="dist-unit">mi</span></p>
-		<p><label>Circular Radius: </label><input type="text" name="circ" id="u_circle_dist" class="number" value="5.0"/><span class="dist-unit">mi</span></p>
-		<p><label>Display Radial Perimeter? </label><input type="checkbox" id="input_circle_show"/></p>
-		<p><label>Follow Roads? </label><input type="checkbox" id="input_follow_roads"/></p>
+		<p>
+			Select map type.
+			<select id="settings_map_type">
+				<option value="G_NORMAL_MAP">Map</option>
+				<option value="G_SATELLITE_MAP">Satellite</option>
+				<option value="G_HYBRID_MAP">Hybrid</option>
+				<option value="G_PHYSICAL_MAP">Terrain</option>
+			</select>
+		</p>
+		<p><label>Mile Marker Distance: </label><input name="mile_dist" type="text" id="u_mile_marker" class="number" value="1.0"/><span class="dist-unit">mi</span></p>
+		<p><label>Circular Radius: </label><input type="text" name="circ_dist" id="u_circle_dist" class="number" value="5.0"/><span class="dist-unit">mi</span></p>
+		<p><label>Display Radial Perimeter? </label><input name="circ_enable" type="checkbox" id="input_circle_show"/></p>
+		<p><label>Follow Roads? </label><input type="checkbox" name="dir_enable" id="input_follow_roads"/></p>
 		<p><input type="button" value="Apply, Don't Save" onclick="check_apply()"/></p>
 		{{if $engine->requirePermission("PV__300")}}
 			<p><input type="submit" value="Set Default" /></p>
 		{{/if}}
-		<input type="hidden" name="u_settings[map_settings]" >
+		<input type="hidden" name="map_settings" >
 	</form>
 </div>
 
@@ -119,6 +128,7 @@ $(document).ready( function(){
 
 	{{if $currentUser->settings.map_settings}}
 		MapSettings = $.extend({}, MapSettings, {{$currentUser->settings.map_settings}});
+		Map.instance.setMapType(eval(MapSettings.MapType));
 	{{/if}}
 	
 	{{if !$is_edit and !$currentUser->location_lat|@is_null}}
@@ -147,7 +157,7 @@ $(document).ready( function(){
 		}
 	});
 
-	settings_var = $("#r_form_settings").validate({
+	$("#r_form_settings").validate({
 		rules: {
 			mile:{
 				required:true,
@@ -157,16 +167,24 @@ $(document).ready( function(){
 				required:true,
 				number:true
 			}		
-		},
-		
+		},		
 		submitHandler : function(form){
-			$("[name=u_settings\[map_settings\]]").val($.toJSON(MapSettings));
-			$(form).ajaxSubmit();
-			$.facebox.close();
+			$("[name=map_settings]").val($.toJSON(MapSettings));
+			$(form).ajaxSubmit({
+				success: function(data){
+					if(data){
+						$.facebox("Your settings have been saved.", 1000);
+					}
+					else{
+						$.facebox("There was an error, try again.", 1000);
+					}
+				},
+				dataType: "json"
+			});
+			return false;
 		},
 		errorLabelContainer: "#errors_box",
-		wrapper: "li",
-		errorClass: "error"
+		errorElement: "p"
 	});
 	
 	$("#u_mile_marker").change(function(){
@@ -184,12 +202,17 @@ $(document).ready( function(){
 		MapSettings.DistanceCircle.radius = $("#u_circle_dist").val();
 		Map.refresh();
 	});
+	$("#settings_map_type").change(function(){
+		MapSettings.MapType = $(this).val();
+		Map.instance.setMapType(eval($(this).val()))
+	});
 
 	var form_init = {
 		"#input_circle_show": MapSettings.DistanceCircle.enable,
 		"#input_follow_roads": MapSettings.Directions.enable,
 		"#u_circle_dist": MapSettings.DistanceCircle.radius,
-		"#u_mile_marker": MapSettings.MileMarkers.distance
+		"#u_mile_marker": MapSettings.MileMarkers.distance,
+		"#settings_map_type": MapSettings.MapType
 	}
 
 	$.each(form_init, function(key){
@@ -203,6 +226,9 @@ $(document).ready( function(){
 		}
 		else if($(key).is(":text")){
 			$(key).val(this);
+		}
+		else if($(key).is("select")){
+			$(key).val(this.toString());
 		}
 	});
 

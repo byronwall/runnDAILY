@@ -72,6 +72,7 @@
 <script type="text/javascript">
 	$(document).ready(
 		function(){
+			$("input:first").focus();
 			Units.init();
 			$("#login_form_modal").validate({
 				onkeyup: false,

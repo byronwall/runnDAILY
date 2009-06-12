@@ -280,7 +280,8 @@ class User extends Object{
 		$rows = $stmt->affected_rows;
 		$stmt->close();
 		
-		return $rows == 1;
+		//if there is already a value then it will return 2 (1 for delete and 1 for insert)
+		return $rows > 0;
 	}
 
 	public static function sendActivationEmail($uid){
