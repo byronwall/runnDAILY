@@ -129,6 +129,8 @@ class TrainingLog extends Object{
 		while($row = $stmt->fetch_assoc()){
 			$training_items[] = new TrainingLog($row);
 		}
+		
+		$stmt->close();
 
 		return $training_items;
 	}
@@ -150,6 +152,8 @@ class TrainingLog extends Object{
 		while($row = $stmt->fetch_assoc()){
 			$training_items[] = $row;
 		}
+		
+		$stmt->close();
 
 		return $training_items;
 	}
@@ -173,6 +177,8 @@ class TrainingLog extends Object{
 		while($row = $stmt->fetch_assoc()){
 			$training_items[] = $row;
 		}
+		
+		$stmt->close();
 
 		return $training_items;
 	}

@@ -8,6 +8,7 @@
 		{{if !$currentUser->checkFriendsWith($user->uid)}}
 		<a href="#requestFriend" id="a_add" class="facebox icon"><img src="/img/icon/user_plus.png" />Add as Friend</a>
 		{{else}}
+		<a href="/messages/create/{{$user->uid}}" class="facebox icon"><img src="/img/icon/mail_plus.png" />New Message</a>
 		<a href="#removeFriend" id="a_remove" class="facebox icon"><img src="/img/icon/user_minus.png" />Remove Friend</a>
 		{{/if}}
 	</div>

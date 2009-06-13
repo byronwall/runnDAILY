@@ -29,8 +29,9 @@
 		</li>
 		<li class="secondary">
 		{{if $engine->requirePermission("PV__300")}}
-			<a href="/community/view_user/{{$currentUser->uid}}/{{$currentUser->username}}" class="icon"><img src="/img/icon/user_friend.png" />{{$currentUser->username}}</a>
+			<a href="/community/view_user/{{$currentUser->uid}}/{{$currentUser->username}}" class="icon"><img src="/img/icon/user_friend.png" />{{$currentUser->username}}{{if $currentUser->msg_new > 0}}<img src="/img/icon/mail_new.png" />{{/if}}</a>
 		<ul>
+				<li><a href="/messages" class="icon">Messages{{if $currentUser->msg_new > 0}} ({{$currentUser->msg_new}}){{/if}}</a></li>
 				<li><a href="/settings" class="icon">Settings</a></li>
 				<li><a href="/user/logout" class="icon">Logout</a></li>
 		</ul>
