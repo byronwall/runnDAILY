@@ -2,20 +2,8 @@
 class Controller_Admin{
 	public function feedback(){
 		RoutingEngine::setPage("runnDAILY Admin", "PV__100");
-		$result = Database::getDB()->query("
-			SELECT * FROM messages as m
-			LEFT JOIN users ON u_uid = m_uid_from
-			WHERE m.m_uid_to = 0
-		");
-		$msgs = array();
-		
-		while($row = $result->fetch_assoc()){
-			$msgs[] = new Message($row);
-		}
-		
-		$result->close();
-		
-		RoutingEngine::getSmarty()->assign("message", $msgs);
+		$message_list = Message::getMessagesByType(2);		
+		RoutingEngine::getSmarty()->assign("message_list", $message_list);
 	}
 	public function index(){
 		RoutingEngine::setPage("runnDAILY Admin", "PV__100");

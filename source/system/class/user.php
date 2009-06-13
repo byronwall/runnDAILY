@@ -525,6 +525,7 @@ class User extends Object{
 			FROM users_friends
 			INNER JOIN users ON users.u_uid = users_friends.f_uid_2
 			WHERE users_friends.f_uid_1 = ?
+			ORDER BY u_username ASC
 			LIMIT 50
 		");
 		$stmt->bind_param("i", $this->uid);
@@ -659,6 +660,26 @@ class User extends Object{
 		$this->getPermissions();
 		$this->updateAccessTime();
 		$this->_init = true;
+	}
+	public static function getFriendList(){
+		$stmt = Database::getDB()->prepare("
+			SELECT users.u_uid, u_username
+			FROM users_friends
+			INNER JOIN users ON users.u_uid = users_friends.f_uid_2
+			WHERE users_friends.f_uid_1 = ?
+			ORDER BY u_username ASC
+		");
+		$stmt->bind_param("i", User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$friend_list = array();
+		
+		while($row = $stmt->fetch_assoc()){
+			$friend_list[$row["u_uid"]] = $row["u_username"];
+		}
+		
+		return $friend_list;
 	}
 }
 ?>

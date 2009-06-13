@@ -28,7 +28,7 @@ class RoutingEngine{
 		"help",
 		"home",
 		"log",
-		"message",
+		"messages",
 		"routes",
 		"rss",
 		"training",

@@ -10,6 +10,8 @@ class Controller_Home{
 			Page::redirect("/");
 		}		
 	}
+	//TODO:remove this function, new controller has been implemented
+	/*
 	public function messages(){
 		//Page not supported yet.
 		RoutingEngine::setPage("runnDAILY Messages", "PV__100");
@@ -20,6 +22,7 @@ class Controller_Home{
 		RoutingEngine::getSmarty()->assign("messages_to", $msgs_to);
 		RoutingEngine::getSmarty()->assign("messages_from", $msgs_from);
 	}
+	*/
 	public function register(){
 		RoutingEngine::setPage("runnDAILY Registration", "PV__400");
 	}
