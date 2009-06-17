@@ -101,12 +101,14 @@ class Controller_Training{
 	}
 	
 	public function create(){
-		RoutingEngine::setPage("runnDAILY Create Training Entry", "PV__300");
+		RoutingEngine::setPage("New Training Item - runnDAILY", "PV__300");
 		$stmt = Database::getDB()->prepare("
 			SELECT r_name, r_distance, r_id
 			FROM routes
 			WHERE
 				r_uid = ?
+			ORDER BY
+				r_name ASC
 		");
 		$stmt->bind_param("i", User::$current_user->uid);
 		$stmt->execute();
