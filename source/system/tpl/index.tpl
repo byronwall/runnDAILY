@@ -31,7 +31,7 @@
 <div class="clear"></div>
 
 <div class="grid_3">
-	<p><a href="/goals" class="icon"><img src="/img/icon/trophy_bronze.png"/ >Goals</a> - <span class="alert_green">NEW feature!</span></p>
+	<p><a href="/goals" class="icon"><img src="/img/icon/trophy.png"/ >Goals</a> - <span class="alert_green">NEW feature!</span></p>
 	<ul>
 		<li>Goals are now included.</li>
 	</ul>
