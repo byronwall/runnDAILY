@@ -10,8 +10,8 @@
 		{{foreach from=$items item=confirm}}
 			<p>
 				<span id="confirm_{{$confirm->cid}}"><img src="/img/icon/user_friend.png" /> <span class="bold">{{$confirm->user_from->username}}</span> on {{$confirm->date_created|date_format}}</span>
-				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-confirm icon"><img src="/img/icon/check.png" /></a>
-				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-deny icon"><img src="/img/icon/delete.png" /></a>
+				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-confirm icon"><img src="/img/icon/check.png" />Accept</a>
+				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-deny icon"><img src="/img/icon/delete.png" />Deny</a>
 			</p>
 		{{/foreach}}
 	{{foreachelse}}
@@ -24,7 +24,7 @@
 		{{foreach from=$items item=confirm}}
 			<p>
 				<span id="confirm_{{$confirm->cid}}"><img src="/img/icon/user_friend.png" /> <span class="bold">{{$confirm->user_to->username}}</span> on {{$confirm->date_created|date_format}}</span>
-				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-cancel icon"><img src="/img/icon/delete.png" /></a>
+				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-cancel icon"><img src="/img/icon/delete.png" />Delete</a>
 			</p>
 		{{/foreach}}
 	{{foreachelse}}
@@ -37,7 +37,7 @@
 	<form action="/confirmation/actionProcess" method="post" class="ajax">
 		<input type="hidden" name="cid" value="">
 		<input type="hidden" name="confirm" value="true">
-		<p>Are you sure to want to confirm this request?</p>
+		<h5>Are you sure to want to confirm this request?</h5>
 		<div></div>
 		<p>
 			<input type="submit" value="Confirm">
@@ -49,7 +49,7 @@
 	<form action="/confirmation/actionProcess" method="post" class="ajax">
 		<input type="hidden" name="cid" value="">
 		<input type="hidden" name="confirm" value="false">
-		<p>Are you sure to want to deny this request?</p>
+		<h5>Are you sure to want to deny this request?</h5>
 		<div></div>
 		<p>
 			<input type="submit" value="Deny">
@@ -60,7 +60,7 @@
 <div id="cancel-message" style="display:none">
 	<form action="/confirmation/actionCancel" method="post" class="ajax">
 		<input type="hidden" name="cid" value="">
-		<p>Are you sure to want to delete this request?</p>
+		<h5>Are you sure to want to delete this request?</h5>
 		<div></div>
 		<p>
 			<input type="submit" value="Delete">
