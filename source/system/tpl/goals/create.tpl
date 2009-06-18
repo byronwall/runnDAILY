@@ -23,20 +23,20 @@
 				<label for="date_month">This month</label>
 				
 				<input id="date_week" type="radio" name="js_date"/>
-				<label for="date_week">Next week</label>
+				<label for="date_week">The next week</label>
 			</p>
 			<p>
 				<input id="date_days" type="radio" name="js_date"/>
 				<label for="date_days">The Next </label>
-				<input type="text" id="date_days_text" disabled="disabled"/>
+				<input type="text" id="date_days_text" disabled="disabled" size="4"/>
 				<label for="date_days">days</label>.
 			</p>
 			<p>
 				<input id="date_spec" type="radio" name="js_date" checked="checked"/>
 				<label for="date_spec">Between</label>
-				<input id="date_spec_text1" type="text" name="go_start" value="Today"/>
+				<input id="date_spec_text1" type="text" name="go_start" value="Today" size="15"/>
 				<label for="date_spec"> and </label>
-				<input id="date_spec_text2" type="text" name="go_end" value="Today +7 Days"/>.
+				<input id="date_spec_text2" type="text" name="go_end" value="Today +7 Days" size="15"/>.
 			</p>
 		</div>
 	<h2>Goal Specifics</h2>
@@ -81,8 +81,8 @@ $(document).ready(function(){
 			//this will only pick the element that needs changed.
 			//it is easier to have jQuery things which are empty than to
 			//check explicitly
-			clean.filter("[name*=dist]").val(Math.floor(pace * time));
-			clean.filter("[name*=pace]").val(Math.floor(dist / time));
+			clean.filter("[name*=dist]").val(Math.round(pace * (time / 60) * 100) / 100);
+			clean.filter("[name*=pace]").val(Math.round((dist / (time / 60)) *10) / 10);
 			clean.filter("[name*=time]").val(Math.floor(dist / pace * 60));
 		}
 		else{
