@@ -10,41 +10,39 @@
 		<p><label>Name: </label></p>
 		<p><input type="text" name="go_name" /></p>
 		<p><label>Description: </label></p>
-		<p><textarea rows="3" name="go_desc"></textarea></p>
+		<p><textarea rows="4" cols="40" name="go_desc"></textarea></p>
 	<h2>Date Boundaries</h2>
 		<p class="notice">Specify a date range for your goal.</p>
 		
 		<div id="date_section">
 			<p>
 				<input id="date_year" type="radio" name="js_date"/>
-				<label for="date_year">this year</label>
-<!--			</p>-->
-<!--			<p>-->
+				<label for="date_year">This year</label>
+				
 				<input id="date_month" type="radio" name="js_date"/>
-				<label for="date_month">this month</label>
-<!--			</p>-->
-<!--			<p>-->
+				<label for="date_month">This month</label>
+				
 				<input id="date_week" type="radio" name="js_date"/>
-				<label for="date_week">the next week</label>
+				<label for="date_week">Next week</label>
 			</p>
 			<p>
 				<input id="date_days" type="radio" name="js_date"/>
-				<label for="date_days">the next </label>
+				<label for="date_days">The Next </label>
 				<input type="text" id="date_days_text" disabled="disabled"/>
-				<label for="date_days">days</label>
+				<label for="date_days">days</label>.
 			</p>
 			<p>
 				<input id="date_spec" type="radio" name="js_date" checked="checked"/>
-				<label for="date_spec">between</label>
-				<input id="date_spec_text1" type="text" name="go_start" value="today"/>
-				<label for="date_spec">and</label>
-				<input id="date_spec_text2" type="text" name="go_end" value="today +7 days"/>
+				<label for="date_spec">Between</label>
+				<input id="date_spec_text1" type="text" name="go_start" value="Today"/>
+				<label for="date_spec"> and </label>
+				<input id="date_spec_text2" type="text" name="go_end" value="Today +7 Days"/>.
 			</p>
 		</div>
 	<h2>Goal Specifics</h2>
 		<p class="notice">
-			Specify the conditions of your goal. If you choose two parameters, the third
-			will be calculated automatically.		
+			Specify the conditions of your goal. If you provide two parameters, the third
+			will be calculated automatically.
 		</p>
 		<div id="param_wrapper">
 		<p>I would like to run <input type="text" name="go_metadata[dist_tot]" size="6" /> miles.</p>
@@ -83,9 +81,9 @@ $(document).ready(function(){
 			//this will only pick the element that needs changed.
 			//it is easier to have jQuery things which are empty than to
 			//check explicitly
-			clean.filter("[name*=dist]").val(pace * time);
-			clean.filter("[name*=pace]").val(dist / time);
-			clean.filter("[name*=time]").val(dist / pace * 60);
+			clean.filter("[name*=dist]").val(Math.floor(pace * time));
+			clean.filter("[name*=pace]").val(Math.floor(dist / time));
+			clean.filter("[name*=time]").val(Math.floor(dist / pace * 60));
 		}
 		else{
 			inputs.removeAttr("disabled");
