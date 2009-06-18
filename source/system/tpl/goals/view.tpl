@@ -5,22 +5,21 @@
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#" class="icon"><img src="/img/icon.png" />Edit Goal</a>
-		<a href="#" class="icon"><img src="/img/icon.png" />Delete Goal</a>
+		<a href="#" class="icon"><img src="/img/icon/delete.png" />Delete Goal</a>
 	</div>
 </div>
 <div class="clear"></div>
 
 <div class="grid_12">
-	{{if $goal->desc}}<p>{{$goal->desc}}</p>{{/if}}
-	<h5>Goal Details</h5>
+	{{if $goal->desc}}<p>Description: {{$goal->desc}}</p>{{/if}}
+	<h4>Goal Details</h4>
 	<p>Percent Complete: {{$goal->percent|round:"1"}}%</p>
 	<p>{{$goal->start|date_format}} - {{$goal->end|date_format}}</p>
 	{{foreach from=$goal->metadata item=metadata}}
 		<p>{{$metadata.desc}}: {{$metadata.current|round:"2"}} / {{$metadata.value}}</p>
 	{{/foreach}}
 	
-	<h5>Associated Training Items</h5>
+	<h4>Associated Training Items</h4>
 	{{counter start=-1 print=false}}
 	{{foreach from=$training_items item=training_item}}
 	<div id="item_{{counter}}" class="training_item">

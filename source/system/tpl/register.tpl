@@ -1,55 +1,31 @@
 {{* This is the template for the registration of a new user. *}}
 <div class="grid_12">
-<h2 id="page-heading">Register a New Account</h2>
+<h2 id="page-heading">New Account Registration</h2>
 </div>
 <div class="clear"></div>
-
-<div class="grid_12">
-	<p class="icon"><img src="/img/icon_exclamation_small.png"/>Required field.</p>
-</div>
-<div class="clear"></div>
-
-<div class="grid_12">
-	<ul id="errors_box"></ul>
-</div>
-<div class="clear"></div>
-
-
 
 <form enctype="multipart/form-data" action="/user/register" method="post" id="form_register">
-<div class="grid_6">
-	<h4>Account Information</h4>
-	<p class="notice">Please select a username and enter a valid email address.</p>
+<div class="grid_4">
+	<h2>Account Information</h2>
+	<p class="notice">Please select a username, enter a valid email address, and choose a password for your new account.</p>
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
-	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"> <img src="/img/icon_exclamation_small.png"/></p>
-	<p><label for="input_email_confirm">Confirm Email: </label><input id="input_email_confirm" type="text" name="u_email_confirm"> <img src="/img/icon_exclamation_small.png"/></p>
-	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"> <img src="/img/icon_exclamation_small.png"/></p>
-	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"> <img src="/img/icon_exclamation_small.png"/></p>
-	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"> <img src="/img/icon_exclamation_small.png"/></p>
+	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"></p>
+	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"></p>
+	<p><label for="input_email_confirm">Confirm Email: </label><input id="input_email_confirm" type="text" name="u_email_confirm"></p>
+	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"></p>
+	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"></p>
+	<p><input type="submit" value="Register" /></p>
+	<div id="error_box"></div>
 </div>
 
-<div class="grid_6">
-	<h4>Personal Information</h4>
-	<p class="notice">Personal information will be used to personalize your site experience.</p>
-	<p><label for="input_realname">Real Name: </label><input type="text" id="input_realname" name="u_settings[real_name]"/></p>
-	<p><label for="input_birthday">Birthday: </label><input type="text" id="input_birthday" name="u_settings[birthday]"/></p>
-<!--	<p><label for="input_gender">Gender: </label><input id="input_gender" name="u_settings[gender]" value="0" type="radio" /> Male <input type="radio" name="u_settings[gender]" value="1" /> Female</p>-->
-	<h4>Physical Information</h4>
-	<p class="notice">Physical information will be used for calorie estimation and other quantitative purposes.</p>
-	<p><label>Height (in): </label><input type="text" id="input_height" name="u_settings[height]"/></p>
-	<p><label>Weight (lb): </label><input type="text" id="input_weight" name="u_settings[weight]"/></p>
-	<p><input type="submit" value="Register"/></p>
-</div>
-<div class="clear"></div>
-
-<div class="grid_12">
-
-<h4>Home Location for Routes <img src="/img/icon_exclamation_small.png" /></h4>
-	<p><label for="input_location">Location: </label><input type="text" id="input_location" name="location">
+<div class="grid_8">
+<h2>Home Location</h2>
+	<p class="alert_red">You must select a home location on the map below.</p>
+	<p class="notice">If you would like to re-center the map, you may search by address, city, state, or ZIP code.</p>
+	<p><label for="input_location">Search Location: </label><input type="text" id="input_location" name="location">
 	<input type="button" onclick="Geocoder.showAddress('#input_location');return false;" value="Re-center" /></p>
 	<p id="location_msg" class=""></p>
-	<p class="notice">Click on the map below to set your home location.</p>
 	<div id="map_placeholder" class="map"></div>
 </div>
 </form>
@@ -109,19 +85,19 @@ $(document).ready(
 				u_password_confirm: {
 					required: "Confirm your password.",
 					minlength: jQuery.format("Enter at least {0} characters"),
-					equalTo: "Passwords do not match."
+					equalTo: "Password and confirmation password need to match do not match."
 				},
 				u_email: {
 					required: "Enter a valid email address.",
 					email: "Enter a valid email address."
 				},
 				u_email_confirm: {
-					required: "Enter a valid email address.",
-					email: "Enter a valid email address.",
-					equalTo: "Email addresses need to be the same."
+					required: "Confirm your valid email address.",
+					email: "Confirm your valid email address.",
+					equalTo: "Email address and confirmation address do not match."
 				},
 				u_location_lat: {
-					required: "Select your location on the map"
+					required: "Select your home location on the map to the right."
 				}
 			},
 			submitHandler: function(form){
@@ -130,9 +106,8 @@ $(document).ready(
 				});
 				form.submit();
 			},
-			errorLabelContainer: "#errors_box",
-			wrapper: "li",
-			errorClass: "error"
+			errorLabelContainer: "#error_box",
+			errorElement: "p"
 		});
 	}
 );
