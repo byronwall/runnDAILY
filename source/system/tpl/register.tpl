@@ -5,7 +5,7 @@
 <div class="clear"></div>
 
 <form enctype="multipart/form-data" action="/user/register" method="post" id="form_register">
-<div class="grid_4">
+<div class="grid_3">
 	<h2>Account Information</h2>
 	<p class="notice">Please select a username, enter a valid email address, and choose a password for your new account.</p>
 	<input type="hidden" name="u_location_lat" value="" />
@@ -29,7 +29,7 @@
 	<div id="error_box"></div>
 </div>
 
-<div class="grid_8">
+<div class="grid_9">
 <h2>Home Location</h2>
 	<p class="alert_red">You must select a home location on the map below.</p>
 	<p class="notice">If you would like to re-center the map, you may search by address, city, state, or ZIP code.</p>
