@@ -10,11 +10,21 @@
 	<p class="notice">Please select a username, enter a valid email address, and choose a password for your new account.</p>
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
-	<p><label for="input_username">Username: </label><input id="input_username" type="text" name="u_username"></p>
-	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email"></p>
-	<p><label for="input_email_confirm">Confirm Email: </label><input id="input_email_confirm" type="text" name="u_email_confirm"></p>
-	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"></p>
-	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"></p>
+	<div class="bold"><label for="input_username">Username</label></div>
+	<div><input id="input_username" type="text" name="u_username"></div>
+	<br />
+	<div class="bold"><label for="input_email">Email</label></div>
+	<div><input id="input_email" type="text" name="u_email"></div>
+	<br />
+	<div class="bold"><label for="input_email_confirm">Confirm Email</label></div>
+	<div><input id="input_email_confirm" type="text" name="u_email_confirm"></div>
+	<br />
+	<div class="bold"><label for="input_password">Password</label></div>
+	<div><input id="input_password" type="password" name="u_password"></div>
+	<br />
+	<div class="bold"><label for="input_password2">Confirm Password</label></div>
+	<div><input id="input_password2" type="password" name="u_password_confirm"></div>
+	<br />
 	<p><input type="submit" value="Register" /></p>
 	<div id="error_box"></div>
 </div>
