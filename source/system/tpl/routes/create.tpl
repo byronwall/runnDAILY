@@ -159,7 +159,7 @@ $(document).ready( function(){
 		}
 	});
 
-	$("#r_form_settings").validate({
+	settings_var = $("#r_form_settings").validate({
 		rules: {
 			mile:{
 				required:true,
