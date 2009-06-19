@@ -4,38 +4,31 @@
 <div class="clear"></div>
 
 <div class="grid_12">
-	<h4>Inbound</h4>
+	<h2>Inbound</h2>
 	{{foreach from=$confirm_to item=items key=type}}
 		<h5>{{$type}}</h5>
 		{{foreach from=$items item=confirm}}
-			<div>
-				<div id="confirm_{{$confirm->cid}}">
-				from : {{$confirm->user_from->username}}
-				date : {{$confirm->date_created|date_format}}
-				cid : {{$confirm->cid}}
-				</div>
-				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-confirm">confirm</a>
-				<a rel="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-deny">deny</a>
-			</div>
+			<p>
+				<span id="confirm_{{$confirm->cid}}"><img src="/img/icon/user_friend.png" /> <span class="bold">{{$confirm->user_from->username}}</span> on {{$confirm->date_created|date_format}}</span>
+				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-confirm icon"><img src="/img/icon/check.png" />Accept</a>
+				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-deny icon"><img src="/img/icon/delete.png" />Deny</a>
+			</p>
 		{{/foreach}}
 	{{foreachelse}}
-		There are currently no requests for you to handle.
+		<p>There are currently no requests for you to handle.</p>
 	{{/foreach}}
-	<h4>Outbound</h4>
+	
+	<h2>Outbound</h2>
 	{{foreach from=$confirm_from item=items key=type}}
 		<h5>{{$type}}</h5>
 		{{foreach from=$items item=confirm}}
-			<div>
-				<div id="confirm_{{$confirm->cid}}">
-				to : {{$confirm->user_to->username}}
-				date : {{$confirm->date_created|date_format}}
-				cid : {{$confirm->cid}}
-				</div>
-				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-cancel">cancel</a>
-			</div>
+			<p>
+				<span id="confirm_{{$confirm->cid}}"><img src="/img/icon/user_friend.png" /> <span class="bold">{{$confirm->user_to->username}}</span> on {{$confirm->date_created|date_format}}</span>
+				<a href="#confirm_{{$confirm->cid}}" rel="{{$confirm->cid}}" class="box-cancel icon"><img src="/img/icon/delete.png" />Delete</a>
+			</p>
 		{{/foreach}}
 	{{foreachelse}}
-		You do not have any requests for others.
+		<p>You have not made any requests to other users.</p>
 	{{/foreach}}
 </div>
 <div class="clear"></div>
@@ -44,29 +37,35 @@
 	<form action="/confirmation/actionProcess" method="post" class="ajax">
 		<input type="hidden" name="cid" value="">
 		<input type="hidden" name="confirm" value="true">
-		<p>Are you sure to want to confirm this request?</p>
+		<h5>Are you sure to want to confirm this request?</h5>
 		<div></div>
-		<p><input type="submit" value="confirm"></p>
-		<p><input type="button" value="cancel" onclick="$.facebox.close()"></p>
+		<p>
+			<input type="submit" value="Confirm">
+			<input type="button" value="Cancel" onclick="$.facebox.close()">
+		</p>
 	</form>
 </div>
 <div id="deny-message" style="display:none">
 	<form action="/confirmation/actionProcess" method="post" class="ajax">
 		<input type="hidden" name="cid" value="">
 		<input type="hidden" name="confirm" value="false">
-		<p>Are you sure to want to deny this request?</p>
+		<h5>Are you sure to want to deny this request?</h5>
 		<div></div>
-		<p><input type="submit" value="deny"></p>
-		<p><input type="button" value="cancel" onclick="$.facebox.close()"></p>
+		<p>
+			<input type="submit" value="Deny">
+			<input type="button" value="Cancel" onclick="$.facebox.close()">
+		</p>
 	</form>
 </div>
 <div id="cancel-message" style="display:none">
 	<form action="/confirmation/actionCancel" method="post" class="ajax">
 		<input type="hidden" name="cid" value="">
-		<p>Are you sure to want to cancel this request?</p>
+		<h5>Are you sure to want to delete this request?</h5>
 		<div></div>
-		<p><input type="submit" value="cancel request"></p>
-		<p><input type="button" value="do not cancel" onclick="$.facebox.close()"></p>
+		<p>
+			<input type="submit" value="Delete">
+			<input type="button" value="Cancel" onclick="$.facebox.close()">
+		</p>
 	</form>
 </div>
 

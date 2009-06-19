@@ -41,11 +41,6 @@
 		{{/if}} {{if $engine->requirePermission("PV__100")}}
 		<li class="secondary"><a href="/admin/index" class="icon"><img src="/img/icon_application_monitor.png" />Admin</a></li>
 		{{/if}}
-		<li class="secondary">
-			<a href="/help/view/{{$engine->getCommonName()}}" class="facebox icon"><img src="/img/icon/help.png" />Help</a>
-			<ul>
-				<li><a href="/guides" class="icon">Guides</a></li>
-			</ul>
-		</li>
+		<li class="secondary"><a href="/help/view/{{$engine->getCommonName()}}" class="facebox icon"><img src="/img/icon/help.png" />Help</a></li>
 		<li class="secondary"><a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback </a></li>
 </ul>

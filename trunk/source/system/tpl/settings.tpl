@@ -16,7 +16,7 @@
 	<input type="hidden" name="u_location_lat" value="" />
 	<input type="hidden" name="u_location_lng" value="" />
 	<p><label for="input_email">Email: </label><input id="input_email" type="text" name="u_email" value="{{$currentUser->email}}"></p>
-	<p><label for="input_email_confirm">Confirm Email: </label><input id="input_email_confirm" type="text" name="u_email_confirm"></p>
+	<p><label for="input_email_confirm">Confirm Email: </label><input id="input_email_confirm" type="text" name="u_email_confirm" value="{{$currentUser->email}}"></p>
 	<p><label for="input_password">Password: </label><input id="input_password" type="password" name="u_password"></p>
 	<p><label for="input_password2">Confirm Password: </label><input id="input_password2" type="password" name="u_password_confirm"></p>
 </div>

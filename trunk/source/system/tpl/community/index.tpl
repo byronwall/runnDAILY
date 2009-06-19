@@ -5,7 +5,7 @@
 <div class="clear"></div>
 
 <div class="grid_12">
-	<h4>Find a User</h4>
+	<h2>Find a User</h2>
 		<p class="notice">Search for a user by username or email.</p>
 		<div id="error_box"></div>
 		<form id="search_form" action="/community/search" method="post">
@@ -15,7 +15,8 @@
 			</p>
 		</form>
 		<div id="results"></div>
-	<h4>Your Friends</h4>
+	<h2>Your Friends</h2>
+	{{if $users_friends}}<p class="notice">A link exists between you and the following users. You may view their routes and training items or send them a message.</p>{{/if}}
 	{{foreach from=$users_friends item=friend}}
 		<div class="float_left">
 			<p>
@@ -29,7 +30,7 @@
 	{{/foreach}}
 	<div class="clear"></div>
 	
-	<h4>Recent New Users</h4>
+	<h2>Recent New Users</h2>
 	{{foreach from=$users_recent item=user}}
 		<div class="float_left">
 			<p>
