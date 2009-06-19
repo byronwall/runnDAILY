@@ -7,6 +7,7 @@ class Controller_Help{
 		RoutingEngine::setPage("runnDAILY About", "PV__400");
 		
 		$pages = array(
+			"admin_elevation",
 			"about_contact",
 			"about_credits",
 			"about_index",

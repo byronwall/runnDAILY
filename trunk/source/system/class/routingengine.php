@@ -231,6 +231,11 @@ class RoutingEngine{
 		exit;
 	}
 	
+	public static function returnAjaxForm($result, $data){
+		$output = array("data"=>$data, "result"=>$result);		
+		RoutingEngine::returnAjax($output, true);
+	}
+	
 	/**
 	 * Function to get the current page name.  Used mainly for google tracking.
 	 *

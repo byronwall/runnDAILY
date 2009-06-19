@@ -21,6 +21,7 @@ class Route extends Object{
 		
 		$this->creation = strtotime($this->creation);
 		$this->distance = round($this->distance, 2);
+		if($this->elevation == "false") $this->elevation = null;
 	}
 
 	/**
@@ -259,7 +260,7 @@ class Route extends Object{
 	 * 
 	 * @return int|bool	Number of rows affected. false indicates no data nearby.
 	 */
-	private function _updateElevationData(){
+	public function _updateElevationData(){
 		$points = json_decode($this->points)->points;		
 		$points = $this->_decodePolylineToArray($points);		
 		if(($elevations = Elevation::getElevationForPath($points)) === false) return false;
@@ -282,6 +283,26 @@ class Route extends Object{
 		
 		return $rows;
 	}
+	
+	public function _setElevationToChecked(){
+		$this->elevation = json_encode(false);
+		$stmt = Database::getDB()->prepare("
+			UPDATE routes
+			SET
+				r_elevation = ?
+			WHERE 
+				r_id = ?
+		");
+		$stmt->bind_param("si", $this->elevation, $this->id);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows;
+	}
+	
 	private static function _removeImage($rid){
 		$img_src = ($rid % 100) . "/" . $rid . ".png";
 		$path = PUBLIC_ROOT . "/img/route/" . $img_src;

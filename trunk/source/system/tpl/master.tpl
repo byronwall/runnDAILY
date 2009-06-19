@@ -106,12 +106,12 @@
 				onclick: false,
 				onfocusout: false,
 				rules: {
-					m_msg: {
+					msg_message: {
 						required: true
 					}
 				},
 				messages: {
-					m_msg: {
+					msg_message: {
 						required: "Please enter your feedback before submitting."
 					}
 				},
