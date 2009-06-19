@@ -23,7 +23,7 @@
 </div>
 <div class="clear"></div>
 
-{{if $engine->requirePermission("PV__300")}} 
+{{if $engine->requirePermission("PV__300")}}
 <div class="grid_12">
 	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
 	<p><span class="bold">June 1, 2009</span> - Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated several features and included a few brand new ones!</p>
@@ -31,7 +31,7 @@
 <div class="clear"></div>
 
 <div class="grid_3">
-	<p><a href="/goals" class="icon"><img src="/img/icon/trophy_bronze.png"/ >Goals</a> - <span class="alert_green">NEW feature!</span></p>
+	<p><a href="/goals" class="icon"><img src="/img/icon/trophy.png"/ >Goals</a> - <span class="alert_green">NEW feature!</span></p>
 	<ul>
 		<li>Goals are now included.</li>
 	</ul>
@@ -60,7 +60,7 @@
 <div class="clear"></div>
 
 <div class="grid_3">
-	<p><a href="/guides" class="icon"><img src="/img/icon/help.png" /> Help Guides</a> - <span class="alert_green">Updated</span></p>
+	<p class="icon bold"><img src="/img/icon/help.png" /> Help Guides</a> - <span class="alert_green">Updated</span></p>
 	<ul>
 		<li>New help things.</li>
 	</ul>

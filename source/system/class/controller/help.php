@@ -12,10 +12,16 @@ class Controller_Help{
 			"about_index",
 			"community_index",
 			"community_view_user",
+			"confirmation_index",
+			"goals_index",
+			"goals_create",
 			"home_index",
+			"home_register",
+			"messages_index",
 			"routes_view",
-			"route_create",
-			"route_index",
+			"routes_create",
+			"routes_index",
+			"training_create",
 			"training_index"
 		);
 		

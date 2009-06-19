@@ -13,14 +13,14 @@
 			<select id="route_select" style="display:none">
 				<option value="0">Please select a route</option>
 				{{foreach from=$routes item=route}}
-					<option value="{{$route->id}}">{{$route->name}} | {{$route->distance}} mi</option>
+					<option value="{{$route->id}}">{{$route->name}} >> {{$route->distance}} mi</option>
 				{{/foreach}}
 			</select>
 		</p>
 	<h2>Training Details</h2>
 		<p class="notice">Please enter the details of your training.</p>
 		<p><label for="route_name">Route: </label><span id="route_name">None selected</span></p>
-		<p><label for="route_distance">Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}" id="route_distance" size="6"></p>
+		<p><label>Date: </label><input type="text" name="t_date" value="Today" size="15"></p>
 		<p>
 			<label>Activity Type: </label>
 			<select name="t_type" id="training_type">
@@ -29,7 +29,7 @@
 					{{/foreach}}
 			</select>
 		</p>
-		<p><label>Date: </label><input type="text" name="t_date" value="Today" size="15"></p>
+		<p><label for="route_distance">Distance: </label><input type="text" name="t_distance" value="{{$route_view->distance}}" id="route_distance" size="6"></p>
 		<p><label>Time: </label><input type="text" name="t_time" value="00:00:00" size="10"></p>
 <!--	<h2>Privacy</h2>-->
 <!--		<p class="notice">Do you wish to make this training item private?</p>-->
