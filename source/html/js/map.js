@@ -73,7 +73,10 @@ var Map = {
 	polyline: null,
 	
 	totalDistance: 0,
-	
+	changeCallback: function(callback){
+		GEvent.removeListener(Map.listener);
+		Map.listener = GEvent.addListener(Map.instance,"click", callback);
+	},
 	init: function(){
 		Map.icon = new GIcon();
 		Map.icon.image = "/img/dot.png";
@@ -88,6 +91,7 @@ var Map = {
 			draggable : Map.config.draggable
 		}
 	},
+	listener: null,
 	load: function(map_holder_id, click_callback, options) {
 		if (GBrowserIsCompatible()) {
 			if(options && options.full_height){
@@ -97,7 +101,7 @@ var Map = {
 			Map.instance.setCenter(new GLatLng(39.229984356582, -95.2734375), 4);
 			
 			if(click_callback != null){
-				GEvent.addListener(Map.instance,"click", click_callback);
+				Map.listener = GEvent.addListener(Map.instance,"click", click_callback);
 			}
 			Map.instance.addControl(new GSmallMapControl());
 			Map.instance.addControl(new GMapTypeControl());

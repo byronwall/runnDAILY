@@ -78,5 +78,45 @@ class Controller_Admin{
 		Notification::add("Elevation data has been added");
 		Page::redirect("/admin/elevation");
 	}
+	public function ajax_elevation_routes(){
+		$result = Database::getDB()->query("
+			SELECT r_id, r_name, r_points
+			FROM routes
+			WHERE
+				r_elevation IS NULL
+			LIMIT 50
+		") or die(Database::getDB()->error);
+		$routes = array();
+		while($row = $result->fetch_assoc()){
+			$routes[] = new Route($row);
+		}
+		$result->close();
+		RoutingEngine::returnAjaxForm(true, $routes);
+	}
+	public function ajax_elevation_update_all(){
+		$result = Database::getDB()->query("
+			SELECT r_id, r_name, r_points
+			FROM routes
+			WHERE
+				r_elevation IS NULL
+			LIMIT 10
+		") or die(Database::getDB()->error);
+		$routes = array();
+		while($row = $result->fetch_assoc()){
+			$routes[] = new Route($row);
+		}
+		$result->close();		
+		
+		$results = array();
+		
+		foreach($routes as $route){
+			$result = $route->_updateElevationData();
+			if(!$result) $result = $route->_setElevationToChecked();
+			
+			$results[] = $result;
+		}
+		
+		RoutingEngine::returnAjaxForm(true, $results);		
+	}
 }
 ?>

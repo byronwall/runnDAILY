@@ -1,3 +1,4 @@
+<div style="width:300px">
 <h4 class="float_left">{{$message_list.0.msg_subject}}</h4>
 <a href="/messages/delete/{{$message_list.0.msg_convo_id}}" class="float_right facebox icon"><img src="/img/icon/delete.png" />Delete Conversation</a>
 <hr class="page_heading">
@@ -11,7 +12,7 @@
 	<p>No messages. There was probably an error during the retrieval process. Please submit your request again.</p>
 {{/foreach}}
 </div>
-<p><h5>Reply:</h5><p>
+<h5>Reply:</h5>
 <form id="reply_form" action="/messages/actionReply" method="post">
 	<p><textarea rows="3" cols="40" name="msg_message"></textarea></p>
 	<input type="hidden" name="msg_convo_id" value="{{$message_list.0.msg_convo_id}}" />
@@ -24,6 +25,7 @@
 		<input type="button" value="Cancel" onclick="$.facebox.close()" />
 	</p>
 </form>
+</div>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#reply_form").validate({

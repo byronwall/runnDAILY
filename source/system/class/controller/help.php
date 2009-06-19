@@ -7,21 +7,16 @@ class Controller_Help{
 		RoutingEngine::setPage("runnDAILY About", "PV__400");
 		
 		$pages = array(
+			"admin_elevation",
 			"about_contact",
 			"about_credits",
 			"about_index",
 			"community_index",
 			"community_view_user",
-			"confirmation_index",
-			"goals_index",
-			"goals_create",
 			"home_index",
-			"home_register",
-			"messages_index",
 			"routes_view",
-			"routes_create",
-			"routes_index",
-			"training_create",
+			"route_create",
+			"route_index",
 			"training_index"
 		);
 		

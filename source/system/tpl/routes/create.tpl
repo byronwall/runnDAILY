@@ -14,7 +14,7 @@ This is the template for the page where new routes are created.
 	<div class="actions">
 		<a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon/delete.png"/>Clear All Points</a>
 		<a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a>
-		<a href="#" onclick="MapActions.outAndBack(); return false;" class="icon"><img src="/img/icon/out_back.png"/>Out and Back</a>
+		<a href="#" onclick="MapActions.outAndBack(); return false;" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a>
 		<a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon/fullscreen.png"/>Full Screen</a>
 		<a href="#settings_modal" class="facebox icon"><img src="/img/icon/settings.png" />Settings</a>
 	</div>
@@ -55,7 +55,7 @@ This is the template for the page where new routes are created.
 <div class="" id="route_re_center">
 	<h4>Re-center the Map</h4>
 	<form action="#" method="get" onsubmit="Geocoder.showAddress('#txt_address');return false;" class="search">
-		<p class="notice">You may re-center the map to an address, city, state, or ZIP.</p>
+		<p class="notice">Center the map using ZIP, city, state, or an address.</p>
 		<p><input type="text" id="txt_address" value="" class="field"></p>
 		<p><input type="submit" value="Re-center"></p>
 		<p id="location_msg" class=""></p>
@@ -77,7 +77,7 @@ This is the template for the page where new routes are created.
 	<img src="/img/logo.png">
 	<p><a href="#" onclick="MapActions.clearAllPoints();return false;" class="icon"><img src="/img/icon/delete.png"/>Clear All Points</a></p>
 	<p><a href="#" onclick="MapActions.undoLastPoint();return false;" class="icon"><img src="/img/icon_arrow_undo.png"/>Undo Last Point</a></p>
-	<p><a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon/out_back.png"/>Out and Back</a></p>
+	<p><a href="#" onclick="MapActions.outAndBack()" class="icon"><img src="/img/icon_out_back.png"/>Out and Back</a></p>
 	<p><a href="#settings_modal" class="facebox icon"><img src="/img/icon/settings.png" />Settings</a></p>
 	<p><a href="#route_name_desc" class="facebox icon"><img src="/img/icon/save.png" />Save</a></p>
 	<p><a href="#" onclick="Display.toggle_fullscreen();return false;" class="icon"><img src="/img/icon/fullscreen.png"/>Close Full Screen</a></p>
@@ -95,7 +95,7 @@ This is the template for the page where new routes are created.
 	<form action="/user/action_map_settings" method="post" id="r_form_settings">
 		<p class="notice">Set a few options for the map!</p>
 		<p>
-			Map type:
+			Select map type.
 			<select id="settings_map_type">
 				<option value="G_NORMAL_MAP">Map</option>
 				<option value="G_SATELLITE_MAP">Satellite</option>
@@ -103,16 +103,14 @@ This is the template for the page where new routes are created.
 				<option value="G_PHYSICAL_MAP">Terrain</option>
 			</select>
 		</p>
-		<p><label>Mile Marker Distance: </label><input name="mile_dist" type="text" id="u_mile_marker" class="number" value="1.0"/ size="5"><span class="dist-unit"> mi</span></p>
-		<p><label>Circular Radius: </label><input type="text" name="circ_dist" id="u_circle_dist" class="number" value="5.0" size="5"/><span class="dist-unit"> mi</span></p>
-		<p><label>Display Circular Perimeter? </label><input name="circ_enable" type="checkbox" id="input_circle_show"/></p>
+		<p><label>Mile Marker Distance: </label><input name="mile_dist" type="text" id="u_mile_marker" class="number" value="1.0"/><span class="dist-unit">mi</span></p>
+		<p><label>Circular Radius: </label><input type="text" name="circ_dist" id="u_circle_dist" class="number" value="5.0"/><span class="dist-unit">mi</span></p>
+		<p><label>Display Radial Perimeter? </label><input name="circ_enable" type="checkbox" id="input_circle_show"/></p>
 		<p><label>Follow Roads? </label><input type="checkbox" name="dir_enable" id="input_follow_roads"/></p>
-		<p>
-			<input type="button" value="Apply Once" onclick="check_apply()"/>
-			{{if $engine->requirePermission("PV__300")}}
-			<input type="submit" value="Apply Default" />
-			{{/if}}
-		</p>
+		<p><input type="button" value="Apply, Don't Save" onclick="check_apply()"/></p>
+		{{if $engine->requirePermission("PV__300")}}
+			<p><input type="submit" value="Set Default" /></p>
+		{{/if}}
 		<input type="hidden" name="map_settings" >
 	</form>
 </div>

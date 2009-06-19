@@ -67,7 +67,7 @@
 		<p><label>Username: </label><input type="text" name="username"></p>
 		<p><label>Password: </label><input type="password" name="password"></p>
 		<p><label>Stay Logged In? </label><input type="checkbox" name="remember" value="1"></p>
-		<p><input class="login" type="submit" value="Login"></p>
+		<input class="login" type="submit" value="Login">
 	</form>
 </div>
 {{/if}}
@@ -106,12 +106,12 @@
 				onclick: false,
 				onfocusout: false,
 				rules: {
-					m_msg: {
+					msg_message: {
 						required: true
 					}
 				},
 				messages: {
-					m_msg: {
+					msg_message: {
 						required: "Please enter your feedback before submitting."
 					}
 				},

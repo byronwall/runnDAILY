@@ -95,7 +95,8 @@
 
 {{if $route_view->elevation}}
 <div class="grid_12">
-	<div id="elev_chart" style="width:100%;height:100px"></div>
+	<h5>Elevation Profile</h5>
+	<div id="elev_chart" style="width:100%;height:200px"></div>
 </div>
 <div class="clear"></div>
 {{/if}}
@@ -127,7 +128,15 @@
 $(document).ready( function(){
 	{{if $route_view->elevation}}
 	var elevation = {{$route_view->elevation}};
-	$.plot($("#elev_chart"), [elevation]);
+	var plot_options = {
+		yaxis:{
+			tickFormatter: function(number){ return number + "m"; }
+		},
+		legend:{
+			show:false
+		}
+	}
+	$.plot($("#elev_chart"), [{label:"meters", data:elevation}], plot_options);
 	{{/if}} 
 	Map.load("map_placeholder", null);
 	MapData.loadRoute({{$route_view->points}}, {
