@@ -52,7 +52,7 @@
 	<p><a href="/routes" class="icon"><img src="/img/icon/route.png" /> Routes</a> - <span class="alert_green">Updated</span></p>
 	<ul>
 		<li><span class="icon bold"><img src="/img/icon/ruler.png" />Elevation</span> plots are now included for most routes. We are working to expand our elevation database, but look for the chart on your routes!</li>
-		<li>Additionals options have been introducted into the <span class="icon bold"><img src="/img/icon/settings.png" />Settings</span> for creating new routes.</li>
+		<li>Additionals options have been introducted into the <span class="icon bold"><img src="/img/icon/settings.png" /> Settings</span> for creating new routes.</li>
 	</ul>
 </div>
 
@@ -62,7 +62,6 @@
 		<li><a href="/messages" class="icon"><img src="/img/icon/mail.png" />Messages</a> are now included for all users. You can communicate directly with your friends.</li>
 		<li><a href="/confirmation" class="icon"><img src="/img/icon/balloons.png" />Requests</a> are now sent when adding users as friends. This allows all friendships to be mutual.</li>
 		<li>A search field has been added to the community page to facilitate finding friends.</li>
-		<li>New permissions have been applied to the community page to restrict who can see your training and route profile.</li>
 	</ul>
 </div>
 <div class="clear"></div>
@@ -75,7 +74,7 @@ hearing any <a href="#feedback_modal" class="facebox icon"><img
 />Feedback</a> you might have. We will continue to provide the features you want!
 Also, we updated nearly every <span class="icon bold"><img
 		src="/img/icon/help.png"
-/>Help</span> page, so take a look if you are unsure how a page works.</p>
+/> Help</span> page, so take a look if you are unsure how a page works.</p>
 <p>If you would like to find out about updates and other news as they are
 available, go ahead and follow us on Twitter at <a
 		href="http://twitter.com/runndaily" target="_blank" class="icon"
