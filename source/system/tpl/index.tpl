@@ -26,49 +26,60 @@
 {{if $engine->requirePermission("PV__300")}}
 <div class="grid_12">
 	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
-	<p><span class="bold">June 1, 2009</span> - Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we have updated several features and included a few brand new ones!</p>
+	<p><span class="bold">June 19, 2009</span> - Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we are proud to annouce several new features and updates to the site!</p>
 </div>
 <div class="clear"></div>
 
 <div class="grid_3">
 	<p><a href="/goals" class="icon"><img src="/img/icon/trophy.png"/ >Goals</a> - <span class="alert_green">NEW feature!</span></p>
 	<ul>
-		<li>Goals are now included.</li>
+		<li>Goals are a great way to establish benchmarks and monitor your long term progress.</li>
+		<li>Create a <a href="/goals/create" class="icon"><img src="/img/icon/trophy_plus.png" />New Goal</a> based on distance, pace, and/or time.</li>
+		<li>View your <a href="/goals" class="icon"><img src="/img/icon/trophy.png" />Goals</a> and reach new limits as your push yourself!</li>
 	</ul>
 </div>
 
 <div class="grid_3">
 	<p><a href="/training" class="icon"><img src="/img/icon/training.png" />Training</a> - <span class="alert_green">Updated</span></p>
 	<ul>
-		<li>New training things.</li>
+		<li>Training items now show up in more places. Look for them on the routes and goals you create.</li>
+		<li>Interested in a summary of your recent training? Look for the <a href="/training/summary" class="icon facebox"><img src="/img/icon/training_summary.png"/>Training Summary</a> on your training page.</li>
+		<li>Interested in storing a specific description about a training item? Comments are now included with every training item.</li>
 	</ul>
 </div>
 
 <div class="grid_3">
 	<p><a href="/routes" class="icon"><img src="/img/icon/route.png" /> Routes</a> - <span class="alert_green">Updated</span></p>
 	<ul>
-		<li>New route things.</li>
+		<li><span class="icon bold"><img src="/img/icon/ruler.png" />Elevation</span> plots are now included for most routes. We are working to expand our elevation database, but look for the chart on your routes!</li>
+		<li>Additionals options have been introducted into the <span class="icon bold"><img src="/img/icon/settings.png" />Settings</span> for creating new routes.</li>
 	</ul>
 </div>
 
 <div class="grid_3">
 	<p><a href="/community" class="icon"><img src="/img/icon/community.png" /> Community</a> - <span class="alert_green">Updated</span></p>
 	<ul>
-		<li>New community things.</li>
-	</ul>
-</div>
-<div class="clear"></div>
-
-<div class="grid_3">
-	<p class="icon bold"><img src="/img/icon/help.png" /> Help Guides</a> - <span class="alert_green">Updated</span></p>
-	<ul>
-		<li>New help things.</li>
+		<li><a href="/messages" class="icon"><img src="/img/icon/mail.png" />Messages</a> are now included for all users. You can communicate directly with your friends.</li>
+		<li><a href="/confirmation" class="icon"><img src="/img/icon/balloons.png" />Requests</a> are now sent when adding users as friends. This allows all friendships to be mutual.</li>
+		<li>A search field has been added to the community page to facilitate finding friends.</li>
+		<li>New permissions have been applied to the community page to restrict who can see your training and route profile.</li>
 	</ul>
 </div>
 <div class="clear"></div>
 
 <div class="grid_12">
-	<p><span class="bold">On our radar:</span></p>
+<p>We hope you enjoy the new features and page updates. We took our time to
+consider and provide the features that are most useful. We look forward to
+hearing any <a href="#feedback_modal" class="facebox icon"><img
+		src="/img/icon/feedback.png"
+/>Feedback</a> you might have. We will continue to provide the features you want!
+Also, we updated nearly every <span class="icon bold"><img
+		src="/img/icon/help.png"
+/>Help</span> page, so take a look if you are unsure how a page works.</p>
+<p>If you would like to find out about updates and other news as they are
+available, go ahead and follow us on Twitter at <a
+		href="http://twitter.com/runndaily" target="_blank" class="icon"
+><img src="/img/icon/balloon_twitter.png" />runnDAILY</a>.</p>
 </div>
 <div class="clear"></div>
 {{/if}}
@@ -93,7 +104,7 @@ below.</span></p>
 feature can be used independently, there are several features available on every
 page.</p>
 <h5><img src="/img/icon/help.png" /> Help</h5>
-<p>Available at the top of nearly every page is a link with specific
+<p>Available at the top of every page is a link with specific
 instructions and explanations for the current page. Help is always just a click
 away!</p>
 <h5><img src="/img/icon/feedback.png" /> Feedback</h5>
@@ -118,7 +129,9 @@ Help panel on the create route page.</p>
 <h5><img src="/img/icon/route_view.png" /> View Route</h5>
 <p>Detailed information is available for any route created with runnDAILY.
 In addition to overall distance, individual mile / kilometer markers are
-available for every route.</p>
+available for every route. Lastly, most routes include a detailed plot of the <span
+		class="icon bold"
+><img src="/img/icon/ruler.png" />Elevation</span> throughout the route.</p>
 <hr>
 <h4><img src="/img/icon/training.png" /> Training</h4>
 <p>runnDAILY provides a collection of tools that allow a user to completely
@@ -135,6 +148,10 @@ burned.</p>
 <p>Several methods are provided for viewing training items. Training items
 may be viewed individually or collectively using a variety of charts and
 plotting strategies.</p>
+<h5><img src="/img/icon/trophy.png" /> Goals</h5>
+<p>Users may create goals to track their long and short term progress. Goals
+provide a useful tool for measuring benchmarks and striving to improve.
+Currently, goals may be created relative to distance, pace, and/or time.</p>
 <hr>
 <h4><img src="/img/icon/community.png" /> Community</h4>
 <p>runnDAILY is built on a social network. While this network will be small
@@ -145,5 +162,8 @@ now, there is a limited set of community features available to all users.</p>
 /> View Friend</h5>
 <p>Relationships can be established between users. Keep track of your
 friends' progress by viewing their routes and training entries.</p>
+<h5><img src="/img/icon/mail.png" /> Messages</h5>
+<p>Users may send messages to their friends. Threaded conversations are
+maintained for any messages that are sent or received.</p>
 </div>
 <div class="clear"></div>

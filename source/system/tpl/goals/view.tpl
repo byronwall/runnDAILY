@@ -5,7 +5,7 @@
 
 <div class="grid_12">
 	<div class="actions">
-		<a href="#" class="icon"><img src="/img/icon/delete.png" />Delete Goal</a>
+		<a href="#delete_modal" class="facebox icon"><img src="/img/icon/delete.png" />Delete Goal</a>
 	</div>
 </div>
 <div class="clear"></div>
@@ -18,7 +18,18 @@
 	{{foreach from=$goal->metadata item=metadata}}
 		<p>{{$metadata.desc}}: {{$metadata.current|round:"2"}} / {{$metadata.value}}</p>
 	{{/foreach}}
-	
+	<div id="delete_modal" style="display:none">
+	<h5>Are you sure you wan to delete the current goal?</h5>
+		<p class="alert_red">Once a goal has been deleted, there is no way to
+		recover it! Only delete a goal that you are sure you no longer want!</p>
+		<form method="POST" action="/goals/action_delete">
+		<p>
+			<input type="hidden" name="go_id" value="{{$goal->id}}" />
+			<input type="submit" value="Delete" />
+			<input type="button" value="Cancel" onclick="$.facebox.close()" />
+		</p>
+		</form>
+	</div>
 	<h4>Associated Training Items</h4>
 	{{counter start=-1 print=false}}
 	{{foreach from=$training_items item=training_item}}
