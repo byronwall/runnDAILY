@@ -192,8 +192,6 @@ class Goal extends Object{
 			$percents['time'] = ($goal_data['time'] / 60.0) / $this->metadata['time_tot']['value'];
 		}
 		
-		var_dump($percents);
-		
 		foreach($percents as $item){
 			if($item <= 1){
 				$percent = $percent * $item;
