@@ -185,7 +185,9 @@ class Goal extends Object{
 		}
 		
 		if(isset($this->metadata['pace_avg'])){
-			$percents['pace'] = ($goal_data['pace'] / $goal_data['count']) / $this->metadata['pace_avg']['value'];
+			if($goal_data['count'] > 0 && $this->metadata['pace_avg']['value']){
+				$percents['pace'] = ($goal_data['pace'] / $goal_data['count']) / $this->metadata['pace_avg']['value'];
+			}
 		}
 		
 		if(isset($this->metadata['time_tot'])){
