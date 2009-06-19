@@ -1,6 +1,7 @@
 /*!
  * runnDAILY Javascript Library
- * 
+ * Copyright 2009 runnDAILY LLC
+ *  
  */ 
 (function($){
 	var resize_items = [];
