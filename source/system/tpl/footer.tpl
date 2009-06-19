@@ -25,7 +25,7 @@
 </div>
 <div class="grid_2 suffix_2">
 
-	<h2>runn Daily</h2>
+	<h2>runnDAILY</h2>
 <ul>
 	<li><a href="/about/index">About Us</a></li>
 	<li><a href="/about/contact">Contact</a></li>

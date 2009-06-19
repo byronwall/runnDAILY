@@ -27,6 +27,7 @@ class Controller_Messages{
 		if($read_count > 0){
 			Message::updateCount(User::$current_user->uid, -($read_count));
 			User::$current_user->msg_new -= $read_count;
+			RoutingEngine::getInstance()->persistUserData();
 		}
 		
 		die;
@@ -93,6 +94,7 @@ class Controller_Messages{
 		if($read_count > 0){
 			Message::updateCount(User::$current_user->uid, -($read_count));
 			User::$current_user->msg_new -= $read_count;
+			RoutingEngine::getInstance()->persistUserData();
 		}
 		
 		$message->delete();

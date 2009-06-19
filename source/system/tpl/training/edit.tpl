@@ -5,7 +5,7 @@
 		{{if $t_item->rid}}
 			<input type="hidden" name="t_rid" value="{{$t_item->rid}}" />
 		{{/if}}
-		<ul id="train_errors" class="error_box"></ul>
+		<div id="train_errors" class="error_box"></div>
 		
 		<p>
 			<label>Time: </label>
@@ -72,7 +72,7 @@ $(document).ready(function(){
 			}
 		},
 		errorLabelContainer: "#train_errors",
-		wrapper: "li",
+		wrapper: "p",
 		errorClass: "error",
 		submitHandler: function(form){
 			$("input[type=text]").each( function(){

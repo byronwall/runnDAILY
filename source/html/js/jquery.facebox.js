@@ -29,84 +29,68 @@
    * Public, $.facebox methods
    */
 
-  $.extend($.facebox, {
-    settings: {
-    	dom_data: null,
-    	dom: null,
-    	modal: false,
-      opacity      : .50,
-      overlay      : true,
-      loadingImage : '/img/loadingAnimation.gif',
-      imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
-      faceboxHtml  : '\
-	<div id="facebox" style="display:none;"> \
-	  <div class="popup"> \
-        <div class="content"> \
-        </div> \
-        <div class="footer"> \
-          <a href="#" class="close"> \
-            close \
-          </a> \
-        </div> \
-      </div> \
-    </div>'
-    },
+	$.extend($.facebox, {
+	settings: {
+		dom_data: null,
+		dom: null,
+		modal: false,
+		opacity: .50,
+		overlay: true,
+		loadingImage: '/img/loadingAnimation.gif',
+		imageTypes: [ 'png', 'jpg', 'jpeg', 'gif' ],
+		faceboxHtml: '<div id="facebox" style="display:none;"><div class="popup"><div class="content"></div><div class="footer"><a href="#" class="close">close</a></div></div></div>'
+	},
 
-    loading: function() {
-      init()
-      if ($('#facebox .loading').length == 1) return true
-      
-      //prevents an error where the old contents are emptied if the facebox is not closed in between calls.      
-      if($.facebox.settings.dom){
-  		$($.facebox.settings.dom).append($.facebox.settings.dom_data);
-  		
-  		$.facebox.settings.dom = null;
-  		$.facebox.settings.dom_data = null;
-  	}
-      
-      showOverlay()
+	loading: function() {
+		$("#facebox").stop();
+		if($.facebox.settings.timeout) clearTimeout($.facebox.settings.timeout);
+		init();
+		if($('#facebox .loading').length == 1) return true;
+		//prevents an error where the old contents are emptied if the facebox is not closed in between calls.      
+		if($.facebox.settings.dom){
+			$($.facebox.settings.dom).append($.facebox.settings.dom_data);
+			
+			$.facebox.settings.dom = null;
+			$.facebox.settings.dom_data = null;
+		}
+		showOverlay();
 
-      $('#facebox .content').empty()
-      $('#facebox .body').children().hide().end().
-        append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'"/></div>')
+		$('#facebox .content').empty().append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'"/></div>');
 
-      $('#facebox').css({
-        top:	(getPageHeight() / 10),
-        left:	385.5
-      }).show()
+		$('#facebox').css({
+			top:	$(window).height() / 10,
+			left:	$(window).width() / 2 - ($('#facebox').width() / 2)
+		}).show();
 
-      $(document).bind('keydown.facebox', function(e) {
-        if (e.keyCode == 27) $.facebox.close()
-        return true
-      })
-      $(document).trigger('loading.facebox')
-    },
-
-    reveal: function(data) {
-      $(document).trigger('beforeReveal.facebox')
-      $('#facebox .content').append(data)
-      $('#facebox .loading').remove()
-      $('#facebox .body').children().fadeIn('normal')
+		$(document).bind('keydown.facebox', function(e) {
+			if (e.keyCode == 27) $.facebox.close();
+			return true;
+		})
+		$(document).trigger('loading.facebox');
+	},
+	reveal: function(data) {
+		$(document).trigger('beforeReveal.facebox');
+		$('#facebox .content').append(data);
+		$('#facebox .loading').remove();
+		$('#facebox .body').children().fadeIn('normal');
 		$("#facebox .close").text("close").bind("click", $.facebox.close);
-      
-      $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
-      $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
-      $.facebox.settings.isOpen = true;
-    },
 
-    close: function(delay) {
-    	if(delay) $.facebox.settings.close_delay = delay;
-      $(document).trigger('close.facebox')
-      return false
-    },
-    clickHandler: function(settings) {
-    	init(settings);
-        $.facebox.loading(true);
-
-        fillFaceboxFromHref(this.href);
-        return false;
-      }
-  })
+		$('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
+		$(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
+		$.facebox.settings.isOpen = true;
+	},
+	close: function(delay) {
+		if(delay) $.facebox.settings.close_delay = delay;
+		$(document).trigger('close.facebox')
+		return false
+	},
+	clickHandler: function(settings) {
+		init(settings);
+		$.facebox.loading(true);
+		fillFaceboxFromHref(this.href);
+		return false;
+	}
+})
 
   /*
    * Private methods
@@ -128,36 +112,6 @@
     var preload = [ new Image() ]
     preload[0].src = $.facebox.settings.loadingImage
   }
-  
-  // getPageScroll() by quirksmode.com
-  function getPageScroll() {
-    var xScroll, yScroll;
-    if (self.pageYOffset) {
-      yScroll = self.pageYOffset;
-      xScroll = self.pageXOffset;
-    } else if (document.documentElement && document.documentElement.scrollTop) {	 // Explorer 6 Strict
-      yScroll = document.documentElement.scrollTop;
-      xScroll = document.documentElement.scrollLeft;
-    } else if (document.body) {// all other Explorers
-      yScroll = document.body.scrollTop;
-      xScroll = document.body.scrollLeft;	
-    }
-    return new Array(xScroll,yScroll) 
-  }
-
-  // Adapted from getPageSize() by quirksmode.com
-  function getPageHeight() {
-    var windowHeight
-    if (self.innerHeight) {	// all except Explorer
-      windowHeight = self.innerHeight;
-    } else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
-      windowHeight = document.documentElement.clientHeight;
-    } else if (document.body) { // other Explorers
-      windowHeight = document.body.clientHeight;
-    }	
-    return windowHeight
-  }
-
   // Figures out what you want to display and displays it
   // formats are:
   //     div: #id
@@ -243,7 +197,7 @@
     if($.facebox.settings.close_delay){
     	var timeout = $.facebox.settings.close_delay;
     	$.facebox.settings.close_delay = false;
-    	setTimeout(close, timeout);    	
+    	$.facebox.settings.timeout = setTimeout(close, timeout);    	
     }
     else close();
   	
@@ -252,7 +206,7 @@
     $.facebox.settings.isOpen = false;
   	$(document).unbind('keydown.facebox');
     $('#facebox').fadeOut(function() {
-      $('#facebox .content').removeClass().addClass('content');
+      //$('#facebox .content').removeClass().addClass('content');
       hideOverlay();
       $('#facebox .loading').remove();
       if($.facebox.settings.dom){
@@ -266,6 +220,6 @@
 
 })(jQuery);
 
-jQuery(document).ready(function($) {
-  $('a[class*=facebox]').live("click", $.facebox.clickHandler);
-}) 
+$(document).ready(function() {
+	$('a[class*=facebox]').live("click", $.facebox.clickHandler);
+});

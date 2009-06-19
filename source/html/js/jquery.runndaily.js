@@ -43,11 +43,12 @@
 			}
 		}
 	}
-	$.template = function(template, params){
+	$.template = function(template, params, as_string){
 		var node = template.replace(/{([^{}]*)}/g, function (a, b) {
 			var r = params[b];
 			return typeof r === 'string' || typeof r === 'number' ? r : a;
 		});
+		if(as_string) return node;
 		return $(node);
 	};
 })(jQuery);
