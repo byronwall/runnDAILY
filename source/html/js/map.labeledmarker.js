@@ -1,4 +1,4 @@
-/**!
+/*!
  * @name LabeledMarker
  * @version 1.3
  * @author Mike Purvis (http://uwmike.com)
