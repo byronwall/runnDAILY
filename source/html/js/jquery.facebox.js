@@ -66,6 +66,7 @@
 			if (e.keyCode == 27) $.facebox.close();
 			return true;
 		})
+		
 		$(document).trigger('loading.facebox');
 	},
 	reveal: function(data) {
@@ -166,6 +167,7 @@
     if ($('#facebox_overlay').length == 0) 
       $("body").append('<div id="facebox_overlay" class="facebox_hide"></div>')
 
+	$("body").css("overflow", "hidden");
     $('#facebox_overlay').hide().addClass("facebox_overlayBG")
       .css('opacity', $.facebox.settings.opacity)
       .click(function() { 
@@ -185,6 +187,7 @@
       $("#facebox_overlay").addClass("facebox_hide") 
       $("#facebox_overlay").remove()
     })
+    $("body").css("overflow", "auto");
     
     return false
   }
