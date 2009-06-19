@@ -250,6 +250,7 @@ class User extends Object{
 		
 		if($id){
 			$this->uid = $id;
+			$this->page_perm = "PV__300";
 			foreach($this->settings as $key=>$value){
 				$this->saveSetting($key);
 			}
