@@ -42,7 +42,9 @@
   margin: 0;
 }
 #facebox .content{
-	
+	margin:5px;
+	max-height: 500px;
+	overflow: auto;
 }
 #facebox .footer {
   border-top: 1px solid #DDDDDD;
