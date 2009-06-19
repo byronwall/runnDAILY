@@ -29,5 +29,14 @@ class Controller_Goals{
 			Page::redirect("/goals");
 		}
 	}
+	
+	public function action_delete(){
+		RoutingEngine::setPage("runnDAILY", "PV__300");
+		if(!isset($_POST["go_id"])){
+			Page::redirect("/goals");
+		}
+		Goal::deleteGoal($_POST["go_id"]);
+		Page::redirect("/goals");
+	}
 }
 ?>

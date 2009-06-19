@@ -60,6 +60,24 @@ class Goal extends Object{
 		return true;
 	}
 	
+	public static function deleteGoal($id){
+		$stmt = Database::getDB()->prepare("
+			DELETE FROM goals
+			WHERE
+				go_id = ?
+				AND
+				go_uid = ?
+		");
+		$stmt->bind_param("ii", $id, User::$current_user->uid);
+		$stmt->execute();
+		$stmt->store_result();
+		
+		$rows = $stmt->affected_rows;
+		$stmt->close();
+		
+		return $rows == 1;
+	}
+	
 	function saveMetadata($key){
 		if(!isset($key) || !isset($this->metadata[$key])) return false;
 		
