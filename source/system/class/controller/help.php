@@ -17,6 +17,7 @@ class Controller_Help{
 			"goals_create",
 			"home_index",
 			"home_register",
+			"messages_index",
 			"routes_view",
 			"routes_create",
 			"routes_index",
