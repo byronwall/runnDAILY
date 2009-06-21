@@ -1,4 +1,13 @@
 /* CUSTOM */
+.text_very_large{
+	font-size: 18px;
+}
+.text_large{
+	font-size: 14px;
+}
+.border_right{
+	/*border-right: 1px solid black;*/
+}
 #message_list {
 	max-height: 230px;
 	overflow: auto;
