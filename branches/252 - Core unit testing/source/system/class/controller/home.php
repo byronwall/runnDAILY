@@ -2,6 +2,17 @@
 class Controller_Home{
 	public function index(){
 		RoutingEngine::setPage("runnDAILY", "PV__400");
+		
+		$sql = new SQL("routes");
+		$results = $sql->select("r_name")
+			->from("routes")
+			->where_between("r_distance", 5,10)
+			->where("r_id < ?", 100)
+			->limit(10)
+			->orderby("r_name")
+			->execute();
+		var_dump($results);
+		die;		
 	}
 	public function login(){
 		RoutingEngine::setPage("runnDAILY Login", "PV__400");

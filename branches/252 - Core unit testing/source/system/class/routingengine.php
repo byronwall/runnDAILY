@@ -309,7 +309,7 @@ class RoutingEngine{
 	            $errors = "Unknown";
 	            break;
         }
-        echo "$errno,$errstr, $errfile, $errline";
+        echo "$errno,$errstr, $errfile, $errline <br>";
         //return true;
         if(!self::getInstance()->requirePermission("PV__100")){
 	        self::getSmarty()->display_error();
