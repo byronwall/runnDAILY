@@ -14,5 +14,8 @@ class SmartyExt extends Smarty{
 		$this->assign("page_content", $this->fetch($tpl));
 		$this->display("master.tpl");
 	}
+	public function display_error(){
+		$this->display("error/index.tpl");
+	}
 }
 ?>

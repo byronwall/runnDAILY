@@ -18,7 +18,7 @@ class Database extends mysqli
 	/**
 	 * @return Database
 	 */
-	public function getDB()
+	public static function getDB()
 	{
 		if(self::$instance === null)
 		{
