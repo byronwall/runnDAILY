@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     
     <!--SYTLE SHEETS-->
-	<link href="/css/reset.css" rel="stylesheet" type="text/css" />
-	<link href="/css/combine.css" rel="stylesheet" type="text/css" />
-    <link href="/css/facebox.css" rel="stylesheet" type="text/css" />
-<!--    <link href="/css/runndaily-9.6.18.css" rel="stylesheet" type="text/css">-->
+<!--	<link href="/css/reset.css" rel="stylesheet" type="text/css" />-->
+<!--	<link href="/css/combine.css" rel="stylesheet" type="text/css" />-->
+<!--    <link href="/css/facebox.css" rel="stylesheet" type="text/css" />-->
+    <link href="/css/runndaily-9.6.18.css" rel="stylesheet" type="text/css">
     
     <!--FAVORITE ICON-->
     <link rel="icon" type="image/png" href="/img/favico.png">
