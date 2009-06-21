@@ -6,6 +6,8 @@ class RoutingEngine{
 	public $action = "index";
 	private $start_time;
 	private $_params;
+	private $error_handler;
+	private $exception_handler;
 	
 	/**
 	 * @var Page
@@ -36,7 +38,8 @@ class RoutingEngine{
 	);
 	
 	private function __construct(){
-		
+		$this->error_handler = set_error_handler(array("RoutingEngine", "errorHandler"));
+		$this->exception_handler = set_exception_handler(array("RoutingEngine", "exceptionHandler"));
 	}
 	
 	/**
@@ -106,6 +109,7 @@ class RoutingEngine{
 		$controller = $this->controller_full;
 		$class = new $controller();
 		$action = $this->action;
+		
 		call_user_func_array(array($class, $action), $this->_params);
 		
 		//set default page props if not called yet
@@ -283,6 +287,42 @@ class RoutingEngine{
 	}
 	public function getCommonName(){
 		return $this->controller ."_".$this->action;
+	}
+	public static function throwException($comment){
+		throw new SiteException($comment);
+	}
+	public static function errorHandler($errno, $errstr, $errfile, $errline) {
+	    switch ($errno) {
+	    	case E_NOTICE:
+	        case E_USER_NOTICE:
+	            $errors = "Notice";
+	            break;
+	        case E_WARNING:
+	        case E_USER_WARNING:
+	            $errors = "Warning";
+	            break;
+	        case E_ERROR:
+	        case E_USER_ERROR:
+	            $errors = "Fatal Error";
+	            break;
+	        default:
+	            $errors = "Unknown";
+	            break;
+        }
+        echo "$errno,$errstr, $errfile, $errline";
+        //return true;
+        if(!self::getInstance()->requirePermission("PV__100")){
+	        self::getSmarty()->display_error();
+		    die;
+        }
+        return true;
+	}
+	public static function exceptionHandler($exception){
+		if(!self::getInstance()->requirePermission("PV__100")){
+	        self::getSmarty()->display_error();
+		    die;
+        }
+        var_dump($exception);
 	}
 }
 ?>

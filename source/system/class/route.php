@@ -181,17 +181,17 @@ class Route extends Object{
 				users.u_uid = ?
 		");
 		$stmt->bind_param("ii", $rid, $uid);
-		$stmt->execute();
+		$stmt->execute() or RoutingEngine::throwException($stmt->error);
 		$stmt->store_result();
 
 		$rows = $stmt->affected_rows;
 		$stmt->close();
-		if($rows == 1){
+		if($rows >= 1){
 			Log::insertItem($uid, 101, null, null, null, null);
-			return true;
 			//return Route::_removeImage($rid);
 		}
-		return false;
+		return $rows;
+		//return false;
 	}
 
 	public function updateRoute(){
@@ -261,7 +261,9 @@ class Route extends Object{
 	 * @return int|bool	Number of rows affected. false indicates no data nearby.
 	 */
 	public function _updateElevationData(){
-		$points = json_decode($this->points)->points;		
+		$points = json_decode($this->points);
+		if(!isset($points->points)) return false;
+		$points = $points->points;		
 		$points = $this->_decodePolylineToArray($points);		
 		if(($elevations = Elevation::getElevationForPath($points)) === false) return false;
 		
