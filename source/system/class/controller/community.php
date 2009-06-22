@@ -2,7 +2,13 @@
 class Controller_Community{
 	public function index(){
 		RoutingEngine::setPage("runnDAILY", "PV__300");
-		RoutingEngine::getSmarty()->assign("users_recent", User::getListOfUsers());
+		$users = User::sql()
+			->select("u_username, u_uid, u_join")
+			->limit(50)
+			->orderby("u_join")
+			->execute();
+		//RoutingEngine::getSmarty()->assign("users_recent", User::getListOfUsers());
+		RoutingEngine::getSmarty()->assign("users_recent", $users);
 		RoutingEngine::getSmarty()->assign("users_friends", User::$current_user->getFriends());
 	}
 	public function view_user(){

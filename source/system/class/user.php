@@ -35,6 +35,10 @@ class User extends Object{
 		$this->date_access = strtotime($this->date_access);
 		$this->join = strtotime($this->join);
 	}
+	static function sql(){
+		return new SQL("users", __CLASS__, "u_uid");
+	}
+	
 	function removeFriend($f_uid){
 		//duplicate ids to bind them twice
 		$uid_dup = $this->uid;
