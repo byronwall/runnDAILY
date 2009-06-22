@@ -2,7 +2,14 @@
 class Controller_Routes{
 	public function index(){
 		RoutingEngine::setPage("runnDAILY Routes", "PV__300");
-		$routes = Route::getRoutesForUserInArray(User::$current_user->uid, 50);
+		//$routes = Route::getRoutesForUserInArray(User::$current_user->uid, 50);
+		
+		$routes = Route::sql()
+			->where_eq("r_uid", User::$current_user->uid)
+			->orderby("r_creation", true)
+			->limit(50)
+			->execute(false, true, "r_id");
+
 		$routes_js = json_encode_null($routes);
 		
 		RoutingEngine::getSmarty()->assign("routes", $routes);
@@ -25,7 +32,13 @@ class Controller_Routes{
 		
 		if(!isset($_GET["rid"])) Page::redirect("/routes");
 		$rid = $_GET["rid"];
-		$route = Route::fromRouteIdentifier($rid);
+		//$route = Route::fromRouteIdentifier($rid);
+		$route = Route::sql()
+			->select("routes.*, u_username, u_uid")
+			->leftjoin("users", "u_uid", "r_uid")
+			->where_eq("r_id", $rid)
+			->debug()
+			->execute(true, false);
 		//get training types for create new training modal
 		
 		$stmt = Database::getDB()->prepare("
