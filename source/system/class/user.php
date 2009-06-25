@@ -5,6 +5,8 @@
  *
  */
 class User extends Object{
+	const PREFIX = "u_";
+	
 	public $uid;
 	public $location_lng;
 	public $location_lat;

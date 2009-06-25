@@ -6,8 +6,10 @@ class SQL{
 	private $_table;
 	private $_primary;
 	private $_class;
+	
 	private $_has_select = false;
 	private $_has_limit = false;
+	
 	private $_has_debug = false;
 	
 	private $_tables_classes = array(
@@ -84,6 +86,13 @@ class SQL{
 		
 		return $this;
 	}
+	function where_like($field, $value){
+		$sql = "WHERE {$field} LIKE ?";
+		$this->_addSQL($sql);
+		$this->_bindValue("%{$value}%");
+		
+		return $this;
+	}
 	function where($sql, $params = null){
 		$this->_addSQL("WHERE " . $sql);
 		
@@ -95,7 +104,7 @@ class SQL{
 		
 		return $this;
 	}
-	function leftjoin($table, $left_field, $right_field = null){
+	function leftjoin($table, $left_field, $right_field = null, $nest_result = false){
 		if(isset($right_field)){
 			$sql = "LEFT JOIN {$table} ON {$left_field} = {$right_field}";
 		}
@@ -104,7 +113,7 @@ class SQL{
 		}
 		
 		$this->_addSQL($sql);
-		$this->_left_joins[] = $table;
+		if($nest_result) $this->_left_joins[] = $table;
 		
 		return $this;
 	}
@@ -119,6 +128,7 @@ class SQL{
 		
 		return $this;
 	}
+	
 	function page(){
 		
 	}
@@ -135,7 +145,9 @@ class SQL{
 			$sql_w_values .= $sections[$i] . $this->_bind_vals[$i];
 		}
 		
+		//immediately return known information
 		var_dump($sql, $sql_w_values, $type);
+		//set a flag so the results are dumped as well (handled in execute)
 		$this->_has_debug = true;
 		
 		return $this;
@@ -147,13 +159,18 @@ class SQL{
 		if(!$this->_has_limit) $this->limit(100);
 		
 		$sql = $this->_get_full_sql();
+		if(count($this->_bind_vals)){
+		
 		$stmt = Database::getDB()->prepare($sql);
 		$types = $this->_sql_all_bind_types();
 		
 		call_user_func_array(array($stmt, "bind_param"), array_merge(array($types), $this->_bind_vals));
 		$stmt->execute() or RoutingEngine::throwException($stmt->error);
 		$stmt->store_result();
-		
+		}
+		else{
+			$stmt = Database::getDB()->query($sql);
+		}
 		$results = array();
 		while($row = $stmt->fetch_assoc()){
 			if($as_object){
@@ -172,10 +189,32 @@ class SQL{
 			}
 		}
 		$stmt->close();
-		if($this->_has_debug) var_dump($results);
+		$return = (!$arr_on_single && count($results) == 1) ? $results[0] : $results; 
 		
-		return ($arr_on_single || count($results) > 1) ? $results : $results[0];
+		if($this->_has_debug) var_dump($return);
+		return $return;
 	}
+	function wrap_value($params){
+		$sql = end($this->_sql_stack);
+		var_dump($sql);
+		
+		$sql_parts = explode("?", $sql);
+		
+		$pos = 0;
+		$sql_out = "";
+		foreach(func_get_args() as $sql_arg){
+			$sql_out .= $sql_parts[$pos++] . $sql_arg . "(?)";
+		}
+		$remain = count($sql_parts) - $pos - 1;
+		if($remain){
+			$sql_out .= implode("?", array_slice($sql_parts, $pos));
+		}
+		var_dump($sql_out);
+		array_splice($this->_sql_stack, -1, 1, $sql_out);
+		
+		return $this;
+	}
+	
 	function orderby($field, $desc = true){
 		$dir = ($desc)?"DESC": "ASC";
 		$sql = "ORDER BY {$field} {$dir}";
@@ -188,14 +227,15 @@ class SQL{
 	private function _bindValue($value){
 		$this->_bind_vals[] = $value;
 	}
+	private $_sql_stack = array();
 	private function _addSQL($sql){
-		$type = $this->_sql_type($sql);
-		$this->_statements[$type][] = $this->_sql_vaue($sql);
+		$this->_sql_stack[] = $sql;
 	}
 	private function _sql_type($sql){
 		$op = explode(" ", $sql);
 		switch($op[0]){
-			case "SELECT": return 0;
+			case "SELECT":
+				return 0;
 			case "FROM": return 1;
 			case "LEFT": return 2;
 			case "WHERE": return 3;
@@ -211,7 +251,6 @@ class SQL{
 			case "WHERE": 
 			case "LIMIT": 
 				return $op[1];
-				break;
 			case "ORDER":
 			case "LEFT":
 				$with_by = explode(" ", $op[1], 2);
@@ -230,11 +269,29 @@ class SQL{
 		}
 		return $output;
 	}
+	private function _process_sql(){
+		$this->_statements = array();
+		
+		foreach($this->_sql_stack as $sql){
+			$type = $this->_sql_type($sql);
+			$this->_statements[$type][] = $this->_sql_vaue($sql);
+		}
+		
+		return true;
+	}
+	//TODO: implement insert and update
 	private function _get_full_sql(){
+		$this->_process_sql();		
+		
 		$sql = array();
+		
+		//full statement with index corresponding to above
 		$keys = array("SELECT", "FROM", "LEFT JOIN", "WHERE", "ORDER BY", "LIMIT");
+		
+		//how to join elements together
 		$glue = array(", ",", ",null," AND ", ", ", ", ");
 		
+		//they may not be in order yet
 		ksort($this->_statements);
 		
 		foreach($this->_statements as $key=>$sql_type){

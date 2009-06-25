@@ -6,7 +6,7 @@ class Controller_Routes{
 		
 		$routes = Route::sql()
 			->where_eq("r_uid", User::$current_user->uid)
-			->orderby("r_creation", true)
+			->orderby("r_creation")
 			->limit(50)
 			->execute(false, true, "r_id");
 
@@ -21,10 +21,15 @@ class Controller_Routes{
 			RoutingEngine::returnAjax(false);
 		}
 		
-		$route = Route::getPolyline($_GET["rid"]);
+		$route = Route::sql()
+			->select("r_points")
+			->where_eq("r_id", $_GET["rid"])
+			->execute(false, false);
+		
+		//$route = Route::getPolyline($_GET["rid"]);
 		
 		//note that this already is JSON
-		RoutingEngine::returnAjax($route, false);
+		RoutingEngine::returnAjax($route["r_points"], false);
 	}
 	public function view(){
 		RoutingEngine::setPage("runnDAILY View Route", "PV__300");
@@ -33,15 +38,15 @@ class Controller_Routes{
 		if(!isset($_GET["rid"])) Page::redirect("/routes");
 		$rid = $_GET["rid"];
 		//$route = Route::fromRouteIdentifier($rid);
+		
 		$route = Route::sql()
 			->select("routes.*, u_username, u_uid")
-			->leftjoin("users", "u_uid", "r_uid")
+			->leftjoin("users", "u_uid", "r_uid", true)
 			->where_eq("r_id", $rid)
-			->debug()
 			->execute(true, false);
 		//get training types for create new training modal
 		
-		$stmt = Database::getDB()->prepare("
+		/*$stmt = Database::getDB()->prepare("
 			SELECT t_type_id, t_type_name
 			FROM training_types
 		");
@@ -51,14 +56,27 @@ class Controller_Routes{
 		while($row = $stmt->fetch_assoc()){
 			$types[] = array("id"=>$row["t_type_id"], "name"=>$row["t_type_name"]);
 		}
-		$stmt->close();
+		$stmt->close();*/
 		
-		$training_items = TrainingLog::getItemsForUserForRoute(User::$current_user->uid, $rid);
+		$types_sql = new SQL("training_types");
+		$types = $types_sql
+			->select("t_type_id, t_type_name")
+			->execute(false, true);
+		
+		//$training_items = TrainingLog::getItemsForUserForRoute(User::$current_user->uid, $rid);
+		$training_items = TrainingLog::sql()
+			->select("r_name, t_rid, t_tid, t_time, t_distance, t_pace, t_date, t_comment")
+			->leftjoin("routes", "r_id", "t_rid")
+			->where_eq("t_uid", User::$current_user->uid)
+			->where_eq("t_rid", $rid)
+			->orderby("t_date")
+			->execute(false, true);
 		
 		RoutingEngine::getSmarty()->assign("t_types", $types);
 		RoutingEngine::getSmarty()->assign("route_view", $route);
 		RoutingEngine::getSmarty()->assign("training_items", $training_items);
 	}
+	/*
 	public function browse(){
 		//TODO: Implement this page if we want.
 		RoutingEngine::setPage("runnDAILY Routes", "PV__100");
@@ -96,6 +114,7 @@ class Controller_Routes{
 			exit(RoutingEngine::getSmarty()->fetch("routes/parts/route_list.tpl"));
 		}
 	}
+	*/
 	public function create(){
 		RoutingEngine::setPage("runnDAILY Create Route", "PV__400");
 		if(isset($_GET["rid"])){
