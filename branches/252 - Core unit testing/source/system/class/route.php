@@ -51,6 +51,7 @@ class Route extends Object {
 		return false;
 	}
 	
+	//TODO: remove this function, it was only used in one place.
 	static function getPolyline($rid){
 		$stmt = Database::getDB()->prepare("
 			SELECT r_points

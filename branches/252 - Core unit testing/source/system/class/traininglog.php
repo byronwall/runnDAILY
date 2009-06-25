@@ -1,5 +1,6 @@
 <?php
 class TrainingLog extends Object{
+	const PREFIX = "t_";
 	public $date;
 	public $time;
 	public $distance;

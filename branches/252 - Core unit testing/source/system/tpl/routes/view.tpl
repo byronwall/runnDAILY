@@ -5,7 +5,7 @@
 </div>
 <div class="clear"></div>
 <div class="grid_3">
-	<p>Created by: <a href="/community/view_user/{{$route_view->uid}}/{{$route_view->user->username}}">{{$route_view->user->username}}</a></p>
+	<p>Created by: <a href="/community/view_user/{{$route_view->uid}}/{{$route_view->user->username}}">{{$route_view->user->username}}</a> on {{$route_view->creation|date_format}}</p>
 </div>
 <div class="grid_9">
 	<div class="actions">
@@ -64,7 +64,7 @@
 			<p><label>Activity Type: </label>
 				<select name="t_type" id="training_type">
 				{{foreach from=$t_types item=type}}
-					<option value="{{$type.id}}">{{$type.name}}</option>
+					<option value="{{$type.t_type_id}}">{{$type.t_type_name}}</option>
 				{{/foreach}}
 				</select>
 			</p>
