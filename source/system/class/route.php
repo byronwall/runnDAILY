@@ -1,5 +1,5 @@
 <?php
-class Route extends Object{
+class Route extends Object {
 	public $distance;
 	public $points;
 	public $description;
@@ -14,7 +14,7 @@ class Route extends Object{
 	public $elevation;
 
 	public $training_count;
-	public $user;
+	//public $user;
 	
 	function __construct($arr = null, $arr_pre = "r_"){
 		parent::__construct($arr, $arr_pre);
@@ -22,6 +22,9 @@ class Route extends Object{
 		$this->creation = strtotime($this->creation);
 		$this->distance = round($this->distance, 2);
 		if($this->elevation == "false") $this->elevation = null;
+	}
+	static function sql(){
+		return new SQL("routes", __CLASS__ ,"r_id");
 	}
 
 	/**
@@ -48,6 +51,7 @@ class Route extends Object{
 		return false;
 	}
 	
+	//TODO: remove this function, it was only used in one place.
 	static function getPolyline($rid){
 		$stmt = Database::getDB()->prepare("
 			SELECT r_points
@@ -261,7 +265,9 @@ class Route extends Object{
 	 * @return int|bool	Number of rows affected. false indicates no data nearby.
 	 */
 	public function _updateElevationData(){
-		$points = json_decode($this->points)->points;		
+		$points = json_decode($this->points);
+		if(!isset($points->points)) return false;
+		$points = $points->points;		
 		$points = $this->_decodePolylineToArray($points);		
 		if(($elevations = Elevation::getElevationForPath($points)) === false) return false;
 		
