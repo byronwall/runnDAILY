@@ -38,8 +38,9 @@ class RoutingEngine{
 	);
 	
 	private function __construct(){
-		$this->error_handler = set_error_handler(array("RoutingEngine", "errorHandler"));
-		$this->exception_handler = set_exception_handler(array("RoutingEngine", "exceptionHandler"));
+		//TODO:Add in error handlers.
+		//$this->error_handler = set_error_handler(array("RoutingEngine", "errorHandler"));
+		//$this->exception_handler = set_exception_handler(array("RoutingEngine", "exceptionHandler"));
 	}
 	
 	/**

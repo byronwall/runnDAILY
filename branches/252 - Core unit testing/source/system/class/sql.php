@@ -25,7 +25,11 @@ class SQL{
 		if(isset($table)) $this->_addSQL("FROM {$table}");
 	}
 	
-	function select($fields, $params = null){
+	/**
+	 * @param $fields
+	 * @return SQL
+	 */
+	function select($fields){
 		$sql = "SELECT {$fields}";
 		$this->_addSQL($sql);
 		
@@ -33,6 +37,10 @@ class SQL{
 
 		return $this;
 	}
+	/**
+	 * @param $table
+	 * @return SQL
+	 */
 	function from($table){
 		$sql = "FROM {$table}";
 		$this->_addSQL($sql);
@@ -46,21 +54,52 @@ class SQL{
 		
 		return $this;
 	}
+	/**
+	 * @param $field
+	 * @param $value
+	 * @return SQL
+	 */
 	function where_eq($field, $value){
 		return $this->_where_op("=", $field, $value);
 	}
+	/**
+	 * @param $field
+	 * @param $value
+	 * @return SQL
+	 */
 	function where_lt($field, $value){
 		return $this->_where_op("<", $field, $value);
 	}
+	/**
+	 * @param $field
+	 * @param $value
+	 * @return SQL
+	 */
 	function where_gt($field, $value){
 		return $this->_where_op(">", $field, $value);
 	}
+	/**
+	 * @param $field
+	 * @param $value
+	 * @return SQL
+	 */
 	function where_lt_eq($field, $value){
 		return $this->_where_op("<=", $field, $value);
 	}
+	/**
+	 * @param $field
+	 * @param $value
+	 * @return SQL
+	 */
 	function where_gt_eq($field, $value){
 		return $this->_where_op(">=", $field, $value);
 	}
+	/**
+	 * @param $field
+	 * @param $lower
+	 * @param $upper
+	 * @return SQL
+	 */
 	function where_between($field, $lower, $upper){
 		$val_1 = min($lower, $upper);
 		$val_2 = max($lower, $upper);
@@ -72,6 +111,11 @@ class SQL{
 		
 		return $this;
 	}
+	/**
+	 * @param $field
+	 * @param $values
+	 * @return SQL
+	 */
 	function where_in($field, $values){
 		if(!is_array($values)) return $this;
 		
@@ -86,6 +130,11 @@ class SQL{
 		
 		return $this;
 	}
+	/**
+	 * @param $field
+	 * @param $value
+	 * @return SQL
+	 */
 	function where_like($field, $value){
 		$sql = "WHERE {$field} LIKE ?";
 		$this->_addSQL($sql);
@@ -93,6 +142,11 @@ class SQL{
 		
 		return $this;
 	}
+	/**
+	 * @param $sql
+	 * @param $params
+	 * @return SQL
+	 */
 	function where($sql, $params = null){
 		$this->_addSQL("WHERE " . $sql);
 		
@@ -104,6 +158,13 @@ class SQL{
 		
 		return $this;
 	}
+	/**
+	 * @param $table
+	 * @param $left_field
+	 * @param $right_field
+	 * @param $nest_result
+	 * @return SQL
+	 */
 	function leftjoin($table, $left_field, $right_field = null, $nest_result = false){
 		if(isset($right_field)){
 			$sql = "LEFT JOIN {$table} ON {$left_field} = {$right_field}";
@@ -118,6 +179,10 @@ class SQL{
 		return $this;
 	}
 	
+	/**
+	 * @param $count
+	 * @return SQL
+	 */
 	function limit($count = 15){
 		if($this->_has_limit) throw new Exception("Only one limit allowed");
 		$sql = "LIMIT 0,?";
@@ -132,9 +197,17 @@ class SQL{
 	function page(){
 		
 	}
+	/**
+	 * @param $primary
+	 * @param $as_object
+	 * @return mixed
+	 */
 	function fetch($primary, $as_object = false){
 		return $this->where_eq($this->_primary, $primary)->execute($as_object, false);
 	}
+	/**
+	 * @return SQL
+	 */
 	function debug(){
 		$sql = $this->_get_full_sql();
 		$type = $this->_sql_all_bind_types();
@@ -153,6 +226,12 @@ class SQL{
 		return $this;
 	}
 	
+	/**
+	 * @param $as_object
+	 * @param $arr_on_single
+	 * @param $arr_index
+	 * @return mixed
+	 */
 	function execute($as_object = false, $arr_on_single = false, $arr_index = null){
 		//set some defaults if needed
 		if(!$this->_has_select) $this->select("*");
@@ -194,9 +273,12 @@ class SQL{
 		if($this->_has_debug) var_dump($return);
 		return $return;
 	}
+	/**
+	 * @param $params
+	 * @return SQL
+	 */
 	function wrap_value($params){
 		$sql = end($this->_sql_stack);
-		var_dump($sql);
 		
 		$sql_parts = explode("?", $sql);
 		
@@ -209,12 +291,16 @@ class SQL{
 		if($remain){
 			$sql_out .= implode("?", array_slice($sql_parts, $pos));
 		}
-		var_dump($sql_out);
 		array_splice($this->_sql_stack, -1, 1, $sql_out);
 		
 		return $this;
 	}
 	
+	/**
+	 * @param $field
+	 * @param $desc
+	 * @return SQL
+	 */
 	function orderby($field, $desc = true){
 		$dir = ($desc)?"DESC": "ASC";
 		$sql = "ORDER BY {$field} {$dir}";
@@ -242,6 +328,7 @@ class SQL{
 			case "ORDER":return 4;
 			case "LIMIT": return 5;
 		}
+		throw new Exception("The type is not defined");
 	}
 	private function _sql_vaue($sql){
 		$op = explode(" ", $sql, 2);
@@ -256,6 +343,7 @@ class SQL{
 				$with_by = explode(" ", $op[1], 2);
 				return $with_by[1];
 		}
+		throw new Exception("The call was not parsed");
 	}
 	private function _sql_bind_type($value){
 		if(is_int($value)) return "i";
@@ -279,7 +367,6 @@ class SQL{
 		
 		return true;
 	}
-	//TODO: implement insert and update
 	private function _get_full_sql(){
 		$this->_process_sql();		
 		
