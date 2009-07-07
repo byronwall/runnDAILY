@@ -36,7 +36,7 @@ class Page extends Object{
 		if(substr($page, 0,1)!= "/"){
 			$page = "/".$page;
 		}
-		header("location: http://{$_SERVER["SERVER_NAME"]}{$page}");
+		header("location: http://{$_SERVER["HTTP_HOST"]}{$page}");
 		exit;
 	}
 	/**

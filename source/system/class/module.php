@@ -1,4 +1,5 @@
 <?php
+//TODO: delete this file;
 class Module extends Object{
 	public $content;
 	public $id;

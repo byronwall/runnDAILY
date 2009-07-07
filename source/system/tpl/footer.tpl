@@ -14,7 +14,8 @@
 	<li><a href="/training/create">New Training Item</a></li>
 	<li><a href="/goals">View Goals</a></li>
 	<li><a href="/goals/create">New Goal</a></li>
-<!--	<li><a href="/training/browse">Search</a></li></ul>-->
+<!--	<li><a href="/training/browse">Search</a></li>-->
+</ul>
 </div>
 <div class="grid_2">
 	<h2>Community</h2>
