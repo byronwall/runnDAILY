@@ -18,7 +18,11 @@ class TrainingLog extends Object{
 		$this->date = strtotime($this->date);
 		$this->time = TrainingLog::getSecondsFromFormat($this->time);
 		//$this->route = new Route($arr);
-	}	
+	}
+
+	static function sql(){
+		return new SQL("training_times", __CLASS__, "t_tid");
+	}
 	/**
 	 * Calculates the pace in MPH
 	 * @return float

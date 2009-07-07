@@ -8,7 +8,8 @@
 /**
  * Include the {@link shared.make_timestamp.php} plugin
  */
-require_once $smarty->_get_plugin_filepath('shared', 'make_timestamp');
+//TODO:Delete this line since we do not use their function
+//require_once $smarty->_get_plugin_filepath('shared', 'make_timestamp');
 /**
  * Smarty date_format modifier plugin
  *
