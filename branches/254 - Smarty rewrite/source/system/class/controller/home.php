@@ -2,6 +2,11 @@
 class Controller_Home{
 	public function index(){
 		RoutingEngine::setPage("runnDAILY", "PV__400");
+		
+		$template = new Template();
+		$template->display("community/view_user.tpl");
+		
+		exit;
 	}
 	public function login(){
 		RoutingEngine::setPage("runnDAILY Login", "PV__400");
