@@ -134,11 +134,12 @@ class RoutingEngine{
 	}
 	
 	/**
-	 * @return SmartyExt
+	 * @return Template
 	 */
 	public static function getSmarty(){
 		if(is_null(self::$_smarty)){
-			self::$_smarty = new SmartyExt();
+			//self::$_smarty = new SmartyExt();
+			self::$_smarty = new Template();
 		}
 		return self::$_smarty;
 	}

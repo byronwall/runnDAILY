@@ -33,9 +33,9 @@
 </div>
 <div class="clear"></div>
 
-{{include file="notifications.tpl"}}
+{{*include file="notifications.tpl"}}
 
-{{$page_content}}
+{{include file=*master*}}
 </div>
 <div id="footer" class="container_12 bottom">{{include file="footer.tpl"}}
 <div class="clear"></div>

@@ -11,7 +11,6 @@ class Controller_Routes{
 			->execute(false, true, "r_id");
 
 		$routes_js = json_encode_null($routes);
-		
 		RoutingEngine::getSmarty()->assign("routes", $routes);
 		RoutingEngine::getSmarty()->assign("routes_js", $routes_js);
 	}
