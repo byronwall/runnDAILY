@@ -38,7 +38,6 @@ class Template {
 	private function _processCompiledTemplate($template_name) {
 		$filename = $this->_resource_manager->getCompiledPath ( $template_name );
 		
-		//$vars = $this->_vars;
 		ob_start ();
 		include_once ($filename);
 		$_template_output = ob_get_contents ();

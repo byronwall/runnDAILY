@@ -5,8 +5,35 @@ class Template_Block_Echo extends Template_Block {
 	
 	function handleNewBlock($tag) {
 		//TODO: Handle condition
-		$mod_regex = "/^(.*)[|].*$/";
-		$command = preg_replace ( $mod_regex, "$1", $tag->command );
+		$command = $tag->command;
+		
+		$mod_regex = "/^(.*)[|](.*?)(?::(.*))?$/";
+		$count = preg_match ( $mod_regex, $tag->command, $matches );
+		
+		if ($count) {
+			$var = array_safe ( $matches, 1 );
+			$mod = array_safe ( $matches, 2 );
+			$param = array_safe ( $matches, 3 );
+			
+			if (substr ( $mod, 0, 1 ) == "@") {
+				$mod = substr ( $mod, 1 );
+				$allowed = true;
+			} else {
+				$allowed = $this->_compiler->addFunctionToSource ( $mod );
+			}
+			
+			
+			if ($allowed) {
+				if ($param) {
+					$command = "mod_" . $mod . "({$var}, {$param})";
+				
+				} else {
+					$command = "mod_" . $mod . "({$var})";
+				}
+			} else {
+				$command = $var;
+			}
+		}
 		
 		return "<?php echo $command; ?>";
 	}

@@ -1,4 +1,44 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<?php
+function mod_round($value, $precision) {
+		return round ( $value, $precision );
+	}
+function mod_date_format($variable, $param = "F j, Y") {
+		if (! is_int ( $variable )) {
+			$variable = strtotime ( $variable );
+		}
+		return date ( $param, $variable );
+	}
+function mod_time_format($seconds, $familiar = true){
+	if($familiar){
+		$formatted = date("H:i:s", mktime(0,0,$seconds, 1, 1, 2009));
+		$familiar = explode(":", $formatted);
+		$output = "";
+		$unit = array('hour','min','sec');
+		
+		for ($i = 0; $i < count($familiar); $i++){
+			if($familiar[$i] != 0){
+				$familiar[$i] += 0;
+				$output .= $familiar[$i];
+				$output .= " " . $unit[$i];
+				if($familiar[$i] != 1){
+					$output .= "s";
+				}
+				if ($i < 2){
+					$output .= " ";
+				}
+			}
+		}
+		
+		return $output;
+	}
+	else{
+		return date("H:i:s", mktime(0,0,$seconds, 1, 1, 2009));
+	}
+}
+function mod_string_format($string, $format) {
+		return sprintf ( $format, $string );
+	}
+?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
 <head>
@@ -113,12 +153,12 @@
 		<?php if(count($this->_vars["training_index_items"])): foreach($this->_vars["training_index_items"] as $this->_vars['training_item']): ?>
 		<div id="item_<!--Template does not support tag for counter yet-->" class="training_item">
 			<?php if($this->_vars["training_item"]['r_name']): ?><div><a href="/routes/view/<?php echo $this->_vars["training_item"]['t_rid']; ?>/<?php echo $this->_vars["training_item"]['r_name']; ?>" class="t_name icon"><img src="/img/icon/route.png" /><?php echo $this->_vars["training_item"]['r_name']; ?></a></div><?php endif ?>
-				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val"><?php echo $this->_vars["training_item"]['t_distance']; ?> mi</span></div>
+				<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val"><?php echo mod_round($this->_vars["training_item"]['t_distance'], "2"); ?> mi</span></div>
 			<div class="clear"></div>
-				<div class="t_date icon float_right"><?php echo $this->_vars["training_item"]['t_date']; ?> <img src="/img/icon/calendar.png" /></div>
-				<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace"><?php echo $this->_vars["training_item"]['t_pace']; ?> mi/h</span></div>
+				<div class="t_date icon float_right"><?php echo mod_date_format($this->_vars["training_item"]['t_date']); ?> <img src="/img/icon/calendar.png" /></div>
+				<div class="icon float_left"><img src="/img/icon/dashboard.png" /><span class="t_pace"><?php echo mod_round($this->_vars["training_item"]['t_pace'], "2"); ?> mi/h</span></div>
 			<div class="clear"></div>
-				<div class="icon align_right"><?php echo $this->_vars["training_item"]['t_time']; ?><span class="t_time" style="display:none"><?php echo $this->_vars["training_item"]['t_time']; ?></span> <img src="/img/icon/clock.png" /></div>
+				<div class="icon align_right"><?php echo mod_time_format($this->_vars["training_item"]['t_time']); ?><span class="t_time" style="display:none"><?php echo $this->_vars["training_item"]['t_time']; ?></span> <img src="/img/icon/clock.png" /></div>
 				<?php if($this->_vars["training_item"]['t_comment']): ?>
 				<div class="align_left italic"><?php echo $this->_vars["training_item"]['t_comment']; ?></div>
 				<?php endif ?>
@@ -230,7 +270,7 @@
 </div>
 <div class="clear"></div>
 	<div class="grid_12" id="site_info"><?php if($this->_vars["currentUser"]->checkPermissions(100, false)): ?>
-	<p>page generated in <?php echo $this->_vars["engine"]->getPageTime(); ?> seconds</p>
+	<p>page generated in <?php echo mod_string_format($this->_vars["engine"]->getPageTime(), "%.4f"); ?> seconds</p>
 	<?php endif ?>
 	<p>&copy; 2008-2009 runnDAILY LLC</p>
 </div>

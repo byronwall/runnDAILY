@@ -8,6 +8,7 @@ class Template_Compiler {
 	
 	private $_compiledPieces = array ();
 	private $_saveName;
+	private $_functions;
 	
 	function __construct(Template_ResourceManager $resource_manager) {
 		$this->_resource_manager = $resource_manager;
@@ -26,6 +27,10 @@ class Template_Compiler {
 		$pre_compiled = $this->_preProcessSource ( $contents );
 		//generate all the PHP tags
 		$compiled = $this->_processSource ( $pre_compiled );
+		//
+		$functions = $this->_processFunctions ();
+		
+		$compiled = $functions . $compiled;
 		
 		$template_name = (is_null ( $save_name )) ? $template_name : $save_name;
 		
@@ -48,6 +53,18 @@ class Template_Compiler {
 			throw new Template_Exception ( "Error writing compiled file: {$template_name}" );
 		}
 		return $bytes;
+	}
+	private function _processFunctions() {
+		$output = "<?php\r\n";
+		foreach ( $this->_functions as $function => $source ) {
+			if ($source === false) {
+				continue;
+			}
+			$output .= "function mod_{$function}{$source}\r\n";
+		}
+		$output .= "?>";
+		
+		return $output;
 	}
 	private function _preProcessSource($contents) {
 		$ldl = "{{";
@@ -124,5 +141,29 @@ class Template_Compiler {
 		$compiled_source = implode ( "", $_compiledPieces );
 		
 		return $compiled_source;
+	}
+	public function addFunctionToSource($function) {
+		//already been added
+		if (isset ( $this->_functions [$function] )) {
+			return $this->_functions[$function];
+		}
+		$function_source = $this->_getFunctionSource ( $function );
+		$this->_functions [$function] = $function_source;
+		return $function_source;
+	}
+	private function _getFunctionSource($function) {
+		$filename = CLASS_ROOT . "/template/modifier/" . $function . ".php";
+		
+		if (! file_exists ( $filename )) {
+			trigger_error ( "Modifier {$function} could not be found." );
+			return false;
+		}
+		$modifier_source = file_get_contents ( $filename );
+		
+		$func_regex = "/runtime([(].*?[)]\s*{.*?})\s*}\s*$/s";
+		$matches = array ();
+		$count = preg_match ( $func_regex, $modifier_source, $matches );
+		
+		return $matches [1];
 	}
 }
