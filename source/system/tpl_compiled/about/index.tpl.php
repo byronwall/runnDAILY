@@ -1,19 +1,4 @@
 <?php
-function mod_date_format($variable, $param = "F j, Y") {
-		if (! is_int ( $variable )) {
-			$variable = strtotime ( $variable );
-		}
-		return date ( $param, $variable );
-	}
-function mod_round($value, $precision) {
-		return round ( $value, $precision );
-	}
-function mod_default($string, $default = '') {
-		if (! isset ( $string ) || $string === '')
-			return $default;
-		else
-			return $string;
-	}
 function mod_string_format($string, $format) {
 		return sprintf ( $format, $string );
 	}
@@ -100,202 +85,59 @@ function mod_string_format($string, $format) {
 
 
 <div class="grid_12">
-<h2 id="page-heading">Routes</h2>
+<h2 id="page-heading">About runnDAILY</h2>
 </div>
 <div class="clear"></div>
+
 <div class="grid_12">
-<div class="actions">
-	<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png"/>New Route</a>
-<!--	<a href="/routes/browse" class="icon"><img src="/img/icon_cards_stack.png"/>Search Routes</a>-->
-</div>
-</div>
-<div class="clear"></div>
-
-<div class="grid_3" id="route_sidebar">
-	<div id="sort_options" class="align_right">
-		<label>Sort by: </label>
-		<select id="sort_select">
-			<option value="r_date">Date</option>
-			<option value="r_dist">Distance</option>
-			<option value="r_name">Route Name</option>
-		</select>
-		<a href="#" id="reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
-	</div>
-	<div id="route_list">
-	<?php if(count($this->_vars["routes"])): foreach($this->_vars["routes"] as $this->_vars['route']): ?>
-		<div id="route_<?php echo $this->_vars["route"]['r_id']; ?>" class="route_item">
-			<div><a href="/routes/view/<?php echo $this->_vars["route"]['r_id']; ?>/<?php echo $this->_vars["route"]['r_name']; ?>" class="r_name icon"><img src="/img/icon/route.png" /><?php echo $this->_vars["route"]['r_name']; ?></a></div>
-			<div class="r_date icon"><img src="/img/icon/calendar.png" /><?php echo mod_date_format($this->_vars["route"]['r_creation']); ?></div>
-			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="r_dist dist-val"><?php echo mod_round($this->_vars["route"]['r_distance'], "2"); ?> mi</span></div>
-			<div class="clear"></div>
-			<div><a href="#" rel=<?php echo $this->_vars["route"]['r_id']; ?> class="route icon"><img src="/img/icon/arrow.png" /> Show in place</a></div>
-		</div>
-	<?php endforeach; else: ?>
-		<div>You do not have any routes.<a href="/routes/create" class="icon"><img src="/img/icon/route_plus.png" />Create</a> a new route to enable advanced features.</div>
-	<?php endif; ?>
-	</div>
-	<div id="route_info" style="display:none">
-		<h4 id="info_name"></h4>
-		<p id="info_distance"></p>
-		<p id="info_date"></p>
-		<p id="info_desc"></p>
-		<p><a href="#" class="list icon"><img src="/img/icon/arrow_back.png" />Return</a></p>
-	</div>
-</div>
-
-<div class="grid_9">
-	<div id="route_map" class="map"></div>
+<h5>What is runnDAILY?</h5>
+<p>runnDAILY is an online dashboard for anyone that runs, walks, bikes, or
+jogs. We provide a very unique set of tools that allow a user to completely
+track their personal exercise activity. The most powerful of these tools is a
+mapping utility that can plot a variety of routes. In addition to the routing
+utility, there are numerous other features that allow a user to track past
+activity and record times for daily workouts. These features are provided inside
+an intuitive, easy to use interface that's built on a social network of fellow
+runners. The social networking aspect of runnDAILY allows users to interact with
+one another by sharing routes and training activities.</p>
 </div>
 <div class="clear"></div>
 
-<div id="loading_overlay" style="display:none">
+<div class="grid_12">
+<h5>Who is runnDAILY?</h5>
+<p>runnDAILY was created by a pair of runners studying engineering at Purdue
+University in West Lafayette, IN. We created runnDAILY for other runners.
+runnDAILY has been in development for nearly 6 months, evolving drastically from
+the project we originally set out to create.</p>
 </div>
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAYZcibhuwr8GMgCWYwqU-RxTwKQnnvD1T4H7IjqlIr-cK4JGBGBR9nTuCz-u_Of2k2UEZ7khhybXPyw" type="text/javascript"></script>
-<!--<script src="/js/map.labeledmarker.js" type="text/javascript"></script>-->
-<!--<script src="/js/map.js" type="text/javascript"></script>-->
-<!--<script src="/js/PolylineEncoder.pack.js" type="text/javascript"></script>-->
-<script src="/js/runndaily-maps-9.6.18.ycomp.js" type="text/javascript"></script>
-<script type="text/javascript">
-var RouteIndex = {
-	view_route : false,
-	init_location: null,
-	temp_rid: null,
-	switchToRoute: function(rid){
-		RouteIndex.view_route = true;
-		RouteIndex.temp_rid = rid;
-		//add loading screen
-		var div = $("#route_map");
-		$("#loading_overlay").show().height(div.height()).width(div.width());
-		$("#loading_overlay").css({
-			"position":"absolute",
-			"top":div.position().top,
-			"left":div.position().left,
-			"background-color":"#000",
-			"opacity":0.5
-		});
-		//get route data
-		if(routes[rid].polyline){
-			RouteIndex.route_data_callback(routes[rid].polyline);
-		}
-		else{
-			$.get(
-				"/routes/ajax_route_data",
-				{rid:rid},
-				RouteIndex.route_data_callback,
-				"json"
-			);
-		}
-	},
-	route_data_callback: function(polyline){
-		//remove loading screen
-		$("#loading_overlay").hide();
-		
-		//show route
-		MapData.loadRoute(polyline, {
-			draggble: false,
-			show_points: false
-		});
-		
-		//change to route info panel
-		$("#route_list, #route_settings").hide();
-		$("#route_info").show();
+<div class="clear"></div>
 
-		var rid = RouteIndex.temp_rid;
-		routes[rid].polyline = polyline;
-		$("#info_name").html('<a href="/routes/view/'+rid+'" class="r_name icon"><img src="/img/icon/route.png" />'+routes[rid].r_name+'</a>');
-		$("#info_distance").html('<img src="/img/icon/distance.png" /> Distance: <span class="dist-val">' + routes[rid].r_distance.toFixed(2) + ' mi</span>');
-		$("#info_date").html('<img src="/img/icon/calendar.png" /> ' + routes[rid].r_creation);
-		$("#info_date").text(routes[rid].r_description);
-		$("#sort_options").hide();
-	},
-	switchToAll: function(){
-		RouteIndex.route_view = false;
-		$("#loading_overlay").show();
-		$("#route_list, #route_settings").show();
-		$("#route_info").hide();
-		$("#sort_options").show();
+<div class="grid_12">
+<h5>Why runnDAILY?</h5>
+<p>While training in the past, we struggled to find a web site that offered
+the features we wanted and needed. We sought out to develop a site that could
+handle the complexities that runners face while training. We wanted a site that
+managed training data as well as it mapped routes. We wanted a mapping interface
+that was intuitive, easy to use, and free from clutter. We wanted a site that
+was developed on a social network with strong community interaction. We wanted a
+site that took advantage of the latest internet techonologies to deliver content
+in a effective manner. <span class="bold">We wanted runnDAILY!</span></p>
+</div>
+<div class="clear"></div>
 
-		Map.instance.clearOverlays();
-		$.each(routes, function(){
-			Map.instance.addOverlay(this.marker);
-		});
-		Map.instance.setCenter(RouteIndex.init_location);
-		$("#loading_overlay").hide();
-	},
-	moveend_event: function(){
-		if(RouteIndex.route_view) return false;
-		return false;
-		var center = Map.instance.getCenter();
-		$.each(routes, function(){
-			var id = "#route_" + this.r_id;
-			var dist = center.distanceFrom(this.latlng) * meters_to_miles;
-			$(id).text(dist.toFixed(2));
-		});
-	},
-	selected_rid: null,
-	marker_click_event: function(latlng){
-		RouteIndex.switchToRoute(this.id);
-		return;
-		$(".active_row").removeClass("active_row");
-		if(RouteIndex.selected_rid == this.id){
-			RouteIndex.selected_rid = null
-		}
-		else{
-			RouteIndex.selected_rid = this.id;
-			var id = "#route_" + this.id;
-			$(id).addClass("active_row");
-		}
-	},
-	ready_event: function(){
-		$("a.route").click(function(){
-			RouteIndex.switchToRoute(this.rel);
-			return false;
-		});
-		$("a.list").click(function(){
-			RouteIndex.switchToAll();
-			return false;
-		});
-	
-		Map.load("route_map", null, {full_height:true});
-		GEvent.addListener(Map.instance, "moveend", RouteIndex.moveend_event);
-		var init = null;
-		$.each(routes, function(){
-			this.latlng = new GLatLng(this.r_start_lat, this.r_start_lng);
-			this.marker = new GMarker(this.latlng);
-			this.marker.id = this.r_id;
-			GEvent.addListener(this.marker, "click", RouteIndex.marker_click_event);
-			Map.instance.addOverlay(this.marker);
-			if(!RouteIndex.init_location){
-				RouteIndex.init_location = this.latlng;
-			}
-		});
-		if(RouteIndex.init_location){
-			Map.instance.setCenter(RouteIndex.init_location, 12);
-		}
-		else{
-			Map.instance.setCenter(new GLatLng(39.229984356582, -95.2734375), 4);
-		}
-		$("#route_list").heightBrowser().css("overflow", "auto");
-
-		$.sorter.add("routes", {
-			classes: {
-				r_name: "alpha",
-				r_dist: "numeric",
-				r_date: "date"
-			},
-			parent: "#route_list",
-			item: ".route_item",
-			sort_desc: -1,
-			sort_key: "r_date",
-			reverse: "#reverse_sort",
-			selector: "#sort_select"
-		});
-	}
-};
-var routes = <?php echo mod_default($this->_vars["routes_js"], "{}"); ?>;
-
-$(document).ready(RouteIndex.ready_event);
-</script>
+<div class="grid_12">
+<h5>runnDAILY's Promise</h5>
+<p>We promise that we will NEVER include ads on ANY page. While we
+understand the need to promote the community and spread knowledge about products
+and events, ads are not the solution. Ads are distracting and subtract from the
+overall site experience. runnDAILY is meant to be enjoyed for free and without
+visually distracting ads. Also, runnDAILY will ALWAYS be available for free. In
+the coming weeks, however, we will introduce premium features for users
+interested in an enhanced site experience. Finally, we promise to be open to
+feedback. Tell us what you really want! If we like your ideas, you will see them
+on runnDAILY as soon as we can implement them.</p>
+</div>
+<div class="clear"></div>
 </div>
 <div id="footer" class="container_12 bottom"><div class="grid_2 prefix_2">
 	<h2>Routes</h2>

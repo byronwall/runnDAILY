@@ -1,4 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<?php
+function mod_string_format($string, $format) {
+		return sprintf ( $format, $string );
+	}
+?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
 <head>
@@ -191,7 +195,7 @@ $(document).ready(function(){
 </div>
 <div class="clear"></div>
 	<div class="grid_12" id="site_info"><?php if($this->_vars["currentUser"]->checkPermissions(100, false)): ?>
-	<p>page generated in <?php echo $this->_vars["engine"]->getPageTime(); ?> seconds</p>
+	<p>page generated in <?php echo mod_string_format($this->_vars["engine"]->getPageTime(), "%.4f"); ?> seconds</p>
 	<?php endif ?>
 	<p>&copy; 2008-2009 runnDAILY LLC</p>
 </div>
