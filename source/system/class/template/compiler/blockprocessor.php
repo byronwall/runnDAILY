@@ -37,10 +37,6 @@ class Template_Compiler_BlockProcessor {
 				$compiled = "";
 				//process comment
 				break;
-			case "$" :
-				//this is the echo statement
-				$compiled = ""; //<?php echo {$tag_data->command};";
-				//break;
 			default :
 				$compiled = $this->_determineNextBlockType ( $tag_data );
 				break;
@@ -74,13 +70,6 @@ class Template_Compiler_BlockProcessor {
 	}
 	private function _processNewBlock($tag) {
 		$class = "Template_Block_{$tag->block}";
-		$allowed = array ("if", "foreach", "debug", "echo" );
-		
-		if (! in_array ( $tag->block, $allowed )) {
-			
-			return "<!--Template does not support tag for {$tag->block} yet-->";
-		}
-		
 		$new_block = new $class ( $this->_compiler );
 		if ($new_block->getIsBlock ()) {
 			$this->_stacks [] = $new_block;

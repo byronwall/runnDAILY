@@ -19,7 +19,7 @@ class Template_TagData {
 			$_nonBlock = $_echo_match [1];
 			$this->block = "echo";
 		} else {
-			$_specialRegex = "/^(\W)?(\S+)(?:\s+(.*?))?\s*$/";
+			$_specialRegex = "/^(\W)?\s*(\S+)(?:\s+(.*?))?\s*$/s";
 			$_matches = array ();
 			$_isSpecial = preg_match ( $_specialRegex, $tag, $_matches );
 			
@@ -55,7 +55,7 @@ class Template_TagData {
 		}
 	}
 	private function _parseVar($command) {
-		$dot_regex = "/([$]\w+)[.](\w+)/";
+		$dot_regex = "/([$]?\w+)[.](\w+)/";
 		$command = preg_replace($dot_regex, "\$1['$2']", $command);
 		
 		$regex = "/[$](.*?)(?=->|\s+|\Z|\||\[.*?\])/";
