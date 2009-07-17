@@ -19,16 +19,16 @@ class Template_Block_Echo extends Template_Block {
 				$mod = substr ( $mod, 1 );
 				$allowed = true;
 			} else {
-				$allowed = $this->_compiler->addFunctionToSource ( $mod );
+				$allowed = $this->_compiler->addFunctionToSource ( $mod, "modifier" );
 			}
 			
 			
 			if ($allowed) {
 				if ($param) {
-					$command = "mod_" . $mod . "({$var}, {$param})";
+					$command = "template_modifier_" . $mod . "({$var}, {$param})";
 				
 				} else {
-					$command = "mod_" . $mod . "({$var})";
+					$command = "template_modifier_" . $mod . "({$var})";
 				}
 			} else {
 				$command = $var;

@@ -8,7 +8,7 @@ class Template_Compiler {
 	
 	private $_compiledPieces = array ();
 	private $_saveName;
-	private $_functions;
+	private $_functions = array();
 	
 	function __construct(Template_ResourceManager $resource_manager) {
 		$this->_resource_manager = $resource_manager;
@@ -56,11 +56,13 @@ class Template_Compiler {
 	}
 	private function _processFunctions() {
 		$output = "<?php\r\n";
-		foreach ( $this->_functions as $function => $source ) {
-			if ($source === false) {
-				continue;
+		foreach ( $this->_functions as $type => $functions ) {
+			foreach ( $functions as $function => $source ) {
+				if ($source === false) {
+					continue;
+				}
+				$output .= "function template_{$type}_{$function}{$source}\r\n";
 			}
-			$output .= "function mod_{$function}{$source}\r\n";
 		}
 		$output .= "?>";
 		
@@ -142,20 +144,20 @@ class Template_Compiler {
 		
 		return $compiled_source;
 	}
-	public function addFunctionToSource($function) {
+	public function addFunctionToSource($function, $type = "modifier") {
 		//already been added
-		if (isset ( $this->_functions [$function] )) {
-			return $this->_functions[$function];
+		if (isset ( $this->_functions [$type] [$function] )) {
+			return $this->_functions [$type] [$function];
 		}
-		$function_source = $this->_getFunctionSource ( $function );
-		$this->_functions [$function] = $function_source;
+		$function_source = $this->_getFunctionSource ( $function, $type );
+		$this->_functions [$type] [$function] = $function_source;
 		return $function_source;
 	}
-	private function _getFunctionSource($function) {
-		$filename = CLASS_ROOT . "/template/modifier/" . $function . ".php";
+	private function _getFunctionSource($function, $type) {
+		$filename = CLASS_ROOT . "/template/{$type}/" . $function . ".php";
 		
 		if (! file_exists ( $filename )) {
-			trigger_error ( "Modifier {$function} could not be found." );
+			trigger_error ( "Modifier / function {$function} could not be found to compile." );
 			return false;
 		}
 		$modifier_source = file_get_contents ( $filename );

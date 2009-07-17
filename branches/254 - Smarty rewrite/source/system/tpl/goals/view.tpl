@@ -31,7 +31,6 @@
 		</form>
 	</div>
 	<h4>Associated Training Items</h4>
-	{{counter start=-1 print=false}}
 	{{foreach from=$training_items item=training_item}}
 	<div id="item_{{counter}}" class="training_item">
 		{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}
