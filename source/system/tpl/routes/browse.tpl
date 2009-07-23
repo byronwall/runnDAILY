@@ -23,7 +23,7 @@
 <div class="clear"></div>
 
 <div class="grid_12">
-	{{include file="routes/parts/route_list.tpl" routes=$routes query=$query }}
+	{{*include file="routes/parts/route_list.tpl" routes=$routes query=$query }}
 </div>
 <div class="clear"></div>
 

@@ -20,6 +20,10 @@ abstract class Template_Block {
 	}
 	function handleEndBlock($data){
 	}
+	/**
+	 * @param Template_TagData $data
+	 * @return unknown_type
+	 */
 	abstract function handleNewBlock($data);
 	function handleMiddleBlock($data){
 		throw new Template_Exception("{$block} has valid middle tags but no handler.");

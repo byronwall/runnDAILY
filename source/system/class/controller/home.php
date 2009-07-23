@@ -2,6 +2,8 @@
 class Controller_Home{
 	public function index(){
 		RoutingEngine::setPage("runnDAILY", "PV__400");
+		
+//		Template::compileAllTemplates();
 	}
 	public function login(){
 		RoutingEngine::setPage("runnDAILY Login", "PV__400");
