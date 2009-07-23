@@ -30,7 +30,7 @@
 		</p>
 		<p>
 			<label for="e_type_id">type</label>
-			{{html_options name=e_type_id options=$event_types selected=$event->type_id}}
+			{{htmlOptions name=e_type_id options=$event_types selected=$event->type_id}}
 		</p>
 	</div>
 </div>

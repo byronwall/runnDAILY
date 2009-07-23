@@ -1,40 +1,32 @@
 <?php
-
+/**
+ * Block represents foreach and foreachelse.  These are used to iterate an array.
+ *
+ */
 class Template_Block_Foreach extends Template_Block {
 	protected $_mids = array ("foreachelse" );
 	protected $_isBlock = true;
 	protected $_block = "foreach";
 	protected $_params = array ("from", "item" );
 	
-	private $_from;
 	private $_hadElse = false;
 	
-	/* (non-PHPdoc)
-	 * @see source/system/class/template/Template_Block#handleNewBlock($data)
-	 */
 	function handleNewBlock($tag) {
-		//TODO: Handle condition
-		foreach ( $this->_params as $param ) {
-			${$param} = $tag->params [$param];
-		}
-		$this->_from = $from;
+		//TODO: Maybe this should handle a non-array case.
+		$from = $tag->params["from"];
+		$item = $tag->params["item"];
 		
+		//Does a count to handle the foreachelse case.
 		return "<?php if(count({$from})): foreach({$from} as \$this->_vars['{$item}']): ?>";
 	}
-	/**
-	 * 
-	 */
 	function handleEndBlock($tag) {
+		//finish the if created above.
 		if ($this->_hadElse) {
 			return "<?php endif; ?>";
 		} else {
 			return "<?php endforeach; endif; ?>";
 		}
 	}
-	
-	/**
-	 * @param $block
-	 */
 	function handleMiddleBlock($tag) {
 		switch ($tag->block) {
 			case "foreachelse" :

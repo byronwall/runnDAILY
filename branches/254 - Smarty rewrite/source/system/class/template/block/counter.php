@@ -1,8 +1,11 @@
 <?php
-
+/**
+ * Function is used to count.  Direct port of Smarty function.
+ *
+ */
 class Template_Block_Counter extends Template_Function {
 	protected $_function = "counter";
-
+	
 	function runtime($params, $smarty) {
 		static $counters = array ();
 		

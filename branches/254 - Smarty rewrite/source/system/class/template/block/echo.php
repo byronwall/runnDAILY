@@ -1,12 +1,17 @@
 <?php
-
+/**
+ * Block is created implicitly in order to echo out variables.  This
+ * is the only block that supports modifiers.
+ *
+ */
 class Template_Block_Echo extends Template_Block {
 	protected $_block = "echo";
 	
 	function handleNewBlock($tag) {
-		//TODO: Handle condition
+		//TODO: Consider moving modifiers to their own system.
 		$command = $tag->command;
 		
+		//looks for the | (pipe) in order to determine modifier.
 		$mod_regex = "/^(.*)[|](.*?)(?::(.*))?$/";
 		$count = preg_match ( $mod_regex, $tag->command, $matches );
 		
@@ -17,21 +22,21 @@ class Template_Block_Echo extends Template_Block {
 			
 			if (substr ( $mod, 0, 1 ) == "@") {
 				$mod = substr ( $mod, 1 );
-				$allowed = true;
+				$command = $mod . "(" . $var . ")";
+				$allowed = false;
 			} else {
 				$allowed = $this->_compiler->addFunctionToSource ( $mod, "modifier" );
-			}
-			
-			
-			if ($allowed) {
-				if ($param) {
-					$command = "template_modifier_" . $mod . "({$var}, {$param})";
 				
+				if ($allowed) {
+					if ($param) {
+						$command = "template_modifier_" . $mod . "({$var}, {$param})";
+					
+					} else {
+						$command = "template_modifier_" . $mod . "({$var})";
+					}
 				} else {
-					$command = "template_modifier_" . $mod . "({$var})";
+					$command = $var;
 				}
-			} else {
-				$command = $var;
 			}
 		}
 		

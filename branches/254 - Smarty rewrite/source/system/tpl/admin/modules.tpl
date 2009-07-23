@@ -32,7 +32,7 @@
 			<td><input type="text" value="{{$module->title}}" name="m_title"></td>
 			<td><input type="text" value="{{$module->desc}}" name="m_desc"></td>
 			<td>
-			{{html_options name="m_loc" output=$module_types values=$module_types selected=$module->loc}}
+			{{htmlOptions name="m_loc" output=$module_types values=$module_types selected=$module->loc}}
 			</td>
 			<td><input type="submit" value="save"></td>
 		</form>

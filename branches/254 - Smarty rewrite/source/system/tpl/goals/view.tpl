@@ -16,7 +16,7 @@
 	<p>Percent Complete: {{$goal->percent|round:"1"}}%</p>
 	<p>{{$goal->start|date_format}} - {{$goal->end|date_format}}</p>
 	{{foreach from=$goal->metadata item=metadata}}
-		<p>{{$metadata.desc}}: {{$metadata.current|round:"2"}} / {{$metadata.value}}</p>
+		<p>{{$metadata.desc}}: {{$metadata.current|round:2}} / {{$metadata.value}}</p>
 	{{/foreach}}
 	<div id="delete_modal" style="display:none">
 	<h5>Are you sure you wan to delete the current goal?</h5>

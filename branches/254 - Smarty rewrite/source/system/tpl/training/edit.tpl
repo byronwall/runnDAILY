@@ -20,7 +20,7 @@
 			<input type="text" name="t_distance" value="{{$t_item->distance|round:2}}" size="6" /> mi
 		</p>
 		<p><label>Activity Type: </label>
-			{{html_options name="t_type" options=$t_types selected=$t_item->type}}
+			{{htmlOptions name="t_type" options=$t_types selected=$t_item->type}}
 		</p>
 		<p>Comment:</p>
 		<p>

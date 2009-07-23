@@ -88,15 +88,7 @@ class RoutingEngine{
 		$this->page = new Page();
 		$this->page->page_name = $this->_request_path;
 		
-		//$this->requirePermission($this->page->perm_code, null, true);
 		$this->_processParamters($params);
-		
-		$this->getSmarty()->assign("page", $this->page);
-		$this->getSmarty()->assign("currentUser", User::$current_user);
-		$this->getSmarty()->assign("engine", $this);
-		$this->getSmarty()->assign("notifications", new Notification());
-		
-		
 		$this->start_time = $_SERVER["TIME_START"];
 		
 		return $this;
@@ -113,13 +105,13 @@ class RoutingEngine{
 		//set default page props if not called yet
 		$this->setPage("runnDAILY DEFAULT", "PV__100", true);
 		
+		$this->getSmarty()->assign("page", $this->page);
+		$this->getSmarty()->assign("currentUser", User::$current_user);
+		$this->getSmarty()->assign("engine", $this);
+		$this->getSmarty()->assign("notifications", new Notification());
+		
 		$filename = self::getSmarty()->template_dir."/".$this->getTemplateName();		
 		
-		if(!file_exists($filename)){
-			$handle = fopen($filename, "w");
-			fwrite($handle, $this->getSmarty()->fetch("generic/default.tpl"));
-			fclose($handle);
-		}
 		self::getSmarty()->display_master($this->getTemplateName());
 		return true;
 	}
@@ -214,7 +206,7 @@ class RoutingEngine{
 		else{
 			$_SESSION["userData"] = User::cookieLogin();
 			User::$current_user = $_SESSION["userData"];
-			User::$current_user->getFriends();
+			//User::$current_user->getFriends();
 		}
 		User::$current_user->initialize();
 		

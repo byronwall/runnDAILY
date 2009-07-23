@@ -1,12 +1,14 @@
 <?php
-
+/**
+ * Block turns into the correct structure for logic.
+ *
+ */
 class Template_Block_If extends Template_Block {
 	protected $_mids = array ("else", "elseif" );
 	protected $_isBlock = true;
 	protected $_block = "if";
 	
 	function handleNewBlock($tag) {
-		//TODO: Handle condition
 		return "<?php if({$tag->command}): ?>";
 	}
 	function handleEndBlock($tag) {
