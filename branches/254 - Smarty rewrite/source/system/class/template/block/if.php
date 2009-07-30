@@ -21,7 +21,6 @@ class Template_Block_If extends Template_Block {
 				$compiled = "<?php else: ?>";
 				break;
 			case "elseif" :
-				//TODO: Really handle condition
 				$compiled = "<?php elseif({$tag->command}): ?>";
 				break;
 		}
