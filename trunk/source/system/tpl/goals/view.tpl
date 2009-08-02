@@ -16,7 +16,7 @@
 	<p>Percent Complete: {{$goal->percent|round:"1"}}%</p>
 	<p>{{$goal->start|date_format}} - {{$goal->end|date_format}}</p>
 	{{foreach from=$goal->metadata item=metadata}}
-		<p>{{$metadata.desc}}: {{$metadata.current|round:"2"}} / {{$metadata.value}}</p>
+		<p>{{$metadata.desc}}: {{$metadata.current|round:2}} / {{$metadata.value}}</p>
 	{{/foreach}}
 	<div id="delete_modal" style="display:none">
 	<h5>Are you sure you wan to delete the current goal?</h5>
@@ -31,7 +31,6 @@
 		</form>
 	</div>
 	<h4>Associated Training Items</h4>
-	{{counter start=-1 print=false}}
 	{{foreach from=$training_items item=training_item}}
 	<div id="item_{{counter}}" class="training_item">
 		{{if $training_item.r_name}}<div><a href="/routes/view?rid={{$training_item.t_rid}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}

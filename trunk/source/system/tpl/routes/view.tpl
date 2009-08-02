@@ -104,7 +104,6 @@
 {{if $training_items}}
 <div class="grid_12">
 	<h5 id="assoc_training_items">Associated Training Items</h5>
-	{{counter start=-1 print=false}}
 	{{foreach from=$training_items item=training_item}}
 	<div id="item_{{counter}}" class="training_item">
 			<div class="icon float_left"><img src="/img/icon/distance.png" /><span class="t_dist dist-val">{{$training_item.t_distance|round:"2"}} mi</span></div>

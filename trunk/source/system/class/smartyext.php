@@ -12,7 +12,7 @@ class SmartyExt extends Smarty{
 	
 	public function display_master($tpl){
 		$this->assign("page_content", $this->fetch($tpl));
-		$this->display("master.tpl");
+		$this->display("smarty_master.tpl");
 	}
 }
 ?>

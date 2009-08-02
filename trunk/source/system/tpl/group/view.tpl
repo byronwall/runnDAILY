@@ -41,7 +41,7 @@
 <div class="grid_5">
 	<div class="box">
 		<h2>Announcements</h2>
-		<p id="anoun">{{$group_view_anoun|nl2br}}</p>
+		<p id="anoun">{{$group_view_anoun|@nl2br}}</p>
 	</div>
 	<div class="box">
 		<h2>Events</h2>
@@ -61,7 +61,7 @@
 <div class="grid_4">
 	<div class="box">
 		<h2>Recent Activity</h2>
-		{{include activity=$group_view_activity file="modules/activity/list.tpl"}}		 
+		{{*include activity=$group_view_activity file="modules/activity/list.tpl"}}		 
 	</div>
 </div>
 <div class="clear"></div>
