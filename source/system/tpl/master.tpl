@@ -41,7 +41,6 @@
 <div class="clear"></div>
 	<div class="grid_12" id="site_info">{{if $currentUser->checkPermissions(100, false)}}
 	<p>page generated in {{$engine->getPageTime()|string_format:"%.4f"}} seconds</p>
-	<p>you are viewing on the beta server</p>
 	{{/if}}
 	<p>&copy; 2008-2009 runnDAILY LLC</p>
 </div>
