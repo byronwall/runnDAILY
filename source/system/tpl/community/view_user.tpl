@@ -33,7 +33,7 @@
 		<div id="route_{{$route.r_id}}" class="route_item">
 			<div><a href="/routes/view/{{$route.r_id}}/{{$route.r_name}}" class="r_name icon"><img src="/img/icon/route.png" />{{$route.r_name}}</a></div>
 			<div class="r_date icon"><img src="/img/icon/calendar.png" />{{$route.r_creation|date_format}}</div>
-			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="r_dist dist-val">{{$route.r_distance|round:"2"}} mi</span></div>
+			<div class="icon float_right"><img src="/img/icon/distance.png" /><span class="r_dist dist-val">{{$route.r_distance|@round:"2"}} mi</span></div>
 			<div class="clear"></div>
 		</div>
 	{{foreachelse}}
@@ -56,7 +56,6 @@
 			<a href="#" id="training_reverse_sort" class="sort_desc"><img src="/img/icon/sort_desc.png" /> DESC</a>
 	</div>
 	<div id="training_items_list">
-		{{counter start=-1 print=false}}
 		{{foreach from=$training_index_items item=training_item}}
 		<div id="item_{{counter}}" class="training_item">
 			{{if $training_item.r_name}}<div><a href="/routes/view/{{$training_item.t_rid}}/{{$training_item.r_name}}" class="t_name icon"><img src="/img/icon/route.png" />{{$training_item.r_name}}</a></div>{{/if}}

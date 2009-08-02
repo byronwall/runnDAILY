@@ -25,7 +25,7 @@
 <div class="grid_9">
 	<div class="box">
 		<h2>Week at a Glance</h2>
-		{{
+		{{*
 			include file=generic/calendar.tpl 
 			calendar=$calendar 
 			day_week_template="generic/cal_day.tpl" 
