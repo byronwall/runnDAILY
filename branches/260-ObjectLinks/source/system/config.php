@@ -10,7 +10,7 @@ spl_autoload_register("site_autoload");
 
 function site_autoload($class){
 	$class = strtolower($class);
-	if($class == "smarty") return require(CLASS_ROOT."/smarty/Smarty.php");
+//	if($class == "smarty") return require(CLASS_ROOT."/smarty/Smarty.php");
 	
 	$path = CLASS_ROOT. "/" . str_replace("_", "/", $class) . ".php";
 	//if(file_exists($path)){

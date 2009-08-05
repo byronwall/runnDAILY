@@ -23,6 +23,9 @@ class Route extends Object {
 		$this->distance = round($this->distance, 2);
 		if($this->elevation == "false") $this->elevation = null;
 	}
+	/**
+	 * @return SQL
+	 */
 	static function sql(){
 		return new SQL("routes", __CLASS__ ,"r_id");
 	}

@@ -8,7 +8,7 @@ class Controller_Routes{
 			->where_eq("r_uid", User::$current_user->uid)
 			->orderby("r_creation")
 			->limit(50)
-			->execute(false, true, "r_id");
+			->execute(true, true, "id");
 
 		$routes_js = json_encode_null($routes);
 		
@@ -24,12 +24,12 @@ class Controller_Routes{
 		$route = Route::sql()
 			->select("r_points")
 			->where_eq("r_id", $_GET["rid"])
-			->execute(false, false);
+			->execute(true, false);
 		
 		//$route = Route::getPolyline($_GET["rid"]);
 		
 		//note that this already is JSON
-		RoutingEngine::returnAjax($route["r_points"], false);
+		RoutingEngine::returnAjax($route->points, false);
 	}
 	public function view(){
 		RoutingEngine::setPage("runnDAILY View Route", "PV__300");

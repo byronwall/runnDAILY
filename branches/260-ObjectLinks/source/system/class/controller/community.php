@@ -7,7 +7,7 @@ class Controller_Community{
 			->select("u_username, u_uid, u_join")
 			->limit(50)
 			->orderby("u_join")
-			->execute();
+			->execute(true, true);
 		//RoutingEngine::getSmarty()->assign("users_recent", User::getListOfUsers());
 		RoutingEngine::getSmarty()->assign("users_recent", $users);
 		RoutingEngine::getSmarty()->assign("users_friends", User::$current_user->getFriends());

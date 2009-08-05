@@ -36,6 +36,18 @@ abstract class Template_Function extends Template_Block {
 		//export is used so that the array is valid PHP code.
 		$params = var_export ( $tag->params, true );
 		
+		$params = "array(";
+		$fir = true;
+		
+		foreach($tag->params as $key=>$value){
+			if(!$fir){
+				$params .= ",";
+			}
+			$params .= "'{$key}'=>{$value}";
+			$fir = false;
+		}
+		$params .= ")";
+		
 		return "<?php echo template_block_{$this->_function}({$params}, \$this); ?>";
 	}
 	/**
