@@ -2,7 +2,7 @@
 class Template_TagData {
 	public $block;
 	public $command;
-	public $params;
+	public $params = array();
 	
 	private $_special = "";
 	
@@ -52,15 +52,30 @@ class Template_TagData {
 	 */
 	private function _parseCommandAndParams($nonBlock) {
 		//split non-block into commands and params array
-		$split_regex = "/(\w+)\s*=\s*[\"']?([\w$.\/(){}\->]+)[\"']?/";
+		
+		//if there are not surrounding quotes then it must be valid php characters
+		$no_quote = "(?:[\w$.\/(){}\->]+)";
+		//if quoted, then grab everything
+		$quoted = "(?:[\"'](.*?)[\"'])";
+		//combine the two above and store either result in a single spot
+		$split_regex = "/(\w+)\s*=\s*({$no_quote}|{$quoted})/";
+		
+		
 		$_matches = array ();
+		
+		
 		$_count = preg_match_all ( $split_regex, $nonBlock, $_matches );
+		//print_r($_matches);
 		
 		if ($_count) {
 			$_params = array ();
 			for($i = 0; $i < $_count; $i ++) {
+				
 				$key = $_matches [1] [$i];
 				$value = $_matches [2] [$i];
+				
+				//echo "<BR>$key=>$value<BR>";
+				
 				$_params [$key] = $this->_parseVar ( $value );
 			}
 			$this->params = $_params;

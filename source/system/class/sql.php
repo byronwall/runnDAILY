@@ -260,7 +260,8 @@ class SQL{
 						$obj->{$type} = new $type($row); 
 					}
 				}
-				$results[] = $obj; 
+				if(isset($arr_index))$results[$obj->$arr_index] = $obj;
+				else $results[] = $obj; 
 			}
 			else{
 				if(isset($arr_index)) $results[$row[$arr_index]] = $row;

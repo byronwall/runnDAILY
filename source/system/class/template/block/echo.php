@@ -21,14 +21,17 @@ class Template_Block_Echo extends Template_Block {
 			$param = array_safe ( $matches, 3 );
 			
 			if (substr ( $mod, 0, 1 ) == "@") {
+				//in this case we just need to write out the PHP function and pass a param if needed.
 				$mod = substr ( $mod, 1 );
-				$command = $mod . "(" . $var . ")";
+				$command = $mod . "(" . $var;
+				$command.= isset($param)?",".$param:"";
+				$command.= ")";
 				$allowed = false;
 			} else {
 				$allowed = $this->_compiler->addFunctionToSource ( $mod, "modifier" );
 				
 				if ($allowed) {
-					if ($param) {
+					if (isset($param)) {
 						$command = "template_modifier_" . $mod . "({$var}, {$param})";
 					
 					} else {

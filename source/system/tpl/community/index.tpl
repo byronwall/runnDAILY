@@ -34,7 +34,7 @@
 	{{foreach from=$users_recent item=user}}
 		<div class="float_left">
 			<p>
-				<a href="/community/view_user/{{$user.u_uid}}/{{$user.u_username}}" class="icon"><img src="/img/icon/user.png" />{{$user.u_username}}</a>
+				{{link href=$user class="icon"}}<img src="/img/icon/user.png" />{{$user->username}}{{/link}}
 			</p>
 		</div>
 	{{foreachelse}}

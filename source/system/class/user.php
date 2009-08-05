@@ -35,6 +35,9 @@ class User extends Object{
 		$this->date_access = strtotime($this->date_access);
 		$this->join = strtotime($this->join);
 	}
+	/**
+	 * @return SQL
+	 */
 	static function sql(){
 		return new SQL("users", __CLASS__, "u_uid");
 	}

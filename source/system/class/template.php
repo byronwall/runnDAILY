@@ -14,7 +14,7 @@ class Template {
 	 * If compiling a template, whether or not to short circuit by checking modification date
 	 * @var bool
 	 */
-	public $require_dates_compile = false;
+	public $require_dates_compile = true;
 	/**
 	 * Directory to place compiled templates.
 	 * @var string
