@@ -2,7 +2,7 @@
 DEFINE("COOKIE_NAME", "runndaily");
 
 DEFINE("DB_USER", "db64581");
-DEFINE("DB_PASS", "byron3chan");
+DEFINE("DB_PASS", "byron53chan");
 DEFINE("DB_NAME", "db64581_running");
 DEFINE("DB_HOST", $_ENV["DATABASE_SERVER"]);
 
