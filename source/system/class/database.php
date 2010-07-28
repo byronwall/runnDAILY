@@ -54,6 +54,15 @@ class stmt_Extended extends mysqli_stmt
 	{
 		parent::__construct($link, $query);
 	}
+	
+	public function bind_param($types, $var1){
+		$args = func_get_args();		
+		$refs = array();		
+		foreach($args as $key=>$value){			
+			$refs[$key] = &$args[$key];			
+		}		
+		return call_user_func_array(array(parent, "bind_param"), $refs);
+	}
 
 	public function fetch_assoc()
 	{
