@@ -1,5 +1,6 @@
 <?php
-class TrainingTest extends PHPUnit_Framework_TestCase{
+class TrainingTest extends UnitTestCase
+{
 	function testCreate(){
 		$this->fail("Not tested");
 	}
