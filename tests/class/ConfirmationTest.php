@@ -1,7 +1,5 @@
 <?php
-//require_once 'PHPUnit/Framework.php';
- 
-class ConfirmationTest extends PHPUnit_Framework_TestCase
+class ConfirmationTest extends UnitTestCase
 {
 	protected $confirm;
 	
@@ -11,12 +9,17 @@ class ConfirmationTest extends PHPUnit_Framework_TestCase
         $this->confirm->uid_from = 1;
         $this->confirm->type = 1;
 	}
+	
+	public function tearDown(){
+		
+	}
+	
     public function testConfirmationCreate()
     {
         $rows = $this->confirm->create();
 
         $this->assertNotNull($this->confirm->cid);
-        $this->assertEquals($rows, 1);
+        $this->assertEqual($rows, 1);
     }
     
     public function testConfirmationProcess(){
@@ -28,14 +31,14 @@ class ConfirmationTest extends PHPUnit_Framework_TestCase
     	
     	$this->confirm->process(true);
     	
-    	$this->assertEquals($user->checkFriendsWith(1), true);
+    	$this->assertEqual($user->checkFriendsWith(1), true);
     }
     
     public function testConfirmationDelete(){
     	$this->confirm->create();
     	$new_confirm = Confirmation::fetch($this->confirm->cid);
     	$this->assertNotNull($new_confirm->uid_from);
-    	$this->assertEquals($new_confirm->uid_to, $this->confirm->uid_to);
+    	$this->assertEqual($new_confirm->uid_to, $this->confirm->uid_to);
     	
     	$this->confirm->delete();
     	

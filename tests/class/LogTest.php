@@ -1,5 +1,6 @@
 <?php
-class LogTest extends PHPUnit_Framework_TestCase{
+class LogTest extends UnitTestCase
+{
 	function testCreate(){
 		$this->fail("Not tested");
 	}
