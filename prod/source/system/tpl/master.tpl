@@ -30,7 +30,7 @@
 	<div class="grid_12" id="site_info">{{if $currentUser->checkPermissions(100, false)}}
 	<p>page generated in {{$engine->getPageTime()|string_format:"%.4f"}} seconds</p>
 	{{/if}}
-	<p>&copy; 2008-2009 runnDAILY LLC</p>
+	<p>&copy; 2008-2011 runnDAILY LLC</p>
 </div>
 <div class="clear"></div>
 </div>

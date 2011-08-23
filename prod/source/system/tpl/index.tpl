@@ -26,7 +26,7 @@
 {{if $engine->requirePermission("PV__300")}}
 <div class="grid_12">
 	<h4><img src="/img/icon/star.png" /> New Features / Updates</h4>
-	<p><span class="bold">June 19, 2009</span> - Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we are proud to annouce several new features and updates to the site!</p>
+	<p>Thanks to additional <a href="#feedback_modal" class="facebox icon"><img src="/img/icon/feedback.png" />Feedback</a>, we are proud to annouce several new features and updates to the site!</p>
 </div>
 <div class="clear"></div>
 
